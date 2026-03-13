@@ -1,0 +1,10 @@
+{
+    "item.fast.scatter_bow": "散射弓",
+    "entity.fast.alex": "艾莉克斯",
+    "attribute.name.fast.sword_limit": "环绕飞剑生成上限",
+    "attribute.name.fast.sword_hover_radius": "飞剑悬浮范围",
+    "attribute.name.fast.sword_hover_speed": "飞剑悬浮速度",
+    "attribute.name.fast.bow_draw_speed": "拉弓速度",
+    "item.fast.ender_pouch":"末影袋",
+    "itemGroup.fast": "异界随行诗"
+}
