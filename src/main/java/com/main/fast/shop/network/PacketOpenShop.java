@@ -1,5 +1,6 @@
 package com.main.fast.shop.network;
 
+import com.main.fast.shop.api.FastShop;
 import com.main.fast.shop.gui.ShopScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -25,15 +26,7 @@ public class PacketOpenShop {
     }
 
     public static void handle(PacketOpenShop msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            if (!FMLEnvironment.dist.isClient()) return;
-
-            Minecraft mc = Minecraft.getInstance();
-
-            if (mc.player == null) return;
-
-            mc.setScreen(new ShopScreen(msg.shopId));
-        });
+        ctx.get().enqueueWork(() -> FastShop.openShopClient(msg.shopId));
         ctx.get().setPacketHandled(true);
     }
 }

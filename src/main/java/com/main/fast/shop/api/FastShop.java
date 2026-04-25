@@ -1,13 +1,17 @@
 package com.main.fast.shop.api;
 
+import com.main.fast.shop.gui.ShopScreen;
 import com.main.fast.shop.money.IMoney;
 import com.main.fast.shop.money.MoneyProvider;
 import com.main.fast.shop.network.PacketOpenShop;
 import com.main.fast.shop.network.PacketSyncMoney;
 import com.main.fast.shop.network.ShopNetwork;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.PacketDistributor;
 
 public class FastShop {
@@ -54,6 +58,15 @@ public class FastShop {
                     new PacketOpenShop(shopId)
             );
         }
+    }
+
+    public static void openShopClient(String shopId) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player != null) {
+                mc.setScreen(new ShopScreen(shopId));
+            }
+        });
     }
 
     public static boolean hasMoney(Player player, int value) {
