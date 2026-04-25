@@ -3,6 +3,7 @@ package com.main.fast;
 import com.main.fast.entity.FastBossEntity;
 import com.main.fast.entity.FastSwordEntity;
 import com.main.fast.registry.*;
+import com.main.fast.shop.network.ShopNetwork;
 import com.mojang.logging.LogUtils;
 import com.main.fast.entity.client.FastSwordEntityRenderer;
 import com.main.fast.entity.client.FastBossRenderer;
@@ -39,6 +40,8 @@ public class Fast {
         FastCreativeTabs.TABS.register(bus);
         
         PlayerEventsHandler.register();
+
+        ShopNetwork.init();
         
         MinecraftForge.EVENT_BUS.register(this);
     }

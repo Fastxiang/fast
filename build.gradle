@@ -99,6 +99,9 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:6855440")
     implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:7605614")
     implementation fg.deobf("curse.maven:ldlib-626676:7652228")
+    implementation fg.deobf("curse.maven:wishing-fountain-1255471:6873585")
+    implementation fg.deobf("curse.maven:mantle-74924:7563777")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:7449219")
 }
 
 processResources {

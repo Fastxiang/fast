@@ -9,7 +9,9 @@
     "AnvilMenuMixin",
     "AbstractArrowHitMixin",
     "PathfinderMobMixin",
-    "SimpleContainerMixin"
+    "SimpleContainerMixin",
+    "WFRecipeMixin",
+    "CastingBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
