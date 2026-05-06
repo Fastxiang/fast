@@ -8,7 +8,6 @@
   "mixins": [
     "AnvilMenuMixin",
     "AbstractArrowHitMixin",
-    "PathfinderMobMixin",
     "SimpleContainerMixin",
     "WFRecipeMixin",
     "CastingBlockEntityMixin"

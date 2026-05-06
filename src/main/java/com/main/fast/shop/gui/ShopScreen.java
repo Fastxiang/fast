@@ -41,6 +41,7 @@ public class ShopScreen extends Screen {
     private final int visibleRows = 5;
 
     private int page = 0;
+    private int lastPage = 0;           // 保存进入确认界面前的页码
     private ShopEntry confirmEntry = null;
     private int tradeAmount = 1;
     private String currentCategory = null;
@@ -76,7 +77,13 @@ public class ShopScreen extends Screen {
             }
             filteredEntries.add(entry);
         }
-        page = 0;
+        // 只有搜索框有实际文字（非空）或尚未初始化时才重置到第一页
+        if (searchBox == null || !searchBox.getValue().isEmpty()) {
+            page = 0;
+        }
+        // 保证页码不越界
+        int max = getMaxPage();
+        if (page > max) page = max;
     }
 
     @Override
@@ -113,6 +120,7 @@ public class ShopScreen extends Screen {
         if (confirmEntry != null) { buildConfirmScreen(); return; }
         buildShopScreen();
     }
+
     private void buildShopScreen() {
         // 分类按钮 —— 显示“分类: 全部”或“分类: XXX”
         MutableComponent catText;
@@ -140,7 +148,9 @@ public class ShopScreen extends Screen {
             addRenderableWidget(Button.builder(
                     Component.translatable(e.buy ? "gui.shop.buy" : "gui.shop.sell"),
                     b -> {
-                        confirmEntry = e; tradeAmount = 1; rebuildButtons();
+                        confirmEntry = e; tradeAmount = 1;
+                        lastPage = page;      // 记录当前页码
+                        rebuildButtons();
                     }).bounds(slotX + 22, slotY, 42, 18).build());
         }
 
@@ -209,10 +219,16 @@ public class ShopScreen extends Screen {
         int confirmY = topPos + 128;
         addRenderableWidget(Button.builder(Component.translatable("gui.shop.confirm"), b -> {
             executeTrade(confirmEntry, tradeAmount);
-            confirmEntry = null; tradeAmount = 1; applyFilter(); rebuildButtons();
+            confirmEntry = null;
+            tradeAmount = 1;
+            page = lastPage;      // 恢复之前的页码
+            rebuildButtons();
         }).bounds(leftPos + 62, confirmY, 55, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("gui.shop.cancel"), b -> {
-            confirmEntry = null; tradeAmount = 1; rebuildButtons();
+            confirmEntry = null;
+            tradeAmount = 1;
+            page = lastPage;      // 恢复之前的页码
+            rebuildButtons();
         }).bounds(leftPos + 131, confirmY, 55, 20).build());
     }
 
@@ -455,7 +471,6 @@ public class ShopScreen extends Screen {
                 give.setCount(amount);
                 player.getInventory().placeItemBackInInventory(give);
                 player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1F, 1F);
-                // 发送购买成功消息
                 player.sendSystemMessage(Component.translatable(
                         "gui.shop.message.buy_success",
                         e.stack.getHoverName(),
@@ -463,7 +478,6 @@ public class ShopScreen extends Screen {
                         total
                 ));
             }
-            // 钱不够时界面已有红字提示，这里不再额外发消息
         } else {
             int need = amount;
             for (ItemStack stack : player.getInventory().items) {
@@ -479,7 +493,6 @@ public class ShopScreen extends Screen {
                 int totalEarned = e.price * sold;
                 NetworkSendHelper.addMoney(totalEarned);
                 player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1F, 1F);
-                // 发送出售成功消息
                 player.sendSystemMessage(Component.translatable(
                         "gui.shop.message.sell_success",
                         e.stack.getHoverName(),

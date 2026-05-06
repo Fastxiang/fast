@@ -3,10 +3,13 @@ package com.main.fast;
 import com.main.fast.entity.FastBossEntity;
 import com.main.fast.entity.FastSwordEntity;
 import com.main.fast.registry.*;
+import com.main.fast.shop.key.ShopKeyHandler;
 import com.main.fast.shop.network.ShopNetwork;
+import com.main.fast.skill.network.SkillIndicatorPacket;
 import com.mojang.logging.LogUtils;
 import com.main.fast.entity.client.FastSwordEntityRenderer;
 import com.main.fast.entity.client.FastBossRenderer;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -42,12 +45,19 @@ public class Fast {
         PlayerEventsHandler.register();
 
         ShopNetwork.init();
+        SkillIndicatorPacket.init();
         
         MinecraftForge.EVENT_BUS.register(this);
     }
     
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
+
+        @SubscribeEvent
+        public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+            event.register(ShopKeyHandler.OPEN_SHOP_KEY);
+        }
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             event.enqueueWork(() -> {
