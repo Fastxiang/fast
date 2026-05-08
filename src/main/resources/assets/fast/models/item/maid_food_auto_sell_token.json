@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fast:item/maid_food_auto_sell_token"
+  }
+}

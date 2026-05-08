@@ -20,6 +20,7 @@ public class FastCreativeTabs {
                     .title(Component.translatable("itemGroup.fast"))
                     .displayItems((params, output) -> {
                         output.accept(new ItemStack(FastItems.ENDER_POUCH.get()));
+                        output.accept(new ItemStack(FastItems.MAID_FOOD_AUTO_SELL_TOKEN.get()));
                     })
                     .build()
     );

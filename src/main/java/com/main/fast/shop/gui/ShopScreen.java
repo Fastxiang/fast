@@ -3,7 +3,8 @@ package com.main.fast.shop.gui;
 import com.main.fast.shop.ShopManager;
 import com.main.fast.shop.ShopManager.ShopEntry;
 import com.main.fast.shop.api.FastShop;
-import com.main.fast.shop.network.NetworkSendHelper;
+import com.main.fast.shop.network.PacketShopTradeRequest;
+import com.main.fast.shop.network.ShopNetwork;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,7 +14,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -332,6 +332,7 @@ public class ShopScreen extends Screen {
         int startIdx = page * visibleRows * 2;
         int listTop = topPos + 24;
         int rowHeight = 22;
+        ShopEntry hoveredEntry = null;
         for (int i = 0; i < visibleRows * 2; i++) {
             int real = startIdx + i;
             if (real >= filteredEntries.size()) break;
@@ -344,8 +345,13 @@ public class ShopScreen extends Screen {
             String priceStr = (e.buy ? "-" : "+") + e.price;
             drawText(gui, priceStr, slotX + 70, slotY + 5);
 
-            if (inside(mx, my, slotX, slotY, 18, 18))
-                gui.renderTooltip(font, e.stack, mx, my);
+            if (inside(mx, my, slotX, slotY, 18, 18)) {
+                hoveredEntry = e;
+            }
+        }
+        // 在绘制完所有槽位后再渲染tooltip，避免被后续槽位遮挡
+        if (hoveredEntry != null) {
+            gui.renderTooltip(font, hoveredEntry.stack, mx, my);
         }
         String pageStr = (page + 1) + "/" + (getMaxPage() + 1);
         drawCentered(gui, pageStr, leftPos + guiWidth / 2, topPos + guiHeight - 20);
@@ -461,46 +467,13 @@ public class ShopScreen extends Screen {
     }
 
     private void executeTrade(ShopEntry e, int amount) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return;
-        if (e.buy) {
-            int total = e.price * amount;
-            if (FastShop.getMoney(player) >= total) {
-                NetworkSendHelper.removeMoney(total);
-                ItemStack give = e.stack.copy();
-                give.setCount(amount);
-                player.getInventory().placeItemBackInInventory(give);
-                player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1F, 1F);
-                player.sendSystemMessage(Component.translatable(
-                        "gui.shop.message.buy_success",
-                        e.stack.getHoverName(),
-                        amount,
-                        total
-                ));
-            }
-        } else {
-            int need = amount;
-            for (ItemStack stack : player.getInventory().items) {
-                if (!stack.isEmpty() && ItemStack.isSameItemSameTags(stack, e.stack)) {
-                    int remove = Math.min(need, stack.getCount());
-                    stack.shrink(remove);
-                    need -= remove;
-                    if (need <= 0) break;
-                }
-            }
-            int sold = amount - need;
-            if (sold > 0) {
-                int totalEarned = e.price * sold;
-                NetworkSendHelper.addMoney(totalEarned);
-                player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1F, 1F);
-                player.sendSystemMessage(Component.translatable(
-                        "gui.shop.message.sell_success",
-                        e.stack.getHoverName(),
-                        sold,
-                        totalEarned
-                ));
-            }
-        }
+        // 向服务端发送交易请求，由服务端统一处理并触发事件
+        PacketShopTradeRequest packet = new PacketShopTradeRequest(shopId, e.stack, amount, e.buy);
+        ShopNetwork.CHANNEL.sendToServer(packet);
+        confirmEntry = null;
+        tradeAmount = 1;
+        page = lastPage;
+        rebuildButtons();
     }
 
     @Override

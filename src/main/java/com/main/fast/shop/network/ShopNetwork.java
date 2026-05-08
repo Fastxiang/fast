@@ -27,34 +27,31 @@ public class ShopNetwork {
 
         CHANNEL.registerMessage(
                 id++,
-                MoneyChangePacket.class,
-                MoneyChangePacket::encode,
-                MoneyChangePacket::decode,
-                MoneyChangePacket::handle
-        );
-
-        CHANNEL.registerMessage(
-                id++,
-                MoneySetPacket.class,
-                MoneySetPacket::encode,
-                MoneySetPacket::decode,
-                MoneySetPacket::handle
-        );
-
-        CHANNEL.registerMessage(
-                id++,
                 PacketSyncMoney.class,
                 PacketSyncMoney::encode,
                 PacketSyncMoney::decode,
                 PacketSyncMoney::handle
         );
-
         CHANNEL.registerMessage(
                 id++,
                 PacketOpenShop.class,
                 PacketOpenShop::encode,
                 PacketOpenShop::decode,
                 PacketOpenShop::handle
+        );
+        CHANNEL.registerMessage(
+                id++,
+                PacketShopTradeRequest.class,
+                PacketShopTradeRequest::encode,
+                PacketShopTradeRequest::decode,
+                PacketShopTradeRequest::handle
+        );
+        CHANNEL.registerMessage(
+                id++,
+                SyncMaidTokenConfigPacket.class,
+                SyncMaidTokenConfigPacket::encode,
+                SyncMaidTokenConfigPacket::decode,
+                SyncMaidTokenConfigPacket::handle
         );
     }
 }
