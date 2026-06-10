@@ -31,6 +31,7 @@ public class MaidFoodAutoSellTokenItem extends Item {
     public static final String TAG_BUY_ITEM = "BuyItem";
     public static final String TAG_BUY_AMOUNT = "BuyAmount";
     public static final String TAG_BINDING_POS = "BindingPos";
+    private static final String TAG_SHOW_MESSAGE = "ShowMessage";
 
     public MaidFoodAutoSellTokenItem() {
         super(new Properties().stacksTo(1));
@@ -93,6 +94,14 @@ public class MaidFoodAutoSellTokenItem extends Item {
         }
 
         tag.put(TAG_BINDING_POS, NbtUtils.writeBlockPos(pos));
+    }
+
+    public static boolean isShowMessage(ItemStack stack) {
+        return !stack.hasTag() || stack.getOrCreateTag().getBoolean(TAG_SHOW_MESSAGE);
+    }
+
+    public static void setShowMessage(ItemStack stack, boolean show) {
+        stack.getOrCreateTag().putBoolean(TAG_SHOW_MESSAGE, show);
     }
 
     // ========== 物品交互 ==========

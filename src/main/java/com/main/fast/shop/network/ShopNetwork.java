@@ -53,5 +53,13 @@ public class ShopNetwork {
                 SyncMaidTokenConfigPacket::decode,
                 SyncMaidTokenConfigPacket::handle
         );
+
+        CHANNEL.registerMessage(
+                id++,
+                PacketRequestMoneySync.class,
+                PacketRequestMoneySync::encode,
+                PacketRequestMoneySync::decode,
+                PacketRequestMoneySync::handle
+        );
     }
 }

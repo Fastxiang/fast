@@ -6,6 +6,8 @@ import com.main.fast.registry.*;
 import com.main.fast.shop.key.ShopKeyHandler;
 import com.main.fast.shop.network.ShopNetwork;
 import com.main.fast.skill.network.SkillIndicatorPacket;
+import com.main.fast.skill.network.SkillLinePacket;
+import com.main.fast.spell.network.SkillNetwork;
 import com.mojang.logging.LogUtils;
 import com.main.fast.entity.client.FastSwordEntityRenderer;
 import com.main.fast.entity.client.FastBossRenderer;
@@ -37,15 +39,15 @@ public class Fast {
         FastEntities.ENTITIES.register(bus);
         
         FastAttributes.ATTRIBUTES.register(bus);
-        
-        FastBiomes.BIOMES.register(bus);
 
         FastCreativeTabs.TABS.register(bus);
         
         PlayerEventsHandler.register();
 
         ShopNetwork.init();
+        SkillNetwork.init();
         SkillIndicatorPacket.init();
+        SkillLinePacket.init();
         
         MinecraftForge.EVENT_BUS.register(this);
     }

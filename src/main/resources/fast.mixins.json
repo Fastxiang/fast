@@ -10,7 +10,9 @@
     "AbstractArrowHitMixin",
     "SimpleContainerMixin",
     "WFRecipeMixin",
-    "CastingBlockEntityMixin"
+    "CastingBlockEntityMixin",
+    "ArmorDurabilityMixin",
+    "PathfinderMobMixin"
   ],
   "injectors": {
     "defaultRequire": 1

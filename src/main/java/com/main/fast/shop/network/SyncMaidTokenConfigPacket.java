@@ -24,12 +24,15 @@ public class SyncMaidTokenConfigPacket {
 
     private final BlockPos bindingPos;
 
+    private final boolean showMessage;
+
     public SyncMaidTokenConfigPacket(
             InteractionHand hand,
             String mode,
             ItemStack buyItem,
             int buyAmount,
-            BlockPos bindingPos
+            BlockPos bindingPos,
+            boolean showMessage
     ) {
 
         this.hand = hand;
@@ -39,6 +42,8 @@ public class SyncMaidTokenConfigPacket {
 
         this.hasBinding = bindingPos != null;
         this.bindingPos = bindingPos;
+
+        this.showMessage = showMessage;
     }
 
     public static void encode(
@@ -55,6 +60,8 @@ public class SyncMaidTokenConfigPacket {
         buf.writeInt(msg.buyAmount);
 
         buf.writeBoolean(msg.hasBinding);
+
+        buf.writeBoolean(msg.showMessage);
 
         if (msg.hasBinding) {
             buf.writeBlockPos(msg.bindingPos);
@@ -77,6 +84,8 @@ public class SyncMaidTokenConfigPacket {
 
         boolean hasBinding = buf.readBoolean();
 
+        boolean showMessage = buf.readBoolean();
+
         if (hasBinding) {
             pos = buf.readBlockPos();
         }
@@ -86,7 +95,8 @@ public class SyncMaidTokenConfigPacket {
                 mode,
                 buyItem,
                 buyAmount,
-                pos
+                pos,
+                showMessage
         );
     }
 
@@ -114,6 +124,11 @@ public class SyncMaidTokenConfigPacket {
             MaidFoodAutoSellTokenItem.setMode(
                     stack,
                     msg.mode
+            );
+
+            MaidFoodAutoSellTokenItem.setShowMessage(
+                    stack,
+                    msg.showMessage
             );
 
             if ("buy".equals(msg.mode)) {

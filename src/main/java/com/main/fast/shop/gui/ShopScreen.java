@@ -1,5 +1,7 @@
 package com.main.fast.shop.gui;
 
+import com.alessandro.astages.api.holder.AHolder;
+import com.alessandro.astages.api.util.AStagesUtils;
 import com.main.fast.shop.ShopManager;
 import com.main.fast.shop.ShopManager.ShopEntry;
 import com.main.fast.shop.api.FastShop;
@@ -58,6 +60,7 @@ public class ShopScreen extends Screen {
 
     // 搜索框
     private EditBox searchBox;
+    private EditBox amountBox;
 
     public ShopScreen(String shopId) {
         super(Component.translatable("gui.shop.title"));
@@ -67,23 +70,49 @@ public class ShopScreen extends Screen {
     }
 
     private void applyFilter() {
+
         filteredEntries.clear();
-        String searchLower = searchBox != null ? searchBox.getValue().toLowerCase().trim() : "";
+
+        Player player = Minecraft.getInstance().player;
+
+        String searchLower =
+                searchBox != null
+                        ? searchBox.getValue().toLowerCase().trim()
+                        : "";
+
         for (ShopEntry entry : allEntries) {
-            if (currentCategory != null && !entry.category.equals(currentCategory)) continue;
-            if (!searchLower.isEmpty()) {
-                String displayName = entry.stack.getHoverName().getString().toLowerCase();
-                if (!displayName.contains(searchLower)) continue;
+            if (player != null) {
+
+                String stage = entry.requiredStage;
+
+                if (stage != null &&
+                        !stage.isEmpty() &&
+                        !AStagesUtils.hasStage(AHolder.player(player), stage)) {
+                    continue;
+                }
             }
+
+            if (currentCategory != null &&
+                    !entry.category.equals(currentCategory)) {
+                continue;
+            }
+
+            if (!searchLower.isEmpty()) {
+
+                String displayName =
+                        entry.stack.getHoverName()
+                                .getString()
+                                .toLowerCase();
+
+                if (!displayName.contains(searchLower)) {
+                    continue;
+                }
+            }
+
             filteredEntries.add(entry);
         }
-        // 只有搜索框有实际文字（非空）或尚未初始化时才重置到第一页
-        if (searchBox == null || !searchBox.getValue().isEmpty()) {
-            page = 0;
-        }
-        // 保证页码不越界
-        int max = getMaxPage();
-        if (page > max) page = max;
+
+        page = Math.min(page, getMaxPage());
     }
 
     @Override
@@ -105,6 +134,8 @@ public class ShopScreen extends Screen {
     private void rebuildButtons() {
         clearWidgets();
 
+        amountBox = null;
+
         if (showCategoryScreen || confirmEntry != null) {
             searchBox.setVisible(false);
         } else {
@@ -117,7 +148,9 @@ public class ShopScreen extends Screen {
         holdTicks = 0;
 
         if (showCategoryScreen) { buildCategoryScreen(); return; }
-        if (confirmEntry != null) { buildConfirmScreen(); return; }
+        if (confirmEntry != null) {
+
+            buildConfirmScreen(); return; }
         buildShopScreen();
     }
 
@@ -201,35 +234,113 @@ public class ShopScreen extends Screen {
     }
 
     private void buildConfirmScreen() {
+
         int max = getMaxTradeAmount();
+
         if (tradeAmount < 1) tradeAmount = 1;
         if (tradeAmount > max) tradeAmount = max;
 
-        int btnY = topPos + 85;
-        addRenderableWidget(Button.builder(Component.literal("-"), b -> {
-            if (tradeAmount > 1) { tradeAmount--; rebuildButtons(); }
-        }).bounds(leftPos + 62, btnY, 20, 20).build());
-        addRenderableWidget(Button.builder(Component.literal("+"), b -> {
-            if (tradeAmount < max) { tradeAmount++; rebuildButtons(); }
-        }).bounds(leftPos + 166, btnY, 20, 20).build());
-        addRenderableWidget(Button.builder(Component.translatable("gui.shop.max"), b -> {
-            tradeAmount = max; rebuildButtons();
-        }).bounds(leftPos + 191, btnY, 38, 20).build());
+        int btnY = topPos + 82;
 
-        int confirmY = topPos + 128;
-        addRenderableWidget(Button.builder(Component.translatable("gui.shop.confirm"), b -> {
-            executeTrade(confirmEntry, tradeAmount);
-            confirmEntry = null;
-            tradeAmount = 1;
-            page = lastPage;      // 恢复之前的页码
-            rebuildButtons();
-        }).bounds(leftPos + 62, confirmY, 55, 20).build());
-        addRenderableWidget(Button.builder(Component.translatable("gui.shop.cancel"), b -> {
-            confirmEntry = null;
-            tradeAmount = 1;
-            page = lastPage;      // 恢复之前的页码
-            rebuildButtons();
-        }).bounds(leftPos + 131, confirmY, 55, 20).build());
+        addRenderableWidget(Button.builder(Component.literal("-"), b -> {
+
+            if (tradeAmount > 1) {
+
+                tradeAmount--;
+
+                if (amountBox != null) {
+                    amountBox.setValue(String.valueOf(tradeAmount));
+                }
+            }
+
+        }).bounds(leftPos + 42, btnY, 20, 20).build());
+
+        addRenderableWidget(Button.builder(Component.literal("+"), b -> {
+
+            if (tradeAmount < max) {
+
+                tradeAmount++;
+
+                if (amountBox != null) {
+                    amountBox.setValue(String.valueOf(tradeAmount));
+                }
+            }
+
+        }).bounds(leftPos + 186, btnY, 20, 20).build());
+
+        addRenderableWidget(Button.builder(Component.translatable("gui.shop.max"), b -> {
+
+            tradeAmount = max;
+
+            if (amountBox != null) {
+                amountBox.setValue(String.valueOf(tradeAmount));
+            }
+
+        }).bounds(leftPos + 211, btnY, 28, 20).build());
+
+        amountBox = new EditBox(
+                font,
+                leftPos + 70,
+                btnY,
+                110,
+                20,
+                Component.literal("amount")
+        );
+
+        amountBox.setValue(String.valueOf(tradeAmount));
+        amountBox.setMaxLength(9);
+
+        amountBox.setFilter(s -> s.matches("\\d*"));
+
+        amountBox.setResponder(text -> {
+
+            if (text.isEmpty()) {
+                return;
+            }
+
+            try {
+
+                int value = Integer.parseInt(text);
+
+                if (value < 1) value = 1;
+                if (value > max) value = max;
+
+                tradeAmount = value;
+
+            } catch (NumberFormatException ignored) {
+
+            }
+        });
+
+        addRenderableWidget(amountBox);
+
+        int confirmY = topPos + 136;
+
+        addRenderableWidget(Button.builder(
+                Component.translatable("gui.shop.confirm"),
+                b -> {
+
+                    executeTrade(confirmEntry, tradeAmount);
+
+                    confirmEntry = null;
+                    tradeAmount = 1;
+                    page = lastPage;
+
+                    rebuildButtons();
+                }
+        ).bounds(leftPos + 62, confirmY, 55, 20).build());
+
+        addRenderableWidget(Button.builder(
+                Component.translatable("gui.shop.cancel"),
+                b -> {
+
+                    confirmEntry = null;
+                    tradeAmount = 1;
+                    page = lastPage;
+
+                    rebuildButtons();
+                }
+        ).bounds(leftPos + 131, confirmY, 55, 20).build());
     }
 
     @Override
@@ -248,6 +359,11 @@ public class ShopScreen extends Screen {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         if (confirmEntry != null) {
+
+            if (amountBox != null) {
+                amountBox.mouseClicked(mx, my, button);
+            }
+
             if (inside(mx, my, leftPos + 62, topPos + 85, 20, 20)) {
                 if (tradeAmount > 1) { tradeAmount--; rebuildButtons(); }
                 holdingMinus = true; holdTicks = 0; return true;
@@ -286,23 +402,48 @@ public class ShopScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+
+        if (confirmEntry != null && amountBox != null && amountBox.isFocused()) {
+
+            if (amountBox.keyPressed(keyCode, scanCode, modifiers)) {
+                return true;
+            }
+        }
+
         if (confirmEntry == null && !showCategoryScreen && searchBox.isFocused()) {
-            if (searchBox.keyPressed(keyCode, scanCode, modifiers)) return true;
-            if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) return true;
+
+            if (searchBox.keyPressed(keyCode, scanCode, modifiers)) {
+                return true;
+            }
+
+            if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
+                return true;
+            }
+
             return false;
         }
+
         if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
+
             onClose();
+
             return true;
         }
+
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean charTyped(char codePoint, int modifiers) {
+
+        if (confirmEntry != null && amountBox != null && amountBox.isFocused()) {
+            return amountBox.charTyped(codePoint, modifiers);
+        }
+
         if (confirmEntry == null && !showCategoryScreen && searchBox.isFocused()) {
             return searchBox.charTyped(codePoint, modifiers);
         }
+
         return super.charTyped(codePoint, modifiers);
     }
 
@@ -358,33 +499,79 @@ public class ShopScreen extends Screen {
     }
 
     private void renderConfirm(GuiGraphics gui, int mx, int my) {
+
         Player player = Minecraft.getInstance().player;
+
         int max = getMaxTradeAmount();
 
-        drawCentered(gui,
-                confirmEntry.buy ? Component.translatable("gui.shop.confirm_buy") : Component.translatable("gui.shop.confirm_sell"),
-                leftPos + guiWidth / 2, topPos + 30);
+        drawCentered(
+                gui,
+                confirmEntry.buy
+                        ? Component.translatable("gui.shop.confirm_buy")
+                        : Component.translatable("gui.shop.confirm_sell"),
+                leftPos + guiWidth / 2,
+                topPos + 24
+        );
 
-        int slotX = leftPos + guiWidth/2 - 9, slotY = topPos + 42;
+        int slotX = leftPos + guiWidth / 2 - 9;
+        int slotY = topPos + 40;
+
         drawSlot(gui, slotX, slotY);
-        gui.renderItem(confirmEntry.stack, slotX+1, slotY+1);
-        if (inside(mx, my, slotX, slotY, 18, 18))
-            gui.renderTooltip(font, confirmEntry.stack, mx, my);
 
-        drawCentered(gui, Component.translatable("gui.shop.amount", tradeAmount, max),
-                leftPos + guiWidth/2, topPos + 68);
+        gui.renderItem(confirmEntry.stack, slotX + 1, slotY + 1);
+
+        if (inside(mx, my, slotX, slotY, 18, 18)) {
+            gui.renderTooltip(font, confirmEntry.stack, mx, my);
+        }
+
+        drawCentered(
+                gui,
+                Component.translatable("gui.shop.amount", tradeAmount, max),
+                leftPos + guiWidth / 2,
+                topPos + 68
+        );
+
+        if (amountBox != null) {
+            amountBox.render(gui, mx, my, 0);
+        }
 
         int total = confirmEntry.price * tradeAmount;
-        boolean canAfford = !confirmEntry.buy || (player != null && FastShop.getMoney(player) >= total);
+
+        boolean canAfford =
+                !confirmEntry.buy ||
+                        (player != null && FastShop.getMoney(player) >= total);
+
         int priceColor = canAfford ? TEXT_COLOR : RED_COLOR;
 
-        MutableComponent totalComp = Component.translatable("gui.shop.total_price", total);
-        drawCentered(gui, totalComp, leftPos + guiWidth / 2, topPos + 98, priceColor);
+        MutableComponent totalComp =
+                Component.translatable("gui.shop.total_price", total);
+
+        drawCentered(
+                gui,
+                totalComp,
+                leftPos + guiWidth / 2,
+                topPos + 112,
+                priceColor
+        );
 
         if (!canAfford && player != null) {
+
             int money = FastShop.getMoney(player);
-            MutableComponent warn = Component.translatable("gui.shop.insufficient_money", total, money);
-            drawCentered(gui, warn, leftPos + guiWidth / 2, topPos + 110, RED_COLOR);
+
+            MutableComponent warn =
+                    Component.translatable(
+                            "gui.shop.insufficient_money",
+                            total,
+                            money
+                    );
+
+            drawCentered(
+                    gui,
+                    warn,
+                    leftPos + guiWidth / 2,
+                    topPos + 124,
+                    RED_COLOR
+            );
         }
     }
 

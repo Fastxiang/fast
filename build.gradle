@@ -82,6 +82,9 @@ mixin {
 }
 
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     maven {
         url "https://cursemaven.com"
         content {
@@ -102,6 +105,10 @@ dependencies {
     implementation fg.deobf("curse.maven:wishing-fountain-1255471:6873585")
     implementation fg.deobf("curse.maven:mantle-74924:7563777")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:7449219")
+    implementation fg.deobf("curse.maven:astages-1120180:7889277")
+    implementation fg.deobf(files(
+            "libs/fast_irons_spellbooks_addition-1.20.1-forge-0.0.1.jar"
+    ))
 }
 
 processResources {

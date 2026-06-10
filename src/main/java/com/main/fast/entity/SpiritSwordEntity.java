@@ -180,4 +180,18 @@ public class SpiritSwordEntity extends FastSwordEntity {
         PLAYER_SWORD_INDEX.put(owner.getUUID(), (index + 1) % swords.size());
         return sword;
     }
+
+    public static boolean hasNearbySpiritSword(LivingEntity owner, double range) {
+        if (owner == null || owner.level().isClientSide) return false;
+
+        return !owner.level()
+                .getEntitiesOfClass(
+                        SpiritSwordEntity.class,
+                        owner.getBoundingBox().inflate(range),
+                        sword -> sword.isAlive()
+                                && sword.getOwner() != null
+                                && sword.getOwner().getUUID().equals(owner.getUUID())
+                )
+                .isEmpty();
+    }
 }

@@ -31,17 +31,17 @@ public class ShopManager {
         SHOPS.clear();
     }
 
-    public static void registerBuy(String shopId, String category, ItemStack item, int price) {
-        register(shopId, category, item, price, true);
+    public static void registerBuy(String shopId, String category, ItemStack item, int price, String requiredStage) {
+        register(shopId, category, item, price, true, requiredStage);
     }
 
-    public static void registerSell(String shopId, String category, ItemStack item, int price) {
-        register(shopId, category, item, price, false);
+    public static void registerSell(String shopId, String category, ItemStack item, int price, String requiredStage) {
+        register(shopId, category, item, price, false, requiredStage);
     }
 
-    public static void register(String shopId, String category, ItemStack stack, int price, boolean buy) {
+    public static void register(String shopId, String category, ItemStack stack, int price, boolean buy, String requiredStage) {
         SHOPS.computeIfAbsent(shopId, k -> new ArrayList<>())
-                .add(new ShopEntry(stack.copy(), price, buy, category));
+                .add(new ShopEntry(stack.copy(), price, buy, category, requiredStage));
     }
 
     /**
@@ -86,27 +86,42 @@ public class ShopManager {
         public final int price;
         public final boolean buy;
         public final String category;
+        public final String requiredStage;
 
-        public ShopEntry(ItemStack stack, int price, boolean buy, String category) {
+        public ShopEntry(ItemStack stack, int price, boolean buy, String category, String requiredStage) {
             this.stack = stack;
             this.price = price;
             this.buy = buy;
             this.category = category;
+            this.requiredStage = requiredStage;
         }
     }
 
     public static class ShopRegisterEvent extends Event {
 
         public void registerBuy(String shopId, String category, ItemStack item, int price) {
-            ShopManager.registerBuy(shopId, category, item, price);
+            ShopManager.registerBuy(shopId, category, item, price, null);
+        }
+
+        public void registerBuy(String shopId, String category, ItemStack item, int price, String requiredStage) {
+            ShopManager.registerBuy(shopId, category, item, price, requiredStage);
         }
 
         public void registerSell(String shopId, String category, ItemStack item, int price) {
-            ShopManager.registerSell(shopId, category, item, price);
+            ShopManager.registerSell(shopId, category, item, price, null);
         }
 
+        public void registerSell(String shopId, String category, ItemStack item, int price, String requiredStage) {
+            ShopManager.registerSell(shopId, category, item, price, requiredStage);
+        }
+
+
         public void register(String shopId, String category, ItemStack stack, int price, boolean buy) {
-            ShopManager.register(shopId, category, stack, price, buy);
+            ShopManager.register(shopId, category, stack, price, buy, null);
+        }
+
+        public void register(String shopId, String category, ItemStack stack, int price, boolean buy, String requiredStage) {
+            ShopManager.register(shopId, category, stack, price, buy, requiredStage);
         }
     }
 }

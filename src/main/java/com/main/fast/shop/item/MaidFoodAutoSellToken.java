@@ -56,7 +56,7 @@ public class MaidFoodAutoSellToken implements IMaidBauble {
                                             }
                                         }
                                         return amount - remaining;
-                                    }, false);
+                                    }, MaidFoodAutoSellTokenItem.isShowMessage(baubleItem));
                         }
                     }
                 } else if ("buy".equals(mode)) {
@@ -166,7 +166,7 @@ public class MaidFoodAutoSellToken implements IMaidBauble {
                                 if (!leftover.isEmpty()) {
                                     maid.spawnAtLocation(leftover);
                                 }
-                            }, false);
+                            }, MaidFoodAutoSellTokenItem.isShowMessage(baubleItem));
                 }
             }
         }

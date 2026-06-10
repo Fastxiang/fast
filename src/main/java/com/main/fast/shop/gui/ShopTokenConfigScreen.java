@@ -23,6 +23,7 @@ public class ShopTokenConfigScreen extends Screen {
     private Button modeButton;
     private Button setBuyItemButton;
     private Button clearBindingButton;
+    private Button messageButton;
     private boolean waitingForBind = false;
 
     private String mode;                // "sell" 或 "buy"
@@ -30,6 +31,7 @@ public class ShopTokenConfigScreen extends Screen {
     private int buyAmount;
     private ItemStack buyItem = ItemStack.EMPTY;
     private BlockPos bindingPos;
+    private boolean showMessage;
 
     public ShopTokenConfigScreen(ItemStack token, InteractionHand hand) {
         super(Component.translatable("gui.fast.maid_token.title"));
@@ -41,6 +43,7 @@ public class ShopTokenConfigScreen extends Screen {
         this.buyAmount = MaidFoodAutoSellTokenItem.getBuyAmount(token);
         this.buyItem = MaidFoodAutoSellTokenItem.getBuyItem(token);
         this.bindingPos = MaidFoodAutoSellTokenItem.getBindingPos(token);
+        this.showMessage = MaidFoodAutoSellTokenItem.isShowMessage(token);
     }
 
     @Override
@@ -219,6 +222,42 @@ public class ShopTokenConfigScreen extends Screen {
             y += 30;
         }
 
+        // 提示开关按钮
+        messageButton = Button.builder(
+
+                        Component.translatable(
+                                "gui.fast.maid_token.show_message",
+                                Component.translatable(
+                                        showMessage
+                                                ? "gui.fast.enabled"
+                                                : "gui.fast.disabled"
+                                )
+                        ),
+
+                        b -> {
+
+                            showMessage = !showMessage;
+
+                            b.setMessage(
+                                    Component.translatable(
+                                            "gui.fast.maid_token.show_message",
+                                            Component.translatable(
+                                                    showMessage
+                                                            ? "gui.fast.enabled"
+                                                            : "gui.fast.disabled"
+                                            )
+                                    )
+                            );
+                        })
+
+                .bounds(centerX - 80, y, 160, 20)
+
+                .build();
+
+        addRenderableWidget(messageButton);
+
+        y += 25;
+
         // 保存按钮
         addRenderableWidget(
 
@@ -296,7 +335,9 @@ public class ShopTokenConfigScreen extends Screen {
                                 Math.max(1, buyAmount)
                         ),
 
-                        bindingPos
+                        bindingPos,
+
+                        showMessage
                 )
         );
     }

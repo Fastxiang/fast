@@ -7,14 +7,13 @@ import com.main.fast.shop.gui.ShopScreen;
 import com.main.fast.shop.money.IMoney;
 import com.main.fast.shop.money.MoneyProvider;
 import com.main.fast.shop.network.PacketOpenShop;
+import com.main.fast.shop.network.PacketRequestMoneySync;
 import com.main.fast.shop.network.PacketSyncMoney;
 import com.main.fast.shop.network.ShopNetwork;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,8 +72,15 @@ public class FastShop {
     }
 
     public static void openShopClient(String shopId) {
+
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+
+            ShopNetwork.CHANNEL.sendToServer(
+                    new PacketRequestMoneySync()
+            );
+
             Minecraft mc = Minecraft.getInstance();
+
             if (mc.player != null) {
                 mc.setScreen(new ShopScreen(shopId));
             }
@@ -104,15 +110,6 @@ public class FastShop {
         if (!feedback) {
             return;
         }
-
-        player.level().playSound(
-                null,
-                player.blockPosition(),
-                SoundEvents.EXPERIENCE_ORB_PICKUP,
-                SoundSource.PLAYERS,
-                1.0F,
-                1.0F
-        );
 
         player.sendSystemMessage(message);
     }
