@@ -34,10 +34,17 @@ public class ShopNetwork {
         );
         CHANNEL.registerMessage(
                 id++,
-                PacketOpenShop.class,
-                PacketOpenShop::encode,
-                PacketOpenShop::decode,
-                PacketOpenShop::handle
+                PacketOpenShopClient.class,
+                PacketOpenShopClient::encode,
+                PacketOpenShopClient::decode,
+                PacketOpenShopClient::handle
+        );
+        CHANNEL.registerMessage(
+                id++,
+                PacketRequestShopOpen.class,
+                PacketRequestShopOpen::encode,
+                PacketRequestShopOpen::decode,
+                PacketRequestShopOpen::handle
         );
         CHANNEL.registerMessage(
                 id++,
@@ -60,6 +67,14 @@ public class ShopNetwork {
                 PacketRequestMoneySync::encode,
                 PacketRequestMoneySync::decode,
                 PacketRequestMoneySync::handle
+        );
+
+        CHANNEL.registerMessage(
+                id++,
+                PacketSyncShopData.class,
+                PacketSyncShopData::encode,
+                PacketSyncShopData::decode,
+                PacketSyncShopData::handle
         );
     }
 }

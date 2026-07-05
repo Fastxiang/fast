@@ -41,7 +41,7 @@ public class Fast {
         FastAttributes.ATTRIBUTES.register(bus);
 
         FastCreativeTabs.TABS.register(bus);
-        
+
         PlayerEventsHandler.register();
 
         ShopNetwork.init();
@@ -78,6 +78,7 @@ public class Fast {
                     FastEntities.BOSS_ALEX.get(),
                     FastBossRenderer::new
                 );
+
             });
         }
     }

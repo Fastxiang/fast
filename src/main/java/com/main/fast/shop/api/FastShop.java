@@ -6,11 +6,9 @@ import com.main.fast.shop.api.event.ShopSellEvent;
 import com.main.fast.shop.gui.ShopScreen;
 import com.main.fast.shop.money.IMoney;
 import com.main.fast.shop.money.MoneyProvider;
-import com.main.fast.shop.network.PacketOpenShop;
-import com.main.fast.shop.network.PacketRequestMoneySync;
-import com.main.fast.shop.network.PacketSyncMoney;
-import com.main.fast.shop.network.ShopNetwork;
+import com.main.fast.shop.network.*;
 
+import com.main.fast.shop.server.ServerShopService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,27 +61,32 @@ public class FastShop {
     }
 
     public static void openShop(Player player, String shopId) {
-        if (player instanceof ServerPlayer sp) {
-            ShopNetwork.CHANNEL.send(
-                    PacketDistributor.PLAYER.with(() -> sp),
-                    new PacketOpenShop(shopId)
-            );
+
+        if (!(player instanceof ServerPlayer sp)) return;
+
+        if (ShopManager.getShop(shopId).isEmpty()) {
+            return;
         }
+
+        ServerShopService.syncShopToClient(sp, shopId);
+
+        ShopNetwork.CHANNEL.send(
+                PacketDistributor.PLAYER.with(() -> sp),
+                new PacketOpenShopClient(shopId)
+        );
     }
 
     public static void openShopClient(String shopId) {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 
-            ShopNetwork.CHANNEL.sendToServer(
-                    new PacketRequestMoneySync()
-            );
-
             Minecraft mc = Minecraft.getInstance();
+            if (mc.player == null) return;
 
-            if (mc.player != null) {
-                mc.setScreen(new ShopScreen(shopId));
-            }
+            // ❗只请求服务器，不打开GUI
+            ShopNetwork.CHANNEL.sendToServer(
+                    new PacketRequestShopOpen(shopId)
+            );
         });
     }
 
