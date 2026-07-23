@@ -1,10 +1,10 @@
 package com.main.fast.skill.network;
 
 import com.main.fast.Fast;
-import com.main.fast.skill.client.SkillIndicatorRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -21,8 +21,8 @@ public class SkillIndicatorPacket {
     );
 
     private final Vec3 center;
-    private final int size;      // 外圈边长
-    private final int innerSize; // 内圈边长，若 <=0 则为实心方
+    private final int size;
+    private final int innerSize;
     private final int duration;
     private final int color;
 
@@ -32,6 +32,26 @@ public class SkillIndicatorPacket {
         this.innerSize = innerSize;
         this.duration = duration;
         this.color = color;
+    }
+
+    public Vec3 getCenter() {
+        return center;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getInnerSize() {
+        return innerSize;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     public static void init() {
@@ -67,9 +87,8 @@ public class SkillIndicatorPacket {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            SkillIndicatorRenderer.addIndicator(center, size, innerSize, duration, color);
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.skill.network.client.SkillClientPacketHandlers.handleSkillIndicator(this, ctx);
         });
-        ctx.get().setPacketHandled(true);
     }
 }

@@ -1,4 +1,4 @@
-package com.main.fast.event;
+package com.main.fast.compat.jade.client;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +24,7 @@ public class JadeTooltipEvent extends Event {
             tooltip.add(Component.literal(text));
         }
     }
+
     
     public void addComponent(Component component) {
         if (component != null) {

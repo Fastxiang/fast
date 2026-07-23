@@ -1,8 +1,7 @@
 package com.main.fast.shop.network;
 
-import com.main.fast.shop.api.FastShop;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -15,6 +14,10 @@ public class PacketSyncMoney {
         this.money = money;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
     public static void encode(PacketSyncMoney msg, FriendlyByteBuf buf) {
         buf.writeInt(msg.money);
     }
@@ -24,14 +27,8 @@ public class PacketSyncMoney {
     }
 
     public static void handle(PacketSyncMoney msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-
-            if (Minecraft.getInstance().player != null) {
-                FastShop.setMoney(Minecraft.getInstance().player, msg.money);
-            }
-
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.shop.network.client.ShopClientPacketHandlers.handleSyncMoney(msg, ctx);
         });
-
-        ctx.get().setPacketHandled(true);
     }
 }

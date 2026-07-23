@@ -1,8 +1,7 @@
 package com.main.fast.spell.network;
 
-import com.main.fast.spell.capability.SkillSortCapabilityProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
@@ -17,6 +16,10 @@ public class PacketSyncSkillOrder {
             List<String> order
     ) {
         this.order = order;
+    }
+
+    public List<String> getOrder() {
+        return order;
     }
 
     public static void encode(
@@ -51,29 +54,8 @@ public class PacketSyncSkillOrder {
             PacketSyncSkillOrder msg,
             Supplier<NetworkEvent.Context> ctx
     ) {
-
-        ctx.get().enqueueWork(() -> {
-
-            var player =
-                    Minecraft
-                            .getInstance()
-                            .player;
-
-            if (player == null) {
-                return;
-            }
-
-            player.getCapability(
-                    SkillSortCapabilityProvider.CAPABILITY
-            ).ifPresent(cap -> {
-
-                cap.setSkillOrder(
-                        msg.order
-                );
-
-            });
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.spell.network.client.SpellClientPacketHandlers.handleSyncSkillOrder(msg, ctx);
         });
-
-        ctx.get().setPacketHandled(true);
     }
 }

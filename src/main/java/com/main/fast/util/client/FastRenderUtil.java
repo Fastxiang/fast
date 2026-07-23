@@ -1,4 +1,4 @@
-package com.main.fast.util;
+package com.main.fast.util.client;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;

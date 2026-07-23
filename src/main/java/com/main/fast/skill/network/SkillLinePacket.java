@@ -1,10 +1,11 @@
 package com.main.fast.skill.network;
 
 import com.main.fast.Fast;
-import com.main.fast.skill.client.SkillLineIndicatorRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -139,15 +140,9 @@ public class SkillLinePacket {
             SkillLinePacket packet,
             Supplier<NetworkEvent.Context> ctx
     ) {
-
-        ctx.get().enqueueWork(() -> {
-
-            SkillLineIndicatorRenderer.addLineFromPacket(
-                    packet
-            );
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.skill.network.client.SkillClientPacketHandlers.handleSkillLine(packet, ctx);
         });
-
-        ctx.get().setPacketHandled(true);
     }
 
     //==================================================

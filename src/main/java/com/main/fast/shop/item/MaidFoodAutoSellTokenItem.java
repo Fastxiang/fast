@@ -1,7 +1,5 @@
 package com.main.fast.shop.item;
 
-import com.main.fast.shop.gui.ShopTokenConfigScreen; // 需要自行实现简单的配置 GUI
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -149,7 +147,7 @@ public class MaidFoodAutoSellTokenItem extends Item {
 
     @OnlyIn(Dist.CLIENT)
     private void openConfigGui(ItemStack stack, InteractionHand hand) {
-        Minecraft.getInstance().setScreen(new ShopTokenConfigScreen(stack, hand));
+        com.main.fast.shop.item.client.MaidFoodAutoSellTokenClientHelper.openConfigGui(stack, hand);
     }
 
     // ========== 辅助：潜行时点击容器绑定 ==========

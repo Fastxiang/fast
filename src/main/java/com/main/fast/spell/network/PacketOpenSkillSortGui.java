@@ -1,8 +1,7 @@
 package com.main.fast.spell.network;
 
-import com.main.fast.spell.client.gui.SkillSortScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -17,6 +16,10 @@ public class PacketOpenSkillSortGui {
             Map<String, ?> skillList
     ) {
         this.skillList = skillList;
+    }
+
+    public Map<String, ?> getSkillList() {
+        return skillList;
     }
 
     public static void encode(
@@ -65,18 +68,8 @@ public class PacketOpenSkillSortGui {
             PacketOpenSkillSortGui msg,
             Supplier<NetworkEvent.Context> ctx
     ) {
-
-        ctx.get().enqueueWork(() -> {
-
-            SkillNetwork.CHANNEL.sendToServer(
-                    new PacketRequestSkillOrder()
-            );
-
-            Minecraft.getInstance().setScreen(
-                    new SkillSortScreen(msg.skillList)
-            );
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.spell.network.client.SpellClientPacketHandlers.handleOpenSkillSortGui(msg, ctx);
         });
-
-        ctx.get().setPacketHandled(true);
     }
 }

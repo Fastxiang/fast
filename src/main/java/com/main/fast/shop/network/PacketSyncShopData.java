@@ -1,9 +1,9 @@
 package com.main.fast.shop.network;
 
 import com.main.fast.shop.ShopManager.ShopEntry;
-import com.main.fast.shop.client.ClientShopCache;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
@@ -18,6 +18,14 @@ public class PacketSyncShopData {
     public PacketSyncShopData(String shopId, List<ShopEntry> entries) {
         this.shopId = shopId;
         this.entries = entries;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public List<ShopEntry> getEntries() {
+        return entries;
     }
 
     public static void encode(PacketSyncShopData msg, FriendlyByteBuf buf) {
@@ -59,9 +67,8 @@ public class PacketSyncShopData {
     }
 
     public static void handle(PacketSyncShopData msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ClientShopCache.update(msg.shopId, msg.entries);
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.shop.network.client.ShopClientPacketHandlers.handleSyncShopData(msg, ctx);
         });
-        ctx.get().setPacketHandled(true);
     }
 }

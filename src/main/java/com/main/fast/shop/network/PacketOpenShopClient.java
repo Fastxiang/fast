@@ -1,9 +1,7 @@
 package com.main.fast.shop.network;
 
-import com.main.fast.shop.api.FastShop;
-import com.main.fast.shop.gui.ShopScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -16,6 +14,10 @@ public class PacketOpenShopClient {
         this.shopId = shopId;
     }
 
+    public String getShopId() {
+        return shopId;
+    }
+
     public static void encode(PacketOpenShopClient msg, FriendlyByteBuf buf) {
         buf.writeUtf(msg.shopId);
     }
@@ -25,14 +27,8 @@ public class PacketOpenShopClient {
     }
 
     public static void handle(PacketOpenShopClient msg, Supplier<NetworkEvent.Context> ctx) {
-
-        ctx.get().enqueueWork(() -> {
-
-            Minecraft mc = Minecraft.getInstance();
-            if (mc.player == null) return;
-            mc.setScreen(new ShopScreen(msg.shopId));
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            com.main.fast.shop.network.client.ShopClientPacketHandlers.handleOpenShop(msg, ctx);
         });
-
-        ctx.get().setPacketHandled(true);
     }
 }

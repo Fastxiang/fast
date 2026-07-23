@@ -7,7 +7,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import com.main.fast.Fast;
-import com.main.fast.event.JadeTooltipEvent;
+import com.main.fast.compat.jade.client.JadeTooltipEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class FastJadeInfo implements IEntityComponentProvider {

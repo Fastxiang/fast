@@ -3,13 +3,11 @@ package com.main.fast.shop.api;
 import com.main.fast.shop.ShopManager;
 import com.main.fast.shop.api.event.ShopBuyEvent;
 import com.main.fast.shop.api.event.ShopSellEvent;
-import com.main.fast.shop.gui.ShopScreen;
 import com.main.fast.shop.money.IMoney;
 import com.main.fast.shop.money.MoneyProvider;
 import com.main.fast.shop.network.*;
 
 import com.main.fast.shop.server.ServerShopService;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -77,17 +75,10 @@ public class FastShop {
     }
 
     public static void openShopClient(String shopId) {
-
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-
-            Minecraft mc = Minecraft.getInstance();
-            if (mc.player == null) return;
-
-            // ❗只请求服务器，不打开GUI
-            ShopNetwork.CHANNEL.sendToServer(
-                    new PacketRequestShopOpen(shopId)
-            );
-        });
+        DistExecutor.unsafeRunWhenOn(
+                Dist.CLIENT,
+                () -> () -> com.main.fast.shop.api.client.FastShopClientHelper.openShopClient(shopId)
+        );
     }
 
     public static boolean hasMoney(Player player, int value) {
