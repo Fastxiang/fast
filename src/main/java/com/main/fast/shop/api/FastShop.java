@@ -130,10 +130,7 @@ public class FastShop {
         for (ShopManager.ShopEntry e : entries) {
 
             if (e.buy
-                    && ItemStack.isSameItemSameTags(
-                    e.stack,
-                    stack
-            )) {
+                    && e.stack.getItem() == stack.getItem()) {
 
                 found = e;
                 break;
@@ -218,10 +215,7 @@ public class FastShop {
         for (ShopManager.ShopEntry e : entries) {
 
             if (!e.buy
-                    && ItemStack.isSameItemSameTags(
-                    e.stack,
-                    stack
-            )) {
+                    && e.stack.getItem() == stack.getItem()) {
 
                 found = e;
                 break;
@@ -235,10 +229,7 @@ public class FastShop {
         for (ItemStack invStack : player.getInventory().items) {
 
             if (!invStack.isEmpty()
-                    && ItemStack.isSameItemSameTags(
-                    invStack,
-                    stack
-            )) {
+                    && invStack.getItem() == stack.getItem()) {
 
                 available += invStack.getCount();
             }
@@ -271,10 +262,7 @@ public class FastShop {
         for (ItemStack invStack : player.getInventory().items) {
 
             if (!invStack.isEmpty()
-                    && ItemStack.isSameItemSameTags(
-                    invStack,
-                    stack
-            )) {
+                    && invStack.getItem() == stack.getItem()) {
 
                 int remove =
                         Math.min(
@@ -342,10 +330,7 @@ public class FastShop {
         for (ShopManager.ShopEntry e : entries) {
 
             if (e.buy
-                    && ItemStack.isSameItemSameTags(
-                    e.stack,
-                    stack
-            )) {
+                    && e.stack.getItem() == stack.getItem()) {
 
                 found = e;
                 break;
@@ -429,10 +414,7 @@ public class FastShop {
         for (ShopManager.ShopEntry e : entries) {
 
             if (!e.buy
-                    && ItemStack.isSameItemSameTags(
-                    e.stack,
-                    stack
-            )) {
+                    && e.stack.getItem() == stack.getItem()) {
 
                 found = e;
                 break;
