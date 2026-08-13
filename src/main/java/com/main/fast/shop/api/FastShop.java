@@ -23,6 +23,47 @@ import java.util.function.Consumer;
 
 public class FastShop {
 
+    /**
+     * 匹配商店条目：优先NBT精确匹配，若商店条目无NBT则回退到物品类型匹配。
+     * 规则：
+     *  1. 先尝试 ItemStack.isSameItemSameTags —— 保证同物品不同NBT(附魔/普通)不会串单
+     *  2. 若仍未找到且候选条目自身不带NBT，则只比较Item类型 —— 处理购买后自动附加NBT的情况
+     */
+    private static ShopManager.ShopEntry matchShopEntry(
+            List<ShopManager.ShopEntry> entries,
+            ItemStack stack,
+            boolean buy
+    ) {
+        // 第一阶段：NBT精确匹配（修复Bug2：同物品NBT不同时错配）
+        for (ShopManager.ShopEntry e : entries) {
+            if (e.buy == buy && ItemStack.isSameItemSameTags(e.stack, stack)) {
+                return e;
+
+            }
+        }
+        // 第二阶段：仅对商店条目自身无NBT的情况，回退到物品类型匹配（修复Bug1：自动加NBT）
+        for (ShopManager.ShopEntry e : entries) {
+            if (e.buy == buy
+                    && !e.stack.hasTag()
+                    && e.stack.getItem() == stack.getItem()) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 背包物品匹配：根据商店条目是否自带NBT来决定匹配严格度。
+     *  - 商店条目有NBT  → 必须 isSameItemSameTags 精确匹配（附魔剑只收同名附魔剑）
+     *  - 商店条目无NBT  → 只比较Item类型（普通剑允许收被其他Mod自动附加过NBT的同名剑）
+     */
+    private static boolean inventoryItemMatches(ShopManager.ShopEntry entry, ItemStack invStack) {
+        if (entry.stack.hasTag()) {
+            return ItemStack.isSameItemSameTags(entry.stack, invStack);
+        }
+        return invStack.getItem() == entry.stack.getItem();
+    }
+
     public static int getMoney(Player player) {
         return player.getCapability(MoneyProvider.MONEY)
                 .map(IMoney::getMoney)
@@ -125,17 +166,7 @@ public class FastShop {
         List<ShopManager.ShopEntry> entries =
                 ShopManager.getShop(shopId);
 
-        ShopManager.ShopEntry found = null;
-
-        for (ShopManager.ShopEntry e : entries) {
-
-            if (e.buy
-                    && e.stack.getItem() == stack.getItem()) {
-
-                found = e;
-                break;
-            }
-        }
+        ShopManager.ShopEntry found = matchShopEntry(entries, stack, true);
 
         if (found == null) return false;
 
@@ -210,17 +241,7 @@ public class FastShop {
         List<ShopManager.ShopEntry> entries =
                 ShopManager.getShop(shopId);
 
-        ShopManager.ShopEntry found = null;
-
-        for (ShopManager.ShopEntry e : entries) {
-
-            if (!e.buy
-                    && e.stack.getItem() == stack.getItem()) {
-
-                found = e;
-                break;
-            }
-        }
+        ShopManager.ShopEntry found = matchShopEntry(entries, stack, false);
 
         if (found == null) return 0;
 
@@ -229,7 +250,7 @@ public class FastShop {
         for (ItemStack invStack : player.getInventory().items) {
 
             if (!invStack.isEmpty()
-                    && invStack.getItem() == stack.getItem()) {
+                    && inventoryItemMatches(found, invStack)) {
 
                 available += invStack.getCount();
             }
@@ -262,7 +283,7 @@ public class FastShop {
         for (ItemStack invStack : player.getInventory().items) {
 
             if (!invStack.isEmpty()
-                    && invStack.getItem() == stack.getItem()) {
+                    && inventoryItemMatches(found, invStack)) {
 
                 int remove =
                         Math.min(
@@ -325,17 +346,7 @@ public class FastShop {
         List<ShopManager.ShopEntry> entries =
                 ShopManager.getShop(shopId);
 
-        ShopManager.ShopEntry found = null;
-
-        for (ShopManager.ShopEntry e : entries) {
-
-            if (e.buy
-                    && e.stack.getItem() == stack.getItem()) {
-
-                found = e;
-                break;
-            }
-        }
+        ShopManager.ShopEntry found = matchShopEntry(entries, stack, true);
 
         if (found == null) return false;
 
@@ -409,17 +420,7 @@ public class FastShop {
         List<ShopManager.ShopEntry> entries =
                 ShopManager.getShop(shopId);
 
-        ShopManager.ShopEntry found = null;
-
-        for (ShopManager.ShopEntry e : entries) {
-
-            if (!e.buy
-                    && e.stack.getItem() == stack.getItem()) {
-
-                found = e;
-                break;
-            }
-        }
+        ShopManager.ShopEntry found = matchShopEntry(entries, stack, false);
 
         if (found == null) return 0;
 
