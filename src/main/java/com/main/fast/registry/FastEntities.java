@@ -3,6 +3,7 @@ package com.main.fast.registry;
 import com.main.fast.Fast;
 import com.main.fast.entity.FastSwordEntity;
 import com.main.fast.entity.BossEntityAlex;
+import com.main.fast.entity.BossMysteriousBlackCloakedSwordsman;
 import com.main.fast.entity.FastBossEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,6 +27,11 @@ public class FastEntities {
     public static final RegistryObject<EntityType<BossEntityAlex>> BOSS_ALEX =
             register("alex",
                     EntityType.Builder.of(BossEntityAlex::new, MobCategory.MONSTER),
+                    0.6F, 1.95F);
+
+    public static final RegistryObject<EntityType<BossMysteriousBlackCloakedSwordsman>> MYSTERIOUS_BLACK_CLOAKED_SWORDSMAN =
+            register("mysterious_black_cloaked_swordsman",
+                    EntityType.Builder.of(BossMysteriousBlackCloakedSwordsman::new, MobCategory.MONSTER),
                     0.6F, 1.95F);
             
     private static <T extends Entity> RegistryObject<EntityType<T>> register(

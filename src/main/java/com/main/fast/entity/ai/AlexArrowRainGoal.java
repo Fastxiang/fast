@@ -22,9 +22,9 @@ public class AlexArrowRainGoal extends Goal {
 
     private int step;
 
-    private static final int INDICATOR_DURATION = 40; // 2秒
+    private static final int INDICATOR_DURATION = 20; // 1秒
 
-    private static final int INTERVAL = 20; // 1秒
+    private static final int INTERVAL = 10; // 0.5秒
 
     private static final int COOLDOWN = 20 * 30; // 30秒
 

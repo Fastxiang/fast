@@ -107,6 +107,12 @@ public class Fast {
                 );
 
 
+                net.minecraft.client.renderer.entity.EntityRenderers.register(
+                        FastEntities.MYSTERIOUS_BLACK_CLOAKED_SWORDSMAN.get(),
+                        com.main.fast.entity.client.FastBossRenderer::new
+                );
+
+
             });
 
         }
@@ -144,6 +150,11 @@ public class Fast {
             event.put(
                     FastEntities.BOSS_ALEX.get(),
                     FastBossEntity.createAttributes().build()
+            );
+
+            event.put(
+                    FastEntities.MYSTERIOUS_BLACK_CLOAKED_SWORDSMAN.get(),
+                    com.main.fast.entity.BossMysteriousBlackCloakedSwordsman.createAttributes().build()
             );
 
         }

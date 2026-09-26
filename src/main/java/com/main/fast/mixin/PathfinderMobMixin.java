@@ -122,7 +122,6 @@ public class PathfinderMobMixin extends Mob implements IMagicEntity {
         return super.getItemBySlot(slot);
     }
 
-
     @Override
     public void startDrinkingPotion() {
         if (!this.level().isClientSide) {

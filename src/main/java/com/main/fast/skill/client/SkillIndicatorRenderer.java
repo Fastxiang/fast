@@ -99,9 +99,11 @@ public class SkillIndicatorRenderer {
 
             int argb = ind.color;
             float a = ((argb >> 24) & 0xFF) / 255f;
-            float timeFade = ind.tick / (float) ind.maxDuration;
-            a *= timeFade;
-            if (a <= 0.01f) continue;
+            // 半透明提示按时间渐隐；完全不透明（alpha=0xFF，如攻击闪烁）保持满亮度到期直接消失，短时长也更直观
+            if (a < 1.0F) {
+                a *= ind.tick / (float) ind.maxDuration;
+            }
+            if (a <= 0.01F) continue;
 
             int r = (argb >> 16) & 0xFF;
             int g = (argb >> 8) & 0xFF;
