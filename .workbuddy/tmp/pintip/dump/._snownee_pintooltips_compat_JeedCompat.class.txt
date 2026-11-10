@@ -1,0 +1,60 @@
+Compiled from "JeedCompat.java"
+public class snownee.pintooltips.compat.JeedCompat {
+  private static final net.minecraft.tags.TagKey<net.minecraft.world.effect.MobEffect> HIDDEN;
+
+  public snownee.pintooltips.compat.JeedCompat();
+    Code:
+       0: aload_0
+       1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static boolean canClickEffect(net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: invokestatic  #20                 // Method isAvailable:()Z
+       3: ifeq          26
+       6: aload_0
+       7: invokevirtual #26                 // Method net/minecraft/world/effect/MobEffectInstance.m_19544_:()Lnet/minecraft/world/effect/MobEffect;
+      10: getstatic     #32                 // Field net/minecraft/core/registries/BuiltInRegistries.f_256974_:Lnet/minecraft/core/Registry;
+      13: getstatic     #34                 // Field HIDDEN:Lnet/minecraft/tags/TagKey;
+      16: invokestatic  #40                 // Method net/mehvahdjukaar/jeed/Jeed.isTagged:(Ljava/lang/Object;Lnet/minecraft/core/Registry;Lnet/minecraft/tags/TagKey;)Z
+      19: ifne          26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: ireturn
+
+  public static void clickEffect(net.minecraft.world.effect.MobEffectInstance, double, double, int);
+    Code:
+       0: invokestatic  #20                 // Method isAvailable:()Z
+       3: ifeq          19
+       6: getstatic     #48                 // Field net/mehvahdjukaar/jeed/Jeed.PLUGIN:Lnet/mehvahdjukaar/jeed/common/IPlugin;
+       9: aload_0
+      10: dload_1
+      11: dload_3
+      12: iload         5
+      14: invokeinterface #53,  7           // InterfaceMethod net/mehvahdjukaar/jeed/common/IPlugin.onClickedEffect:(Lnet/minecraft/world/effect/MobEffectInstance;DDI)V
+      19: return
+
+  private static boolean isAvailable();
+    Code:
+       0: getstatic     #48                 // Field net/mehvahdjukaar/jeed/Jeed.PLUGIN:Lnet/mehvahdjukaar/jeed/common/IPlugin;
+       3: ifnull        19
+       6: invokestatic  #64                 // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       9: getfield      #68                 // Field net/minecraft/client/Minecraft.f_91073_:Lnet/minecraft/client/multiplayer/ClientLevel;
+      12: ifnull        19
+      15: iconst_1
+      16: goto          20
+      19: iconst_0
+      20: ireturn
+
+  static {};
+    Code:
+       0: getstatic     #75                 // Field net/minecraft/core/registries/Registries.f_256929_:Lnet/minecraft/resources/ResourceKey;
+       3: new           #77                 // class net/minecraft/resources/ResourceLocation
+       6: dup
+       7: ldc           #79                 // String jeed:hidden
+       9: invokespecial #82                 // Method net/minecraft/resources/ResourceLocation."<init>":(Ljava/lang/String;)V
+      12: invokestatic  #88                 // Method net/minecraft/tags/TagKey.m_203882_:(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/tags/TagKey;
+      15: putstatic     #34                 // Field HIDDEN:Lnet/minecraft/tags/TagKey;
+      18: return
+}

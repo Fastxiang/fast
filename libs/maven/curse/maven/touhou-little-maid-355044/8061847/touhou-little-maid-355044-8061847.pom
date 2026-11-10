@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>curse.maven</groupId>
+    <artifactId>touhou-little-maid-355044</artifactId>
+    <version>8061847</version>
+    <packaging>jar</packaging>
+    <name>Touhou Little Maid 1.5.3</name>
+    <description>
+        本地镜像：cursemaven 的 8061847（TouhouLittleMaid 1.5.3）在构建机上下载超时，
+        这里用整合包 mods 里的同一份 jar 顶替，坐标保持 curse.maven:touhou-little-maid-355044:8061847 不变。
+    </description>
+</project>

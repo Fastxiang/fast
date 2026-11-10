@@ -1,0 +1,82 @@
+{
+  "mappings": {
+    "snownee/pintooltips/mixin/pin/GuiGraphicsMixin": {
+      "renderTooltipInternal": "Lnet/minecraft/client/gui/GuiGraphics;m_280497_(Lnet/minecraft/client/gui/Font;Ljava/util/List;IILnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V",
+      "Lnet/minecraft/client/gui/GuiGraphics;drawManaged(Ljava/lang/Runnable;)V": "Lnet/minecraft/client/gui/GuiGraphics;m_286007_(Ljava/lang/Runnable;)V",
+      "renderTooltip(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V": "Lnet/minecraft/client/gui/GuiGraphics;m_280153_(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V",
+      "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V": "Lcom/mojang/blaze3d/vertex/PoseStack;m_85836_()V"
+    },
+    "snownee/pintooltips/mixin/interact/ScreenMixin": {
+      "renderWithTooltip": "Lnet/minecraft/client/gui/screens/Screen;m_280264_(Lnet/minecraft/client/gui/GuiGraphics;IIF)V",
+      "handleComponentClicked": "Lnet/minecraft/client/gui/screens/Screen;m_5561_(Lnet/minecraft/network/chat/Style;)Z",
+      "Lnet/minecraft/client/gui/screens/Screen;hasShiftDown()Z": "Lnet/minecraft/client/gui/screens/Screen;m_96638_()Z"
+    },
+    "snownee/pintooltips/mixin/interact/ItemStackMixin": {
+      "getHoverName": "Lnet/minecraft/world/item/ItemStack;m_41786_()Lnet/minecraft/network/chat/Component;",
+      "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/Component;m_237110_(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;",
+      "getTooltipLines": "Lnet/minecraft/world/item/ItemStack;m_41651_(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/TooltipFlag;)Ljava/util/List;",
+      "Lnet/minecraft/network/chat/Component;literal(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/Component;m_237113_(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;"
+    },
+    "snownee/pintooltips/mixin/pin/AbstractContainerScreenMixin": {
+      "renderTooltip": "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;m_280072_(Lnet/minecraft/client/gui/GuiGraphics;II)V",
+      "Lnet/minecraft/world/item/ItemStack;getTooltipImage()Ljava/util/Optional;": "Lnet/minecraft/world/item/ItemStack;m_150921_()Ljava/util/Optional;"
+    },
+    "snownee/pintooltips/mixin/interact/EnchantmentMixin": {
+      "getFullname": "Lnet/minecraft/world/item/enchantment/Enchantment;m_44700_(I)Lnet/minecraft/network/chat/Component;"
+    },
+    "snownee/pintooltips/mixin/interact/ClientTextTooltipAccess": {
+      "text": "f_169936_:Lnet/minecraft/util/FormattedCharSequence;"
+    },
+    "snownee/pintooltips/mixin/pin/GuiGraphicsAccess": {
+      "renderTooltipInternal": "m_280497_(Lnet/minecraft/client/gui/Font;Ljava/util/List;IILnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V"
+    },
+    "snownee/pintooltips/mixin/pin/TooltipRenderUtilMixin": {
+      "renderFrameGradient": "Lnet/minecraft/client/gui/screens/inventory/tooltip/TooltipRenderUtil;m_280115_(Lnet/minecraft/client/gui/GuiGraphics;IIIIIII)V"
+    },
+    "snownee/pintooltips/mixin/interact/PotionUtilsMixin": {
+      "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/MutableComponent;m_130940_(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;",
+      "addPotionTooltip(Ljava/util/List;Ljava/util/List;F)V": "Lnet/minecraft/world/item/alchemy/PotionUtils;m_257410_(Ljava/util/List;Ljava/util/List;F)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "snownee/pintooltips/mixin/pin/GuiGraphicsMixin": {
+        "renderTooltipInternal": "Lnet/minecraft/client/gui/GuiGraphics;m_280497_(Lnet/minecraft/client/gui/Font;Ljava/util/List;IILnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V",
+        "Lnet/minecraft/client/gui/GuiGraphics;drawManaged(Ljava/lang/Runnable;)V": "Lnet/minecraft/client/gui/GuiGraphics;m_286007_(Ljava/lang/Runnable;)V",
+        "renderTooltip(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V": "Lnet/minecraft/client/gui/GuiGraphics;m_280153_(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V",
+        "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V": "Lcom/mojang/blaze3d/vertex/PoseStack;m_85836_()V"
+      },
+      "snownee/pintooltips/mixin/interact/ScreenMixin": {
+        "renderWithTooltip": "Lnet/minecraft/client/gui/screens/Screen;m_280264_(Lnet/minecraft/client/gui/GuiGraphics;IIF)V",
+        "handleComponentClicked": "Lnet/minecraft/client/gui/screens/Screen;m_5561_(Lnet/minecraft/network/chat/Style;)Z",
+        "Lnet/minecraft/client/gui/screens/Screen;hasShiftDown()Z": "Lnet/minecraft/client/gui/screens/Screen;m_96638_()Z"
+      },
+      "snownee/pintooltips/mixin/interact/ItemStackMixin": {
+        "getHoverName": "Lnet/minecraft/world/item/ItemStack;m_41786_()Lnet/minecraft/network/chat/Component;",
+        "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/Component;m_237110_(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;",
+        "getTooltipLines": "Lnet/minecraft/world/item/ItemStack;m_41651_(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/TooltipFlag;)Ljava/util/List;",
+        "Lnet/minecraft/network/chat/Component;literal(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/Component;m_237113_(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;"
+      },
+      "snownee/pintooltips/mixin/pin/AbstractContainerScreenMixin": {
+        "renderTooltip": "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;m_280072_(Lnet/minecraft/client/gui/GuiGraphics;II)V",
+        "Lnet/minecraft/world/item/ItemStack;getTooltipImage()Ljava/util/Optional;": "Lnet/minecraft/world/item/ItemStack;m_150921_()Ljava/util/Optional;"
+      },
+      "snownee/pintooltips/mixin/interact/EnchantmentMixin": {
+        "getFullname": "Lnet/minecraft/world/item/enchantment/Enchantment;m_44700_(I)Lnet/minecraft/network/chat/Component;"
+      },
+      "snownee/pintooltips/mixin/interact/ClientTextTooltipAccess": {
+        "text": "f_169936_:Lnet/minecraft/util/FormattedCharSequence;"
+      },
+      "snownee/pintooltips/mixin/pin/GuiGraphicsAccess": {
+        "renderTooltipInternal": "m_280497_(Lnet/minecraft/client/gui/Font;Ljava/util/List;IILnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V"
+      },
+      "snownee/pintooltips/mixin/pin/TooltipRenderUtilMixin": {
+        "renderFrameGradient": "Lnet/minecraft/client/gui/screens/inventory/tooltip/TooltipRenderUtil;m_280115_(Lnet/minecraft/client/gui/GuiGraphics;IIIIIII)V"
+      },
+      "snownee/pintooltips/mixin/interact/PotionUtilsMixin": {
+        "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;": "Lnet/minecraft/network/chat/MutableComponent;m_130940_(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;",
+        "addPotionTooltip(Ljava/util/List;Ljava/util/List;F)V": "Lnet/minecraft/world/item/alchemy/PotionUtils;m_257410_(Ljava/util/List;Ljava/util/List;F)V"
+      }
+    }
+  }
+}

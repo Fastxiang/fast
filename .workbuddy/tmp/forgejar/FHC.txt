@@ -1,0 +1,3008 @@
+Compiled from "ForgeHooksClient.java"
+public class net.minecraftforge.client.ForgeHooksClient {
+  private static final org.apache.logging.log4j.Logger LOGGER;
+
+  private static final org.apache.logging.log4j.Marker CLIENTHOOKS;
+
+  private static final java.util.Stack<net.minecraft.client.gui.screens.Screen> guiLayers;
+
+  public static java.lang.String forgeStatusLine;
+
+  private static int slotMainHand;
+
+  private static final java.util.Map<net.minecraft.client.model.geom.ModelLayerLocation, java.util.function.Supplier<net.minecraft.client.model.geom.builders.LayerDefinition>> layerDefinitions;
+
+  private static final net.minecraft.resources.ResourceLocation ICON_SHEET;
+
+  private static final net.minecraft.network.chat.ChatTypeDecoration SYSTEM_CHAT_TYPE_DECORATION;
+
+  private static final net.minecraft.network.chat.ChatType SYSTEM_CHAT_TYPE;
+
+  private static final net.minecraft.network.chat.ChatType$Bound SYSTEM_CHAT_TYPE_BOUND;
+
+  private static boolean initializedClientHooks;
+
+  public net.minecraftforge.client.ForgeHooksClient();
+    Code:
+       0: aload_0
+       1: invokespecial #302                // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void resizeGuiLayers(net.minecraft.client.Minecraft, int, int);
+    Code:
+       0: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+       3: aload_0
+       4: iload_1
+       5: iload_2
+       6: invokedynamic #328,  0            // InvokeDynamic #0:accept:(Lnet/minecraft/client/Minecraft;II)Ljava/util/function/Consumer;
+      11: invokevirtual #334                // Method java/util/Stack.forEach:(Ljava/util/function/Consumer;)V
+      14: return
+
+  public static void clearGuiLayers(net.minecraft.client.Minecraft);
+    Code:
+       0: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+       3: invokevirtual #344                // Method java/util/Stack.size:()I
+       6: ifle          16
+       9: aload_0
+      10: invokestatic  #347                // Method popGuiLayerInternal:(Lnet/minecraft/client/Minecraft;)V
+      13: goto          0
+      16: return
+
+  private static void popGuiLayerInternal(net.minecraft.client.Minecraft);
+    Code:
+       0: aload_0
+       1: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+       4: ifnull        14
+       7: aload_0
+       8: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      11: invokevirtual #358                // Method net/minecraft/client/gui/screens/Screen.m_7861_:()V
+      14: aload_0
+      15: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+      18: invokevirtual #362                // Method java/util/Stack.pop:()Ljava/lang/Object;
+      21: checkcast     #355                // class net/minecraft/client/gui/screens/Screen
+      24: putfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      27: return
+
+  public static void pushGuiLayer(net.minecraft.client.Minecraft, net.minecraft.client.gui.screens.Screen);
+    Code:
+       0: aload_0
+       1: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+       4: ifnull        18
+       7: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+      10: aload_0
+      11: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      14: invokevirtual #368                // Method java/util/Stack.push:(Ljava/lang/Object;)Ljava/lang/Object;
+      17: pop
+      18: aload_0
+      19: aload_1
+      20: invokestatic  #373                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      23: checkcast     #355                // class net/minecraft/client/gui/screens/Screen
+      26: putfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      29: aload_1
+      30: aload_0
+      31: aload_0
+      32: invokevirtual #377                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      35: invokevirtual #382                // Method com/mojang/blaze3d/platform/Window.m_85445_:()I
+      38: aload_0
+      39: invokevirtual #377                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      42: invokevirtual #385                // Method com/mojang/blaze3d/platform/Window.m_85446_:()I
+      45: invokevirtual #388                // Method net/minecraft/client/gui/screens/Screen.m_6575_:(Lnet/minecraft/client/Minecraft;II)V
+      48: aload_0
+      49: invokevirtual #392                // Method net/minecraft/client/Minecraft.m_240477_:()Lnet/minecraft/client/GameNarrator;
+      52: aload_1
+      53: invokevirtual #396                // Method net/minecraft/client/gui/screens/Screen.m_142562_:()Lnet/minecraft/network/chat/Component;
+      56: invokevirtual #402                // Method net/minecraft/client/GameNarrator.m_168785_:(Lnet/minecraft/network/chat/Component;)V
+      59: return
+
+  public static void popGuiLayer(net.minecraft.client.Minecraft);
+    Code:
+       0: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+       3: invokevirtual #344                // Method java/util/Stack.size:()I
+       6: ifne          15
+       9: aload_0
+      10: aconst_null
+      11: invokevirtual #407                // Method net/minecraft/client/Minecraft.m_91152_:(Lnet/minecraft/client/gui/screens/Screen;)V
+      14: return
+      15: aload_0
+      16: invokestatic  #347                // Method popGuiLayerInternal:(Lnet/minecraft/client/Minecraft;)V
+      19: aload_0
+      20: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      23: ifnull        40
+      26: aload_0
+      27: invokevirtual #392                // Method net/minecraft/client/Minecraft.m_240477_:()Lnet/minecraft/client/GameNarrator;
+      30: aload_0
+      31: getfield      #353                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      34: invokevirtual #396                // Method net/minecraft/client/gui/screens/Screen.m_142562_:()Lnet/minecraft/network/chat/Component;
+      37: invokevirtual #402                // Method net/minecraft/client/GameNarrator.m_168785_:(Lnet/minecraft/network/chat/Component;)V
+      40: return
+
+  public static float getGuiFarPlane();
+    Code:
+       0: ldc_w         #410                // float 1000.0f
+       3: ldc_w         #411                // float 10000.0f
+       6: iconst_1
+       7: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+      10: invokevirtual #344                // Method java/util/Stack.size:()I
+      13: iadd
+      14: i2f
+      15: fmul
+      16: fadd
+      17: freturn
+
+  public static java.lang.String getArmorTexture(net.minecraft.world.entity.Entity, net.minecraft.world.item.ItemStack, java.lang.String, net.minecraft.world.entity.EquipmentSlot, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #419                // Method net/minecraft/world/item/ItemStack.m_41720_:()Lnet/minecraft/world/item/Item;
+       4: aload_1
+       5: aload_0
+       6: aload_3
+       7: aload         4
+       9: invokevirtual #424                // Method net/minecraft/world/item/Item.getArmorTexture:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/EquipmentSlot;Ljava/lang/String;)Ljava/lang/String;
+      12: astore        5
+      14: aload         5
+      16: ifnull        24
+      19: aload         5
+      21: goto          25
+      24: aload_2
+      25: areturn
+
+  public static boolean onDrawHighlight(net.minecraft.client.renderer.LevelRenderer, net.minecraft.client.Camera, net.minecraft.world.phys.HitResult, float, com.mojang.blaze3d.vertex.PoseStack, net.minecraft.client.renderer.MultiBufferSource);
+    Code:
+       0: getstatic     #441                // Field net/minecraftforge/client/ForgeHooksClient$1.$SwitchMap$net$minecraft$world$phys$HitResult$Type:[I
+       3: aload_2
+       4: invokevirtual #445                // Method net/minecraft/world/phys/HitResult.m_6662_:()Lnet/minecraft/world/phys/HitResult$Type;
+       7: invokevirtual #448                // Method net/minecraft/world/phys/HitResult$Type.ordinal:()I
+      10: iaload
+      11: lookupswitch  { // 2
+                     1: 36
+                     2: 79
+               default: 122
+          }
+      36: aload_2
+      37: instanceof    #450                // class net/minecraft/world/phys/BlockHitResult
+      40: ifeq          52
+      43: aload_2
+      44: checkcast     #450                // class net/minecraft/world/phys/BlockHitResult
+      47: astore        6
+      49: goto          54
+      52: iconst_0
+      53: ireturn
+      54: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      57: new           #17                 // class net/minecraftforge/client/event/RenderHighlightEvent$Block
+      60: dup
+      61: aload_0
+      62: aload_1
+      63: aload         6
+      65: fload_3
+      66: aload         4
+      68: aload         5
+      70: invokespecial #459                // Method net/minecraftforge/client/event/RenderHighlightEvent$Block."<init>":(Lnet/minecraft/client/renderer/LevelRenderer;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/BlockHitResult;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;)V
+      73: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      78: ireturn
+      79: aload_2
+      80: instanceof    #467                // class net/minecraft/world/phys/EntityHitResult
+      83: ifeq          95
+      86: aload_2
+      87: checkcast     #467                // class net/minecraft/world/phys/EntityHitResult
+      90: astore        7
+      92: goto          97
+      95: iconst_0
+      96: ireturn
+      97: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+     100: new           #22                 // class net/minecraftforge/client/event/RenderHighlightEvent$Entity
+     103: dup
+     104: aload_0
+     105: aload_1
+     106: aload         7
+     108: fload_3
+     109: aload         4
+     111: aload         5
+     113: invokespecial #470                // Method net/minecraftforge/client/event/RenderHighlightEvent$Entity."<init>":(Lnet/minecraft/client/renderer/LevelRenderer;Lnet/minecraft/client/Camera;Lnet/minecraft/world/phys/EntityHitResult;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;)V
+     116: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+     121: ireturn
+     122: iconst_0
+     123: ireturn
+
+  public static void dispatchRenderStage(net.minecraftforge.client.event.RenderLevelStageEvent$Stage, net.minecraft.client.renderer.LevelRenderer, com.mojang.blaze3d.vertex.PoseStack, org.joml.Matrix4f, int, net.minecraft.client.Camera, net.minecraft.client.renderer.culling.Frustum);
+    Code:
+       0: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       3: astore        7
+       5: aload         7
+       7: invokevirtual #496                // Method net/minecraft/client/Minecraft.m_91307_:()Lnet/minecraft/util/profiling/ProfilerFiller;
+      10: astore        8
+      12: aload         8
+      14: aload_0
+      15: invokevirtual #500                // Method net/minecraftforge/client/event/RenderLevelStageEvent$Stage.toString:()Ljava/lang/String;
+      18: invokeinterface #506,  2          // InterfaceMethod net/minecraft/util/profiling/ProfilerFiller.m_6180_:(Ljava/lang/String;)V
+      23: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      26: new           #27                 // class net/minecraftforge/client/event/RenderLevelStageEvent
+      29: dup
+      30: aload_0
+      31: aload_1
+      32: aload_2
+      33: aload_3
+      34: iload         4
+      36: aload         7
+      38: invokevirtual #509                // Method net/minecraft/client/Minecraft.getPartialTick:()F
+      41: aload         5
+      43: aload         6
+      45: invokespecial #512                // Method net/minecraftforge/client/event/RenderLevelStageEvent."<init>":(Lnet/minecraftforge/client/event/RenderLevelStageEvent$Stage;Lnet/minecraft/client/renderer/LevelRenderer;Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;IFLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/culling/Frustum;)V
+      48: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      53: pop
+      54: aload         8
+      56: invokeinterface #515,  1          // InterfaceMethod net/minecraft/util/profiling/ProfilerFiller.m_7238_:()V
+      61: return
+
+  public static void dispatchRenderStage(net.minecraft.client.renderer.RenderType, net.minecraft.client.renderer.LevelRenderer, com.mojang.blaze3d.vertex.PoseStack, org.joml.Matrix4f, int, net.minecraft.client.Camera, net.minecraft.client.renderer.culling.Frustum);
+    Code:
+       0: aload_0
+       1: invokestatic  #531                // Method net/minecraftforge/client/event/RenderLevelStageEvent$Stage.fromRenderType:(Lnet/minecraft/client/renderer/RenderType;)Lnet/minecraftforge/client/event/RenderLevelStageEvent$Stage;
+       4: astore        7
+       6: aload         7
+       8: ifnull        25
+      11: aload         7
+      13: aload_1
+      14: aload_2
+      15: aload_3
+      16: iload         4
+      18: aload         5
+      20: aload         6
+      22: invokestatic  #533                // Method dispatchRenderStage:(Lnet/minecraftforge/client/event/RenderLevelStageEvent$Stage;Lnet/minecraft/client/renderer/LevelRenderer;Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;ILnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/culling/Frustum;)V
+      25: return
+
+  public static boolean renderSpecificFirstPersonHand(net.minecraft.world.InteractionHand, com.mojang.blaze3d.vertex.PoseStack, net.minecraft.client.renderer.MultiBufferSource, int, float, float, float, float, net.minecraft.world.item.ItemStack);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #539                // class net/minecraftforge/client/event/RenderHandEvent
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: aload_2
+      10: iload_3
+      11: fload         4
+      13: fload         5
+      15: fload         6
+      17: fload         7
+      19: aload         8
+      21: invokespecial #542                // Method net/minecraftforge/client/event/RenderHandEvent."<init>":(Lnet/minecraft/world/InteractionHand;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFFFFLnet/minecraft/world/item/ItemStack;)V
+      24: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      29: ireturn
+
+  public static boolean renderSpecificFirstPersonArm(com.mojang.blaze3d.vertex.PoseStack, net.minecraft.client.renderer.MultiBufferSource, int, net.minecraft.client.player.AbstractClientPlayer, net.minecraft.world.entity.HumanoidArm);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #553                // class net/minecraftforge/client/event/RenderArmEvent
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: iload_2
+      10: aload_3
+      11: aload         4
+      13: invokespecial #556                // Method net/minecraftforge/client/event/RenderArmEvent."<init>":(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/world/entity/HumanoidArm;)V
+      16: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      21: ireturn
+
+  public static void onTextureStitchedPost(net.minecraft.client.renderer.texture.TextureAtlas);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #30                 // class net/minecraftforge/client/event/TextureStitchEvent$Post
+       6: dup
+       7: aload_0
+       8: invokespecial #571                // Method net/minecraftforge/client/event/TextureStitchEvent$Post."<init>":(Lnet/minecraft/client/renderer/texture/TextureAtlas;)V
+      11: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      14: return
+
+  public static void onBlockColorsInit(net.minecraft.client.color.block.BlockColors);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #35                 // class net/minecraftforge/client/event/RegisterColorHandlersEvent$Block
+       6: dup
+       7: aload_0
+       8: invokespecial #581                // Method net/minecraftforge/client/event/RegisterColorHandlersEvent$Block."<init>":(Lnet/minecraft/client/color/block/BlockColors;)V
+      11: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      14: return
+
+  public static void onItemColorsInit(net.minecraft.client.color.item.ItemColors, net.minecraft.client.color.block.BlockColors);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #39                 // class net/minecraftforge/client/event/RegisterColorHandlersEvent$Item
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: invokespecial #587                // Method net/minecraftforge/client/event/RegisterColorHandlersEvent$Item."<init>":(Lnet/minecraft/client/color/item/ItemColors;Lnet/minecraft/client/color/block/BlockColors;)V
+      12: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      15: return
+
+  public static net.minecraft.client.model.Model getArmorModel(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack, net.minecraft.world.entity.EquipmentSlot, net.minecraft.client.model.HumanoidModel<?>);
+    Code:
+       0: aload_1
+       1: invokestatic  #596                // InterfaceMethod net/minecraftforge/client/extensions/common/IClientItemExtensions.of:(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraftforge/client/extensions/common/IClientItemExtensions;
+       4: aload_0
+       5: aload_1
+       6: aload_2
+       7: aload_3
+       8: invokeinterface #599,  5          // InterfaceMethod net/minecraftforge/client/extensions/common/IClientItemExtensions.getGenericArmorModel:(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/EquipmentSlot;Lnet/minecraft/client/model/HumanoidModel;)Lnet/minecraft/client/model/Model;
+      13: areturn
+
+  public static <T extends net.minecraft.world.entity.LivingEntity> void copyModelProperties(net.minecraft.client.model.HumanoidModel<T>, net.minecraft.client.model.HumanoidModel<?>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #613                // Method net/minecraft/client/model/HumanoidModel.m_102872_:(Lnet/minecraft/client/model/HumanoidModel;)V
+       5: aload_1
+       6: getfield      #617                // Field net/minecraft/client/model/HumanoidModel.f_102808_:Lnet/minecraft/client/model/geom/ModelPart;
+       9: aload_0
+      10: getfield      #617                // Field net/minecraft/client/model/HumanoidModel.f_102808_:Lnet/minecraft/client/model/geom/ModelPart;
+      13: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      16: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      19: aload_1
+      20: getfield      #625                // Field net/minecraft/client/model/HumanoidModel.f_102809_:Lnet/minecraft/client/model/geom/ModelPart;
+      23: aload_0
+      24: getfield      #625                // Field net/minecraft/client/model/HumanoidModel.f_102809_:Lnet/minecraft/client/model/geom/ModelPart;
+      27: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      30: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      33: aload_1
+      34: getfield      #628                // Field net/minecraft/client/model/HumanoidModel.f_102810_:Lnet/minecraft/client/model/geom/ModelPart;
+      37: aload_0
+      38: getfield      #628                // Field net/minecraft/client/model/HumanoidModel.f_102810_:Lnet/minecraft/client/model/geom/ModelPart;
+      41: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      44: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      47: aload_1
+      48: getfield      #631                // Field net/minecraft/client/model/HumanoidModel.f_102811_:Lnet/minecraft/client/model/geom/ModelPart;
+      51: aload_0
+      52: getfield      #631                // Field net/minecraft/client/model/HumanoidModel.f_102811_:Lnet/minecraft/client/model/geom/ModelPart;
+      55: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      58: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      61: aload_1
+      62: getfield      #634                // Field net/minecraft/client/model/HumanoidModel.f_102812_:Lnet/minecraft/client/model/geom/ModelPart;
+      65: aload_0
+      66: getfield      #634                // Field net/minecraft/client/model/HumanoidModel.f_102812_:Lnet/minecraft/client/model/geom/ModelPart;
+      69: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      72: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      75: aload_1
+      76: getfield      #637                // Field net/minecraft/client/model/HumanoidModel.f_102813_:Lnet/minecraft/client/model/geom/ModelPart;
+      79: aload_0
+      80: getfield      #637                // Field net/minecraft/client/model/HumanoidModel.f_102813_:Lnet/minecraft/client/model/geom/ModelPart;
+      83: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      86: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+      89: aload_1
+      90: getfield      #640                // Field net/minecraft/client/model/HumanoidModel.f_102814_:Lnet/minecraft/client/model/geom/ModelPart;
+      93: aload_0
+      94: getfield      #640                // Field net/minecraft/client/model/HumanoidModel.f_102814_:Lnet/minecraft/client/model/geom/ModelPart;
+      97: getfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+     100: putfield      #622                // Field net/minecraft/client/model/geom/ModelPart.f_104207_:Z
+     103: return
+
+  public static java.lang.String fixDomain(java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: bipush        58
+       3: invokevirtual #649                // Method java/lang/String.indexOf:(I)I
+       6: istore_2
+       7: iload_2
+       8: iconst_m1
+       9: if_icmpne     20
+      12: aload_0
+      13: aload_1
+      14: invokedynamic #660,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      19: areturn
+      20: aload_1
+      21: iload_2
+      22: iconst_1
+      23: iadd
+      24: aload_1
+      25: invokevirtual #663                // Method java/lang/String.length:()I
+      28: invokevirtual #667                // Method java/lang/String.substring:(II)Ljava/lang/String;
+      31: astore_3
+      32: iload_2
+      33: iconst_1
+      34: if_icmple     55
+      37: aload_1
+      38: iconst_0
+      39: iload_2
+      40: invokevirtual #667                // Method java/lang/String.substring:(II)Ljava/lang/String;
+      43: astore        4
+      45: aload         4
+      47: aload_0
+      48: aload_3
+      49: invokedynamic #672,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      54: areturn
+      55: aload_0
+      56: aload_3
+      57: invokedynamic #660,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      62: areturn
+
+  public static float getFieldOfViewModifier(net.minecraft.world.entity.player.Player, float);
+    Code:
+       0: new           #681                // class net/minecraftforge/client/event/ComputeFovModifierEvent
+       3: dup
+       4: aload_0
+       5: fload_1
+       6: invokespecial #684                // Method net/minecraftforge/client/event/ComputeFovModifierEvent."<init>":(Lnet/minecraft/world/entity/player/Player;F)V
+       9: astore_2
+      10: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      13: aload_2
+      14: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      19: pop
+      20: aload_2
+      21: invokevirtual #687                // Method net/minecraftforge/client/event/ComputeFovModifierEvent.getNewFovModifier:()F
+      24: freturn
+
+  public static double getFieldOfView(net.minecraft.client.renderer.GameRenderer, net.minecraft.client.Camera, double, double, boolean);
+    Code:
+       0: new           #42                 // class net/minecraftforge/client/event/ViewportEvent$ComputeFov
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: dload_2
+       7: dload         4
+       9: iload         6
+      11: invokespecial #696                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFov."<init>":(Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/Camera;DDZ)V
+      14: astore        7
+      16: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      19: aload         7
+      21: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      26: pop
+      27: aload         7
+      29: invokevirtual #700                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFov.getFOV:()D
+      32: dreturn
+
+  public static void renderMainMenu(net.minecraft.client.gui.screens.TitleScreen, net.minecraft.client.gui.GuiGraphics, net.minecraft.client.gui.Font, int, int, int);
+    Code:
+       0: invokestatic  #715                // Method net/minecraftforge/versions/forge/ForgeVersion.getStatus:()Lnet/minecraftforge/fml/VersionChecker$Status;
+       3: astore        6
+       5: aload         6
+       7: aload_0
+       8: aload_1
+       9: aload_2
+      10: iload_3
+      11: iload         4
+      13: iload         5
+      15: invokestatic  #721                // Method net/minecraftforge/forge/snapshots/ForgeSnapshotsModClient.renderMainMenuWarning:(Lnet/minecraftforge/fml/VersionChecker$Status;Lnet/minecraft/client/gui/screens/TitleScreen;Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Font;III)V
+      18: getstatic     #724                // Field net/minecraftforge/client/ForgeHooksClient$1.$SwitchMap$net$minecraftforge$fml$VersionChecker$Status:[I
+      21: aload         6
+      23: invokevirtual #725                // Method net/minecraftforge/fml/VersionChecker$Status.ordinal:()I
+      26: iaload
+      27: lookupswitch  { // 2
+                     1: 52
+                     2: 52
+               default: 71
+          }
+      52: ldc_w         #727                // String forge.update.newversion
+      55: iconst_1
+      56: anewarray     #4                  // class java/lang/Object
+      59: dup
+      60: iconst_0
+      61: invokestatic  #730                // Method net/minecraftforge/versions/forge/ForgeVersion.getTarget:()Ljava/lang/String;
+      64: aastore
+      65: invokestatic  #736                // Method net/minecraft/client/resources/language/I18n.m_118938_:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      68: goto          72
+      71: aconst_null
+      72: putstatic     #738                // Field forgeStatusLine:Ljava/lang/String;
+      75: return
+
+  public static net.minecraft.client.resources.sounds.SoundInstance playSound(net.minecraft.client.sounds.SoundEngine, net.minecraft.client.resources.sounds.SoundInstance);
+    Code:
+       0: new           #752                // class net/minecraftforge/client/event/sound/PlaySoundEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #755                // Method net/minecraftforge/client/event/sound/PlaySoundEvent."<init>":(Lnet/minecraft/client/sounds/SoundEngine;Lnet/minecraft/client/resources/sounds/SoundInstance;)V
+       9: astore_2
+      10: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      13: aload_2
+      14: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      19: pop
+      20: aload_2
+      21: invokevirtual #759                // Method net/minecraftforge/client/event/sound/PlaySoundEvent.getSound:()Lnet/minecraft/client/resources/sounds/SoundInstance;
+      24: areturn
+
+  public static void drawScreen(net.minecraft.client.gui.screens.Screen, net.minecraft.client.gui.GuiGraphics, int, int, float);
+    Code:
+       0: aload_1
+       1: invokevirtual #773                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+       4: invokevirtual #778                // Method com/mojang/blaze3d/vertex/PoseStack.m_85836_:()V
+       7: getstatic     #308                // Field guiLayers:Ljava/util/Stack;
+      10: aload_1
+      11: fload         4
+      13: invokedynamic #786,  0            // InvokeDynamic #3:accept:(Lnet/minecraft/client/gui/GuiGraphics;F)Ljava/util/function/Consumer;
+      18: invokevirtual #334                // Method java/util/Stack.forEach:(Ljava/util/function/Consumer;)V
+      21: aload_0
+      22: aload_1
+      23: iload_2
+      24: iload_3
+      25: fload         4
+      27: invokestatic  #789                // Method drawScreenInternal:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+      30: aload_1
+      31: invokevirtual #773                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+      34: invokevirtual #792                // Method com/mojang/blaze3d/vertex/PoseStack.m_85849_:()V
+      37: return
+
+  private static void drawScreenInternal(net.minecraft.client.gui.screens.Screen, net.minecraft.client.gui.GuiGraphics, int, int, float);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #57                 // class net/minecraftforge/client/event/ScreenEvent$Render$Pre
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: iload_2
+      10: iload_3
+      11: fload         4
+      13: invokespecial #796                // Method net/minecraftforge/client/event/ScreenEvent$Render$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+      16: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      21: ifne          33
+      24: aload_0
+      25: aload_1
+      26: iload_2
+      27: iload_3
+      28: fload         4
+      30: invokevirtual #800                // Method net/minecraft/client/gui/screens/Screen.m_280264_:(Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+      33: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      36: new           #60                 // class net/minecraftforge/client/event/ScreenEvent$Render$Post
+      39: dup
+      40: aload_0
+      41: aload_1
+      42: iload_2
+      43: iload_3
+      44: fload         4
+      46: invokespecial #801                // Method net/minecraftforge/client/event/ScreenEvent$Render$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+      49: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      54: pop
+      55: return
+
+  public static org.joml.Vector3f getFogColor(net.minecraft.client.Camera, float, net.minecraft.client.multiplayer.ClientLevel, int, float, float, float, float);
+    Code:
+       0: aload_2
+       1: aload_0
+       2: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+       5: invokevirtual #815                // Method net/minecraft/client/multiplayer/ClientLevel.m_6425_:(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;
+       8: astore        8
+      10: new           #817                // class org/joml/Vector3f
+      13: dup
+      14: fload         5
+      16: fload         6
+      18: fload         7
+      20: invokespecial #820                // Method org/joml/Vector3f."<init>":(FFF)V
+      23: astore        9
+      25: aload_0
+      26: invokevirtual #824                // Method net/minecraft/client/Camera.m_90583_:()Lnet/minecraft/world/phys/Vec3;
+      29: getfield      #829                // Field net/minecraft/world/phys/Vec3.f_82480_:D
+      32: aload_0
+      33: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+      36: invokevirtual #834                // Method net/minecraft/core/BlockPos.m_123342_:()I
+      39: i2f
+      40: aload         8
+      42: aload_2
+      43: aload_0
+      44: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+      47: invokevirtual #840                // Method net/minecraft/world/level/material/FluidState.m_76155_:(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F
+      50: fadd
+      51: f2d
+      52: dcmpg
+      53: ifge          76
+      56: aload         8
+      58: invokestatic  #845                // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.of:(Lnet/minecraft/world/level/material/FluidState;)Lnet/minecraftforge/client/extensions/common/IClientFluidTypeExtensions;
+      61: aload_0
+      62: fload_1
+      63: aload_2
+      64: iload_3
+      65: fload         4
+      67: aload         9
+      69: invokeinterface #849,  7          // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.modifyFogColor:(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IFLorg/joml/Vector3f;)Lorg/joml/Vector3f;
+      74: astore        9
+      76: new           #62                 // class net/minecraftforge/client/event/ViewportEvent$ComputeFogColor
+      79: dup
+      80: aload_0
+      81: fload_1
+      82: aload         9
+      84: invokevirtual #852                // Method org/joml/Vector3f.x:()F
+      87: aload         9
+      89: invokevirtual #855                // Method org/joml/Vector3f.y:()F
+      92: aload         9
+      94: invokevirtual #858                // Method org/joml/Vector3f.z:()F
+      97: invokespecial #861                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFogColor."<init>":(Lnet/minecraft/client/Camera;FFFF)V
+     100: astore        10
+     102: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+     105: aload         10
+     107: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+     112: pop
+     113: aload         9
+     115: aload         10
+     117: invokevirtual #864                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFogColor.getRed:()F
+     120: aload         10
+     122: invokevirtual #867                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFogColor.getGreen:()F
+     125: aload         10
+     127: invokevirtual #870                // Method net/minecraftforge/client/event/ViewportEvent$ComputeFogColor.getBlue:()F
+     130: invokevirtual #874                // Method org/joml/Vector3f.set:(FFF)Lorg/joml/Vector3f;
+     133: pop
+     134: aload         9
+     136: areturn
+
+  public static void onFogRender(net.minecraft.client.renderer.FogRenderer$FogMode, net.minecraft.world.level.material.FogType, net.minecraft.client.Camera, float, float, float, float, com.mojang.blaze3d.shaders.FogShape);
+    Code:
+       0: aload_2
+       1: invokevirtual #892                // Method net/minecraft/client/Camera.m_90592_:()Lnet/minecraft/world/entity/Entity;
+       4: invokevirtual #898                // Method net/minecraft/world/entity/Entity.m_9236_:()Lnet/minecraft/world/level/Level;
+       7: aload_2
+       8: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+      11: invokevirtual #901                // Method net/minecraft/world/level/Level.m_6425_:(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;
+      14: astore        8
+      16: aload_2
+      17: invokevirtual #824                // Method net/minecraft/client/Camera.m_90583_:()Lnet/minecraft/world/phys/Vec3;
+      20: getfield      #829                // Field net/minecraft/world/phys/Vec3.f_82480_:D
+      23: aload_2
+      24: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+      27: invokevirtual #834                // Method net/minecraft/core/BlockPos.m_123342_:()I
+      30: i2f
+      31: aload         8
+      33: aload_2
+      34: invokevirtual #892                // Method net/minecraft/client/Camera.m_90592_:()Lnet/minecraft/world/entity/Entity;
+      37: invokevirtual #898                // Method net/minecraft/world/entity/Entity.m_9236_:()Lnet/minecraft/world/level/Level;
+      40: aload_2
+      41: invokevirtual #809                // Method net/minecraft/client/Camera.m_90588_:()Lnet/minecraft/core/BlockPos;
+      44: invokevirtual #840                // Method net/minecraft/world/level/material/FluidState.m_76155_:(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F
+      47: fadd
+      48: f2d
+      49: dcmpg
+      50: ifge          74
+      53: aload         8
+      55: invokestatic  #845                // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.of:(Lnet/minecraft/world/level/material/FluidState;)Lnet/minecraftforge/client/extensions/common/IClientFluidTypeExtensions;
+      58: aload_2
+      59: aload_0
+      60: fload         4
+      62: fload_3
+      63: fload         5
+      65: fload         6
+      67: aload         7
+      69: invokeinterface #905,  8          // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.modifyFogRender:(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/FogRenderer$FogMode;FFFFLcom/mojang/blaze3d/shaders/FogShape;)V
+      74: new           #70                 // class net/minecraftforge/client/event/ViewportEvent$RenderFog
+      77: dup
+      78: aload_0
+      79: aload_1
+      80: aload_2
+      81: fload_3
+      82: fload         5
+      84: fload         6
+      86: aload         7
+      88: invokespecial #908                // Method net/minecraftforge/client/event/ViewportEvent$RenderFog."<init>":(Lnet/minecraft/client/renderer/FogRenderer$FogMode;Lnet/minecraft/world/level/material/FogType;Lnet/minecraft/client/Camera;FFFLcom/mojang/blaze3d/shaders/FogShape;)V
+      91: astore        9
+      93: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      96: aload         9
+      98: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+     103: ifeq          130
+     106: aload         9
+     108: invokevirtual #911                // Method net/minecraftforge/client/event/ViewportEvent$RenderFog.getNearPlaneDistance:()F
+     111: invokestatic  #917                // Method com/mojang/blaze3d/systems/RenderSystem.setShaderFogStart:(F)V
+     114: aload         9
+     116: invokevirtual #920                // Method net/minecraftforge/client/event/ViewportEvent$RenderFog.getFarPlaneDistance:()F
+     119: invokestatic  #923                // Method com/mojang/blaze3d/systems/RenderSystem.setShaderFogEnd:(F)V
+     122: aload         9
+     124: invokevirtual #927                // Method net/minecraftforge/client/event/ViewportEvent$RenderFog.getFogShape:()Lcom/mojang/blaze3d/shaders/FogShape;
+     127: invokestatic  #931                // Method com/mojang/blaze3d/systems/RenderSystem.setShaderFogShape:(Lcom/mojang/blaze3d/shaders/FogShape;)V
+     130: return
+
+  public static net.minecraftforge.client.event.ViewportEvent$ComputeCameraAngles onCameraSetup(net.minecraft.client.renderer.GameRenderer, net.minecraft.client.Camera, float);
+    Code:
+       0: new           #73                 // class net/minecraftforge/client/event/ViewportEvent$ComputeCameraAngles
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: fload_2
+       7: f2d
+       8: aload_1
+       9: invokevirtual #944                // Method net/minecraft/client/Camera.m_90590_:()F
+      12: aload_1
+      13: invokevirtual #947                // Method net/minecraft/client/Camera.m_90589_:()F
+      16: fconst_0
+      17: invokespecial #950                // Method net/minecraftforge/client/event/ViewportEvent$ComputeCameraAngles."<init>":(Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/Camera;DFFF)V
+      20: astore_3
+      21: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      24: aload_3
+      25: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      30: pop
+      31: aload_3
+      32: areturn
+
+  public static void onModifyBakingResult(java.util.Map<net.minecraft.resources.ResourceLocation, net.minecraft.client.resources.model.BakedModel>, net.minecraft.client.resources.model.ModelBakery);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #76                 // class net/minecraftforge/client/event/ModelEvent$ModifyBakingResult
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: invokespecial #957                // Method net/minecraftforge/client/event/ModelEvent$ModifyBakingResult."<init>":(Ljava/util/Map;Lnet/minecraft/client/resources/model/ModelBakery;)V
+      12: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      15: return
+
+  public static void onModelBake(net.minecraft.client.resources.model.ModelManager, java.util.Map<net.minecraft.resources.ResourceLocation, net.minecraft.client.resources.model.BakedModel>, net.minecraft.client.resources.model.ModelBakery);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #81                 // class net/minecraftforge/client/event/ModelEvent$BakingCompleted
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: invokestatic  #970                // Method java/util/Collections.unmodifiableMap:(Ljava/util/Map;)Ljava/util/Map;
+      12: aload_2
+      13: invokespecial #972                // Method net/minecraftforge/client/event/ModelEvent$BakingCompleted."<init>":(Lnet/minecraft/client/resources/model/ModelManager;Ljava/util/Map;Lnet/minecraft/client/resources/model/ModelBakery;)V
+      16: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      19: return
+
+  public static net.minecraft.client.resources.model.BakedModel handleCameraTransforms(com.mojang.blaze3d.vertex.PoseStack, net.minecraft.client.resources.model.BakedModel, net.minecraft.world.item.ItemDisplayContext, boolean);
+    Code:
+       0: aload_1
+       1: aload_2
+       2: aload_0
+       3: iload_3
+       4: invokeinterface #982,  4          // InterfaceMethod net/minecraft/client/resources/model/BakedModel.applyTransform:(Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Z)Lnet/minecraft/client/resources/model/BakedModel;
+       9: astore_1
+      10: aload_1
+      11: areturn
+
+  public static net.minecraft.client.renderer.texture.TextureAtlasSprite[] getFluidSprites(net.minecraft.world.level.BlockAndTintGetter, net.minecraft.core.BlockPos, net.minecraft.world.level.material.FluidState);
+    Code:
+       0: aload_2
+       1: invokestatic  #845                // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.of:(Lnet/minecraft/world/level/material/FluidState;)Lnet/minecraftforge/client/extensions/common/IClientFluidTypeExtensions;
+       4: astore_3
+       5: aload_3
+       6: aload_2
+       7: aload_0
+       8: aload_1
+       9: invokeinterface #993,  4          // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.getOverlayTexture:(Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/resources/ResourceLocation;
+      14: astore        4
+      16: iconst_3
+      17: anewarray     #995                // class net/minecraft/client/renderer/texture/TextureAtlasSprite
+      20: dup
+      21: iconst_0
+      22: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      25: getstatic     #1000               // Field net/minecraft/client/renderer/texture/TextureAtlas.f_118259_:Lnet/minecraft/resources/ResourceLocation;
+      28: invokevirtual #1004               // Method net/minecraft/client/Minecraft.m_91258_:(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/function/Function;
+      31: aload_3
+      32: aload_2
+      33: aload_0
+      34: aload_1
+      35: invokeinterface #1007,  4         // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.getStillTexture:(Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/resources/ResourceLocation;
+      40: invokeinterface #1012,  2         // InterfaceMethod java/util/function/Function.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+      45: checkcast     #995                // class net/minecraft/client/renderer/texture/TextureAtlasSprite
+      48: aastore
+      49: dup
+      50: iconst_1
+      51: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      54: getstatic     #1000               // Field net/minecraft/client/renderer/texture/TextureAtlas.f_118259_:Lnet/minecraft/resources/ResourceLocation;
+      57: invokevirtual #1004               // Method net/minecraft/client/Minecraft.m_91258_:(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/function/Function;
+      60: aload_3
+      61: aload_2
+      62: aload_0
+      63: aload_1
+      64: invokeinterface #1015,  4         // InterfaceMethod net/minecraftforge/client/extensions/common/IClientFluidTypeExtensions.getFlowingTexture:(Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/resources/ResourceLocation;
+      69: invokeinterface #1012,  2         // InterfaceMethod java/util/function/Function.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+      74: checkcast     #995                // class net/minecraft/client/renderer/texture/TextureAtlasSprite
+      77: aastore
+      78: dup
+      79: iconst_2
+      80: aload         4
+      82: ifnonnull     89
+      85: aconst_null
+      86: goto          108
+      89: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      92: getstatic     #1000               // Field net/minecraft/client/renderer/texture/TextureAtlas.f_118259_:Lnet/minecraft/resources/ResourceLocation;
+      95: invokevirtual #1004               // Method net/minecraft/client/Minecraft.m_91258_:(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/function/Function;
+      98: aload         4
+     100: invokeinterface #1012,  2         // InterfaceMethod java/util/function/Function.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+     105: checkcast     #995                // class net/minecraft/client/renderer/texture/TextureAtlasSprite
+     108: aastore
+     109: areturn
+
+  public static net.minecraft.client.resources.model.Material getBlockMaterial(net.minecraft.resources.ResourceLocation);
+    Code:
+       0: new           #1032               // class net/minecraft/client/resources/model/Material
+       3: dup
+       4: getstatic     #1000               // Field net/minecraft/client/renderer/texture/TextureAtlas.f_118259_:Lnet/minecraft/resources/ResourceLocation;
+       7: aload_0
+       8: invokespecial #1035               // Method net/minecraft/client/resources/model/Material."<init>":(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;)V
+      11: areturn
+
+  public static void fillNormal(int[], net.minecraft.core.Direction);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iconst_0
+       3: invokestatic  #1041               // Method fillNormal:([ILnet/minecraft/core/Direction;Z)V
+       6: return
+
+  public static void fillNormal(int[], net.minecraft.core.Direction, boolean);
+    Code:
+       0: iload_2
+       1: ifne          13
+       4: getstatic     #1048               // Field net/minecraftforge/common/ForgeConfig.CLIENT:Lnet/minecraftforge/common/ForgeConfig$Client;
+       7: invokevirtual #1052               // Method net/minecraftforge/common/ForgeConfig$Client.calculateAllNormals:()Z
+      10: ifeq          70
+      13: aload_0
+      14: iconst_3
+      15: invokestatic  #1056               // Method getVertexPos:([II)Lorg/joml/Vector3f;
+      18: astore        4
+      20: aload_0
+      21: iconst_1
+      22: invokestatic  #1056               // Method getVertexPos:([II)Lorg/joml/Vector3f;
+      25: astore        5
+      27: aload_0
+      28: iconst_2
+      29: invokestatic  #1056               // Method getVertexPos:([II)Lorg/joml/Vector3f;
+      32: astore_3
+      33: aload_0
+      34: iconst_0
+      35: invokestatic  #1056               // Method getVertexPos:([II)Lorg/joml/Vector3f;
+      38: astore        6
+      40: aload         4
+      42: aload         5
+      44: invokevirtual #1060               // Method org/joml/Vector3f.sub:(Lorg/joml/Vector3fc;)Lorg/joml/Vector3f;
+      47: pop
+      48: aload_3
+      49: aload         6
+      51: invokevirtual #1060               // Method org/joml/Vector3f.sub:(Lorg/joml/Vector3fc;)Lorg/joml/Vector3f;
+      54: pop
+      55: aload_3
+      56: aload         4
+      58: invokevirtual #1063               // Method org/joml/Vector3f.cross:(Lorg/joml/Vector3fc;)Lorg/joml/Vector3f;
+      61: pop
+      62: aload_3
+      63: invokevirtual #1067               // Method org/joml/Vector3f.normalize:()Lorg/joml/Vector3f;
+      66: pop
+      67: goto          102
+      70: new           #817                // class org/joml/Vector3f
+      73: dup
+      74: aload_1
+      75: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      78: invokevirtual #1078               // Method net/minecraft/core/Vec3i.m_123341_:()I
+      81: i2f
+      82: aload_1
+      83: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      86: invokevirtual #1079               // Method net/minecraft/core/Vec3i.m_123342_:()I
+      89: i2f
+      90: aload_1
+      91: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      94: invokevirtual #1082               // Method net/minecraft/core/Vec3i.m_123343_:()I
+      97: i2f
+      98: invokespecial #820                // Method org/joml/Vector3f."<init>":(FFF)V
+     101: astore_3
+     102: aload_3
+     103: invokevirtual #852                // Method org/joml/Vector3f.x:()F
+     106: ldc_w         #1083               // float 127.0f
+     109: fmul
+     110: invokestatic  #1089               // Method java/lang/Math.round:(F)I
+     113: i2b
+     114: sipush        255
+     117: iand
+     118: istore        4
+     120: aload_3
+     121: invokevirtual #855                // Method org/joml/Vector3f.y:()F
+     124: ldc_w         #1083               // float 127.0f
+     127: fmul
+     128: invokestatic  #1089               // Method java/lang/Math.round:(F)I
+     131: i2b
+     132: sipush        255
+     135: iand
+     136: istore        5
+     138: aload_3
+     139: invokevirtual #858                // Method org/joml/Vector3f.z:()F
+     142: ldc_w         #1083               // float 127.0f
+     145: fmul
+     146: invokestatic  #1089               // Method java/lang/Math.round:(F)I
+     149: i2b
+     150: sipush        255
+     153: iand
+     154: istore        6
+     156: iload         4
+     158: iload         5
+     160: bipush        8
+     162: ishl
+     163: ior
+     164: iload         6
+     166: bipush        16
+     168: ishl
+     169: ior
+     170: istore        7
+     172: iconst_0
+     173: istore        8
+     175: iload         8
+     177: iconst_4
+     178: if_icmpge     199
+     181: aload_0
+     182: iload         8
+     184: bipush        8
+     186: imul
+     187: bipush        7
+     189: iadd
+     190: iload         7
+     192: iastore
+     193: iinc          8, 1
+     196: goto          175
+     199: return
+
+  private static org.joml.Vector3f getVertexPos(int[], int);
+    Code:
+       0: iload_1
+       1: bipush        8
+       3: imul
+       4: istore_2
+       5: aload_0
+       6: iload_2
+       7: iaload
+       8: invokestatic  #1103               // Method java/lang/Float.intBitsToFloat:(I)F
+      11: fstore_3
+      12: aload_0
+      13: iload_2
+      14: iconst_1
+      15: iadd
+      16: iaload
+      17: invokestatic  #1103               // Method java/lang/Float.intBitsToFloat:(I)F
+      20: fstore        4
+      22: aload_0
+      23: iload_2
+      24: iconst_2
+      25: iadd
+      26: iaload
+      27: invokestatic  #1103               // Method java/lang/Float.intBitsToFloat:(I)F
+      30: fstore        5
+      32: new           #817                // class org/joml/Vector3f
+      35: dup
+      36: fload_3
+      37: fload         4
+      39: fload         5
+      41: invokespecial #820                // Method org/joml/Vector3f."<init>":(FFF)V
+      44: areturn
+
+  public static boolean calculateFaceWithoutAO(net.minecraft.world.level.BlockAndTintGetter, net.minecraft.world.level.block.state.BlockState, net.minecraft.core.BlockPos, net.minecraft.client.renderer.block.model.BakedQuad, boolean, float[], int[]);
+    Code:
+       0: aload_3
+       1: invokevirtual #1112               // Method net/minecraft/client/renderer/block/model/BakedQuad.hasAmbientOcclusion:()Z
+       4: ifeq          9
+       7: iconst_0
+       8: ireturn
+       9: iload         4
+      11: ifeq          25
+      14: aload_2
+      15: aload_3
+      16: invokevirtual #1116               // Method net/minecraft/client/renderer/block/model/BakedQuad.m_111306_:()Lnet/minecraft/core/Direction;
+      19: invokevirtual #1120               // Method net/minecraft/core/BlockPos.m_121945_:(Lnet/minecraft/core/Direction;)Lnet/minecraft/core/BlockPos;
+      22: goto          26
+      25: aload_2
+      26: astore        7
+      28: aload         5
+      30: iconst_0
+      31: aload         5
+      33: iconst_1
+      34: aload         5
+      36: iconst_2
+      37: aload         5
+      39: iconst_3
+      40: aload_0
+      41: aload_3
+      42: invokevirtual #1116               // Method net/minecraft/client/renderer/block/model/BakedQuad.m_111306_:()Lnet/minecraft/core/Direction;
+      45: aload_3
+      46: invokevirtual #1123               // Method net/minecraft/client/renderer/block/model/BakedQuad.m_111307_:()Z
+      49: invokeinterface #1127,  3         // InterfaceMethod net/minecraft/world/level/BlockAndTintGetter.m_7717_:(Lnet/minecraft/core/Direction;Z)F
+      54: dup_x2
+      55: fastore
+      56: dup_x2
+      57: fastore
+      58: dup_x2
+      59: fastore
+      60: fastore
+      61: aload         6
+      63: iconst_0
+      64: aload         6
+      66: iconst_1
+      67: aload         6
+      69: iconst_2
+      70: aload         6
+      72: iconst_3
+      73: aload_0
+      74: aload_1
+      75: aload         7
+      77: invokestatic  #1133               // Method net/minecraft/client/renderer/LevelRenderer.m_109537_:(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)I
+      80: dup_x2
+      81: iastore
+      82: dup_x2
+      83: iastore
+      84: dup_x2
+      85: iastore
+      86: iastore
+      87: iconst_1
+      88: ireturn
+
+  public static void loadEntityShader(net.minecraft.world.entity.Entity, net.minecraft.client.renderer.GameRenderer);
+    Code:
+       0: aload_0
+       1: ifnull        21
+       4: aload_0
+       5: invokevirtual #1148               // Method net/minecraft/world/entity/Entity.m_6095_:()Lnet/minecraft/world/entity/EntityType;
+       8: invokestatic  #1153               // Method net/minecraftforge/client/EntitySpectatorShaderManager.get:(Lnet/minecraft/world/entity/EntityType;)Lnet/minecraft/resources/ResourceLocation;
+      11: astore_2
+      12: aload_2
+      13: ifnull        21
+      16: aload_1
+      17: aload_2
+      18: invokevirtual #1159               // Method net/minecraft/client/renderer/GameRenderer.m_109128_:(Lnet/minecraft/resources/ResourceLocation;)V
+      21: return
+
+  public static boolean shouldCauseReequipAnimation(net.minecraft.world.item.ItemStack, net.minecraft.world.item.ItemStack, int);
+    Code:
+       0: aload_0
+       1: invokevirtual #1167               // Method net/minecraft/world/item/ItemStack.m_41619_:()Z
+       4: istore_3
+       5: aload_1
+       6: invokevirtual #1167               // Method net/minecraft/world/item/ItemStack.m_41619_:()Z
+       9: istore        4
+      11: iload_3
+      12: ifeq          22
+      15: iload         4
+      17: ifeq          22
+      20: iconst_0
+      21: ireturn
+      22: iload_3
+      23: ifne          31
+      26: iload         4
+      28: ifeq          33
+      31: iconst_1
+      32: ireturn
+      33: iconst_0
+      34: istore        5
+      36: iload_2
+      37: iconst_m1
+      38: if_icmpeq     59
+      41: iload_2
+      42: getstatic     #1169               // Field slotMainHand:I
+      45: if_icmpeq     52
+      48: iconst_1
+      49: goto          53
+      52: iconst_0
+      53: istore        5
+      55: iload_2
+      56: putstatic     #1169               // Field slotMainHand:I
+      59: aload_0
+      60: invokevirtual #419                // Method net/minecraft/world/item/ItemStack.m_41720_:()Lnet/minecraft/world/item/Item;
+      63: aload_0
+      64: aload_1
+      65: iload         5
+      67: invokevirtual #1172               // Method net/minecraft/world/item/Item.shouldCauseReequipAnimation:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Z)Z
+      70: ireturn
+
+  public static net.minecraftforge.client.event.CustomizeGuiOverlayEvent$BossEventProgress onCustomizeBossEventProgress(net.minecraft.client.gui.GuiGraphics, com.mojang.blaze3d.platform.Window, net.minecraft.client.gui.components.LerpingBossEvent, int, int, int);
+    Code:
+       0: new           #89                 // class net/minecraftforge/client/event/CustomizeGuiOverlayEvent$BossEventProgress
+       3: dup
+       4: aload_1
+       5: aload_0
+       6: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       9: invokevirtual #509                // Method net/minecraft/client/Minecraft.getPartialTick:()F
+      12: aload_2
+      13: iload_3
+      14: iload         4
+      16: iload         5
+      18: invokespecial #1182               // Method net/minecraftforge/client/event/CustomizeGuiOverlayEvent$BossEventProgress."<init>":(Lcom/mojang/blaze3d/platform/Window;Lnet/minecraft/client/gui/GuiGraphics;FLnet/minecraft/client/gui/components/LerpingBossEvent;III)V
+      21: astore        6
+      23: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      26: aload         6
+      28: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      33: pop
+      34: aload         6
+      36: areturn
+
+  public static net.minecraftforge.client.event.ScreenshotEvent onScreenshot(com.mojang.blaze3d.platform.NativeImage, java.io.File);
+    Code:
+       0: new           #1193               // class net/minecraftforge/client/event/ScreenshotEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #1196               // Method net/minecraftforge/client/event/ScreenshotEvent."<init>":(Lcom/mojang/blaze3d/platform/NativeImage;Ljava/io/File;)V
+       9: astore_2
+      10: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      13: aload_2
+      14: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      19: pop
+      20: aload_2
+      21: areturn
+
+  public static void onClientChangeGameType(net.minecraft.client.multiplayer.PlayerInfo, net.minecraft.world.level.GameType, net.minecraft.world.level.GameType);
+    Code:
+       0: aload_1
+       1: aload_2
+       2: if_acmpeq     26
+       5: new           #1205               // class net/minecraftforge/client/event/ClientPlayerChangeGameTypeEvent
+       8: dup
+       9: aload_0
+      10: aload_1
+      11: aload_2
+      12: invokespecial #1207               // Method net/minecraftforge/client/event/ClientPlayerChangeGameTypeEvent."<init>":(Lnet/minecraft/client/multiplayer/PlayerInfo;Lnet/minecraft/world/level/GameType;Lnet/minecraft/world/level/GameType;)V
+      15: astore_3
+      16: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      19: aload_3
+      20: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      25: pop
+      26: return
+
+  public static void onMovementInputUpdate(net.minecraft.world.entity.player.Player, net.minecraft.client.player.Input);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #1217               // class net/minecraftforge/client/event/MovementInputUpdateEvent
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: invokespecial #1219               // Method net/minecraftforge/client/event/MovementInputUpdateEvent."<init>":(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/client/player/Input;)V
+      12: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      17: pop
+      18: return
+
+  public static boolean onScreenMouseClickedPre(net.minecraft.client.gui.screens.Screen, double, double, int);
+    Code:
+       0: new           #97                 // class net/minecraftforge/client/event/ScreenEvent$MouseButtonPressed$Pre
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: invokespecial #1226               // Method net/minecraftforge/client/event/ScreenEvent$MouseButtonPressed$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDI)V
+      12: astore        6
+      14: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      17: aload         6
+      19: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      24: ireturn
+
+  public static boolean onScreenMouseClickedPost(net.minecraft.client.gui.screens.Screen, double, double, int, boolean);
+    Code:
+       0: new           #99                 // class net/minecraftforge/client/event/ScreenEvent$MouseButtonPressed$Post
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: iload         6
+      11: invokespecial #1234               // Method net/minecraftforge/client/event/ScreenEvent$MouseButtonPressed$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDIZ)V
+      14: astore        7
+      16: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      19: aload         7
+      21: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      26: pop
+      27: aload         7
+      29: invokevirtual #1238               // Method net/minecraftforge/eventbus/api/Event.getResult:()Lnet/minecraftforge/eventbus/api/Event$Result;
+      32: getstatic     #1242               // Field net/minecraftforge/eventbus/api/Event$Result.DEFAULT:Lnet/minecraftforge/eventbus/api/Event$Result;
+      35: if_acmpne     43
+      38: iload         6
+      40: goto          59
+      43: aload         7
+      45: invokevirtual #1238               // Method net/minecraftforge/eventbus/api/Event.getResult:()Lnet/minecraftforge/eventbus/api/Event$Result;
+      48: getstatic     #1245               // Field net/minecraftforge/eventbus/api/Event$Result.ALLOW:Lnet/minecraftforge/eventbus/api/Event$Result;
+      51: if_acmpne     58
+      54: iconst_1
+      55: goto          59
+      58: iconst_0
+      59: ireturn
+
+  public static boolean onScreenMouseReleasedPre(net.minecraft.client.gui.screens.Screen, double, double, int);
+    Code:
+       0: new           #109                // class net/minecraftforge/client/event/ScreenEvent$MouseButtonReleased$Pre
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: invokespecial #1248               // Method net/minecraftforge/client/event/ScreenEvent$MouseButtonReleased$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDI)V
+      12: astore        6
+      14: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      17: aload         6
+      19: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      24: ireturn
+
+  public static boolean onScreenMouseReleasedPost(net.minecraft.client.gui.screens.Screen, double, double, int, boolean);
+    Code:
+       0: new           #111                // class net/minecraftforge/client/event/ScreenEvent$MouseButtonReleased$Post
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: iload         6
+      11: invokespecial #1250               // Method net/minecraftforge/client/event/ScreenEvent$MouseButtonReleased$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDIZ)V
+      14: astore        7
+      16: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      19: aload         7
+      21: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      26: pop
+      27: aload         7
+      29: invokevirtual #1238               // Method net/minecraftforge/eventbus/api/Event.getResult:()Lnet/minecraftforge/eventbus/api/Event$Result;
+      32: getstatic     #1242               // Field net/minecraftforge/eventbus/api/Event$Result.DEFAULT:Lnet/minecraftforge/eventbus/api/Event$Result;
+      35: if_acmpne     43
+      38: iload         6
+      40: goto          59
+      43: aload         7
+      45: invokevirtual #1238               // Method net/minecraftforge/eventbus/api/Event.getResult:()Lnet/minecraftforge/eventbus/api/Event$Result;
+      48: getstatic     #1245               // Field net/minecraftforge/eventbus/api/Event$Result.ALLOW:Lnet/minecraftforge/eventbus/api/Event$Result;
+      51: if_acmpne     58
+      54: iconst_1
+      55: goto          59
+      58: iconst_0
+      59: ireturn
+
+  public static boolean onScreenMouseDragPre(net.minecraft.client.gui.screens.Screen, double, double, int, double, double);
+    Code:
+       0: new           #116                // class net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: dload         6
+      11: dload         8
+      13: invokespecial #1255               // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDIDD)V
+      16: astore        10
+      18: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      21: aload         10
+      23: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      28: ireturn
+
+  public static void onScreenMouseDragPost(net.minecraft.client.gui.screens.Screen, double, double, int, double, double);
+    Code:
+       0: new           #118                // class net/minecraftforge/client/event/ScreenEvent$MouseDragged$Post
+       3: dup
+       4: aload_0
+       5: dload_1
+       6: dload_3
+       7: iload         5
+       9: dload         6
+      11: dload         8
+      13: invokespecial #1260               // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDIDD)V
+      16: astore        10
+      18: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      21: aload         10
+      23: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      28: pop
+      29: return
+
+  public static boolean onScreenMouseScrollPre(net.minecraft.client.MouseHandler, net.minecraft.client.gui.screens.Screen, double);
+    Code:
+       0: aload_1
+       1: invokevirtual #1265               // Method net/minecraft/client/gui/screens/Screen.getMinecraft:()Lnet/minecraft/client/Minecraft;
+       4: invokevirtual #377                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+       7: astore        4
+       9: aload_0
+      10: invokevirtual #1270               // Method net/minecraft/client/MouseHandler.m_91589_:()D
+      13: aload         4
+      15: invokevirtual #382                // Method com/mojang/blaze3d/platform/Window.m_85445_:()I
+      18: i2d
+      19: dmul
+      20: aload         4
+      22: invokevirtual #1273               // Method com/mojang/blaze3d/platform/Window.m_85443_:()I
+      25: i2d
+      26: ddiv
+      27: dstore        5
+      29: aload_0
+      30: invokevirtual #1276               // Method net/minecraft/client/MouseHandler.m_91594_:()D
+      33: aload         4
+      35: invokevirtual #385                // Method com/mojang/blaze3d/platform/Window.m_85446_:()I
+      38: i2d
+      39: dmul
+      40: aload         4
+      42: invokevirtual #1279               // Method com/mojang/blaze3d/platform/Window.m_85444_:()I
+      45: i2d
+      46: ddiv
+      47: dstore        7
+      49: new           #123                // class net/minecraftforge/client/event/ScreenEvent$MouseScrolled$Pre
+      52: dup
+      53: aload_1
+      54: dload         5
+      56: dload         7
+      58: dload_2
+      59: invokespecial #1282               // Method net/minecraftforge/client/event/ScreenEvent$MouseScrolled$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDD)V
+      62: astore        9
+      64: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      67: aload         9
+      69: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      74: ireturn
+
+  public static void onScreenMouseScrollPost(net.minecraft.client.MouseHandler, net.minecraft.client.gui.screens.Screen, double);
+    Code:
+       0: aload_1
+       1: invokevirtual #1265               // Method net/minecraft/client/gui/screens/Screen.getMinecraft:()Lnet/minecraft/client/Minecraft;
+       4: invokevirtual #377                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+       7: astore        4
+       9: aload_0
+      10: invokevirtual #1270               // Method net/minecraft/client/MouseHandler.m_91589_:()D
+      13: aload         4
+      15: invokevirtual #382                // Method com/mojang/blaze3d/platform/Window.m_85445_:()I
+      18: i2d
+      19: dmul
+      20: aload         4
+      22: invokevirtual #1273               // Method com/mojang/blaze3d/platform/Window.m_85443_:()I
+      25: i2d
+      26: ddiv
+      27: dstore        5
+      29: aload_0
+      30: invokevirtual #1276               // Method net/minecraft/client/MouseHandler.m_91594_:()D
+      33: aload         4
+      35: invokevirtual #385                // Method com/mojang/blaze3d/platform/Window.m_85446_:()I
+      38: i2d
+      39: dmul
+      40: aload         4
+      42: invokevirtual #1279               // Method com/mojang/blaze3d/platform/Window.m_85444_:()I
+      45: i2d
+      46: ddiv
+      47: dstore        7
+      49: new           #125                // class net/minecraftforge/client/event/ScreenEvent$MouseScrolled$Post
+      52: dup
+      53: aload_1
+      54: dload         5
+      56: dload         7
+      58: dload_2
+      59: invokespecial #1289               // Method net/minecraftforge/client/event/ScreenEvent$MouseScrolled$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;DDD)V
+      62: astore        9
+      64: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      67: aload         9
+      69: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      74: pop
+      75: return
+
+  public static boolean onScreenKeyPressedPre(net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: new           #130                // class net/minecraftforge/client/event/ScreenEvent$KeyPressed$Pre
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: iload_3
+       8: invokespecial #1294               // Method net/minecraftforge/client/event/ScreenEvent$KeyPressed$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;III)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: ireturn
+
+  public static boolean onScreenKeyPressedPost(net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: new           #132                // class net/minecraftforge/client/event/ScreenEvent$KeyPressed$Post
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: iload_3
+       8: invokespecial #1299               // Method net/minecraftforge/client/event/ScreenEvent$KeyPressed$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;III)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: ireturn
+
+  public static boolean onScreenKeyReleasedPre(net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: new           #137                // class net/minecraftforge/client/event/ScreenEvent$KeyReleased$Pre
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: iload_3
+       8: invokespecial #1301               // Method net/minecraftforge/client/event/ScreenEvent$KeyReleased$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;III)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: ireturn
+
+  public static boolean onScreenKeyReleasedPost(net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: new           #139                // class net/minecraftforge/client/event/ScreenEvent$KeyReleased$Post
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: iload_3
+       8: invokespecial #1303               // Method net/minecraftforge/client/event/ScreenEvent$KeyReleased$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;III)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: ireturn
+
+  public static boolean onScreenCharTypedPre(net.minecraft.client.gui.screens.Screen, char, int);
+    Code:
+       0: new           #144                // class net/minecraftforge/client/event/ScreenEvent$CharacterTyped$Pre
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: invokespecial #1308               // Method net/minecraftforge/client/event/ScreenEvent$CharacterTyped$Pre."<init>":(Lnet/minecraft/client/gui/screens/Screen;CI)V
+      10: astore_3
+      11: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      14: aload_3
+      15: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      20: ireturn
+
+  public static void onScreenCharTypedPost(net.minecraft.client.gui.screens.Screen, char, int);
+    Code:
+       0: new           #146                // class net/minecraftforge/client/event/ScreenEvent$CharacterTyped$Post
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: invokespecial #1312               // Method net/minecraftforge/client/event/ScreenEvent$CharacterTyped$Post."<init>":(Lnet/minecraft/client/gui/screens/Screen;CI)V
+      10: astore_3
+      11: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      14: aload_3
+      15: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      20: pop
+      21: return
+
+  public static void onRecipesUpdated(net.minecraft.world.item.crafting.RecipeManager);
+    Code:
+       0: new           #1316               // class net/minecraftforge/client/event/RecipesUpdatedEvent
+       3: dup
+       4: aload_0
+       5: invokespecial #1318               // Method net/minecraftforge/client/event/RecipesUpdatedEvent."<init>":(Lnet/minecraft/world/item/crafting/RecipeManager;)V
+       8: astore_1
+       9: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      12: aload_1
+      13: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      18: pop
+      19: return
+
+  public static boolean onMouseButtonPre(int, int, int);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #153                // class net/minecraftforge/client/event/InputEvent$MouseButton$Pre
+       6: dup
+       7: iload_0
+       8: iload_1
+       9: iload_2
+      10: invokespecial #1325               // Method net/minecraftforge/client/event/InputEvent$MouseButton$Pre."<init>":(III)V
+      13: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      18: ireturn
+
+  public static void onMouseButtonPost(int, int, int);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #155                // class net/minecraftforge/client/event/InputEvent$MouseButton$Post
+       6: dup
+       7: iload_0
+       8: iload_1
+       9: iload_2
+      10: invokespecial #1329               // Method net/minecraftforge/client/event/InputEvent$MouseButton$Post."<init>":(III)V
+      13: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      18: pop
+      19: return
+
+  public static boolean onMouseScroll(net.minecraft.client.MouseHandler, double);
+    Code:
+       0: new           #157                // class net/minecraftforge/client/event/InputEvent$MouseScrollingEvent
+       3: dup
+       4: dload_1
+       5: aload_0
+       6: invokevirtual #1334               // Method net/minecraft/client/MouseHandler.m_91560_:()Z
+       9: aload_0
+      10: invokevirtual #1337               // Method net/minecraft/client/MouseHandler.m_168090_:()Z
+      13: aload_0
+      14: invokevirtual #1340               // Method net/minecraft/client/MouseHandler.m_91584_:()Z
+      17: aload_0
+      18: invokevirtual #1270               // Method net/minecraft/client/MouseHandler.m_91589_:()D
+      21: aload_0
+      22: invokevirtual #1276               // Method net/minecraft/client/MouseHandler.m_91594_:()D
+      25: invokespecial #1343               // Method net/minecraftforge/client/event/InputEvent$MouseScrollingEvent."<init>":(DZZZDD)V
+      28: astore_3
+      29: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      32: aload_3
+      33: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      38: ireturn
+
+  public static void onKeyInput(int, int, int, int);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #160                // class net/minecraftforge/client/event/InputEvent$Key
+       6: dup
+       7: iload_0
+       8: iload_1
+       9: iload_2
+      10: iload_3
+      11: invokespecial #1347               // Method net/minecraftforge/client/event/InputEvent$Key."<init>":(IIII)V
+      14: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      19: pop
+      20: return
+
+  public static net.minecraftforge.client.event.InputEvent$InteractionKeyMappingTriggered onClickInput(int, net.minecraft.client.KeyMapping, net.minecraft.world.InteractionHand);
+    Code:
+       0: new           #163                // class net/minecraftforge/client/event/InputEvent$InteractionKeyMappingTriggered
+       3: dup
+       4: iload_0
+       5: aload_1
+       6: aload_2
+       7: invokespecial #1353               // Method net/minecraftforge/client/event/InputEvent$InteractionKeyMappingTriggered."<init>":(ILnet/minecraft/client/KeyMapping;Lnet/minecraft/world/InteractionHand;)V
+      10: astore_3
+      11: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      14: aload_3
+      15: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      20: pop
+      21: aload_3
+      22: areturn
+
+  public static boolean isNameplateInRenderDistance(net.minecraft.world.entity.Entity, double);
+    Code:
+       0: aload_0
+       1: instanceof    #1360               // class net/minecraft/world/entity/LivingEntity
+       4: ifeq          48
+       7: aload_0
+       8: checkcast     #1360               // class net/minecraft/world/entity/LivingEntity
+      11: getstatic     #1366               // Field net/minecraftforge/common/ForgeMod.NAMETAG_DISTANCE:Lnet/minecraftforge/registries/RegistryObject;
+      14: invokevirtual #1370               // Method net/minecraftforge/registries/RegistryObject.get:()Ljava/lang/Object;
+      17: checkcast     #1372               // class net/minecraft/world/entity/ai/attributes/Attribute
+      20: invokevirtual #1376               // Method net/minecraft/world/entity/LivingEntity.m_21051_:(Lnet/minecraft/world/entity/ai/attributes/Attribute;)Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;
+      23: astore_3
+      24: aload_3
+      25: ifnull        48
+      28: dload_1
+      29: aload_3
+      30: invokevirtual #1381               // Method net/minecraft/world/entity/ai/attributes/AttributeInstance.m_22135_:()D
+      33: aload_3
+      34: invokevirtual #1381               // Method net/minecraft/world/entity/ai/attributes/AttributeInstance.m_22135_:()D
+      37: dmul
+      38: dcmpl
+      39: ifgt          46
+      42: iconst_1
+      43: goto          47
+      46: iconst_0
+      47: ireturn
+      48: dload_1
+      49: ldc2_w        #1382               // double 4096.0d
+      52: dcmpl
+      53: ifgt          60
+      56: iconst_1
+      57: goto          61
+      60: iconst_0
+      61: ireturn
+
+  public static void renderPistonMovedBlocks(net.minecraft.core.BlockPos, net.minecraft.world.level.block.state.BlockState, com.mojang.blaze3d.vertex.PoseStack, net.minecraft.client.renderer.MultiBufferSource, net.minecraft.world.level.Level, boolean, int, net.minecraft.client.renderer.block.BlockRenderDispatcher);
+    Code:
+       0: aload         7
+       2: aload_1
+       3: invokevirtual #1394               // Method net/minecraft/client/renderer/block/BlockRenderDispatcher.m_110910_:(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/client/resources/model/BakedModel;
+       6: astore        8
+       8: aload         8
+      10: aload_1
+      11: aload_1
+      12: aload_0
+      13: invokevirtual #1400               // Method net/minecraft/world/level/block/state/BlockState.m_60726_:(Lnet/minecraft/core/BlockPos;)J
+      16: invokestatic  #1406               // InterfaceMethod net/minecraft/util/RandomSource.m_216335_:(J)Lnet/minecraft/util/RandomSource;
+      19: getstatic     #1412               // Field net/minecraftforge/client/model/data/ModelData.EMPTY:Lnet/minecraftforge/client/model/data/ModelData;
+      22: invokeinterface #1416,  4         // InterfaceMethod net/minecraft/client/resources/model/BakedModel.getRenderTypes:(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/util/RandomSource;Lnet/minecraftforge/client/model/data/ModelData;)Lnet/minecraftforge/client/ChunkRenderTypeSet;
+      27: invokevirtual #1422               // Method net/minecraftforge/client/ChunkRenderTypeSet.iterator:()Ljava/util/Iterator;
+      30: astore        9
+      32: aload         9
+      34: invokeinterface #1427,  1         // InterfaceMethod java/util/Iterator.hasNext:()Z
+      39: ifeq          104
+      42: aload         9
+      44: invokeinterface #1430,  1         // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      49: checkcast     #1432               // class net/minecraft/client/renderer/RenderType
+      52: astore        10
+      54: aload_3
+      55: aload         10
+      57: invokestatic  #1438               // Method net/minecraftforge/client/RenderTypeHelper.getMovingBlockRenderType:(Lnet/minecraft/client/renderer/RenderType;)Lnet/minecraft/client/renderer/RenderType;
+      60: invokeinterface #1444,  2         // InterfaceMethod net/minecraft/client/renderer/MultiBufferSource.m_6299_:(Lnet/minecraft/client/renderer/RenderType;)Lcom/mojang/blaze3d/vertex/VertexConsumer;
+      65: astore        11
+      67: aload         7
+      69: invokevirtual #1448               // Method net/minecraft/client/renderer/block/BlockRenderDispatcher.m_110937_:()Lnet/minecraft/client/renderer/block/ModelBlockRenderer;
+      72: aload         4
+      74: aload         8
+      76: aload_1
+      77: aload_0
+      78: aload_2
+      79: aload         11
+      81: iload         5
+      83: invokestatic  #1452               // InterfaceMethod net/minecraft/util/RandomSource.m_216327_:()Lnet/minecraft/util/RandomSource;
+      86: aload_1
+      87: aload_0
+      88: invokevirtual #1400               // Method net/minecraft/world/level/block/state/BlockState.m_60726_:(Lnet/minecraft/core/BlockPos;)J
+      91: iload         6
+      93: getstatic     #1412               // Field net/minecraftforge/client/model/data/ModelData.EMPTY:Lnet/minecraftforge/client/model/data/ModelData;
+      96: aload         10
+      98: invokevirtual #1458               // Method net/minecraft/client/renderer/block/ModelBlockRenderer.tesselateBlock:(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;JILnet/minecraftforge/client/model/data/ModelData;Lnet/minecraft/client/renderer/RenderType;)V
+     101: goto          32
+     104: return
+
+  public static boolean shouldRenderEffect(net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: aload_0
+       1: invokestatic  #1472               // InterfaceMethod net/minecraftforge/client/extensions/common/IClientMobEffectExtensions.of:(Lnet/minecraft/world/effect/MobEffectInstance;)Lnet/minecraftforge/client/extensions/common/IClientMobEffectExtensions;
+       4: aload_0
+       5: invokeinterface #1475,  2         // InterfaceMethod net/minecraftforge/client/extensions/common/IClientMobEffectExtensions.isVisibleInInventory:(Lnet/minecraft/world/effect/MobEffectInstance;)Z
+      10: ireturn
+
+  public static net.minecraft.client.renderer.texture.SpriteContents loadSpriteContents(net.minecraft.resources.ResourceLocation, net.minecraft.server.packs.resources.Resource, net.minecraft.client.resources.metadata.animation.FrameSize, com.mojang.blaze3d.platform.NativeImage, net.minecraft.client.resources.metadata.animation.AnimationMetadataSection);
+    Code:
+       0: aload_1
+       1: invokestatic  #1487               // Method net/minecraftforge/client/textures/ForgeTextureMetadata.forResource:(Lnet/minecraft/server/packs/resources/Resource;)Lnet/minecraftforge/client/textures/ForgeTextureMetadata;
+       4: astore        5
+       6: aload         5
+       8: invokevirtual #1491               // Method net/minecraftforge/client/textures/ForgeTextureMetadata.getLoader:()Lnet/minecraftforge/client/textures/ITextureAtlasSpriteLoader;
+      11: ifnonnull     18
+      14: aconst_null
+      15: goto          36
+      18: aload         5
+      20: invokevirtual #1491               // Method net/minecraftforge/client/textures/ForgeTextureMetadata.getLoader:()Lnet/minecraftforge/client/textures/ITextureAtlasSpriteLoader;
+      23: aload_0
+      24: aload_1
+      25: aload_2
+      26: aload_3
+      27: aload         4
+      29: aload         5
+      31: invokeinterface #1497,  7         // InterfaceMethod net/minecraftforge/client/textures/ITextureAtlasSpriteLoader.loadContents:(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/server/packs/resources/Resource;Lnet/minecraft/client/resources/metadata/animation/FrameSize;Lcom/mojang/blaze3d/platform/NativeImage;Lnet/minecraft/client/resources/metadata/animation/AnimationMetadataSection;Lnet/minecraftforge/client/textures/ForgeTextureMetadata;)Lnet/minecraft/client/renderer/texture/SpriteContents;
+      36: areturn
+      37: astore        5
+      39: getstatic     #1509               // Field LOGGER:Lorg/apache/logging/log4j/Logger;
+      42: ldc_w         #1511               // String Unable to get Forge metadata for {}, falling back to vanilla loading
+      45: aload_0
+      46: invokeinterface #1517,  3         // InterfaceMethod org/apache/logging/log4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;)V
+      51: aload         5
+      53: invokevirtual #1520               // Method java/io/IOException.printStackTrace:()V
+      56: aconst_null
+      57: areturn
+    Exception table:
+       from    to  target type
+           0    36    37   Class java/io/IOException
+
+  public static net.minecraft.client.renderer.texture.TextureAtlasSprite loadTextureAtlasSprite(net.minecraft.resources.ResourceLocation, net.minecraft.client.renderer.texture.SpriteContents, int, int, int, int, int);
+    Code:
+       0: aload_1
+       1: getfield      #1533               // Field net/minecraft/client/renderer/texture/SpriteContents.forgeMeta:Lnet/minecraftforge/client/textures/ForgeTextureMetadata;
+       4: ifnull        17
+       7: aload_1
+       8: getfield      #1533               // Field net/minecraft/client/renderer/texture/SpriteContents.forgeMeta:Lnet/minecraftforge/client/textures/ForgeTextureMetadata;
+      11: invokevirtual #1491               // Method net/minecraftforge/client/textures/ForgeTextureMetadata.getLoader:()Lnet/minecraftforge/client/textures/ITextureAtlasSpriteLoader;
+      14: ifnonnull     19
+      17: aconst_null
+      18: areturn
+      19: aload_1
+      20: getfield      #1533               // Field net/minecraft/client/renderer/texture/SpriteContents.forgeMeta:Lnet/minecraftforge/client/textures/ForgeTextureMetadata;
+      23: invokevirtual #1491               // Method net/minecraftforge/client/textures/ForgeTextureMetadata.getLoader:()Lnet/minecraftforge/client/textures/ITextureAtlasSpriteLoader;
+      26: aload_0
+      27: aload_1
+      28: iload_2
+      29: iload_3
+      30: iload         4
+      32: iload         5
+      34: iload         6
+      36: invokeinterface #1536,  8         // InterfaceMethod net/minecraftforge/client/textures/ITextureAtlasSpriteLoader.makeSprite:(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/texture/SpriteContents;IIIII)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;
+      41: areturn
+
+  public static void registerLayerDefinition(net.minecraft.client.model.geom.ModelLayerLocation, java.util.function.Supplier<net.minecraft.client.model.geom.builders.LayerDefinition>);
+    Code:
+       0: getstatic     #1549               // Field layerDefinitions:Ljava/util/Map;
+       3: aload_0
+       4: aload_1
+       5: invokeinterface #1553,  3         // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      10: pop
+      11: return
+
+  public static void loadLayerDefinitions(com.google.common.collect.ImmutableMap$Builder<net.minecraft.client.model.geom.ModelLayerLocation, net.minecraft.client.model.geom.builders.LayerDefinition>);
+    Code:
+       0: getstatic     #1549               // Field layerDefinitions:Ljava/util/Map;
+       3: aload_0
+       4: invokedynamic #1572,  0           // InvokeDynamic #4:accept:(Lcom/google/common/collect/ImmutableMap$Builder;)Ljava/util/function/BiConsumer;
+       9: invokeinterface #1575,  2         // InterfaceMethod java/util/Map.forEach:(Ljava/util/function/BiConsumer;)V
+      14: return
+
+  public static void processForgeListPingData(net.minecraft.network.protocol.status.ServerStatus, net.minecraft.client.multiplayer.ServerData);
+    Code:
+       0: aload_0
+       1: invokevirtual #1586               // Method net/minecraft/network/protocol/status/ServerStatus.forgeData:()Ljava/util/Optional;
+       4: aload_1
+       5: invokedynamic #1596,  0           // InvokeDynamic #5:accept:(Lnet/minecraft/client/multiplayer/ServerData;)Ljava/util/function/Consumer;
+      10: aload_1
+      11: invokedynamic #1606,  0           // InvokeDynamic #6:run:(Lnet/minecraft/client/multiplayer/ServerData;)Ljava/lang/Runnable;
+      16: invokevirtual #1612               // Method java/util/Optional.ifPresentOrElse:(Ljava/util/function/Consumer;Ljava/lang/Runnable;)V
+      19: return
+
+  public static void drawForgePingInfo(net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen, net.minecraft.client.multiplayer.ServerData, net.minecraft.client.gui.GuiGraphics, int, int, int, int, int);
+    Code:
+       0: aload_1
+       1: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+       4: ifnonnull     8
+       7: return
+       8: aload_1
+       9: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+      12: invokevirtual #1626               // Method net/minecraftforge/client/ExtendedServerListData.type:()Ljava/lang/String;
+      15: astore        10
+      17: iconst_m1
+      18: istore        11
+      20: aload         10
+      22: invokevirtual #1629               // Method java/lang/String.hashCode:()I
+      25: lookupswitch  { // 2
+                 69733: 52
+             951084891: 69
+               default: 83
+          }
+      52: aload         10
+      54: ldc_w         #1633               // String FML
+      57: invokevirtual #1637               // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      60: ifeq          83
+      63: iconst_0
+      64: istore        11
+      66: goto          83
+      69: aload         10
+      71: ldc_w         #1639               // String VANILLA
+      74: invokevirtual #1637               // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      77: ifeq          83
+      80: iconst_1
+      81: istore        11
+      83: iload         11
+      85: lookupswitch  { // 2
+                     0: 112
+                     1: 247
+               default: 295
+          }
+     112: aload_1
+     113: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     116: invokevirtual #1642               // Method net/minecraftforge/client/ExtendedServerListData.isCompatible:()Z
+     119: ifeq          153
+     122: iconst_0
+     123: istore        8
+     125: ldc_w         #1644               // String fml.menu.multiplayer.compatible
+     128: iconst_1
+     129: anewarray     #4                  // class java/lang/Object
+     132: dup
+     133: iconst_0
+     134: aload_1
+     135: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     138: invokevirtual #1647               // Method net/minecraftforge/client/ExtendedServerListData.numberOfMods:()I
+     141: invokestatic  #1653               // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     144: aastore
+     145: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     148: astore        9
+     150: goto          215
+     153: bipush        16
+     155: istore        8
+     157: aload_1
+     158: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     161: invokevirtual #1661               // Method net/minecraftforge/client/ExtendedServerListData.extraReason:()Ljava/lang/String;
+     164: ifnull        203
+     167: aload_1
+     168: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     171: invokevirtual #1661               // Method net/minecraftforge/client/ExtendedServerListData.extraReason:()Ljava/lang/String;
+     174: iconst_0
+     175: anewarray     #4                  // class java/lang/Object
+     178: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     181: astore        12
+     183: ldc_w         #1663               // String fml.menu.multiplayer.incompatible.extra
+     186: iconst_1
+     187: anewarray     #4                  // class java/lang/Object
+     190: dup
+     191: iconst_0
+     192: aload         12
+     194: aastore
+     195: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     198: astore        9
+     200: goto          215
+     203: ldc_w         #1665               // String fml.menu.multiplayer.incompatible
+     206: iconst_0
+     207: anewarray     #4                  // class java/lang/Object
+     210: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     213: astore        9
+     215: aload_1
+     216: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     219: invokevirtual #1668               // Method net/minecraftforge/client/ExtendedServerListData.truncated:()Z
+     222: ifeq          321
+     225: aload         9
+     227: ldc_w         #1670               // String fml.menu.multiplayer.truncated
+     230: iconst_0
+     231: anewarray     #4                  // class java/lang/Object
+     234: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     237: invokedynamic #1673,  0           // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     242: astore        9
+     244: goto          321
+     247: aload_1
+     248: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     251: invokevirtual #1642               // Method net/minecraftforge/client/ExtendedServerListData.isCompatible:()Z
+     254: ifeq          276
+     257: bipush        48
+     259: istore        8
+     261: ldc_w         #1675               // String fml.menu.multiplayer.vanilla
+     264: iconst_0
+     265: anewarray     #4                  // class java/lang/Object
+     268: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     271: astore        9
+     273: goto          321
+     276: bipush        80
+     278: istore        8
+     280: ldc_w         #1677               // String fml.menu.multiplayer.vanilla.incompatible
+     283: iconst_0
+     284: anewarray     #4                  // class java/lang/Object
+     287: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     290: astore        9
+     292: goto          321
+     295: bipush        64
+     297: istore        8
+     299: ldc_w         #1679               // String fml.menu.multiplayer.unknown
+     302: iconst_1
+     303: anewarray     #4                  // class java/lang/Object
+     306: dup
+     307: iconst_0
+     308: aload_1
+     309: getfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     312: invokevirtual #1626               // Method net/minecraftforge/client/ExtendedServerListData.type:()Ljava/lang/String;
+     315: aastore
+     316: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     319: astore        9
+     321: aload_2
+     322: getstatic     #1681               // Field ICON_SHEET:Lnet/minecraft/resources/ResourceLocation;
+     325: iload_3
+     326: iload         5
+     328: iadd
+     329: bipush        18
+     331: isub
+     332: iload         4
+     334: bipush        10
+     336: iadd
+     337: bipush        16
+     339: bipush        16
+     341: fconst_0
+     342: iload         8
+     344: i2f
+     345: bipush        16
+     347: bipush        16
+     349: sipush        256
+     352: sipush        256
+     355: invokevirtual #1685               // Method net/minecraft/client/gui/GuiGraphics.m_280411_:(Lnet/minecraft/resources/ResourceLocation;IIIIFFIIII)V
+     358: iload         6
+     360: iload         5
+     362: bipush        15
+     364: isub
+     365: if_icmple     425
+     368: iload         6
+     370: iload         5
+     372: if_icmpge     425
+     375: iload         7
+     377: bipush        10
+     379: if_icmple     425
+     382: iload         7
+     384: bipush        26
+     386: if_icmpge     425
+     389: aload_0
+     390: aload         9
+     392: ldc_w         #1687               // String \n
+     395: invokevirtual #1691               // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     398: invokestatic  #1697               // Method java/util/Arrays.stream:([Ljava/lang/Object;)Ljava/util/stream/Stream;
+     401: invokedynamic #1709,  0           // InvokeDynamic #8:apply:()Ljava/util/function/Function;
+     406: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     411: invokestatic  #1720               // Method java/util/stream/Collectors.toList:()Ljava/util/stream/Collector;
+     414: invokeinterface #1724,  2         // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+     419: checkcast     #1726               // class java/util/List
+     422: invokevirtual #1730               // Method net/minecraft/client/gui/screens/multiplayer/JoinMultiplayerScreen.m_99707_:(Ljava/util/List;)V
+     425: return
+
+  private static net.minecraft.network.Connection getClientConnection();
+    Code:
+       0: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       3: invokevirtual #1740               // Method net/minecraft/client/Minecraft.m_91403_:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+       6: ifnull        21
+       9: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      12: invokevirtual #1740               // Method net/minecraft/client/Minecraft.m_91403_:()Lnet/minecraft/client/multiplayer/ClientPacketListener;
+      15: invokevirtual #1745               // Method net/minecraft/client/multiplayer/ClientPacketListener.m_104910_:()Lnet/minecraft/network/Connection;
+      18: goto          22
+      21: aconst_null
+      22: areturn
+
+  public static void handleClientLevelClosing(net.minecraft.client.multiplayer.ClientLevel);
+    Code:
+       0: invokestatic  #1751               // Method getClientConnection:()Lnet/minecraft/network/Connection;
+       3: astore_1
+       4: aload_1
+       5: ifnull        18
+       8: aload_1
+       9: invokevirtual #1754               // Method net/minecraft/network/Connection.m_129531_:()Z
+      12: ifne          18
+      15: invokestatic  #1759               // Method net/minecraftforge/registries/GameData.revertToFrozen:()V
+      18: return
+
+  public static void firePlayerLogin(net.minecraft.client.multiplayer.MultiPlayerGameMode, net.minecraft.client.player.LocalPlayer, net.minecraft.network.Connection);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #171                // class net/minecraftforge/client/event/ClientPlayerNetworkEvent$LoggingIn
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: aload_2
+      10: invokespecial #1765               // Method net/minecraftforge/client/event/ClientPlayerNetworkEvent$LoggingIn."<init>":(Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;Lnet/minecraft/client/player/LocalPlayer;Lnet/minecraft/network/Connection;)V
+      13: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      18: pop
+      19: return
+
+  public static void firePlayerLogout(net.minecraft.client.multiplayer.MultiPlayerGameMode, net.minecraft.client.player.LocalPlayer);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #176                // class net/minecraftforge/client/event/ClientPlayerNetworkEvent$LoggingOut
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: aload_1
+      10: ifnull        34
+      13: aload_1
+      14: getfield      #1777               // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+      17: ifnull        30
+      20: aload_1
+      21: getfield      #1777               // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+      24: invokevirtual #1745               // Method net/minecraft/client/multiplayer/ClientPacketListener.m_104910_:()Lnet/minecraft/network/Connection;
+      27: goto          35
+      30: aconst_null
+      31: goto          35
+      34: aconst_null
+      35: invokespecial #1780               // Method net/minecraftforge/client/event/ClientPlayerNetworkEvent$LoggingOut."<init>":(Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;Lnet/minecraft/client/player/LocalPlayer;Lnet/minecraft/network/Connection;)V
+      38: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      43: pop
+      44: return
+
+  public static void firePlayerRespawn(net.minecraft.client.multiplayer.MultiPlayerGameMode, net.minecraft.client.player.LocalPlayer, net.minecraft.client.player.LocalPlayer, net.minecraft.network.Connection);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #179                // class net/minecraftforge/client/event/ClientPlayerNetworkEvent$Clone
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: aload_2
+      10: aload_3
+      11: invokespecial #1784               // Method net/minecraftforge/client/event/ClientPlayerNetworkEvent$Clone."<init>":(Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;Lnet/minecraft/client/player/LocalPlayer;Lnet/minecraft/client/player/LocalPlayer;Lnet/minecraft/network/Connection;)V
+      14: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      19: pop
+      20: return
+
+  public static void onRegisterParticleProviders(net.minecraft.client.particle.ParticleEngine);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #1790               // class net/minecraftforge/client/event/RegisterParticleProvidersEvent
+       6: dup
+       7: aload_0
+       8: invokespecial #1792               // Method net/minecraftforge/client/event/RegisterParticleProvidersEvent."<init>":(Lnet/minecraft/client/particle/ParticleEngine;)V
+      11: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      14: return
+
+  public static void onRegisterKeyMappings(net.minecraft.client.Options);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #1798               // class net/minecraftforge/client/event/RegisterKeyMappingsEvent
+       6: dup
+       7: aload_0
+       8: invokespecial #1800               // Method net/minecraftforge/client/event/RegisterKeyMappingsEvent."<init>":(Lnet/minecraft/client/Options;)V
+      11: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      14: return
+
+  public static void onRegisterAdditionalModels(java.util.Set<net.minecraft.resources.ResourceLocation>);
+    Code:
+       0: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+       3: new           #182                // class net/minecraftforge/client/event/ModelEvent$RegisterAdditional
+       6: dup
+       7: aload_0
+       8: invokespecial #1807               // Method net/minecraftforge/client/event/ModelEvent$RegisterAdditional."<init>":(Ljava/util/Set;)V
+      11: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      14: return
+
+  public static net.minecraft.network.chat.Component onClientChat(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.Component, java.util.UUID);
+    Code:
+       0: new           #192                // class net/minecraftforge/client/event/ClientChatReceivedEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: aload_2
+       7: invokespecial #1815               // Method net/minecraftforge/client/event/ClientChatReceivedEvent."<init>":(Lnet/minecraft/network/chat/ChatType$Bound;Lnet/minecraft/network/chat/Component;Ljava/util/UUID;)V
+      10: astore_3
+      11: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      14: aload_3
+      15: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      20: ifeq          27
+      23: aconst_null
+      24: goto          31
+      27: aload_3
+      28: invokevirtual #1818               // Method net/minecraftforge/client/event/ClientChatReceivedEvent.getMessage:()Lnet/minecraft/network/chat/Component;
+      31: areturn
+
+  public static net.minecraft.network.chat.Component onClientPlayerChat(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.Component, net.minecraft.network.chat.PlayerChatMessage, java.util.UUID);
+    Code:
+       0: new           #190                // class net/minecraftforge/client/event/ClientChatReceivedEvent$Player
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: aload_2
+       7: aload_3
+       8: invokespecial #1829               // Method net/minecraftforge/client/event/ClientChatReceivedEvent$Player."<init>":(Lnet/minecraft/network/chat/ChatType$Bound;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/PlayerChatMessage;Ljava/util/UUID;)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: ifeq          30
+      26: aconst_null
+      27: goto          35
+      30: aload         4
+      32: invokevirtual #1830               // Method net/minecraftforge/client/event/ClientChatReceivedEvent$Player.getMessage:()Lnet/minecraft/network/chat/Component;
+      35: areturn
+
+  public static net.minecraft.network.chat.Component onClientSystemChat(net.minecraft.network.chat.Component, boolean);
+    Code:
+       0: new           #195                // class net/minecraftforge/client/event/ClientChatReceivedEvent$System
+       3: dup
+       4: getstatic     #1837               // Field SYSTEM_CHAT_TYPE_BOUND:Lnet/minecraft/network/chat/ChatType$Bound;
+       7: aload_0
+       8: iload_1
+       9: invokespecial #1840               // Method net/minecraftforge/client/event/ClientChatReceivedEvent$System."<init>":(Lnet/minecraft/network/chat/ChatType$Bound;Lnet/minecraft/network/chat/Component;Z)V
+      12: astore_2
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload_2
+      17: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      22: ifeq          29
+      25: aconst_null
+      26: goto          33
+      29: aload_2
+      30: invokevirtual #1841               // Method net/minecraftforge/client/event/ClientChatReceivedEvent$System.getMessage:()Lnet/minecraft/network/chat/Component;
+      33: areturn
+
+  public static java.lang.String onClientSendMessage(java.lang.String);
+    Code:
+       0: new           #1847               // class net/minecraftforge/client/event/ClientChatEvent
+       3: dup
+       4: aload_0
+       5: invokespecial #1849               // Method net/minecraftforge/client/event/ClientChatEvent."<init>":(Ljava/lang/String;)V
+       8: astore_1
+       9: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      12: aload_1
+      13: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      18: ifeq          27
+      21: ldc_w         #1851               // String
+      24: goto          31
+      27: aload_1
+      28: invokevirtual #1853               // Method net/minecraftforge/client/event/ClientChatEvent.getMessage:()Ljava/lang/String;
+      31: areturn
+
+  public static net.minecraft.client.renderer.RenderType getEntityRenderType(net.minecraft.client.renderer.RenderType, boolean);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #1858               // Method net/minecraftforge/client/RenderTypeHelper.getEntityRenderType:(Lnet/minecraft/client/renderer/RenderType;Z)Lnet/minecraft/client/renderer/RenderType;
+       5: areturn
+
+  public static net.minecraft.client.gui.Font getTooltipFont(net.minecraft.world.item.ItemStack, net.minecraft.client.gui.Font);
+    Code:
+       0: aload_0
+       1: invokestatic  #596                // InterfaceMethod net/minecraftforge/client/extensions/common/IClientItemExtensions.of:(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraftforge/client/extensions/common/IClientItemExtensions;
+       4: aload_0
+       5: getstatic     #1866               // Field net/minecraftforge/client/extensions/common/IClientItemExtensions$FontContext.TOOLTIP:Lnet/minecraftforge/client/extensions/common/IClientItemExtensions$FontContext;
+       8: invokeinterface #1870,  3         // InterfaceMethod net/minecraftforge/client/extensions/common/IClientItemExtensions.getFont:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraftforge/client/extensions/common/IClientItemExtensions$FontContext;)Lnet/minecraft/client/gui/Font;
+      13: astore_2
+      14: aload_2
+      15: ifnonnull     22
+      18: aload_1
+      19: goto          23
+      22: aload_2
+      23: areturn
+
+  public static net.minecraftforge.client.event.RenderTooltipEvent$Pre onRenderTooltipPre(net.minecraft.world.item.ItemStack, net.minecraft.client.gui.GuiGraphics, int, int, int, int, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>, net.minecraft.client.gui.Font, net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner);
+    Code:
+       0: new           #203                // class net/minecraftforge/client/event/RenderTooltipEvent$Pre
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: iload_2
+       7: iload_3
+       8: iload         4
+      10: iload         5
+      12: aload_0
+      13: aload         7
+      15: invokestatic  #1879               // Method getTooltipFont:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/gui/Font;)Lnet/minecraft/client/gui/Font;
+      18: aload         6
+      20: aload         8
+      22: invokespecial #1882               // Method net/minecraftforge/client/event/RenderTooltipEvent$Pre."<init>":(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/gui/GuiGraphics;IIIILnet/minecraft/client/gui/Font;Ljava/util/List;Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V
+      25: astore        9
+      27: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      30: aload         9
+      32: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      37: pop
+      38: aload         9
+      40: areturn
+
+  public static net.minecraftforge.client.event.RenderTooltipEvent$Color onRenderTooltipColor(net.minecraft.world.item.ItemStack, net.minecraft.client.gui.GuiGraphics, int, int, net.minecraft.client.gui.Font, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>);
+    Code:
+       0: new           #207                // class net/minecraftforge/client/event/RenderTooltipEvent$Color
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: iload_2
+       7: iload_3
+       8: aload         4
+      10: ldc_w         #1896               // int -267386864
+      13: ldc_w         #1897               // int 1347420415
+      16: ldc_w         #1898               // int 1344798847
+      19: aload         5
+      21: invokespecial #1901               // Method net/minecraftforge/client/event/RenderTooltipEvent$Color."<init>":(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/gui/GuiGraphics;IILnet/minecraft/client/gui/Font;IIILjava/util/List;)V
+      24: astore        6
+      26: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      29: aload         6
+      31: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      36: pop
+      37: aload         6
+      39: areturn
+
+  public static java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> gatherTooltipComponents(net.minecraft.world.item.ItemStack, java.util.List<? extends net.minecraft.network.chat.FormattedText>, int, int, int, net.minecraft.client.gui.Font);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #1909               // Method java/util/Optional.empty:()Ljava/util/Optional;
+       5: iload_2
+       6: iload_3
+       7: iload         4
+       9: aload         5
+      11: invokestatic  #1912               // Method gatherTooltipComponents:(Lnet/minecraft/world/item/ItemStack;Ljava/util/List;Ljava/util/Optional;IIILnet/minecraft/client/gui/Font;)Ljava/util/List;
+      14: areturn
+
+  public static java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> gatherTooltipComponents(net.minecraft.world.item.ItemStack, java.util.List<? extends net.minecraft.network.chat.FormattedText>, java.util.Optional<net.minecraft.world.inventory.tooltip.TooltipComponent>, int, int, int, net.minecraft.client.gui.Font);
+    Code:
+       0: aload_1
+       1: invokeinterface #1918,  1         // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+       6: invokedynamic #1928,  0           // InvokeDynamic #9:apply:()Ljava/util/function/Function;
+      11: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      16: invokedynamic #1938,  0           // InvokeDynamic #10:get:()Ljava/util/function/Supplier;
+      21: invokestatic  #1942               // Method java/util/stream/Collectors.toCollection:(Ljava/util/function/Supplier;)Ljava/util/stream/Collector;
+      24: invokeinterface #1724,  2         // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+      29: checkcast     #1726               // class java/util/List
+      32: astore        7
+      34: aload_2
+      35: aload         7
+      37: invokedynamic #1952,  0           // InvokeDynamic #11:accept:(Ljava/util/List;)Ljava/util/function/Consumer;
+      42: invokevirtual #1955               // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      45: aload_0
+      46: aload         7
+      48: iload_3
+      49: iload         4
+      51: iload         5
+      53: aload         6
+      55: invokestatic  #1958               // Method gatherTooltipComponentsFromElements:(Lnet/minecraft/world/item/ItemStack;Ljava/util/List;IIILnet/minecraft/client/gui/Font;)Ljava/util/List;
+      58: areturn
+
+  public static java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> gatherTooltipComponentsFromElements(net.minecraft.world.item.ItemStack, java.util.List<com.mojang.datafixers.util.Either<net.minecraft.network.chat.FormattedText, net.minecraft.world.inventory.tooltip.TooltipComponent>>, int, int, int, net.minecraft.client.gui.Font);
+    Code:
+       0: aload_0
+       1: aload         5
+       3: invokestatic  #1879               // Method getTooltipFont:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/gui/Font;)Lnet/minecraft/client/gui/Font;
+       6: astore        6
+       8: new           #210                // class net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents
+      11: dup
+      12: aload_0
+      13: iload_3
+      14: iload         4
+      16: aload_1
+      17: iconst_m1
+      18: invokespecial #1967               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents."<init>":(Lnet/minecraft/world/item/ItemStack;IILjava/util/List;I)V
+      21: astore        7
+      23: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      26: aload         7
+      28: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      33: pop
+      34: aload         7
+      36: invokevirtual #1970               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.isCanceled:()Z
+      39: ifeq          46
+      42: invokestatic  #1973               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      45: areturn
+      46: aload         7
+      48: invokevirtual #1976               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getTooltipElements:()Ljava/util/List;
+      51: invokeinterface #1918,  1         // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      56: aload         6
+      58: invokedynamic #1989,  0           // InvokeDynamic #12:applyAsInt:(Lnet/minecraft/client/gui/Font;)Ljava/util/function/ToIntFunction;
+      63: invokeinterface #1993,  2         // InterfaceMethod java/util/stream/Stream.mapToInt:(Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+      68: invokeinterface #1999,  1         // InterfaceMethod java/util/stream/IntStream.max:()Ljava/util/OptionalInt;
+      73: iconst_0
+      74: invokevirtual #2004               // Method java/util/OptionalInt.orElse:(I)I
+      77: istore        8
+      79: iconst_0
+      80: istore        9
+      82: iload_2
+      83: bipush        12
+      85: iadd
+      86: istore        10
+      88: iload         10
+      90: iload         8
+      92: iadd
+      93: iconst_4
+      94: iadd
+      95: iload_3
+      96: if_icmple     144
+      99: iload_2
+     100: bipush        16
+     102: isub
+     103: iload         8
+     105: isub
+     106: istore        10
+     108: iload         10
+     110: iconst_4
+     111: if_icmpge     144
+     114: iload_2
+     115: iload_3
+     116: iconst_2
+     117: idiv
+     118: if_icmple     133
+     121: iload_2
+     122: bipush        12
+     124: isub
+     125: bipush        8
+     127: isub
+     128: istore        8
+     130: goto          141
+     133: iload_3
+     134: bipush        16
+     136: isub
+     137: iload_2
+     138: isub
+     139: istore        8
+     141: iconst_1
+     142: istore        9
+     144: aload         7
+     146: invokevirtual #2007               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getMaxWidth:()I
+     149: ifle          172
+     152: iload         8
+     154: aload         7
+     156: invokevirtual #2007               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getMaxWidth:()I
+     159: if_icmple     172
+     162: aload         7
+     164: invokevirtual #2007               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getMaxWidth:()I
+     167: istore        8
+     169: iconst_1
+     170: istore        9
+     172: iload         8
+     174: istore        11
+     176: iload         9
+     178: ifeq          211
+     181: aload         7
+     183: invokevirtual #1976               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getTooltipElements:()Ljava/util/List;
+     186: invokeinterface #1918,  1         // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+     191: aload         6
+     193: iload         11
+     195: invokedynamic #2017,  0           // InvokeDynamic #13:apply:(Lnet/minecraft/client/gui/Font;I)Ljava/util/function/Function;
+     200: invokeinterface #2020,  2         // InterfaceMethod java/util/stream/Stream.flatMap:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     205: invokeinterface #2022,  1         // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+     210: areturn
+     211: aload         7
+     213: invokevirtual #1976               // Method net/minecraftforge/client/event/RenderTooltipEvent$GatherComponents.getTooltipElements:()Ljava/util/List;
+     216: invokeinterface #1918,  1         // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+     221: invokedynamic #2029,  0           // InvokeDynamic #14:apply:()Ljava/util/function/Function;
+     226: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     231: invokeinterface #2022,  1         // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+     236: areturn
+
+  private static java.util.stream.Stream<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> splitLine(net.minecraft.network.chat.FormattedText, net.minecraft.client.gui.Font, int);
+    Code:
+       0: aload_0
+       1: instanceof    #1700               // class net/minecraft/network/chat/Component
+       4: ifeq          44
+       7: aload_0
+       8: checkcast     #1700               // class net/minecraft/network/chat/Component
+      11: astore_3
+      12: aload_3
+      13: invokeinterface #2040,  1         // InterfaceMethod net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+      18: invokevirtual #2043               // Method java/lang/String.isEmpty:()Z
+      21: ifeq          44
+      24: aload_3
+      25: invokeinterface #2047,  1         // InterfaceMethod net/minecraft/network/chat/Component.m_7532_:()Lnet/minecraft/util/FormattedCharSequence;
+      30: invokestatic  #2050               // InterfaceMethod java/util/stream/Stream.of:(Ljava/lang/Object;)Ljava/util/stream/Stream;
+      33: invokedynamic #2059,  0           // InvokeDynamic #15:apply:()Ljava/util/function/Function;
+      38: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      43: areturn
+      44: aload_1
+      45: aload_0
+      46: iload_2
+      47: invokevirtual #2063               // Method net/minecraft/client/gui/Font.m_92923_:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+      50: invokeinterface #1918,  1         // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      55: invokedynamic #2059,  0           // InvokeDynamic #15:apply:()Ljava/util/function/Function;
+      60: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      65: areturn
+
+  public static java.util.Comparator<net.minecraft.client.particle.ParticleRenderType> makeParticleRenderTypeComparator(java.util.List<net.minecraft.client.particle.ParticleRenderType>);
+    Code:
+       0: aload_0
+       1: dup
+       2: invokestatic  #373                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       5: pop
+       6: invokedynamic #2078,  0           // InvokeDynamic #16:applyAsInt:(Ljava/util/List;)Ljava/util/function/ToIntFunction;
+      11: invokestatic  #2084               // InterfaceMethod java/util/Comparator.comparingInt:(Ljava/util/function/ToIntFunction;)Ljava/util/Comparator;
+      14: astore_1
+      15: aload_0
+      16: aload_1
+      17: invokedynamic #2097,  0           // InvokeDynamic #17:compare:(Ljava/util/List;Ljava/util/Comparator;)Ljava/util/Comparator;
+      22: areturn
+
+  public static net.minecraftforge.client.event.ScreenEvent$RenderInventoryMobEffects onScreenPotionSize(net.minecraft.client.gui.screens.Screen, int, boolean, int);
+    Code:
+       0: new           #213                // class net/minecraftforge/client/event/ScreenEvent$RenderInventoryMobEffects
+       3: dup
+       4: aload_0
+       5: iload_1
+       6: iload_2
+       7: iload_3
+       8: invokespecial #2107               // Method net/minecraftforge/client/event/ScreenEvent$RenderInventoryMobEffects."<init>":(Lnet/minecraft/client/gui/screens/Screen;IZI)V
+      11: astore        4
+      13: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      16: aload         4
+      18: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      23: pop
+      24: aload         4
+      26: areturn
+
+  public static boolean onToastAdd(net.minecraft.client.gui.components.toasts.Toast);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #2115               // class net/minecraftforge/client/event/ToastAddEvent
+       6: dup
+       7: aload_0
+       8: invokespecial #2118               // Method net/minecraftforge/client/event/ToastAddEvent."<init>":(Lnet/minecraft/client/gui/components/toasts/Toast;)V
+      11: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      16: ireturn
+
+  public static boolean isBlockInSolidLayer(net.minecraft.world.level.block.state.BlockState);
+    Code:
+       0: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       3: invokevirtual #2126               // Method net/minecraft/client/Minecraft.m_91289_:()Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;
+       6: aload_0
+       7: invokevirtual #1394               // Method net/minecraft/client/renderer/block/BlockRenderDispatcher.m_110910_:(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/client/resources/model/BakedModel;
+      10: astore_1
+      11: aload_1
+      12: aload_0
+      13: invokestatic  #1452               // InterfaceMethod net/minecraft/util/RandomSource.m_216327_:()Lnet/minecraft/util/RandomSource;
+      16: getstatic     #1412               // Field net/minecraftforge/client/model/data/ModelData.EMPTY:Lnet/minecraftforge/client/model/data/ModelData;
+      19: invokeinterface #1416,  4         // InterfaceMethod net/minecraft/client/resources/model/BakedModel.getRenderTypes:(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/util/RandomSource;Lnet/minecraftforge/client/model/data/ModelData;)Lnet/minecraftforge/client/ChunkRenderTypeSet;
+      24: invokestatic  #2130               // Method net/minecraft/client/renderer/RenderType.m_110451_:()Lnet/minecraft/client/renderer/RenderType;
+      27: invokevirtual #2134               // Method net/minecraftforge/client/ChunkRenderTypeSet.contains:(Lnet/minecraft/client/renderer/RenderType;)Z
+      30: ireturn
+
+  public static void createWorldConfirmationScreen(java.lang.Runnable);
+    Code:
+       0: ldc_w         #2138               // String selectWorld.backupQuestion.experimental
+       3: invokestatic  #2141               // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       6: astore_1
+       7: ldc_w         #2143               // String selectWorld.backupWarning.experimental
+      10: invokestatic  #2141               // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      13: ldc_w         #2145               // String \n\n
+      16: invokevirtual #2150               // Method net/minecraft/network/chat/MutableComponent.m_130946_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      19: ldc_w         #2152               // String forge.selectWorld.backupWarning.experimental.additional
+      22: invokestatic  #2141               // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      25: invokevirtual #2156               // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      28: astore_2
+      29: new           #2158               // class net/minecraft/client/gui/screens/ConfirmScreen
+      32: dup
+      33: aload_0
+      34: invokedynamic #2168,  0           // InvokeDynamic #18:accept:(Ljava/lang/Runnable;)Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;
+      39: aload_1
+      40: aload_2
+      41: getstatic     #2173               // Field net/minecraft/network/chat/CommonComponents.f_130659_:Lnet/minecraft/network/chat/Component;
+      44: getstatic     #2176               // Field net/minecraft/network/chat/CommonComponents.f_130656_:Lnet/minecraft/network/chat/Component;
+      47: invokespecial #2179               // Method net/minecraft/client/gui/screens/ConfirmScreen."<init>":(Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;)V
+      50: astore_3
+      51: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      54: aload_3
+      55: invokevirtual #407                // Method net/minecraft/client/Minecraft.m_91152_:(Lnet/minecraft/client/gui/screens/Screen;)V
+      58: return
+
+  public static boolean renderFireOverlay(net.minecraft.world.entity.player.Player, com.mojang.blaze3d.vertex.PoseStack);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: getstatic     #2189               // Field net/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType.FIRE:Lnet/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType;
+       5: getstatic     #2195               // Field net/minecraft/world/level/block/Blocks.f_50083_:Lnet/minecraft/world/level/block/Block;
+       8: invokevirtual #2201               // Method net/minecraft/world/level/block/Block.m_49966_:()Lnet/minecraft/world/level/block/state/BlockState;
+      11: aload_0
+      12: invokevirtual #2206               // Method net/minecraft/world/entity/player/Player.m_20183_:()Lnet/minecraft/core/BlockPos;
+      15: invokestatic  #2210               // Method renderBlockOverlay:(Lnet/minecraft/world/entity/player/Player;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Z
+      18: ireturn
+
+  public static boolean renderWaterOverlay(net.minecraft.world.entity.player.Player, com.mojang.blaze3d.vertex.PoseStack);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: getstatic     #2215               // Field net/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType.WATER:Lnet/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType;
+       5: getstatic     #2218               // Field net/minecraft/world/level/block/Blocks.f_49990_:Lnet/minecraft/world/level/block/Block;
+       8: invokevirtual #2201               // Method net/minecraft/world/level/block/Block.m_49966_:()Lnet/minecraft/world/level/block/state/BlockState;
+      11: aload_0
+      12: invokevirtual #2206               // Method net/minecraft/world/entity/player/Player.m_20183_:()Lnet/minecraft/core/BlockPos;
+      15: invokestatic  #2210               // Method renderBlockOverlay:(Lnet/minecraft/world/entity/player/Player;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Z
+      18: ireturn
+
+  public static boolean renderBlockOverlay(net.minecraft.world.entity.player.Player, com.mojang.blaze3d.vertex.PoseStack, net.minecraftforge.client.event.RenderBlockScreenEffectEvent$OverlayType, net.minecraft.world.level.block.state.BlockState, net.minecraft.core.BlockPos);
+    Code:
+       0: getstatic     #456                // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+       3: new           #218                // class net/minecraftforge/client/event/RenderBlockScreenEffectEvent
+       6: dup
+       7: aload_0
+       8: aload_1
+       9: aload_2
+      10: aload_3
+      11: aload         4
+      13: invokespecial #2221               // Method net/minecraftforge/client/event/RenderBlockScreenEffectEvent."<init>":(Lnet/minecraft/world/entity/player/Player;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraftforge/client/event/RenderBlockScreenEffectEvent$OverlayType;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V
+      16: invokeinterface #465,  2          // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.post:(Lnet/minecraftforge/eventbus/api/Event;)Z
+      21: ireturn
+
+  public static int getMaxMipmapLevel(int, int);
+    Code:
+       0: iconst_1
+       1: iload_0
+       2: invokestatic  #2226               // Method java/lang/Math.max:(II)I
+       5: invokestatic  #2231               // Method net/minecraft/util/Mth.m_14173_:(I)I
+       8: iconst_1
+       9: iload_1
+      10: invokestatic  #2226               // Method java/lang/Math.max:(II)I
+      13: invokestatic  #2231               // Method net/minecraft/util/Mth.m_14173_:(I)I
+      16: invokestatic  #2234               // Method java/lang/Math.min:(II)I
+      19: ireturn
+
+  public static net.minecraft.resources.ResourceLocation getShaderImportLocation(java.lang.String, boolean, java.lang.String);
+    Code:
+       0: new           #1019               // class net/minecraft/resources/ResourceLocation
+       3: dup
+       4: aload_2
+       5: invokespecial #2237               // Method net/minecraft/resources/ResourceLocation."<init>":(Ljava/lang/String;)V
+       8: astore_3
+       9: iload_1
+      10: ifeq          17
+      13: aload_0
+      14: goto          20
+      17: ldc_w         #2239               // String shaders/include/
+      20: aload_3
+      21: invokevirtual #2242               // Method net/minecraft/resources/ResourceLocation.m_135815_:()Ljava/lang/String;
+      24: invokedynamic #660,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      29: invokestatic  #2247               // Method net/minecraft/FileUtil.m_179924_:(Ljava/lang/String;)Ljava/lang/String;
+      32: astore        4
+      34: new           #1019               // class net/minecraft/resources/ResourceLocation
+      37: dup
+      38: aload_3
+      39: invokevirtual #2250               // Method net/minecraft/resources/ResourceLocation.m_135827_:()Ljava/lang/String;
+      42: aload         4
+      44: invokespecial #2253               // Method net/minecraft/resources/ResourceLocation."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+      47: areturn
+
+  public static void onCreativeModeTabBuildContents(net.minecraft.world.item.CreativeModeTab, net.minecraft.resources.ResourceKey<net.minecraft.world.item.CreativeModeTab>, net.minecraft.world.item.CreativeModeTab$DisplayItemsGenerator, net.minecraft.world.item.CreativeModeTab$ItemDisplayParameters, net.minecraft.world.item.CreativeModeTab$Output);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: aload_3
+       4: aload         4
+       6: invokestatic  #2269               // Method net/minecraftforge/common/ForgeHooks.onCreativeModeTabBuildContents:(Lnet/minecraft/world/item/CreativeModeTab;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/CreativeModeTab$DisplayItemsGenerator;Lnet/minecraft/world/item/CreativeModeTab$ItemDisplayParameters;Lnet/minecraft/world/item/CreativeModeTab$Output;)V
+       9: return
+
+  public static net.minecraft.core.Direction getNearestStable(float, float, float);
+    Code:
+       0: getstatic     #1048               // Field net/minecraftforge/common/ForgeConfig.CLIENT:Lnet/minecraftforge/common/ForgeConfig$Client;
+       3: getfield      #2286               // Field net/minecraftforge/common/ForgeConfig$Client.stabilizeDirectionGetNearest:Lnet/minecraftforge/common/ForgeConfigSpec$BooleanValue;
+       6: invokevirtual #2287               // Method net/minecraftforge/common/ForgeConfigSpec$BooleanValue.get:()Ljava/lang/Object;
+       9: checkcast     #2289               // class java/lang/Boolean
+      12: invokevirtual #2292               // Method java/lang/Boolean.booleanValue:()Z
+      15: ifeq          118
+      18: getstatic     #2295               // Field net/minecraft/core/Direction.NORTH:Lnet/minecraft/core/Direction;
+      21: astore_3
+      22: ldc_w         #2296               // float 1.4E-45f
+      25: fstore        4
+      27: invokestatic  #2300               // Method net/minecraft/core/Direction.values:()[Lnet/minecraft/core/Direction;
+      30: astore        5
+      32: aload         5
+      34: arraylength
+      35: istore        6
+      37: iconst_0
+      38: istore        7
+      40: iload         7
+      42: iload         6
+      44: if_icmpge     116
+      47: aload         5
+      49: iload         7
+      51: aaload
+      52: astore        8
+      54: fload_0
+      55: aload         8
+      57: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      60: invokevirtual #1078               // Method net/minecraft/core/Vec3i.m_123341_:()I
+      63: i2f
+      64: fmul
+      65: fload_1
+      66: aload         8
+      68: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      71: invokevirtual #1079               // Method net/minecraft/core/Vec3i.m_123342_:()I
+      74: i2f
+      75: fmul
+      76: fadd
+      77: fload_2
+      78: aload         8
+      80: invokevirtual #1073               // Method net/minecraft/core/Direction.m_122436_:()Lnet/minecraft/core/Vec3i;
+      83: invokevirtual #1082               // Method net/minecraft/core/Vec3i.m_123343_:()I
+      86: i2f
+      87: fmul
+      88: fadd
+      89: fstore        9
+      91: fload         9
+      93: fload         4
+      95: ldc_w         #2303               // float 1.0E-6f
+      98: fadd
+      99: fcmpl
+     100: ifle          110
+     103: fload         9
+     105: fstore        4
+     107: aload         8
+     109: astore_3
+     110: iinc          7, 1
+     113: goto          40
+     116: aload_3
+     117: areturn
+     118: fload_0
+     119: fload_1
+     120: fload_2
+     121: invokestatic  #2306               // Method net/minecraft/core/Direction.m_122372_:(FFF)Lnet/minecraft/core/Direction;
+     124: areturn
+
+  public static void initClientHooks(net.minecraft.client.Minecraft, net.minecraft.server.packs.resources.ReloadableResourceManager);
+    Code:
+       0: getstatic     #2317               // Field initializedClientHooks:Z
+       3: ifeq          17
+       6: new           #2319               // class java/lang/IllegalStateException
+       9: dup
+      10: ldc_w         #2321               // String Client hooks initialized more than once
+      13: invokespecial #2322               // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+      16: athrow
+      17: iconst_1
+      18: putstatic     #2317               // Field initializedClientHooks:Z
+      21: invokestatic  #2327               // Method net/minecraftforge/gametest/ForgeGameTestHooks.registerGametests:()V
+      24: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+      27: new           #2329               // class net/minecraftforge/client/event/RegisterClientReloadListenersEvent
+      30: dup
+      31: aload_1
+      32: invokespecial #2332               // Method net/minecraftforge/client/event/RegisterClientReloadListenersEvent."<init>":(Lnet/minecraft/server/packs/resources/ReloadableResourceManager;)V
+      35: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      38: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+      41: new           #237                // class net/minecraftforge/client/event/EntityRenderersEvent$RegisterLayerDefinitions
+      44: dup
+      45: invokespecial #2333               // Method net/minecraftforge/client/event/EntityRenderersEvent$RegisterLayerDefinitions."<init>":()V
+      48: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      51: invokestatic  #569                // Method net/minecraftforge/fml/ModLoader.get:()Lnet/minecraftforge/fml/ModLoader;
+      54: new           #242                // class net/minecraftforge/client/event/EntityRenderersEvent$RegisterRenderers
+      57: dup
+      58: invokespecial #2334               // Method net/minecraftforge/client/event/EntityRenderersEvent$RegisterRenderers."<init>":()V
+      61: invokevirtual #575                // Method net/minecraftforge/fml/ModLoader.postEvent:(Lnet/minecraftforge/eventbus/api/Event;)V
+      64: invokestatic  #2339               // Method net/minecraftforge/client/textures/TextureAtlasSpriteLoaderManager.init:()V
+      67: invokestatic  #2342               // Method net/minecraftforge/client/gui/ClientTooltipComponentManager.init:()V
+      70: invokestatic  #2343               // Method net/minecraftforge/client/EntitySpectatorShaderManager.init:()V
+      73: aload_0
+      74: getfield      #2346               // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+      77: invokestatic  #2348               // Method onRegisterKeyMappings:(Lnet/minecraft/client/Options;)V
+      80: invokestatic  #2351               // Method net/minecraftforge/client/RecipeBookManager.init:()V
+      83: invokestatic  #2354               // Method net/minecraftforge/client/gui/overlay/GuiOverlayManager.init:()V
+      86: invokestatic  #2357               // Method net/minecraftforge/client/DimensionSpecialEffectsManager.init:()V
+      89: invokestatic  #2360               // Method net/minecraftforge/client/NamedRenderTypeManager.init:()V
+      92: invokestatic  #2363               // Method net/minecraftforge/client/ColorResolverManager.init:()V
+      95: invokestatic  #2366               // Method net/minecraftforge/client/ItemDecoratorHandler.init:()V
+      98: invokestatic  #2369               // Method net/minecraftforge/client/PresetEditorManager.init:()V
+     101: return
+
+  private static void lambda$createWorldConfirmationScreen$19(java.lang.Runnable, boolean);
+    Code:
+       0: iload_1
+       1: ifeq          13
+       4: aload_0
+       5: invokeinterface #2375,  1         // InterfaceMethod java/lang/Runnable.run:()V
+      10: goto          20
+      13: invokestatic  #492                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      16: aconst_null
+      17: invokevirtual #407                // Method net/minecraft/client/Minecraft.m_91152_:(Lnet/minecraft/client/gui/screens/Screen;)V
+      20: return
+
+  private static int lambda$makeParticleRenderTypeComparator$18(java.util.List, java.util.Comparator, net.minecraft.client.particle.ParticleRenderType, net.minecraft.client.particle.ParticleRenderType);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: invokeinterface #2378,  2         // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+       7: istore        4
+       9: aload_0
+      10: aload_3
+      11: invokeinterface #2378,  2         // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+      16: istore        5
+      18: iload         4
+      20: ifeq          37
+      23: iload         5
+      25: ifeq          37
+      28: aload_1
+      29: aload_2
+      30: aload_3
+      31: invokeinterface #2380,  3         // InterfaceMethod java/util/Comparator.compare:(Ljava/lang/Object;Ljava/lang/Object;)I
+      36: ireturn
+      37: iload         4
+      39: ifne          59
+      42: iload         5
+      44: ifne          59
+      47: aload_2
+      48: invokestatic  #2385               // Method java/lang/System.identityHashCode:(Ljava/lang/Object;)I
+      51: aload_3
+      52: invokestatic  #2385               // Method java/lang/System.identityHashCode:(Ljava/lang/Object;)I
+      55: invokestatic  #2387               // Method java/lang/Integer.compare:(II)I
+      58: ireturn
+      59: iload         4
+      61: ifeq          68
+      64: iconst_m1
+      65: goto          69
+      68: iconst_1
+      69: ireturn
+
+  private static net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent lambda$gatherTooltipComponentsFromElements$17(com.mojang.datafixers.util.Either);
+    Code:
+       0: aload_0
+       1: invokedynamic #2399,  0           // InvokeDynamic #19:apply:()Ljava/util/function/Function;
+       6: invokedynamic #2406,  0           // InvokeDynamic #20:apply:()Ljava/util/function/Function;
+      11: invokevirtual #2409               // Method com/mojang/datafixers/util/Either.map:(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/lang/Object;
+      14: checkcast     #2052               // class net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent
+      17: areturn
+
+  private static net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent lambda$gatherTooltipComponentsFromElements$16(net.minecraft.network.chat.FormattedText);
+    Code:
+       0: aload_0
+       1: instanceof    #1700               // class net/minecraft/network/chat/Component
+       4: ifeq          19
+       7: aload_0
+       8: checkcast     #1700               // class net/minecraft/network/chat/Component
+      11: invokeinterface #2047,  1         // InterfaceMethod net/minecraft/network/chat/Component.m_7532_:()Lnet/minecraft/util/FormattedCharSequence;
+      16: goto          26
+      19: invokestatic  #2417               // Method net/minecraft/locale/Language.m_128107_:()Lnet/minecraft/locale/Language;
+      22: aload_0
+      23: invokevirtual #2421               // Method net/minecraft/locale/Language.m_5536_:(Lnet/minecraft/network/chat/FormattedText;)Lnet/minecraft/util/FormattedCharSequence;
+      26: invokestatic  #2056               // InterfaceMethod net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent.m_169948_:(Lnet/minecraft/util/FormattedCharSequence;)Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent;
+      29: areturn
+
+  private static java.util.stream.Stream lambda$gatherTooltipComponentsFromElements$15(net.minecraft.client.gui.Font, int, com.mojang.datafixers.util.Either);
+    Code:
+       0: aload_2
+       1: aload_0
+       2: iload_1
+       3: invokedynamic #2431,  0           // InvokeDynamic #21:apply:(Lnet/minecraft/client/gui/Font;I)Ljava/util/function/Function;
+       8: invokedynamic #2438,  0           // InvokeDynamic #22:apply:()Ljava/util/function/Function;
+      13: invokevirtual #2409               // Method com/mojang/datafixers/util/Either.map:(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/lang/Object;
+      16: checkcast     #1711               // class java/util/stream/Stream
+      19: areturn
+
+  private static java.util.stream.Stream lambda$gatherTooltipComponentsFromElements$14(net.minecraft.world.inventory.tooltip.TooltipComponent);
+    Code:
+       0: aload_0
+       1: invokestatic  #2403               // InterfaceMethod net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent.m_169950_:(Lnet/minecraft/world/inventory/tooltip/TooltipComponent;)Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent;
+       4: invokestatic  #2050               // InterfaceMethod java/util/stream/Stream.of:(Ljava/lang/Object;)Ljava/util/stream/Stream;
+       7: areturn
+
+  private static java.util.stream.Stream lambda$gatherTooltipComponentsFromElements$13(net.minecraft.client.gui.Font, int, net.minecraft.network.chat.FormattedText);
+    Code:
+       0: aload_2
+       1: aload_0
+       2: iload_1
+       3: invokestatic  #2441               // Method splitLine:(Lnet/minecraft/network/chat/FormattedText;Lnet/minecraft/client/gui/Font;I)Ljava/util/stream/Stream;
+       6: areturn
+
+  private static int lambda$gatherTooltipComponentsFromElements$12(net.minecraft.client.gui.Font, com.mojang.datafixers.util.Either);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: dup
+       3: invokestatic  #373                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       6: pop
+       7: invokedynamic #2451,  0           // InvokeDynamic #23:apply:(Lnet/minecraft/client/gui/Font;)Ljava/util/function/Function;
+      12: invokedynamic #2458,  0           // InvokeDynamic #24:apply:()Ljava/util/function/Function;
+      17: invokevirtual #2409               // Method com/mojang/datafixers/util/Either.map:(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/lang/Object;
+      20: checkcast     #1649               // class java/lang/Integer
+      23: invokevirtual #2461               // Method java/lang/Integer.intValue:()I
+      26: ireturn
+
+  private static java.lang.Integer lambda$gatherTooltipComponentsFromElements$11(net.minecraft.world.inventory.tooltip.TooltipComponent);
+    Code:
+       0: iconst_0
+       1: invokestatic  #1653               // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       4: areturn
+
+  private static void lambda$gatherTooltipComponents$10(java.util.List, net.minecraft.world.inventory.tooltip.TooltipComponent);
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: aload_1
+       3: invokestatic  #2464               // Method com/mojang/datafixers/util/Either.right:(Ljava/lang/Object;)Lcom/mojang/datafixers/util/Either;
+       6: invokeinterface #2468,  3         // InterfaceMethod java/util/List.add:(ILjava/lang/Object;)V
+      11: return
+
+  private static void lambda$processForgeListPingData$9(net.minecraft.client.multiplayer.ServerData);
+    Code:
+       0: aload_0
+       1: new           #1624               // class net/minecraftforge/client/ExtendedServerListData
+       4: dup
+       5: ldc_w         #1639               // String VANILLA
+       8: invokestatic  #2474               // Method net/minecraftforge/network/NetworkRegistry.canConnectToVanillaServer:()Z
+      11: iconst_0
+      12: aconst_null
+      13: invokespecial #2477               // Method net/minecraftforge/client/ExtendedServerListData."<init>":(Ljava/lang/String;ZILjava/lang/String;)V
+      16: putfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+      19: return
+
+  private static void lambda$processForgeListPingData$8(net.minecraft.client.multiplayer.ServerData, net.minecraftforge.network.ServerStatusPing);
+    Code:
+       0: aload_1
+       1: invokevirtual #2481               // Method net/minecraftforge/network/ServerStatusPing.getRemoteModData:()Ljava/util/Map;
+       4: astore_2
+       5: aload_1
+       6: invokevirtual #2484               // Method net/minecraftforge/network/ServerStatusPing.getRemoteChannels:()Ljava/util/Map;
+       9: astore_3
+      10: aload_1
+      11: invokevirtual #2487               // Method net/minecraftforge/network/ServerStatusPing.getFMLNetworkVersion:()I
+      14: istore        4
+      16: iload         4
+      18: iconst_3
+      19: if_icmpne     26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: istore        5
+      29: aload_3
+      30: invokestatic  #2491               // Method net/minecraftforge/network/NetworkRegistry.checkListPingCompatibilityForClient:(Ljava/util/Map;)Z
+      33: istore        6
+      35: new           #2493               // class java/util/concurrent/atomic/AtomicBoolean
+      38: dup
+      39: iconst_1
+      40: invokespecial #2495               // Method java/util/concurrent/atomic/AtomicBoolean."<init>":(Z)V
+      43: astore        7
+      45: new           #1931               // class java/util/ArrayList
+      48: dup
+      49: invokespecial #1932               // Method java/util/ArrayList."<init>":()V
+      52: astore        8
+      54: invokestatic  #2500               // Method net/minecraftforge/fml/ModList.get:()Lnet/minecraftforge/fml/ModList;
+      57: aload_2
+      58: aload         7
+      60: aload         8
+      62: invokedynamic #2510,  0           // InvokeDynamic #25:accept:(Ljava/util/Map;Ljava/util/concurrent/atomic/AtomicBoolean;Ljava/util/List;)Ljava/util/function/BiConsumer;
+      67: invokevirtual #2513               // Method net/minecraftforge/fml/ModList.forEachModContainer:(Ljava/util/function/BiConsumer;)V
+      70: aload         7
+      72: invokevirtual #2515               // Method java/util/concurrent/atomic/AtomicBoolean.get:()Z
+      75: istore        9
+      77: aload_2
+      78: invokeinterface #2519,  1         // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+      83: invokeinterface #2522,  1         // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+      88: invokedynamic #2533,  0           // InvokeDynamic #26:test:()Ljava/util/function/Predicate;
+      93: invokeinterface #2537,  2         // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      98: invokedynamic #2542,  0           // InvokeDynamic #27:test:()Ljava/util/function/Predicate;
+     103: invokeinterface #2537,  2         // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+     108: invokedynamic #2549,  0           // InvokeDynamic #28:apply:()Ljava/util/function/Function;
+     113: invokedynamic #2554,  0           // InvokeDynamic #29:apply:()Ljava/util/function/Function;
+     118: invokestatic  #2558               // Method java/util/stream/Collectors.toMap:(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+     121: invokeinterface #1724,  2         // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+     126: checkcast     #247                // class java/util/Map
+     129: astore        10
+     131: getstatic     #1509               // Field LOGGER:Lorg/apache/logging/log4j/Logger;
+     134: getstatic     #2560               // Field CLIENTHOOKS:Lorg/apache/logging/log4j/Marker;
+     137: ldc_w         #2562               // String Received FML ping data from server at {}: FMLNETVER={}, mod list is compatible : {}, channel list is compatible: {}, extra server mods: {}
+     140: aload_0
+     141: getfield      #2565               // Field net/minecraft/client/multiplayer/ServerData.f_105363_:Ljava/lang/String;
+     144: iload         4
+     146: invokestatic  #1653               // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     149: iload         9
+     151: invokestatic  #2568               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     154: iload         6
+     156: invokestatic  #2568               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     159: aload         10
+     161: invokeinterface #2572,  8         // InterfaceMethod org/apache/logging/log4j/Logger.debug:(Lorg/apache/logging/log4j/Marker;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+     166: aconst_null
+     167: astore        11
+     169: aload         10
+     171: invokeinterface #2573,  1         // InterfaceMethod java/util/Map.isEmpty:()Z
+     176: ifne          242
+     179: ldc_w         #2575               // String fml.menu.multiplayer.extraservermods
+     182: astore        11
+     184: getstatic     #1509               // Field LOGGER:Lorg/apache/logging/log4j/Logger;
+     187: getstatic     #2560               // Field CLIENTHOOKS:Lorg/apache/logging/log4j/Marker;
+     190: aload         11
+     192: iconst_0
+     193: anewarray     #4                  // class java/lang/Object
+     196: invokestatic  #1658               // Method net/minecraftforge/common/ForgeI18n.parseMessage:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     199: invokedynamic #2579,  0           // InvokeDynamic #30:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     204: aload         10
+     206: invokeinterface #2519,  1         // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+     211: invokeinterface #2522,  1         // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+     216: invokedynamic #2584,  0           // InvokeDynamic #31:apply:()Ljava/util/function/Function;
+     221: invokeinterface #1714,  2         // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     226: ldc_w         #2586               // String ,
+     229: invokestatic  #2590               // Method java/util/stream/Collectors.joining:(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+     232: invokeinterface #1724,  2         // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+     237: invokeinterface #2593,  4         // InterfaceMethod org/apache/logging/log4j/Logger.info:(Lorg/apache/logging/log4j/Marker;Ljava/lang/String;Ljava/lang/Object;)V
+     242: iload         9
+     244: ifne          268
+     247: ldc_w         #2595               // String fml.menu.multiplayer.modsincompatible
+     250: astore        11
+     252: getstatic     #1509               // Field LOGGER:Lorg/apache/logging/log4j/Logger;
+     255: getstatic     #2560               // Field CLIENTHOOKS:Lorg/apache/logging/log4j/Marker;
+     258: ldc_w         #2597               // String Client has mods that are missing on server: {}
+     261: aload         8
+     263: invokeinterface #2593,  4         // InterfaceMethod org/apache/logging/log4j/Logger.info:(Lorg/apache/logging/log4j/Marker;Ljava/lang/String;Ljava/lang/Object;)V
+     268: iload         6
+     270: ifne          278
+     273: ldc_w         #2599               // String fml.menu.multiplayer.networkincompatible
+     276: astore        11
+     278: iload         4
+     280: iconst_3
+     281: if_icmpge     289
+     284: ldc_w         #2601               // String fml.menu.multiplayer.serveroutdated
+     287: astore        11
+     289: iload         4
+     291: iconst_3
+     292: if_icmple     300
+     295: ldc_w         #2603               // String fml.menu.multiplayer.clientoutdated
+     298: astore        11
+     300: aload_0
+     301: new           #1624               // class net/minecraftforge/client/ExtendedServerListData
+     304: dup
+     305: ldc_w         #1633               // String FML
+     308: aload         10
+     310: invokeinterface #2573,  1         // InterfaceMethod java/util/Map.isEmpty:()Z
+     315: ifeq          337
+     318: iload         5
+     320: ifeq          337
+     323: iload         6
+     325: ifeq          337
+     328: iload         9
+     330: ifeq          337
+     333: iconst_1
+     334: goto          338
+     337: iconst_0
+     338: aload_2
+     339: invokeinterface #2604,  1         // InterfaceMethod java/util/Map.size:()I
+     344: aload         11
+     346: aload_1
+     347: invokevirtual #2607               // Method net/minecraftforge/network/ServerStatusPing.isTruncated:()Z
+     350: invokespecial #2610               // Method net/minecraftforge/client/ExtendedServerListData."<init>":(Ljava/lang/String;ZILjava/lang/String;Z)V
+     353: putfield      #1622               // Field net/minecraft/client/multiplayer/ServerData.forgeData:Lnet/minecraftforge/client/ExtendedServerListData;
+     356: return
+
+  private static java.lang.String lambda$processForgeListPingData$7(java.util.Map$Entry);
+    Code:
+       0: aload_0
+       1: invokeinterface #2545,  1         // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+       6: checkcast     #426                // class java/lang/String
+       9: aload_0
+      10: invokeinterface #2552,  1         // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+      15: checkcast     #426                // class java/lang/String
+      18: invokedynamic #2625,  0           // InvokeDynamic #32:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      23: areturn
+
+  private static boolean lambda$processForgeListPingData$6(java.util.Map$Entry);
+    Code:
+       0: invokestatic  #2500               // Method net/minecraftforge/fml/ModList.get:()Lnet/minecraftforge/fml/ModList;
+       3: aload_0
+       4: invokeinterface #2545,  1         // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+       9: checkcast     #426                // class java/lang/String
+      12: invokevirtual #2630               // Method net/minecraftforge/fml/ModList.isLoaded:(Ljava/lang/String;)Z
+      15: ifne          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  private static boolean lambda$processForgeListPingData$5(java.util.Map$Entry);
+    Code:
+       0: ldc_w         #2632               // String OHNOES?????????????????
+       3: aload_0
+       4: invokeinterface #2552,  1         // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+       9: invokestatic  #2635               // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      12: ifne          19
+      15: iconst_1
+      16: goto          20
+      19: iconst_0
+      20: ireturn
+
+  private static void lambda$processForgeListPingData$4(java.util.Map, java.util.concurrent.atomic.AtomicBoolean, java.util.List, java.lang.String, net.minecraftforge.fml.ModContainer);
+    Code:
+       0: aload         4
+       2: ldc           #250                // class net/minecraftforge/fml/IExtensionPoint$DisplayTest
+       4: invokevirtual #2641               // Method net/minecraftforge/fml/ModContainer.getCustomExtension:(Ljava/lang/Class;)Ljava/util/Optional;
+       7: aload_0
+       8: aload_3
+       9: aload_1
+      10: aload_2
+      11: invokedynamic #2651,  0           // InvokeDynamic #33:accept:(Ljava/util/Map;Ljava/lang/String;Ljava/util/concurrent/atomic/AtomicBoolean;Ljava/util/List;)Ljava/util/function/Consumer;
+      16: invokevirtual #1955               // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      19: return
+
+  private static void lambda$processForgeListPingData$3(java.util.Map, java.lang.String, java.util.concurrent.atomic.AtomicBoolean, java.util.List, net.minecraftforge.fml.IExtensionPoint$DisplayTest);
+    Code:
+       0: aload         4
+       2: invokevirtual #2657               // Method net/minecraftforge/fml/IExtensionPoint$DisplayTest.remoteVersionTest:()Ljava/util/function/BiPredicate;
+       5: aload_0
+       6: aload_1
+       7: invokeinterface #2659,  2         // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      12: checkcast     #426                // class java/lang/String
+      15: iconst_1
+      16: invokestatic  #2568               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      19: invokeinterface #2663,  3         // InterfaceMethod java/util/function/BiPredicate.test:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      24: istore        5
+      26: aload_2
+      27: iconst_1
+      28: iload         5
+      30: invokevirtual #2667               // Method java/util/concurrent/atomic/AtomicBoolean.compareAndSet:(ZZ)Z
+      33: pop
+      34: iload         5
+      36: ifne          47
+      39: aload_3
+      40: aload_1
+      41: invokeinterface #2669,  2         // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      46: pop
+      47: return
+
+  private static void lambda$loadLayerDefinitions$2(com.google.common.collect.ImmutableMap$Builder, net.minecraft.client.model.geom.ModelLayerLocation, java.util.function.Supplier);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokeinterface #2675,  1         // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+       8: checkcast     #2677               // class net/minecraft/client/model/geom/builders/LayerDefinition
+      11: invokevirtual #2680               // Method com/google/common/collect/ImmutableMap$Builder.put:(Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableMap$Builder;
+      14: pop
+      15: return
+
+  private static void lambda$drawScreen$1(net.minecraft.client.gui.GuiGraphics, float, net.minecraft.client.gui.screens.Screen);
+    Code:
+       0: aload_2
+       1: aload_0
+       2: ldc_w         #2683               // int 2147483647
+       5: ldc_w         #2683               // int 2147483647
+       8: fload_1
+       9: invokestatic  #789                // Method drawScreenInternal:(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+      12: aload_0
+      13: invokevirtual #773                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+      16: fconst_0
+      17: fconst_0
+      18: ldc_w         #2684               // float 2000.0f
+      21: invokevirtual #2687               // Method com/mojang/blaze3d/vertex/PoseStack.m_252880_:(FFF)V
+      24: return
+
+  private static void lambda$resizeGuiLayers$0(net.minecraft.client.Minecraft, int, int, net.minecraft.client.gui.screens.Screen);
+    Code:
+       0: aload_3
+       1: aload_0
+       2: iload_1
+       3: iload_2
+       4: invokevirtual #2691               // Method net/minecraft/client/gui/screens/Screen.m_6574_:(Lnet/minecraft/client/Minecraft;II)V
+       7: return
+
+  static {};
+    Code:
+       0: invokestatic  #2698               // Method org/apache/logging/log4j/LogManager.getLogger:()Lorg/apache/logging/log4j/Logger;
+       3: putstatic     #1509               // Field LOGGER:Lorg/apache/logging/log4j/Logger;
+       6: ldc_w         #2699               // String CLIENTHOOKS
+       9: invokestatic  #2705               // Method org/apache/logging/log4j/MarkerManager.getMarker:(Ljava/lang/String;)Lorg/apache/logging/log4j/Marker;
+      12: putstatic     #2560               // Field CLIENTHOOKS:Lorg/apache/logging/log4j/Marker;
+      15: new           #330                // class java/util/Stack
+      18: dup
+      19: invokespecial #2706               // Method java/util/Stack."<init>":()V
+      22: putstatic     #308                // Field guiLayers:Ljava/util/Stack;
+      25: iconst_0
+      26: putstatic     #1169               // Field slotMainHand:I
+      29: new           #2708               // class java/util/HashMap
+      32: dup
+      33: invokespecial #2709               // Method java/util/HashMap."<init>":()V
+      36: putstatic     #1549               // Field layerDefinitions:Ljava/util/Map;
+      39: new           #1019               // class net/minecraft/resources/ResourceLocation
+      42: dup
+      43: ldc_w         #2711               // String forge
+      46: ldc_w         #2713               // String textures/gui/icons.png
+      49: invokespecial #2253               // Method net/minecraft/resources/ResourceLocation."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+      52: putstatic     #1681               // Field ICON_SHEET:Lnet/minecraft/resources/ResourceLocation;
+      55: new           #257                // class net/minecraft/network/chat/ChatTypeDecoration
+      58: dup
+      59: ldc_w         #2715               // String forge.chatType.system
+      62: getstatic     #2719               // Field net/minecraft/network/chat/ChatTypeDecoration$Parameter.CONTENT:Lnet/minecraft/network/chat/ChatTypeDecoration$Parameter;
+      65: invokestatic  #2722               // InterfaceMethod java/util/List.of:(Ljava/lang/Object;)Ljava/util/List;
+      68: getstatic     #2728               // Field net/minecraft/network/chat/Style.f_131099_:Lnet/minecraft/network/chat/Style;
+      71: invokespecial #2731               // Method net/minecraft/network/chat/ChatTypeDecoration."<init>":(Ljava/lang/String;Ljava/util/List;Lnet/minecraft/network/chat/Style;)V
+      74: putstatic     #2733               // Field SYSTEM_CHAT_TYPE_DECORATION:Lnet/minecraft/network/chat/ChatTypeDecoration;
+      77: new           #187                // class net/minecraft/network/chat/ChatType
+      80: dup
+      81: getstatic     #2733               // Field SYSTEM_CHAT_TYPE_DECORATION:Lnet/minecraft/network/chat/ChatTypeDecoration;
+      84: getstatic     #2733               // Field SYSTEM_CHAT_TYPE_DECORATION:Lnet/minecraft/network/chat/ChatTypeDecoration;
+      87: invokespecial #2736               // Method net/minecraft/network/chat/ChatType."<init>":(Lnet/minecraft/network/chat/ChatTypeDecoration;Lnet/minecraft/network/chat/ChatTypeDecoration;)V
+      90: putstatic     #2738               // Field SYSTEM_CHAT_TYPE:Lnet/minecraft/network/chat/ChatType;
+      93: getstatic     #2738               // Field SYSTEM_CHAT_TYPE:Lnet/minecraft/network/chat/ChatType;
+      96: ldc_w         #2739               // String System
+      99: invokestatic  #1704               // InterfaceMethod net/minecraft/network/chat/Component.m_237113_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     102: invokevirtual #2743               // Method net/minecraft/network/chat/ChatType.m_240982_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/ChatType$Bound;
+     105: putstatic     #1837               // Field SYSTEM_CHAT_TYPE_BOUND:Lnet/minecraft/network/chat/ChatType$Bound;
+     108: iconst_0
+     109: putstatic     #2317               // Field initializedClientHooks:Z
+     112: return
+}

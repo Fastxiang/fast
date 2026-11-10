@@ -1,0 +1,422 @@
+Compiled from "ApricityJS.java"
+public class com.sighs.apricityui.script.ApricityJS {
+  private static final java.lang.Object GLOBAL_SCRIPT_LOCK;
+
+  private static final java.lang.String DOCUMENT_UUID_BINDING;
+
+  private static java.lang.String cachedGlobalCode;
+
+  private static dev.latvian.mods.rhino.Script cachedGlobalScript;
+
+  public com.sighs.apricityui.script.ApricityJS();
+    Code:
+       0: aload_0
+       1: invokespecial #18                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void eval(java.lang.String);
+    Code:
+       0: aload_0
+       1: aconst_null
+       2: ldc           #24                 // String <global>
+       4: invokestatic  #27                 // Method eval:(Ljava/lang/String;Lcom/sighs/apricityui/event/Event;Ljava/lang/String;)V
+       7: return
+
+  public static void eval(java.lang.String, com.sighs.apricityui.event.Event);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: ldc           #31                 // String <inline>
+       4: invokestatic  #27                 // Method eval:(Ljava/lang/String;Lcom/sighs/apricityui/event/Event;Ljava/lang/String;)V
+       7: return
+
+  public static void eval(java.lang.String, com.sighs.apricityui.event.Event, java.lang.String);
+    Code:
+       0: invokestatic  #39                 // Method isKubeJsLoaded:()Z
+       3: ifne          7
+       6: return
+       7: aload_0
+       8: ifnull        18
+      11: aload_0
+      12: invokevirtual #44                 // Method java/lang/String.isBlank:()Z
+      15: ifeq          33
+      18: getstatic     #50                 // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      21: ldc           #52                 // String [AUI JS] empty script skipped source={}
+      23: aload_2
+      24: invokestatic  #58                 // Method com/sighs/apricityui/util/AuiLog.source:(Ljava/lang/String;)Ljava/lang/String;
+      27: invokeinterface #64,  3           // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;)V
+      32: return
+      33: aload_1
+      34: ifnull        37
+      37: aload_0
+      38: invokestatic  #69                 // Method com/sighs/apricityui/parser/JS.rewriteForRhino:(Ljava/lang/String;)Ljava/lang/String;
+      41: astore_0
+      42: invokestatic  #75                 // Method dev/latvian/mods/kubejs/KubeJS.getClientScriptManager:()Ldev/latvian/mods/kubejs/script/ScriptManager;
+      45: astore_3
+      46: aload_3
+      47: getfield      #81                 // Field dev/latvian/mods/kubejs/script/ScriptManager.context:Ldev/latvian/mods/rhino/Context;
+      50: astore        4
+      52: aload_3
+      53: getfield      #85                 // Field dev/latvian/mods/kubejs/script/ScriptManager.topLevelScope:Ldev/latvian/mods/rhino/Scriptable;
+      56: astore        5
+      58: aconst_null
+      59: astore        6
+      61: iconst_0
+      62: istore        7
+      64: aload_1
+      65: ifnull        112
+      68: aload         5
+      70: aload         4
+      72: ldc           #86                 // String event
+      74: aload         5
+      76: invokeinterface #92,  4           // InterfaceMethod dev/latvian/mods/rhino/Scriptable.get:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;
+      81: astore        6
+      83: aload         6
+      85: getstatic     #95                 // Field dev/latvian/mods/rhino/Scriptable.NOT_FOUND:Ljava/lang/Object;
+      88: if_acmpeq     95
+      91: iconst_1
+      92: goto          96
+      95: iconst_0
+      96: istore        7
+      98: aload         5
+     100: aload         4
+     102: ldc           #86                 // String event
+     104: aload         5
+     106: aload_1
+     107: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+     112: aload         4
+     114: aload         5
+     116: aload_0
+     117: aload_2
+     118: invokestatic  #58                 // Method com/sighs/apricityui/util/AuiLog.source:(Ljava/lang/String;)Ljava/lang/String;
+     121: iconst_1
+     122: aconst_null
+     123: invokevirtual #107                // Method dev/latvian/mods/rhino/Context.evaluateString:(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;
+     126: pop
+     127: aload_1
+     128: ifnull        265
+     131: iload         7
+     133: ifeq          154
+     136: aload         5
+     138: aload         4
+     140: ldc           #86                 // String event
+     142: aload         5
+     144: aload         6
+     146: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+     151: goto          265
+     154: aload         5
+     156: aload         4
+     158: ldc           #86                 // String event
+     160: invokeinterface #111,  3          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.delete:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)V
+     165: goto          265
+     168: astore        8
+     170: getstatic     #50                 // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     173: ldc           #113                // String [AUI JS] script execution failed source={} event={} code={}
+     175: iconst_4
+     176: anewarray     #4                  // class java/lang/Object
+     179: dup
+     180: iconst_0
+     181: aload_2
+     182: invokestatic  #58                 // Method com/sighs/apricityui/util/AuiLog.source:(Ljava/lang/String;)Ljava/lang/String;
+     185: aastore
+     186: dup
+     187: iconst_1
+     188: aload_1
+     189: ifnonnull     197
+     192: ldc           #115                // String <none>
+     194: goto          201
+     197: aload_1
+     198: getfield      #120                // Field com/sighs/apricityui/event/Event.type:Ljava/lang/String;
+     201: aastore
+     202: dup
+     203: iconst_2
+     204: aload_0
+     205: invokestatic  #123                // Method com/sighs/apricityui/util/AuiLog.compact:(Ljava/lang/String;)Ljava/lang/String;
+     208: aastore
+     209: dup
+     210: iconst_3
+     211: aload         8
+     213: aastore
+     214: invokeinterface #127,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+     219: aload         8
+     221: athrow
+     222: astore        9
+     224: aload_1
+     225: ifnull        262
+     228: iload         7
+     230: ifeq          251
+     233: aload         5
+     235: aload         4
+     237: ldc           #86                 // String event
+     239: aload         5
+     241: aload         6
+     243: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+     248: goto          262
+     251: aload         5
+     253: aload         4
+     255: ldc           #86                 // String event
+     257: invokeinterface #111,  3          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.delete:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)V
+     262: aload         9
+     264: athrow
+     265: return
+    Exception table:
+       from    to  target type
+         112   127   168   Class java/lang/RuntimeException
+         112   127   222   any
+         168   224   222   any
+
+  public static void evalGlobal(java.lang.String, java.lang.String);
+    Code:
+       0: invokestatic  #39                 // Method isKubeJsLoaded:()Z
+       3: ifne          7
+       6: return
+       7: aload_0
+       8: ifnull        18
+      11: aload_0
+      12: invokevirtual #44                 // Method java/lang/String.isBlank:()Z
+      15: ifeq          19
+      18: return
+      19: invokestatic  #75                 // Method dev/latvian/mods/kubejs/KubeJS.getClientScriptManager:()Ldev/latvian/mods/kubejs/script/ScriptManager;
+      22: astore_2
+      23: aload_2
+      24: getfield      #81                 // Field dev/latvian/mods/kubejs/script/ScriptManager.context:Ldev/latvian/mods/rhino/Context;
+      27: astore_3
+      28: aload_2
+      29: getfield      #85                 // Field dev/latvian/mods/kubejs/script/ScriptManager.topLevelScope:Ldev/latvian/mods/rhino/Scriptable;
+      32: astore        4
+      34: aload         4
+      36: aload_3
+      37: ldc           #11                 // String __auiDocumentUuid
+      39: aload         4
+      41: invokeinterface #92,  4           // InterfaceMethod dev/latvian/mods/rhino/Scriptable.get:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;
+      46: astore        5
+      48: aload         5
+      50: getstatic     #95                 // Field dev/latvian/mods/rhino/Scriptable.NOT_FOUND:Ljava/lang/Object;
+      53: if_acmpeq     60
+      56: iconst_1
+      57: goto          61
+      60: iconst_0
+      61: istore        6
+      63: aload         4
+      65: aload_3
+      66: ldc           #11                 // String __auiDocumentUuid
+      68: aload         4
+      70: aload_1
+      71: ifnonnull     79
+      74: ldc           #141                // String
+      76: goto          80
+      79: aload_1
+      80: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+      85: aload_3
+      86: aload_0
+      87: invokestatic  #145                // Method compiledGlobalScript:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)Ldev/latvian/mods/rhino/Script;
+      90: aload_3
+      91: aload         4
+      93: invokeinterface #151,  3          // InterfaceMethod dev/latvian/mods/rhino/Script.exec:(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;
+      98: pop
+      99: iload         6
+     101: ifeq          121
+     104: aload         4
+     106: aload_3
+     107: ldc           #11                 // String __auiDocumentUuid
+     109: aload         4
+     111: aload         5
+     113: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+     118: goto          206
+     121: aload         4
+     123: aload_3
+     124: ldc           #11                 // String __auiDocumentUuid
+     126: invokeinterface #111,  3          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.delete:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)V
+     131: goto          206
+     134: astore        7
+     136: getstatic     #50                 // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     139: ldc           #153                // String [AUI JS] global script execution failed document={} code={}
+     141: iconst_3
+     142: anewarray     #4                  // class java/lang/Object
+     145: dup
+     146: iconst_0
+     147: aload_1
+     148: aastore
+     149: dup
+     150: iconst_1
+     151: aload_0
+     152: invokestatic  #123                // Method com/sighs/apricityui/util/AuiLog.compact:(Ljava/lang/String;)Ljava/lang/String;
+     155: aastore
+     156: dup
+     157: iconst_2
+     158: aload         7
+     160: aastore
+     161: invokeinterface #127,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+     166: aload         7
+     168: athrow
+     169: astore        8
+     171: iload         6
+     173: ifeq          193
+     176: aload         4
+     178: aload_3
+     179: ldc           #11                 // String __auiDocumentUuid
+     181: aload         4
+     183: aload         5
+     185: invokeinterface #103,  5          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.put:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;)V
+     190: goto          203
+     193: aload         4
+     195: aload_3
+     196: ldc           #11                 // String __auiDocumentUuid
+     198: invokeinterface #111,  3          // InterfaceMethod dev/latvian/mods/rhino/Scriptable.delete:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)V
+     203: aload         8
+     205: athrow
+     206: return
+    Exception table:
+       from    to  target type
+          85    99   134   Class java/lang/RuntimeException
+          85    99   169   any
+         134   171   169   any
+
+  public static void reload();
+    Code:
+       0: invokestatic  #39                 // Method isKubeJsLoaded:()Z
+       3: ifne          7
+       6: return
+       7: invokestatic  #160                // Method clearGlobalScriptCache:()V
+      10: getstatic     #164                // Field dev/latvian/mods/kubejs/KubeJS.PROXY:Ldev/latvian/mods/kubejs/KubeJSCommon;
+      13: invokevirtual #169                // Method dev/latvian/mods/kubejs/KubeJSCommon.reloadClientInternal:()V
+      16: goto          33
+      19: astore_0
+      20: getstatic     #50                 // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      23: ldc           #171                // String [AUI JS] KubeJS client script reload failed
+      25: aload_0
+      26: invokeinterface #174,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      31: aload_0
+      32: athrow
+      33: return
+    Exception table:
+       from    to  target type
+          10    16    19   Class java/lang/RuntimeException
+
+  public static void warmUp();
+    Code:
+       0: invokestatic  #39                 // Method isKubeJsLoaded:()Z
+       3: ifne          7
+       6: return
+       7: invokestatic  #75                 // Method dev/latvian/mods/kubejs/KubeJS.getClientScriptManager:()Ldev/latvian/mods/kubejs/script/ScriptManager;
+      10: astore_0
+      11: invokestatic  #181                // Method com/sighs/apricityui/loader/Loader.readGlobalJS:()Ljava/lang/String;
+      14: astore_1
+      15: aload_1
+      16: ifnull        26
+      19: aload_1
+      20: invokevirtual #44                 // Method java/lang/String.isBlank:()Z
+      23: ifeq          27
+      26: return
+      27: aload_0
+      28: getfield      #81                 // Field dev/latvian/mods/kubejs/script/ScriptManager.context:Ldev/latvian/mods/rhino/Context;
+      31: aload_1
+      32: invokestatic  #145                // Method compiledGlobalScript:(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;)Ldev/latvian/mods/rhino/Script;
+      35: pop
+      36: return
+
+  private static dev.latvian.mods.rhino.Script compiledGlobalScript(dev.latvian.mods.rhino.Context, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokestatic  #185                // Method prepareGlobalCode:(Ljava/lang/String;)Ljava/lang/String;
+       4: astore_2
+       5: getstatic     #187                // Field GLOBAL_SCRIPT_LOCK:Ljava/lang/Object;
+       8: dup
+       9: astore_3
+      10: monitorenter
+      11: getstatic     #189                // Field cachedGlobalScript:Ldev/latvian/mods/rhino/Script;
+      14: ifnull        27
+      17: aload_2
+      18: getstatic     #191                // Field cachedGlobalCode:Ljava/lang/String;
+      21: invokevirtual #195                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      24: ifne          43
+      27: aload_0
+      28: aload_2
+      29: ldc           #197                // String global.js
+      31: iconst_1
+      32: aconst_null
+      33: invokevirtual #201                // Method dev/latvian/mods/rhino/Context.compileString:(Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/latvian/mods/rhino/Script;
+      36: putstatic     #189                // Field cachedGlobalScript:Ldev/latvian/mods/rhino/Script;
+      39: aload_2
+      40: putstatic     #191                // Field cachedGlobalCode:Ljava/lang/String;
+      43: getstatic     #189                // Field cachedGlobalScript:Ldev/latvian/mods/rhino/Script;
+      46: aload_3
+      47: monitorexit
+      48: areturn
+      49: astore        4
+      51: aload_3
+      52: monitorexit
+      53: aload         4
+      55: athrow
+    Exception table:
+       from    to  target type
+          11    48    49   any
+          49    53    49   any
+
+  private static java.lang.String prepareGlobalCode(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #69                 // Method com/sighs/apricityui/parser/JS.rewriteForRhino:(Ljava/lang/String;)Ljava/lang/String;
+       4: ldc           #204                // String \"__AUI_DOCUMENT_UUID__\"
+       6: ldc           #11                 // String __auiDocumentUuid
+       8: invokevirtual #208                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      11: ldc           #210                // String \'__AUI_DOCUMENT_UUID__\'
+      13: ldc           #11                 // String __auiDocumentUuid
+      15: invokevirtual #208                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      18: ldc           #212                // String __AUI_DOCUMENT_UUID__
+      20: ldc           #11                 // String __auiDocumentUuid
+      22: invokevirtual #208                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      25: areturn
+
+  private static void clearGlobalScriptCache();
+    Code:
+       0: getstatic     #187                // Field GLOBAL_SCRIPT_LOCK:Ljava/lang/Object;
+       3: dup
+       4: astore_0
+       5: monitorenter
+       6: aconst_null
+       7: putstatic     #191                // Field cachedGlobalCode:Ljava/lang/String;
+      10: aconst_null
+      11: putstatic     #189                // Field cachedGlobalScript:Ldev/latvian/mods/rhino/Script;
+      14: aload_0
+      15: monitorexit
+      16: goto          24
+      19: astore_1
+      20: aload_0
+      21: monitorexit
+      22: aload_1
+      23: athrow
+      24: return
+    Exception table:
+       from    to  target type
+           6    16    19   any
+          19    22    19   any
+
+  private static boolean isKubeJsLoaded();
+    Code:
+       0: invokestatic  #219                // Method net/minecraftforge/fml/ModList.get:()Lnet/minecraftforge/fml/ModList;
+       3: ifnull        21
+       6: invokestatic  #219                // Method net/minecraftforge/fml/ModList.get:()Lnet/minecraftforge/fml/ModList;
+       9: ldc           #221                // String kubejs
+      11: invokevirtual #225                // Method net/minecraftforge/fml/ModList.isLoaded:(Ljava/lang/String;)Z
+      14: ifeq          21
+      17: iconst_1
+      18: goto          22
+      21: iconst_0
+      22: ireturn
+      23: astore_0
+      24: iconst_0
+      25: ireturn
+    Exception table:
+       from    to  target type
+           0    22    23   Class java/lang/LinkageError
+           0    22    23   Class java/lang/RuntimeException
+
+  static {};
+    Code:
+       0: new           #4                  // class java/lang/Object
+       3: dup
+       4: invokespecial #18                 // Method java/lang/Object."<init>":()V
+       7: putstatic     #187                // Field GLOBAL_SCRIPT_LOCK:Ljava/lang/Object;
+      10: return
+}

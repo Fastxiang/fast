@@ -43,6 +43,10 @@ minecraft {
             ]
             workingDirectory project.file('run')
             arg "-mixin.config=" + "${mod_id}" + ".mixins.json"
+            // 灾变（L_Ender's Cataclysm）兼容补丁单独一份配置，没装灾变时不影响本模组加载
+            arg "-mixin.config=" + "${mod_id}" + ".cataclysm.mixins.json"
+            // 星露谷钓鱼（stardew_fishing）自动模式兼容，没装该模组时不影响本模组加载
+            arg "-mixin.config=" + "${mod_id}" + ".stardew.mixins.json"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.remapRefMap', 'true'
@@ -79,11 +83,20 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 mixin {
     add sourceSets.main, "${mod_id}" + '.mixin-refmap.json'
     config "${mod_id}" + '.mixins.json'
+    // 灾变（L_Ender's Cataclysm）兼容补丁
+    config "${mod_id}" + '.cataclysm.mixins.json'
+    // 星露谷钓鱼（stardew_fishing）自动模式兼容
+    config "${mod_id}" + '.stardew.mixins.json'
 }
 
 repositories {
     flatDir {
         dirs 'libs'
+    }
+    // 本地 maven 镜像：cursemaven 上的女仆 1.5.3（8061847）在构建机下载会超时，
+    // 这里放同一份 jar，坐标仍然是 curse.maven:touhou-little-maid-355044:8061847
+    maven {
+        url = uri("libs/maven")
     }
     maven {
         url "https://cursemaven.com"
@@ -91,12 +104,15 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    // playerAnimator：铁魔法用的 player 动画库，Boss 复用施法动画需要它
+    maven { url = "https://maven.kosmx.dev/" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:6979039")
+    // 女仆模组：8061847 对应 1.5.3，与整合包实际运行版本一致
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:8061847")
     implementation fg.deobf("curse.maven:maidswordsoaring-1334387:6978523")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:6918565")
     implementation fg.deobf("curse.maven:jade-324717:6855440")
@@ -107,8 +123,19 @@ dependencies {
     implementation fg.deobf("curse.maven:tinkers-construct-74072:7449219")
     implementation fg.deobf("curse.maven:astages-1120180:7889277")
     implementation fg.deobf(files(
-            "libs/fast_irons_spellbooks_addition-1.20.1-forge-0.0.1.jar"
+            "libs/fast_irons_spellbooks_addition-1.20.1-forge-0.0.1.jar",
+            // 晴雪UI（ApricityUI）：商店系统用它渲染 HTML 界面，缺失时自动回落到原版 ShopScreen
+            "libs/ApricityUI-forge-1.20.1-1.2.7.jar"
     ))
+    // JEI：只做编译期依赖（@JeiPlugin 由 JEI 自己按注解扫描，不需要我们注册）。
+    // 直接对着实例里实际运行的那份 jar 编译，避免 curse 上版本和整合包不一致；
+    // 没装 JEI 时这些类不会被加载，模组照常启动。
+    compileOnly files("libs/jei-1.20.1-forge-15.20.0.129.jar")
+    // playerAnimator：铁魔法用的 player 动画库，Boss 复用施法动画需要它
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:1.0.2-rc1+1.20")
+    // TACZ：幻影勇者要拿 AWM 狙击枪，用它的 IGunOperator 开枪
+    // （和女仆模组用的是同一个 curse.maven 坐标，可离线解析）
+    implementation fg.deobf("curse.maven:timeless-and-classics-zero-1028108:7401617")
 }
 
 processResources {
@@ -136,7 +163,7 @@ jar {
         attributes([
                 "Implementation-Title"  : project.name,
                 "Implementation-Version": "${version}",
-                "MixinConfigs"            : "${mod_id}" + ".mixins.json"
+                "MixinConfigs"            : "${mod_id}" + ".mixins.json" + "," + "${mod_id}" + ".cataclysm.mixins.json" + "," + "${mod_id}" + ".stardew.mixins.json"
         ])
     }
     finalizedBy 'reobfJar'
@@ -144,6 +171,15 @@ jar {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    // 灾变（L_Ender's Cataclysm）是第三方模组，没有加入编译依赖。
+    // 它的 mixin 目标类写在 @Mixin(targets="...") 里，注解处理器默认会因「找不到目标类」而报错。
+    //   MSG_MIXIN_SOFT_TARGET_NOT_FOUND=warning  把这个报错降级为警告
+    //   disableTargetValidator                   跳过对目标类的注入点校验
+    // 注入点全部使用 remap = false 的 SRG 字面量，不需要生成 refmap，因此关闭校验是安全的。
+    options.compilerArgs += [
+            '-AMSG_MIXIN_SOFT_TARGET_NOT_FOUND=warning',
+            '-AdisableTargetValidator'
+    ]
 }
 
 idea {

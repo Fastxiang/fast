@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "package": "com.main.fast.mixin",
   "client": [
+    "ScreenShiftDownMixin"
   ],
   "mixins": [
     "AnvilMenuMixin",
@@ -12,7 +13,11 @@
     "WFRecipeMixin",
     "CastingBlockEntityMixin",
     "ArmorDurabilityMixin",
-    "PathfinderMobMixin"
+    "PathfinderMobMixin",
+    "LivingEntityHurtMixin",
+    "PlayerHurtMixin",
+    "PlayerCriticalHitMixin",
+    "MaidFishingHookMixin"
   ],
   "injectors": {
     "defaultRequire": 1

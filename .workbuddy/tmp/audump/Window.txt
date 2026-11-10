@@ -1,0 +1,860 @@
+Compiled from "Window.java"
+public class com.sighs.apricityui.init.Window {
+  public static final com.sighs.apricityui.init.Window window;
+
+  public final com.sighs.apricityui.util.LocalStorage localStorage;
+
+  public final com.sighs.apricityui.init.Window$SessionStorage sessionStorage;
+
+  private final java.util.Map<java.lang.String, java.util.concurrent.CopyOnWriteArrayList<com.sighs.apricityui.event.Event$ListenerRecord>> listeners;
+
+  private final java.util.Map<java.lang.Integer, com.sighs.apricityui.task.ClientScheduler$Cancellable> animationFrames;
+
+  private final java.util.concurrent.atomic.AtomicInteger nextAnimationFrameId;
+
+  private final com.sighs.apricityui.init.Window$Performance performance;
+
+  private final com.sighs.apricityui.init.Window$Console console;
+
+  private final java.util.concurrent.CopyOnWriteArrayList<com.sighs.apricityui.init.Window$ResizeObserver> resizeObservers;
+
+  public com.sighs.apricityui.init.Window();
+    Code:
+       0: aload_0
+       1: invokespecial #92                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: new           #94                 // class com/sighs/apricityui/util/LocalStorage
+       8: dup
+       9: invokespecial #95                 // Method com/sighs/apricityui/util/LocalStorage."<init>":()V
+      12: putfield      #97                 // Field localStorage:Lcom/sighs/apricityui/util/LocalStorage;
+      15: aload_0
+      16: new           #17                 // class com/sighs/apricityui/init/Window$SessionStorage
+      19: dup
+      20: invokespecial #98                 // Method com/sighs/apricityui/init/Window$SessionStorage."<init>":()V
+      23: putfield      #100                // Field sessionStorage:Lcom/sighs/apricityui/init/Window$SessionStorage;
+      26: aload_0
+      27: new           #102                // class java/util/concurrent/ConcurrentHashMap
+      30: dup
+      31: invokespecial #103                // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+      34: putfield      #105                // Field listeners:Ljava/util/Map;
+      37: aload_0
+      38: new           #102                // class java/util/concurrent/ConcurrentHashMap
+      41: dup
+      42: invokespecial #103                // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+      45: putfield      #107                // Field animationFrames:Ljava/util/Map;
+      48: aload_0
+      49: new           #109                // class java/util/concurrent/atomic/AtomicInteger
+      52: dup
+      53: iconst_1
+      54: invokespecial #112                // Method java/util/concurrent/atomic/AtomicInteger."<init>":(I)V
+      57: putfield      #114                // Field nextAnimationFrameId:Ljava/util/concurrent/atomic/AtomicInteger;
+      60: aload_0
+      61: new           #33                 // class com/sighs/apricityui/init/Window$Performance
+      64: dup
+      65: invokespecial #115                // Method com/sighs/apricityui/init/Window$Performance."<init>":()V
+      68: putfield      #117                // Field performance:Lcom/sighs/apricityui/init/Window$Performance;
+      71: aload_0
+      72: new           #15                 // class com/sighs/apricityui/init/Window$Console
+      75: dup
+      76: invokespecial #118                // Method com/sighs/apricityui/init/Window$Console."<init>":()V
+      79: putfield      #120                // Field console:Lcom/sighs/apricityui/init/Window$Console;
+      82: aload_0
+      83: new           #122                // class java/util/concurrent/CopyOnWriteArrayList
+      86: dup
+      87: invokespecial #123                // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+      90: putfield      #125                // Field resizeObservers:Ljava/util/concurrent/CopyOnWriteArrayList;
+      93: return
+
+  public com.sighs.apricityui.task.ClientScheduler$Cancellable setTimeout(java.util.function.Consumer<com.sighs.apricityui.task.ClientScheduler$Cancellable>, int);
+    Code:
+       0: iload_2
+       1: aload_1
+       2: invokestatic  #132                // Method com/sighs/apricityui/task/ClientScheduler.setTimeout:(ILjava/util/function/Consumer;)Lcom/sighs/apricityui/task/ClientScheduler$Cancellable;
+       5: areturn
+
+  public com.sighs.apricityui.task.ClientScheduler$Cancellable setInterval(java.util.function.Consumer<com.sighs.apricityui.task.ClientScheduler$Cancellable>, int);
+    Code:
+       0: iload_2
+       1: aload_1
+       2: invokestatic  #140                // Method com/sighs/apricityui/task/ClientScheduler.setInterval:(ILjava/util/function/Consumer;)Lcom/sighs/apricityui/task/ClientScheduler$Cancellable;
+       5: areturn
+
+  public void clearTimeout(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #145                // Method cancelScheduled:(Ljava/lang/Object;)V
+       5: return
+
+  public void clearInterval(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #145                // Method cancelScheduled:(Ljava/lang/Object;)V
+       5: return
+
+  public com.sighs.apricityui.canvas.OffscreenCanvas createOffscreenCanvas(int, int);
+    Code:
+       0: new           #152                // class com/sighs/apricityui/canvas/OffscreenCanvas
+       3: dup
+       4: iload_1
+       5: iload_2
+       6: invokespecial #155                // Method com/sighs/apricityui/canvas/OffscreenCanvas."<init>":(II)V
+       9: areturn
+
+  public com.sighs.apricityui.element.Audio createAudio(com.sighs.apricityui.init.Document, java.lang.String);
+    Code:
+       0: new           #161                // class com/sighs/apricityui/element/Audio
+       3: dup
+       4: aload_1
+       5: invokespecial #164                // Method com/sighs/apricityui/element/Audio."<init>":(Lcom/sighs/apricityui/init/Document;)V
+       8: astore_3
+       9: aload_2
+      10: ifnull        27
+      13: aload_2
+      14: invokevirtual #170                // Method java/lang/String.isEmpty:()Z
+      17: ifne          27
+      20: aload_3
+      21: ldc           #172                // String src
+      23: aload_2
+      24: invokevirtual #176                // Method com/sighs/apricityui/element/Audio.setAttribute:(Ljava/lang/String;Ljava/lang/String;)V
+      27: aload_3
+      28: areturn
+
+  public com.sighs.apricityui.canvas.DOMMatrix createDOMMatrix();
+    Code:
+       0: new           #185                // class com/sighs/apricityui/canvas/DOMMatrix
+       3: dup
+       4: invokespecial #186                // Method com/sighs/apricityui/canvas/DOMMatrix."<init>":()V
+       7: areturn
+
+  public com.sighs.apricityui.canvas.DOMMatrix createDOMMatrix(java.lang.Object);
+    Code:
+       0: new           #185                // class com/sighs/apricityui/canvas/DOMMatrix
+       3: dup
+       4: aload_1
+       5: invokespecial #189                // Method com/sighs/apricityui/canvas/DOMMatrix."<init>":(Ljava/lang/Object;)V
+       8: areturn
+
+  public com.sighs.apricityui.canvas.CanvasImageBitmap createImageBitmap(java.lang.Object);
+    Code:
+       0: new           #194                // class com/sighs/apricityui/canvas/CanvasImageBitmap
+       3: dup
+       4: aload_1
+       5: invokestatic  #200                // Method com/sighs/apricityui/canvas/CanvasImageSupport.resolveImageSource:(Ljava/lang/Object;)Ljava/awt/image/BufferedImage;
+       8: invokespecial #203                // Method com/sighs/apricityui/canvas/CanvasImageBitmap."<init>":(Ljava/awt/image/BufferedImage;)V
+      11: areturn
+
+  public com.sighs.apricityui.canvas.CanvasImageBitmap createImageBitmap(java.lang.Object, int, int, int, int);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #207                // Method createImageBitmap:(Ljava/lang/Object;)Lcom/sighs/apricityui/canvas/CanvasImageBitmap;
+       5: astore        6
+       7: aload         6
+       9: ifnull        20
+      12: aload         6
+      14: invokevirtual #210                // Method com/sighs/apricityui/canvas/CanvasImageBitmap.isClosed:()Z
+      17: ifeq          23
+      20: aload         6
+      22: areturn
+      23: aload         6
+      25: iload_2
+      26: iload_3
+      27: iload         4
+      29: iload         5
+      31: invokevirtual #214                // Method com/sighs/apricityui/canvas/CanvasImageBitmap.crop:(IIII)Lcom/sighs/apricityui/canvas/CanvasImageBitmap;
+      34: areturn
+
+  public com.sighs.apricityui.init.Window$ImageBitmapPromise createImageBitmapAsync(java.lang.Object);
+    Code:
+       0: new           #21                 // class com/sighs/apricityui/init/Window$ImageBitmapPromise
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokedynamic #241,  0            // InvokeDynamic #0:call:(Lcom/sighs/apricityui/init/Window;Ljava/lang/Object;)Ljava/util/concurrent/Callable;
+      11: invokespecial #244                // Method com/sighs/apricityui/init/Window$ImageBitmapPromise."<init>":(Ljava/util/concurrent/Callable;)V
+      14: areturn
+
+  public com.sighs.apricityui.init.Window$ImageBitmapPromise createImageBitmapAsync(java.lang.Object, int, int, int, int);
+    Code:
+       0: new           #21                 // class com/sighs/apricityui/init/Window$ImageBitmapPromise
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: iload_2
+       7: iload_3
+       8: iload         4
+      10: iload         5
+      12: invokedynamic #252,  0            // InvokeDynamic #1:call:(Lcom/sighs/apricityui/init/Window;Ljava/lang/Object;IIII)Ljava/util/concurrent/Callable;
+      17: invokespecial #244                // Method com/sighs/apricityui/init/Window$ImageBitmapPromise."<init>":(Ljava/util/concurrent/Callable;)V
+      20: areturn
+
+  public double getInnerWidth();
+    Code:
+       0: invokestatic  #260                // Method com/sighs/apricityui/layout/Size.getWindowSize:()Lcom/sighs/apricityui/layout/Size;
+       3: invokevirtual #262                // Method com/sighs/apricityui/layout/Size.width:()D
+       6: dreturn
+
+  public double getInnerHeight();
+    Code:
+       0: invokestatic  #260                // Method com/sighs/apricityui/layout/Size.getWindowSize:()Lcom/sighs/apricityui/layout/Size;
+       3: invokevirtual #265                // Method com/sighs/apricityui/layout/Size.height:()D
+       6: dreturn
+
+  public double getDevicePixelRatio();
+    Code:
+       0: invokestatic  #272                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       3: astore_1
+       4: aload_1
+       5: ifnull        15
+       8: aload_1
+       9: invokevirtual #276                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      12: ifnonnull     17
+      15: dconst_1
+      16: dreturn
+      17: aload_1
+      18: invokevirtual #276                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      21: invokevirtual #281                // Method com/mojang/blaze3d/platform/Window.m_85449_:()D
+      24: dreturn
+
+  public com.sighs.apricityui.init.Window$Performance getPerformance();
+    Code:
+       0: aload_0
+       1: getfield      #117                // Field performance:Lcom/sighs/apricityui/init/Window$Performance;
+       4: areturn
+
+  public com.sighs.apricityui.util.LocalStorage getLocalStorage();
+    Code:
+       0: aload_0
+       1: getfield      #97                 // Field localStorage:Lcom/sighs/apricityui/util/LocalStorage;
+       4: areturn
+
+  public com.sighs.apricityui.init.Window$SessionStorage getSessionStorage();
+    Code:
+       0: aload_0
+       1: getfield      #100                // Field sessionStorage:Lcom/sighs/apricityui/init/Window$SessionStorage;
+       4: areturn
+
+  public com.sighs.apricityui.behavior.richtext.SelectionBridge getSelection();
+    Code:
+       0: invokestatic  #297                // Method com/sighs/apricityui/init/Document.getContextDocument:()Lcom/sighs/apricityui/init/Document;
+       3: astore_1
+       4: aload_1
+       5: ifnonnull     36
+       8: invokestatic  #301                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+      11: astore_2
+      12: aload_2
+      13: invokeinterface #304,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      18: ifeq          25
+      21: aconst_null
+      22: goto          35
+      25: aload_2
+      26: iconst_0
+      27: invokeinterface #308,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      32: checkcast     #293                // class com/sighs/apricityui/init/Document
+      35: astore_1
+      36: aload_1
+      37: ifnonnull     44
+      40: aconst_null
+      41: goto          52
+      44: new           #310                // class com/sighs/apricityui/behavior/richtext/SelectionBridge
+      47: dup
+      48: aload_1
+      49: invokespecial #311                // Method com/sighs/apricityui/behavior/richtext/SelectionBridge."<init>":(Lcom/sighs/apricityui/init/Document;)V
+      52: areturn
+
+  public com.sighs.apricityui.init.Window$Console getConsole();
+    Code:
+       0: aload_0
+       1: getfield      #120                // Field console:Lcom/sighs/apricityui/init/Window$Console;
+       4: areturn
+
+  public java.lang.String getTestPromptResponse();
+    Code:
+       0: ldc_w         #320                // String apricityui.test.promptResponse
+       3: invokestatic  #326                // Method java/lang/System.getProperty:(Ljava/lang/String;)Ljava/lang/String;
+       6: astore_1
+       7: aload_1
+       8: ifnull        13
+      11: aload_1
+      12: areturn
+      13: ldc_w         #328                // String APRICITYUI_TEST_PROMPT_RESPONSE
+      16: invokestatic  #331                // Method java/lang/System.getenv:(Ljava/lang/String;)Ljava/lang/String;
+      19: areturn
+
+  public com.sighs.apricityui.util.BrowserLocation getLocation();
+    Code:
+       0: invokestatic  #301                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+       3: invokeinterface #338,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       8: astore_1
+       9: aload_1
+      10: invokeinterface #343,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      15: ifeq          47
+      18: aload_1
+      19: invokeinterface #346,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      24: checkcast     #293                // class com/sighs/apricityui/init/Document
+      27: astore_2
+      28: aload_2
+      29: ifnull        44
+      32: aload_2
+      33: invokevirtual #349                // Method com/sighs/apricityui/init/Document.isActive:()Z
+      36: ifeq          44
+      39: aload_2
+      40: invokevirtual #351                // Method com/sighs/apricityui/init/Document.getLocation:()Lcom/sighs/apricityui/util/BrowserLocation;
+      43: areturn
+      44: goto          9
+      47: new           #353                // class com/sighs/apricityui/util/BrowserLocation
+      50: dup
+      51: ldc_w         #355                // String
+      54: invokespecial #358                // Method com/sighs/apricityui/util/BrowserLocation."<init>":(Ljava/lang/String;)V
+      57: areturn
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<? super com.sighs.apricityui.event.Event>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: iconst_0
+       4: invokevirtual #364                // Method addEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+       7: return
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<? super com.sighs.apricityui.event.Event>, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: iload_3
+       4: iconst_0
+       5: invokevirtual #371                // Method addEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;ZZ)V
+       8: return
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<? super com.sighs.apricityui.event.Event>, boolean, boolean);
+    Code:
+       0: aload_1
+       1: ifnull        8
+       4: aload_2
+       5: ifnonnull     9
+       8: return
+       9: aload_2
+      10: invokestatic  #378                // Method wrapWindowListener:(Ljava/util/function/Consumer;)Ljava/util/function/Consumer;
+      13: astore        5
+      15: aload_0
+      16: getfield      #105                // Field listeners:Ljava/util/Map;
+      19: aload_1
+      20: invokedynamic #390,  0            // InvokeDynamic #2:apply:()Ljava/util/function/Function;
+      25: invokeinterface #396,  3          // InterfaceMethod java/util/Map.computeIfAbsent:(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+      30: checkcast     #122                // class java/util/concurrent/CopyOnWriteArrayList
+      33: new           #46                 // class com/sighs/apricityui/event/Event$ListenerRecord
+      36: dup
+      37: aload_1
+      38: aload         5
+      40: iload_3
+      41: iload         4
+      43: iconst_0
+      44: invokespecial #399                // Method com/sighs/apricityui/event/Event$ListenerRecord."<init>":(Ljava/lang/String;Ljava/util/function/Consumer;ZZZ)V
+      47: invokevirtual #403                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+      50: pop
+      51: return
+
+  public void removeEventListener(java.lang.String, java.util.function.Consumer<? super com.sighs.apricityui.event.Event>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: iconst_0
+       4: invokevirtual #409                // Method removeEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+       7: return
+
+  public void removeEventListener(java.lang.String, java.util.function.Consumer<? super com.sighs.apricityui.event.Event>, boolean);
+    Code:
+       0: aload_1
+       1: ifnull        8
+       4: aload_2
+       5: ifnonnull     9
+       8: return
+       9: aload_0
+      10: getfield      #105                // Field listeners:Ljava/util/Map;
+      13: aload_1
+      14: invokeinterface #411,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      19: checkcast     #122                // class java/util/concurrent/CopyOnWriteArrayList
+      22: astore        4
+      24: aload         4
+      26: ifnonnull     30
+      29: return
+      30: aload         4
+      32: iload_3
+      33: aload_2
+      34: invokedynamic #423,  0            // InvokeDynamic #3:test:(ZLjava/util/function/Consumer;)Ljava/util/function/Predicate;
+      39: invokevirtual #427                // Method java/util/concurrent/CopyOnWriteArrayList.removeIf:(Ljava/util/function/Predicate;)Z
+      42: pop
+      43: return
+
+  public boolean dispatchEvent(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #48                 // class com/sighs/apricityui/event/Event
+       4: ifeq          15
+       7: aload_1
+       8: checkcast     #48                 // class com/sighs/apricityui/event/Event
+      11: astore_2
+      12: goto          17
+      15: iconst_0
+      16: ireturn
+      17: aload_2
+      18: getfield      #432                // Field com/sighs/apricityui/event/Event.type:Ljava/lang/String;
+      21: astore_3
+      22: aload_3
+      23: ifnull        33
+      26: aload_3
+      27: invokevirtual #170                // Method java/lang/String.isEmpty:()Z
+      30: ifeq          35
+      33: iconst_0
+      34: ireturn
+      35: aload_0
+      36: getfield      #105                // Field listeners:Ljava/util/Map;
+      39: aload_3
+      40: invokeinterface #411,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      45: checkcast     #122                // class java/util/concurrent/CopyOnWriteArrayList
+      48: astore        4
+      50: aload         4
+      52: ifnull        63
+      55: aload         4
+      57: invokevirtual #433                // Method java/util/concurrent/CopyOnWriteArrayList.isEmpty:()Z
+      60: ifeq          65
+      63: iconst_1
+      64: ireturn
+      65: aload_2
+      66: aload_0
+      67: invokevirtual #436                // Method com/sighs/apricityui/event/Event.resetForDispatch:(Ljava/lang/Object;)V
+      70: iconst_0
+      71: istore        5
+      73: aload         4
+      75: invokevirtual #437                // Method java/util/concurrent/CopyOnWriteArrayList.iterator:()Ljava/util/Iterator;
+      78: astore        6
+      80: aload         6
+      82: invokeinterface #343,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      87: ifeq          136
+      90: aload         6
+      92: invokeinterface #346,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      97: checkcast     #46                 // class com/sighs/apricityui/event/Event$ListenerRecord
+     100: astore        7
+     102: aload_2
+     103: invokevirtual #440                // Method com/sighs/apricityui/event/Event.isImmediatePropagationStopped:()Z
+     106: ifeq          112
+     109: goto          136
+     112: aload         7
+     114: invokevirtual #442                // Method com/sighs/apricityui/event/Event$ListenerRecord.useCapture:()Z
+     117: ifeq          133
+     120: iload         5
+     122: aload_3
+     123: aload         7
+     125: aload_2
+     126: iconst_2
+     127: invokestatic  #446                // Method invokeWindowListener:(Ljava/lang/String;Lcom/sighs/apricityui/event/Event$ListenerRecord;Lcom/sighs/apricityui/event/Event;S)Z
+     130: ior
+     131: istore        5
+     133: goto          80
+     136: aload_2
+     137: invokevirtual #440                // Method com/sighs/apricityui/event/Event.isImmediatePropagationStopped:()Z
+     140: ifne          206
+     143: aload         4
+     145: invokevirtual #437                // Method java/util/concurrent/CopyOnWriteArrayList.iterator:()Ljava/util/Iterator;
+     148: astore        6
+     150: aload         6
+     152: invokeinterface #343,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     157: ifeq          206
+     160: aload         6
+     162: invokeinterface #346,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     167: checkcast     #46                 // class com/sighs/apricityui/event/Event$ListenerRecord
+     170: astore        7
+     172: aload_2
+     173: invokevirtual #440                // Method com/sighs/apricityui/event/Event.isImmediatePropagationStopped:()Z
+     176: ifeq          182
+     179: goto          206
+     182: aload         7
+     184: invokevirtual #442                // Method com/sighs/apricityui/event/Event$ListenerRecord.useCapture:()Z
+     187: ifne          203
+     190: iload         5
+     192: aload_3
+     193: aload         7
+     195: aload_2
+     196: iconst_2
+     197: invokestatic  #446                // Method invokeWindowListener:(Ljava/lang/String;Lcom/sighs/apricityui/event/Event$ListenerRecord;Lcom/sighs/apricityui/event/Event;S)Z
+     200: ior
+     201: istore        5
+     203: goto          150
+     206: aload_2
+     207: iconst_0
+     208: putfield      #450                // Field com/sighs/apricityui/event/Event.eventPhase:S
+     211: aload_2
+     212: aconst_null
+     213: putfield      #453                // Field com/sighs/apricityui/event/Event.currentTarget:Ljava/lang/Object;
+     216: aload_2
+     217: getfield      #456                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+     220: ifne          227
+     223: iconst_1
+     224: goto          228
+     227: iconst_0
+     228: ireturn
+
+  public int requestAnimationFrame(java.util.function.Consumer<java.lang.Double>);
+    Code:
+       0: aload_1
+       1: ifnonnull     6
+       4: iconst_m1
+       5: ireturn
+       6: aload_0
+       7: getfield      #114                // Field nextAnimationFrameId:Ljava/util/concurrent/atomic/AtomicInteger;
+      10: invokevirtual #468                // Method java/util/concurrent/atomic/AtomicInteger.getAndIncrement:()I
+      13: istore_2
+      14: bipush        16
+      16: aload_0
+      17: iload_2
+      18: aload_1
+      19: invokedynamic #480,  0            // InvokeDynamic #4:accept:(Lcom/sighs/apricityui/init/Window;ILjava/util/function/Consumer;)Ljava/util/function/Consumer;
+      24: invokestatic  #132                // Method com/sighs/apricityui/task/ClientScheduler.setTimeout:(ILjava/util/function/Consumer;)Lcom/sighs/apricityui/task/ClientScheduler$Cancellable;
+      27: astore_3
+      28: aload_0
+      29: getfield      #107                // Field animationFrames:Ljava/util/Map;
+      32: iload_2
+      33: invokestatic  #486                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      36: aload_3
+      37: invokeinterface #490,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      42: pop
+      43: iload_2
+      44: ireturn
+
+  public void cancelAnimationFrame(int);
+    Code:
+       0: aload_0
+       1: getfield      #107                // Field animationFrames:Ljava/util/Map;
+       4: iload_1
+       5: invokestatic  #486                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: invokeinterface #499,  2          // InterfaceMethod java/util/Map.remove:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #40                 // class com/sighs/apricityui/task/ClientScheduler$Cancellable
+      16: astore_2
+      17: aload_2
+      18: ifnull        28
+      21: aload_2
+      22: invokeinterface #502,  1          // InterfaceMethod com/sighs/apricityui/task/ClientScheduler$Cancellable.cancel:()Z
+      27: pop
+      28: return
+
+  public com.sighs.apricityui.init.Window$WindowMouseEvent createMouseEvent(java.lang.String, double, double, int);
+    Code:
+       0: new           #31                 // class com/sighs/apricityui/init/Window$WindowMouseEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: dload_2
+       7: dload         4
+       9: iload         6
+      11: invokespecial #507                // Method com/sighs/apricityui/init/Window$WindowMouseEvent."<init>":(Lcom/sighs/apricityui/init/Window;Ljava/lang/String;DDI)V
+      14: areturn
+
+  public com.sighs.apricityui.init.Window$WindowWheelEvent createWheelEvent(java.lang.String, double, double, double, double, int);
+    Code:
+       0: new           #29                 // class com/sighs/apricityui/init/Window$WindowWheelEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: dload_2
+       7: dload         4
+       9: dload         6
+      11: dload         8
+      13: iload         10
+      15: invokespecial #516                // Method com/sighs/apricityui/init/Window$WindowWheelEvent."<init>":(Lcom/sighs/apricityui/init/Window;Ljava/lang/String;DDDDI)V
+      18: areturn
+
+  public com.sighs.apricityui.init.Window$WindowPointerEvent createPointerEvent(java.lang.String, double, double, int, int, java.lang.String, boolean);
+    Code:
+       0: new           #27                 // class com/sighs/apricityui/init/Window$WindowPointerEvent
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: dload_2
+       7: dload         4
+       9: iload         6
+      11: iload         7
+      13: aload         8
+      15: iload         9
+      17: invokespecial #524                // Method com/sighs/apricityui/init/Window$WindowPointerEvent."<init>":(Lcom/sighs/apricityui/init/Window;Ljava/lang/String;DDIILjava/lang/String;Z)V
+      20: areturn
+
+  public com.sighs.apricityui.event.Event createEvent(java.lang.String, boolean);
+    Code:
+       0: new           #48                 // class com/sighs/apricityui/event/Event
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: iload_2
+       7: invokespecial #532                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+      10: areturn
+
+  public com.sighs.apricityui.event.Event$CustomEvent createCustomEvent(java.lang.String, java.lang.Object, boolean);
+    Code:
+       0: new           #54                 // class com/sighs/apricityui/event/Event$CustomEvent
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: invokespecial #538                // Method com/sighs/apricityui/event/Event$CustomEvent."<init>":(Ljava/lang/String;Ljava/lang/Object;Z)V
+      10: astore        4
+      12: aload         4
+      14: aload_0
+      15: putfield      #541                // Field com/sighs/apricityui/event/Event$CustomEvent.target:Ljava/lang/Object;
+      18: aload         4
+      20: aload_0
+      21: putfield      #542                // Field com/sighs/apricityui/event/Event$CustomEvent.currentTarget:Ljava/lang/Object;
+      24: aload         4
+      26: areturn
+
+  public com.sighs.apricityui.init.Window$CSSStyleDeclaration getComputedStyle(com.sighs.apricityui.init.Element);
+    Code:
+       0: new           #25                 // class com/sighs/apricityui/init/Window$CSSStyleDeclaration
+       3: dup
+       4: aload_1
+       5: ifnonnull     12
+       8: aconst_null
+       9: goto          16
+      12: aload_1
+      13: invokevirtual #551                // Method com/sighs/apricityui/init/Element.getComputedStyle:()Lcom/sighs/apricityui/style/Style;
+      16: invokespecial #556                // Method com/sighs/apricityui/init/Window$CSSStyleDeclaration."<init>":(Lcom/sighs/apricityui/style/Style;)V
+      19: areturn
+
+  public com.sighs.apricityui.init.Window$FetchPromise fetch(java.lang.String, java.lang.String);
+    Code:
+       0: new           #23                 // class com/sighs/apricityui/init/Window$FetchPromise
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: invokespecial #562                // Method com/sighs/apricityui/init/Window$FetchPromise."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+       9: areturn
+
+  public com.sighs.apricityui.init.Window$ResizeObserver createResizeObserver(java.util.function.Consumer<java.lang.Object>);
+    Code:
+       0: new           #13                 // class com/sighs/apricityui/init/Window$ResizeObserver
+       3: dup
+       4: aload_1
+       5: aload_0
+       6: invokespecial #570                // Method com/sighs/apricityui/init/Window$ResizeObserver."<init>":(Ljava/util/function/Consumer;Lcom/sighs/apricityui/init/Window;)V
+       9: astore_2
+      10: aload_0
+      11: getfield      #125                // Field resizeObservers:Ljava/util/concurrent/CopyOnWriteArrayList;
+      14: aload_2
+      15: invokevirtual #403                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+      18: pop
+      19: aload_2
+      20: areturn
+
+  public void fireResizeEvent();
+    Code:
+       0: aload_0
+       1: ldc_w         #576                // String resize
+       4: iconst_0
+       5: invokevirtual #578                // Method createEvent:(Ljava/lang/String;Z)Lcom/sighs/apricityui/event/Event;
+       8: astore_1
+       9: aload_1
+      10: iconst_1
+      11: invokevirtual #582                // Method com/sighs/apricityui/event/Event.setTrusted:(Z)V
+      14: aload_0
+      15: aload_1
+      16: invokevirtual #584                // Method dispatchEvent:(Ljava/lang/Object;)Z
+      19: pop
+      20: return
+
+  private void cancelScheduled(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #40                 // class com/sighs/apricityui/task/ClientScheduler$Cancellable
+       4: ifeq          19
+       7: aload_1
+       8: checkcast     #40                 // class com/sighs/apricityui/task/ClientScheduler$Cancellable
+      11: astore_2
+      12: aload_2
+      13: invokeinterface #502,  1          // InterfaceMethod com/sighs/apricityui/task/ClientScheduler$Cancellable.cancel:()Z
+      18: pop
+      19: return
+
+  public void tickResizeObservers();
+    Code:
+       0: aload_0
+       1: getfield      #125                // Field resizeObservers:Ljava/util/concurrent/CopyOnWriteArrayList;
+       4: invokevirtual #437                // Method java/util/concurrent/CopyOnWriteArrayList.iterator:()Ljava/util/Iterator;
+       7: astore_1
+       8: aload_1
+       9: invokeinterface #343,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      14: ifeq          57
+      17: aload_1
+      18: invokeinterface #346,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      23: checkcast     #13                 // class com/sighs/apricityui/init/Window$ResizeObserver
+      26: astore_2
+      27: aload_2
+      28: ifnonnull     34
+      31: goto          8
+      34: aload_2
+      35: invokevirtual #588                // Method com/sighs/apricityui/init/Window$ResizeObserver.tick:()V
+      38: aload_2
+      39: getfield      #591                // Field com/sighs/apricityui/init/Window$ResizeObserver.disconnected:Z
+      42: ifeq          54
+      45: aload_0
+      46: getfield      #125                // Field resizeObservers:Ljava/util/concurrent/CopyOnWriteArrayList;
+      49: aload_2
+      50: invokevirtual #593                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+      53: pop
+      54: goto          8
+      57: return
+
+  private static boolean invokeWindowListener(java.lang.String, com.sighs.apricityui.event.Event$ListenerRecord, com.sighs.apricityui.event.Event, short);
+    Code:
+       0: aload_1
+       1: ifnull        8
+       4: aload_2
+       5: ifnonnull     10
+       8: iconst_0
+       9: ireturn
+      10: aload_2
+      11: aload_2
+      12: getfield      #594                // Field com/sighs/apricityui/event/Event.target:Ljava/lang/Object;
+      15: putfield      #453                // Field com/sighs/apricityui/event/Event.currentTarget:Ljava/lang/Object;
+      18: aload_2
+      19: iload_3
+      20: putfield      #450                // Field com/sighs/apricityui/event/Event.eventPhase:S
+      23: aload_1
+      24: invokevirtual #597                // Method com/sighs/apricityui/event/Event$ListenerRecord.listener:()Ljava/util/function/Consumer;
+      27: aload_2
+      28: invokeinterface #601,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+      33: aload_1
+      34: invokevirtual #603                // Method com/sighs/apricityui/event/Event$ListenerRecord.once:()Z
+      37: ifeq          118
+      40: aload_2
+      41: getfield      #594                // Field com/sighs/apricityui/event/Event.target:Ljava/lang/Object;
+      44: astore        5
+      46: aload         5
+      48: instanceof    #2                  // class com/sighs/apricityui/init/Window
+      51: ifeq          118
+      54: aload         5
+      56: checkcast     #2                  // class com/sighs/apricityui/init/Window
+      59: astore        4
+      61: aload_1
+      62: invokevirtual #597                // Method com/sighs/apricityui/event/Event$ListenerRecord.listener:()Ljava/util/function/Consumer;
+      65: invokestatic  #606                // Method unwrapWindowListener:(Ljava/util/function/Consumer;)Ljava/util/function/Consumer;
+      68: astore        5
+      70: aload         5
+      72: ifnull        90
+      75: aload         4
+      77: aload_0
+      78: aload         5
+      80: aload_1
+      81: invokevirtual #442                // Method com/sighs/apricityui/event/Event$ListenerRecord.useCapture:()Z
+      84: invokevirtual #409                // Method removeEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+      87: goto          118
+      90: aload         4
+      92: getfield      #105                // Field listeners:Ljava/util/Map;
+      95: aload_0
+      96: invokeinterface #411,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+     101: checkcast     #122                // class java/util/concurrent/CopyOnWriteArrayList
+     104: astore        6
+     106: aload         6
+     108: ifnull        118
+     111: aload         6
+     113: aload_1
+     114: invokevirtual #593                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+     117: pop
+     118: aload_1
+     119: invokevirtual #609                // Method com/sighs/apricityui/event/Event$ListenerRecord.internal:()Z
+     122: ifne          129
+     125: iconst_1
+     126: goto          130
+     129: iconst_0
+     130: ireturn
+
+  private static java.util.function.Consumer<com.sighs.apricityui.event.Event> wrapWindowListener(java.util.function.Consumer<? super com.sighs.apricityui.event.Event>);
+    Code:
+       0: new           #35                 // class com/sighs/apricityui/init/Window$WindowListenerAdapter
+       3: dup
+       4: aload_0
+       5: invokespecial #615                // Method com/sighs/apricityui/init/Window$WindowListenerAdapter."<init>":(Ljava/util/function/Consumer;)V
+       8: areturn
+
+  private static java.util.function.Consumer<? super com.sighs.apricityui.event.Event> unwrapWindowListener(java.util.function.Consumer<com.sighs.apricityui.event.Event>);
+    Code:
+       0: aload_0
+       1: instanceof    #35                 // class com/sighs/apricityui/init/Window$WindowListenerAdapter
+       4: ifeq          17
+       7: aload_0
+       8: checkcast     #35                 // class com/sighs/apricityui/init/Window$WindowListenerAdapter
+      11: astore_1
+      12: aload_1
+      13: getfield      #619                // Field com/sighs/apricityui/init/Window$WindowListenerAdapter.delegate:Ljava/util/function/Consumer;
+      16: areturn
+      17: aconst_null
+      18: areturn
+
+  private void lambda$requestAnimationFrame$4(int, java.util.function.Consumer, com.sighs.apricityui.task.ClientScheduler$Cancellable);
+    Code:
+       0: aload_0
+       1: getfield      #107                // Field animationFrames:Ljava/util/Map;
+       4: iload_1
+       5: invokestatic  #486                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: invokeinterface #499,  2          // InterfaceMethod java/util/Map.remove:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: pop
+      14: aload_2
+      15: aload_0
+      16: getfield      #117                // Field performance:Lcom/sighs/apricityui/init/Window$Performance;
+      19: invokevirtual #624                // Method com/sighs/apricityui/init/Window$Performance.now:()D
+      22: invokestatic  #629                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      25: invokeinterface #601,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+      30: return
+
+  private static boolean lambda$removeEventListener$3(boolean, java.util.function.Consumer, com.sighs.apricityui.event.Event$ListenerRecord);
+    Code:
+       0: aload_2
+       1: invokevirtual #442                // Method com/sighs/apricityui/event/Event$ListenerRecord.useCapture:()Z
+       4: iload_0
+       5: if_icmpne     26
+       8: aload_1
+       9: aload_2
+      10: invokevirtual #597                // Method com/sighs/apricityui/event/Event$ListenerRecord.listener:()Ljava/util/function/Consumer;
+      13: invokestatic  #606                // Method unwrapWindowListener:(Ljava/util/function/Consumer;)Ljava/util/function/Consumer;
+      16: invokevirtual #632                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      19: ifeq          26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: ireturn
+
+  private static java.util.concurrent.CopyOnWriteArrayList lambda$addEventListener$2(java.lang.String);
+    Code:
+       0: new           #122                // class java/util/concurrent/CopyOnWriteArrayList
+       3: dup
+       4: invokespecial #123                // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+       7: areturn
+
+  private com.sighs.apricityui.canvas.CanvasImageBitmap lambda$createImageBitmapAsync$1(java.lang.Object, int, int, int, int) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: iload_3
+       4: iload         4
+       6: iload         5
+       8: invokevirtual #638                // Method createImageBitmap:(Ljava/lang/Object;IIII)Lcom/sighs/apricityui/canvas/CanvasImageBitmap;
+      11: areturn
+
+  private com.sighs.apricityui.canvas.CanvasImageBitmap lambda$createImageBitmapAsync$0(java.lang.Object) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #207                // Method createImageBitmap:(Ljava/lang/Object;)Lcom/sighs/apricityui/canvas/CanvasImageBitmap;
+       5: areturn
+
+  static {};
+    Code:
+       0: new           #2                  // class com/sighs/apricityui/init/Window
+       3: dup
+       4: invokespecial #640                // Method "<init>":()V
+       7: putstatic     #642                // Field window:Lcom/sighs/apricityui/init/Window;
+      10: return
+}

@@ -1,0 +1,6 @@
+Compiled from "PTContainerScreen.java"
+public interface snownee.pintooltips.duck.PTContainerScreen {
+  public abstract void pin_tooltips$setDummyHoveredSlot(net.minecraft.world.inventory.Slot);
+
+  public abstract void pin_tooltips$dropDummyHoveredSlot();
+}

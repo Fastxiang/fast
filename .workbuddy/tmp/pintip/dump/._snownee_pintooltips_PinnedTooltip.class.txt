@@ -1,0 +1,406 @@
+Compiled from "PinnedTooltip.java"
+public final class snownee.pintooltips.PinnedTooltip implements net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner {
+  public static final int TOOLTIP_PADDING;
+
+  private final org.joml.Vector2d position;
+
+  private final org.joml.Vector2i size;
+
+  private final java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> components;
+
+  private final snownee.pintooltips.util.DummyHoveredSlot hoveredSlot;
+
+  private final java.util.Map<net.minecraft.client.renderer.Rect2i, net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> linesPosition;
+
+  long autoPinnedTimestamp;
+
+  private boolean hovered;
+
+  public snownee.pintooltips.PinnedTooltip(org.joml.Vector2d, org.joml.Vector2i, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>, long, snownee.pintooltips.util.DummyHoveredSlot);
+    Code:
+       0: aload_0
+       1: invokespecial #38                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #40                 // Field position:Lorg/joml/Vector2d;
+       9: aload_0
+      10: aload_2
+      11: putfield      #42                 // Field size:Lorg/joml/Vector2i;
+      14: aload_0
+      15: aload_3
+      16: putfield      #44                 // Field components:Ljava/util/List;
+      19: aload_0
+      20: lload         4
+      22: putfield      #46                 // Field autoPinnedTimestamp:J
+      25: aload_0
+      26: aload         6
+      28: putfield      #48                 // Field hoveredSlot:Lsnownee/pintooltips/util/DummyHoveredSlot;
+      31: aload_0
+      32: new           #50                 // class it/unimi/dsi/fastutil/objects/Reference2ObjectOpenHashMap
+      35: dup
+      36: invokespecial #51                 // Method it/unimi/dsi/fastutil/objects/Reference2ObjectOpenHashMap."<init>":()V
+      39: putfield      #53                 // Field linesPosition:Ljava/util/Map;
+      42: return
+
+  public snownee.pintooltips.PinnedTooltip(org.joml.Vector2d, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>, int, int, net.minecraft.client.gui.Font, net.minecraft.world.item.ItemStack, long);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: new           #59                 // class org/joml/Vector2i
+       5: dup
+       6: invokespecial #60                 // Method org/joml/Vector2i."<init>":()V
+       9: aload_2
+      10: lload         7
+      12: aload         6
+      14: invokevirtual #66                 // Method net/minecraft/world/item/ItemStack.m_41619_:()Z
+      17: ifeq          24
+      20: aconst_null
+      21: goto          36
+      24: new           #74                 // class snownee/pintooltips/util/DummyHoveredSlot
+      27: dup
+      28: aload         6
+      30: invokevirtual #78                 // Method net/minecraft/world/item/ItemStack.m_41777_:()Lnet/minecraft/world/item/ItemStack;
+      33: invokespecial #81                 // Method snownee/pintooltips/util/DummyHoveredSlot."<init>":(Lnet/minecraft/world/item/ItemStack;)V
+      36: invokespecial #83                 // Method "<init>":(Lorg/joml/Vector2d;Lorg/joml/Vector2i;Ljava/util/List;JLsnownee/pintooltips/util/DummyHoveredSlot;)V
+      39: aload_0
+      40: iload_3
+      41: iload         4
+      43: aload         5
+      45: invokevirtual #87                 // Method updateSize:(IILnet/minecraft/client/gui/Font;)V
+      48: return
+
+  public boolean isHovering(double, double);
+    Code:
+       0: dload_1
+       1: aload_0
+       2: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+       5: invokevirtual #99                 // Method org/joml/Vector2d.x:()D
+       8: ldc2_w        #100                // double 3.0d
+      11: dsub
+      12: dcmpl
+      13: iflt          86
+      16: dload_1
+      17: aload_0
+      18: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+      21: invokevirtual #99                 // Method org/joml/Vector2d.x:()D
+      24: aload_0
+      25: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+      28: invokevirtual #104                // Method org/joml/Vector2i.x:()I
+      31: i2d
+      32: dadd
+      33: ldc2_w        #100                // double 3.0d
+      36: dadd
+      37: dcmpg
+      38: ifgt          86
+      41: dload_3
+      42: aload_0
+      43: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+      46: invokevirtual #107                // Method org/joml/Vector2d.y:()D
+      49: ldc2_w        #100                // double 3.0d
+      52: dsub
+      53: dcmpl
+      54: iflt          86
+      57: dload_3
+      58: aload_0
+      59: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+      62: invokevirtual #107                // Method org/joml/Vector2d.y:()D
+      65: aload_0
+      66: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+      69: invokevirtual #109                // Method org/joml/Vector2i.y:()I
+      72: i2d
+      73: dadd
+      74: ldc2_w        #100                // double 3.0d
+      77: dadd
+      78: dcmpg
+      79: ifgt          86
+      82: iconst_1
+      83: goto          87
+      86: iconst_0
+      87: ireturn
+
+  public void updateSize(int, int, net.minecraft.client.gui.Font);
+    Code:
+       0: iconst_0
+       1: istore        4
+       3: iconst_0
+       4: istore        5
+       6: aload_0
+       7: getfield      #53                 // Field linesPosition:Ljava/util/Map;
+      10: invokeinterface #117,  1          // InterfaceMethod java/util/Map.clear:()V
+      15: aload_0
+      16: getfield      #44                 // Field components:Ljava/util/List;
+      19: invokeinterface #121,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      24: astore        6
+      26: aload         6
+      28: invokeinterface #126,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      33: ifeq          112
+      36: aload         6
+      38: invokeinterface #130,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      43: checkcast     #132                // class net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent
+      46: astore        7
+      48: aload         7
+      50: aload_3
+      51: invokeinterface #136,  2          // InterfaceMethod net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent.m_142069_:(Lnet/minecraft/client/gui/Font;)I
+      56: istore        8
+      58: aload         7
+      60: invokeinterface #139,  1          // InterfaceMethod net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent.m_142103_:()I
+      65: istore        9
+      67: aload_0
+      68: getfield      #53                 // Field linesPosition:Ljava/util/Map;
+      71: new           #141                // class net/minecraft/client/renderer/Rect2i
+      74: dup
+      75: iconst_0
+      76: iload         5
+      78: iload         8
+      80: iload         9
+      82: invokespecial #144                // Method net/minecraft/client/renderer/Rect2i."<init>":(IIII)V
+      85: aload         7
+      87: invokeinterface #148,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      92: pop
+      93: iload         4
+      95: iload         8
+      97: invokestatic  #154                // Method java/lang/Math.max:(II)I
+     100: istore        4
+     102: iload         5
+     104: iload         9
+     106: iadd
+     107: istore        5
+     109: goto          26
+     112: iload         4
+     114: aload_0
+     115: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+     118: invokevirtual #104                // Method org/joml/Vector2i.x:()I
+     121: if_icmpne     136
+     124: iload         5
+     126: aload_0
+     127: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+     130: invokevirtual #109                // Method org/joml/Vector2i.y:()I
+     133: if_icmpeq     148
+     136: aload_0
+     137: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+     140: iload         4
+     142: iload         5
+     144: invokevirtual #158                // Method org/joml/Vector2i.set:(II)Lorg/joml/Vector2i;
+     147: pop
+     148: return
+
+  public void render(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen, net.minecraft.client.gui.Font, net.minecraft.client.gui.GuiGraphics, int, int);
+    Code:
+       0: aload         4
+       2: invokevirtual #172                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+       5: invokevirtual #177                // Method com/mojang/blaze3d/vertex/PoseStack.m_85836_:()V
+       8: aload_0
+       9: aload_2
+      10: getfield      #182                // Field net/minecraft/client/gui/screens/Screen.f_96543_:I
+      13: aload_2
+      14: getfield      #185                // Field net/minecraft/client/gui/screens/Screen.f_96544_:I
+      17: aload_3
+      18: invokevirtual #87                 // Method updateSize:(IILnet/minecraft/client/gui/Font;)V
+      21: aload_0
+      22: invokevirtual #188                // Method hoveredSlot:()Lsnownee/pintooltips/util/DummyHoveredSlot;
+      25: ifnull        39
+      28: aload_2
+      29: instanceof    #190                // class snownee/pintooltips/duck/PTContainerScreen
+      32: ifeq          39
+      35: iconst_1
+      36: goto          40
+      39: iconst_0
+      40: istore        7
+      42: iload         7
+      44: ifeq          60
+      47: aload_2
+      48: checkcast     #190                // class snownee/pintooltips/duck/PTContainerScreen
+      51: aload_0
+      52: invokevirtual #188                // Method hoveredSlot:()Lsnownee/pintooltips/util/DummyHoveredSlot;
+      55: invokeinterface #194,  2          // InterfaceMethod snownee/pintooltips/duck/PTContainerScreen.pin_tooltips$setDummyHoveredSlot:(Lnet/minecraft/world/inventory/Slot;)V
+      60: aload         4
+      62: invokestatic  #200                // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+      65: iconst_1
+      66: invokeinterface #204,  2          // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$setRenderingPinned:(Z)V
+      71: aload         4
+      73: checkcast     #206                // class snownee/pintooltips/mixin/pin/GuiGraphicsAccess
+      76: aload_3
+      77: aload_0
+      78: invokevirtual #209                // Method components:()Ljava/util/List;
+      81: aload_0
+      82: invokevirtual #212                // Method position:()Lorg/joml/Vector2d;
+      85: invokevirtual #99                 // Method org/joml/Vector2d.x:()D
+      88: d2i
+      89: aload_0
+      90: invokevirtual #212                // Method position:()Lorg/joml/Vector2d;
+      93: invokevirtual #107                // Method org/joml/Vector2d.y:()D
+      96: d2i
+      97: aload_0
+      98: invokeinterface #216,  6          // InterfaceMethod snownee/pintooltips/mixin/pin/GuiGraphicsAccess.callRenderTooltipInternal:(Lnet/minecraft/client/gui/Font;Ljava/util/List;IILnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;)V
+     103: aload         4
+     105: invokestatic  #200                // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+     108: iconst_0
+     109: invokeinterface #204,  2          // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$setRenderingPinned:(Z)V
+     114: aload_1
+     115: getfield      #220                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+     118: aload_0
+     119: if_acmpne     192
+     122: aload_1
+     123: getfield      #223                // Field snownee/pintooltips/PinnedTooltipsService.dragging:Z
+     126: ifne          192
+     129: aload_0
+     130: iload         5
+     132: i2d
+     133: iload         6
+     135: i2d
+     136: aload_3
+     137: invokevirtual #227                // Method getStyleAt:(DDLnet/minecraft/client/gui/Font;)Lnet/minecraft/network/chat/Style;
+     140: astore        8
+     142: aload         8
+     144: ifnull        192
+     147: aload         4
+     149: invokestatic  #200                // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+     152: iconst_1
+     153: invokeinterface #230,  2          // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$setRenderingPinnedEvent:(Z)V
+     158: aload         4
+     160: invokevirtual #172                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+     163: fconst_0
+     164: fconst_0
+     165: fconst_1
+     166: invokevirtual #234                // Method com/mojang/blaze3d/vertex/PoseStack.m_252880_:(FFF)V
+     169: aload         4
+     171: aload_3
+     172: aload         8
+     174: iload         5
+     176: iload         6
+     178: invokevirtual #238                // Method net/minecraft/client/gui/GuiGraphics.m_280304_:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Style;II)V
+     181: aload         4
+     183: invokestatic  #200                // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+     186: iconst_0
+     187: invokeinterface #230,  2          // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$setRenderingPinnedEvent:(Z)V
+     192: iload         7
+     194: ifeq          206
+     197: aload_2
+     198: checkcast     #190                // class snownee/pintooltips/duck/PTContainerScreen
+     201: invokeinterface #241,  1          // InterfaceMethod snownee/pintooltips/duck/PTContainerScreen.pin_tooltips$dropDummyHoveredSlot:()V
+     206: aload         4
+     208: invokevirtual #172                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+     211: invokevirtual #244                // Method com/mojang/blaze3d/vertex/PoseStack.m_85849_:()V
+     214: return
+
+  public void setPosition(int, int, double, double);
+    Code:
+       0: aload_0
+       1: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+       4: dload_3
+       5: dload         5
+       7: invokevirtual #258                // Method org/joml/Vector2d.set:(DD)Lorg/joml/Vector2d;
+      10: pop
+      11: return
+
+  public org.joml.Vector2d position();
+    Code:
+       0: aload_0
+       1: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+       4: areturn
+
+  public org.joml.Vector2ic size();
+    Code:
+       0: aload_0
+       1: getfield      #42                 // Field size:Lorg/joml/Vector2i;
+       4: areturn
+
+  public java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> components();
+    Code:
+       0: aload_0
+       1: getfield      #44                 // Field components:Ljava/util/List;
+       4: areturn
+
+  public snownee.pintooltips.util.DummyHoveredSlot hoveredSlot();
+    Code:
+       0: aload_0
+       1: getfield      #48                 // Field hoveredSlot:Lsnownee/pintooltips/util/DummyHoveredSlot;
+       4: areturn
+
+  public net.minecraft.network.chat.Style getStyleAt(double, double, net.minecraft.client.gui.Font);
+    Code:
+       0: dload_1
+       1: aload_0
+       2: invokevirtual #212                // Method position:()Lorg/joml/Vector2d;
+       5: invokevirtual #99                 // Method org/joml/Vector2d.x:()D
+       8: dsub
+       9: d2i
+      10: istore        6
+      12: dload_3
+      13: aload_0
+      14: invokevirtual #212                // Method position:()Lorg/joml/Vector2d;
+      17: invokevirtual #107                // Method org/joml/Vector2d.y:()D
+      20: dsub
+      21: d2i
+      22: istore        7
+      24: aload_0
+      25: getfield      #53                 // Field linesPosition:Ljava/util/Map;
+      28: invokeinterface #264,  1          // InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+      33: invokeinterface #270,  1          // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+      38: iload         6
+      40: iload         7
+      42: invokedynamic #290,  0            // InvokeDynamic #0:test:(II)Ljava/util/function/Predicate;
+      47: invokeinterface #296,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      52: invokeinterface #300,  1          // InterfaceMethod java/util/stream/Stream.findFirst:()Ljava/util/Optional;
+      57: aconst_null
+      58: invokevirtual #306                // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      61: checkcast     #141                // class net/minecraft/client/renderer/Rect2i
+      64: astore        8
+      66: aload_0
+      67: getfield      #53                 // Field linesPosition:Ljava/util/Map;
+      70: aload         8
+      72: invokeinterface #309,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      77: checkcast     #132                // class net/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent
+      80: astore        9
+      82: aload         9
+      84: instanceof    #311                // class snownee/pintooltips/mixin/interact/ClientTextTooltipAccess
+      87: ifeq          115
+      90: aload         9
+      92: checkcast     #311                // class snownee/pintooltips/mixin/interact/ClientTextTooltipAccess
+      95: astore        10
+      97: aload         5
+      99: invokevirtual #315                // Method net/minecraft/client/gui/Font.m_92865_:()Lnet/minecraft/client/StringSplitter;
+     102: aload         10
+     104: invokeinterface #319,  1          // InterfaceMethod snownee/pintooltips/mixin/interact/ClientTextTooltipAccess.getText:()Lnet/minecraft/util/FormattedCharSequence;
+     109: iload         6
+     111: invokevirtual #325                // Method net/minecraft/client/StringSplitter.m_92338_:(Lnet/minecraft/util/FormattedCharSequence;I)Lnet/minecraft/network/chat/Style;
+     114: areturn
+     115: aconst_null
+     116: areturn
+
+  public org.joml.Vector2ic m_262814_(int, int, int, int, int, int);
+    Code:
+       0: new           #59                 // class org/joml/Vector2i
+       3: dup
+       4: aload_0
+       5: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+       8: getfield      #336                // Field org/joml/Vector2d.x:D
+      11: d2i
+      12: aload_0
+      13: getfield      #40                 // Field position:Lorg/joml/Vector2d;
+      16: getfield      #338                // Field org/joml/Vector2d.y:D
+      19: d2i
+      20: invokespecial #341                // Method org/joml/Vector2i."<init>":(II)V
+      23: areturn
+
+  public void hovered();
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: putfield      #345                // Field hovered:Z
+       5: return
+
+  public boolean isHovered();
+    Code:
+       0: aload_0
+       1: getfield      #345                // Field hovered:Z
+       4: ireturn
+
+  private static boolean lambda$getStyleAt$0(int, int, net.minecraft.client.renderer.Rect2i);
+    Code:
+       0: aload_2
+       1: iload_0
+       2: iload_1
+       3: invokevirtual #350                // Method net/minecraft/client/renderer/Rect2i.m_110087_:(II)Z
+       6: ireturn
+}

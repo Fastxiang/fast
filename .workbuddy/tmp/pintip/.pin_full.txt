@@ -1,0 +1,747 @@
+Compiled from "PinTooltips.java"
+public class snownee.pintooltips.PinTooltips implements net.fabricmc.api.ClientModInitializer {
+  public static final java.lang.String ID;
+
+  public static final org.slf4j.Logger LOGGER;
+
+  public static final net.minecraft.network.chat.Component CLICK_TO_COPY;
+
+  public static final net.minecraft.network.chat.HoverEvent CLICK_TO_COPY_EVENT;
+
+  private static int keyPressedFrames;
+
+  private static long lastRenderTooltipTime;
+
+  private static int lastMouseX;
+
+  private static int lastMouseY;
+
+  public static long lastMouseMovedTime;
+
+  private static boolean hasTooltipInThisFrame;
+
+  public static final net.minecraft.client.KeyMapping GRAB_KEY;
+
+  public static java.io.File configDirectory;
+
+  private static boolean validateTranslations;
+
+  public snownee.pintooltips.PinTooltips();
+    Code:
+       0: aload_0
+       1: invokespecial #87                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static int getMaxZOffset();
+    Code:
+       0: sipush        6000
+       3: ireturn
+
+  public void onInitializeClient();
+    Code:
+       0: invokestatic  #97                 // Method snownee/pintooltips/PinTooltipsConfig.save:()V
+       3: getstatic     #103                // Field snownee/pintooltips/PinnedTooltipsService.INSTANCE:Lsnownee/pintooltips/PinnedTooltipsService;
+       6: astore_1
+       7: getstatic     #107                // Field net/fabricmc/fabric/api/client/screen/v1/ScreenEvents.BEFORE_INIT:Lnet/fabricmc/fabric/api/event/Event;
+      10: aload_1
+      11: invokedynamic #125,  0            // InvokeDynamic #0:beforeInit:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenEvents$BeforeInit;
+      16: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+      19: getstatic     #134                // Field net/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents.DISCONNECT:Lnet/fabricmc/fabric/api/event/Event;
+      22: aload_1
+      23: invokedynamic #145,  0            // InvokeDynamic #1:onPlayDisconnect:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayConnectionEvents$Disconnect;
+      28: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+      31: return
+
+  private static void validateTranslations();
+    Code:
+       0: getstatic     #148                // Field LOGGER:Lorg/slf4j/Logger;
+       3: ldc           #150                // String Validating translations...
+       5: invokeinterface #156,  2          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;)V
+      10: new           #94                 // class snownee/pintooltips/PinTooltipsConfig
+      13: dup
+      14: iconst_1
+      15: iconst_0
+      16: iconst_0
+      17: sipush        1500
+      20: invokestatic  #162                // InterfaceMethod java/util/Set.of:()Ljava/util/Set;
+      23: invokespecial #165                // Method snownee/pintooltips/PinTooltipsConfig."<init>":(ZZZILjava/util/Set;)V
+      26: invokestatic  #169                // Method snownee/pintooltips/PinTooltipsConfig.setOverride:(Lsnownee/pintooltips/PinTooltipsConfig;)V
+      29: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      32: getfield      #179                // Field net/minecraft/client/Minecraft.f_91073_:Lnet/minecraft/client/multiplayer/ClientLevel;
+      35: invokestatic  #185                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      38: checkcast     #187                // class net/minecraft/client/multiplayer/ClientLevel
+      41: invokevirtual #191                // Method net/minecraft/client/multiplayer/ClientLevel.m_9598_:()Lnet/minecraft/core/RegistryAccess;
+      44: astore_0
+      45: invokestatic  #197                // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+      48: astore_1
+      49: aload_0
+      50: getstatic     #203                // Field net/minecraft/core/registries/Registries.f_256762_:Lnet/minecraft/resources/ResourceKey;
+      53: invokeinterface #209,  2          // InterfaceMethod net/minecraft/core/RegistryAccess.m_175515_:(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/core/Registry;
+      58: invokeinterface #215,  1          // InterfaceMethod net/minecraft/core/Registry.m_203611_:()Ljava/util/stream/Stream;
+      63: invokeinterface #221,  1          // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+      68: invokeinterface #227,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      73: astore_2
+      74: aload_2
+      75: invokeinterface #233,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      80: ifeq          117
+      83: aload_2
+      84: invokeinterface #237,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      89: checkcast     #19                 // class net/minecraft/core/Holder$Reference
+      92: astore_3
+      93: aload_3
+      94: invokestatic  #243                // Method snownee/pintooltips/util/DefaultDescriptions.forEnchantmentRaw:(Lnet/minecraft/core/Holder;)Lnet/minecraft/network/chat/Component;
+      97: ifnonnull     114
+     100: aload_1
+     101: aload_3
+     102: invokevirtual #247                // Method net/minecraft/core/Holder$Reference.m_205785_:()Lnet/minecraft/resources/ResourceKey;
+     105: invokevirtual #253                // Method net/minecraft/resources/ResourceKey.m_135782_:()Lnet/minecraft/resources/ResourceLocation;
+     108: invokeinterface #257,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     113: pop
+     114: goto          74
+     117: aload_1
+     118: invokeinterface #260,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     123: ifne          161
+     126: ldc_w         #262                // String Missing enchantment descriptions: %s
+     129: iconst_1
+     130: anewarray     #4                  // class java/lang/Object
+     133: dup
+     134: iconst_0
+     135: aload_1
+     136: aastore
+     137: invokevirtual #268                // Method java/lang/String.formatted:([Ljava/lang/Object;)Ljava/lang/String;
+     140: astore_2
+     141: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+     144: invokevirtual #272                // Method net/minecraft/client/Minecraft.m_240442_:()Lnet/minecraft/client/multiplayer/chat/ChatListener;
+     147: aload_2
+     148: invokestatic  #278                // InterfaceMethod net/minecraft/network/chat/Component.m_237113_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     151: getstatic     #284                // Field net/minecraft/ChatFormatting.DARK_RED:Lnet/minecraft/ChatFormatting;
+     154: invokevirtual #290                // Method net/minecraft/network/chat/MutableComponent.m_130940_:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+     157: iconst_0
+     158: invokevirtual #296                // Method net/minecraft/client/multiplayer/chat/ChatListener.m_240494_:(Lnet/minecraft/network/chat/Component;Z)V
+     161: invokestatic  #197                // Method com/google/common/collect/Lists.newArrayList:()Ljava/util/ArrayList;
+     164: astore_2
+     165: aload_0
+     166: getstatic     #299                // Field net/minecraft/core/registries/Registries.f_256929_:Lnet/minecraft/resources/ResourceKey;
+     169: invokeinterface #209,  2          // InterfaceMethod net/minecraft/core/RegistryAccess.m_175515_:(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/core/Registry;
+     174: invokeinterface #215,  1          // InterfaceMethod net/minecraft/core/Registry.m_203611_:()Ljava/util/stream/Stream;
+     179: invokeinterface #221,  1          // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+     184: invokeinterface #227,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+     189: astore_3
+     190: aload_3
+     191: invokeinterface #233,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     196: ifeq          242
+     199: aload_3
+     200: invokeinterface #237,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     205: checkcast     #19                 // class net/minecraft/core/Holder$Reference
+     208: astore        4
+     210: aload         4
+     212: invokevirtual #302                // Method net/minecraft/core/Holder$Reference.m_203334_:()Ljava/lang/Object;
+     215: checkcast     #304                // class net/minecraft/world/effect/MobEffect
+     218: invokestatic  #308                // Method snownee/pintooltips/util/DefaultDescriptions.forStatusEffectRaw:(Lnet/minecraft/world/effect/MobEffect;)Lnet/minecraft/network/chat/Component;
+     221: ifnonnull     239
+     224: aload_2
+     225: aload         4
+     227: invokevirtual #247                // Method net/minecraft/core/Holder$Reference.m_205785_:()Lnet/minecraft/resources/ResourceKey;
+     230: invokevirtual #253                // Method net/minecraft/resources/ResourceKey.m_135782_:()Lnet/minecraft/resources/ResourceLocation;
+     233: invokeinterface #257,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     238: pop
+     239: goto          190
+     242: aload_2
+     243: invokeinterface #260,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     248: ifne          286
+     251: ldc_w         #310                // String Missing status effect descriptions: %s
+     254: iconst_1
+     255: anewarray     #4                  // class java/lang/Object
+     258: dup
+     259: iconst_0
+     260: aload_2
+     261: aastore
+     262: invokevirtual #268                // Method java/lang/String.formatted:([Ljava/lang/Object;)Ljava/lang/String;
+     265: astore_3
+     266: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+     269: invokevirtual #272                // Method net/minecraft/client/Minecraft.m_240442_:()Lnet/minecraft/client/multiplayer/chat/ChatListener;
+     272: aload_3
+     273: invokestatic  #278                // InterfaceMethod net/minecraft/network/chat/Component.m_237113_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     276: getstatic     #284                // Field net/minecraft/ChatFormatting.DARK_RED:Lnet/minecraft/ChatFormatting;
+     279: invokevirtual #290                // Method net/minecraft/network/chat/MutableComponent.m_130940_:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+     282: iconst_0
+     283: invokevirtual #296                // Method net/minecraft/client/multiplayer/chat/ChatListener.m_240494_:(Lnet/minecraft/network/chat/Component;Z)V
+     286: aconst_null
+     287: invokestatic  #169                // Method snownee/pintooltips/PinTooltipsConfig.setOverride:(Lsnownee/pintooltips/PinTooltipsConfig;)V
+     290: getstatic     #148                // Field LOGGER:Lorg/slf4j/Logger;
+     293: ldc_w         #312                // String Translations validated.
+     296: invokeinterface #156,  2          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;)V
+     301: return
+
+  public static void onDrag(net.minecraft.client.gui.screens.Screen, int, double, double);
+    Code:
+       0: getstatic     #103                // Field snownee/pintooltips/PinnedTooltipsService.INSTANCE:Lsnownee/pintooltips/PinnedTooltipsService;
+       3: astore        6
+       5: aload         6
+       7: getfield      #329                // Field snownee/pintooltips/PinnedTooltipsService.focused:Lsnownee/pintooltips/PinnedTooltip;
+      10: astore        7
+      12: iload_1
+      13: ifne          141
+      16: aload         7
+      18: ifnull        141
+      21: aload         6
+      23: getfield      #332                // Field snownee/pintooltips/PinnedTooltipsService.dragging:Z
+      26: ifne          95
+      29: aload         6
+      31: dup
+      32: getfield      #336                // Field snownee/pintooltips/PinnedTooltipsService.storedDragX:D
+      35: dload_2
+      36: dadd
+      37: putfield      #336                // Field snownee/pintooltips/PinnedTooltipsService.storedDragX:D
+      40: aload         6
+      42: dup
+      43: getfield      #339                // Field snownee/pintooltips/PinnedTooltipsService.storedDragY:D
+      46: dload         4
+      48: dadd
+      49: putfield      #339                // Field snownee/pintooltips/PinnedTooltipsService.storedDragY:D
+      52: aload         6
+      54: getfield      #336                // Field snownee/pintooltips/PinnedTooltipsService.storedDragX:D
+      57: invokestatic  #345                // Method java/lang/Math.abs:(D)D
+      60: aload         6
+      62: getfield      #339                // Field snownee/pintooltips/PinnedTooltipsService.storedDragY:D
+      65: invokestatic  #345                // Method java/lang/Math.abs:(D)D
+      68: dadd
+      69: ldc2_w        #346                // double 5.0d
+      72: dcmpl
+      73: ifle          95
+      76: aload         6
+      78: iconst_1
+      79: putfield      #332                // Field snownee/pintooltips/PinnedTooltipsService.dragging:Z
+      82: aload         6
+      84: getfield      #336                // Field snownee/pintooltips/PinnedTooltipsService.storedDragX:D
+      87: dstore_2
+      88: aload         6
+      90: getfield      #339                // Field snownee/pintooltips/PinnedTooltipsService.storedDragY:D
+      93: dstore        4
+      95: aload         6
+      97: getfield      #332                // Field snownee/pintooltips/PinnedTooltipsService.dragging:Z
+     100: ifeq          156
+     103: aload         7
+     105: invokevirtual #353                // Method snownee/pintooltips/PinnedTooltip.position:()Lorg/joml/Vector2d;
+     108: astore        8
+     110: aload         7
+     112: aload_0
+     113: getfield      #358                // Field net/minecraft/client/gui/screens/Screen.f_96543_:I
+     116: aload_0
+     117: getfield      #361                // Field net/minecraft/client/gui/screens/Screen.f_96544_:I
+     120: aload         8
+     122: invokevirtual #367                // Method org/joml/Vector2d.x:()D
+     125: dload_2
+     126: dadd
+     127: aload         8
+     129: invokevirtual #370                // Method org/joml/Vector2d.y:()D
+     132: dload         4
+     134: dadd
+     135: invokevirtual #374                // Method snownee/pintooltips/PinnedTooltip.setPosition:(IIDD)V
+     138: goto          156
+     141: iload_1
+     142: iconst_2
+     143: if_icmpne     156
+     146: aload         6
+     148: aload         6
+     150: getfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+     153: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+     156: return
+
+  public static void onRenderTooltip(net.minecraft.client.gui.Font, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>, org.joml.Vector2ic, net.minecraft.world.item.ItemStack);
+    Code:
+       0: getstatic     #103                // Field snownee/pintooltips/PinnedTooltipsService.INSTANCE:Lsnownee/pintooltips/PinnedTooltipsService;
+       3: astore        4
+       5: aload         4
+       7: getfield      #329                // Field snownee/pintooltips/PinnedTooltipsService.focused:Lsnownee/pintooltips/PinnedTooltip;
+      10: ifnull        14
+      13: return
+      14: invokestatic  #396                // Method java/lang/System.currentTimeMillis:()J
+      17: lstore        5
+      19: getstatic     #398                // Field keyPressedFrames:I
+      22: ifge          75
+      25: invokestatic  #402                // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+      28: invokevirtual #405                // Method snownee/pintooltips/PinTooltipsConfig.hoveringAutoPinDelay:()I
+      31: istore        7
+      33: iload         7
+      35: iflt          74
+      38: iconst_1
+      39: putstatic     #407                // Field hasTooltipInThisFrame:Z
+      42: getstatic     #409                // Field lastMouseMovedTime:J
+      45: lconst_0
+      46: lcmp
+      47: ifle          74
+      50: lload         5
+      52: getstatic     #409                // Field lastMouseMovedTime:J
+      55: lsub
+      56: iload         7
+      58: i2l
+      59: lcmp
+      60: iflt          74
+      63: aload         4
+      65: aload_2
+      66: aload_1
+      67: aload_0
+      68: aload_3
+      69: lload         5
+      71: invokevirtual #413                // Method snownee/pintooltips/PinnedTooltipsService.pin:(Lorg/joml/Vector2ic;Ljava/util/List;Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;J)V
+      74: return
+      75: lload         5
+      77: getstatic     #415                // Field lastRenderTooltipTime:J
+      80: lsub
+      81: ldc2_w        #416                // long 10l
+      84: lcmp
+      85: ifge          89
+      88: return
+      89: lload         5
+      91: putstatic     #415                // Field lastRenderTooltipTime:J
+      94: getstatic     #398                // Field keyPressedFrames:I
+      97: dup
+      98: iconst_1
+      99: iadd
+     100: putstatic     #398                // Field keyPressedFrames:I
+     103: iconst_1
+     104: if_icmpeq     108
+     107: return
+     108: aload         4
+     110: aload_2
+     111: aload_1
+     112: aload_0
+     113: aload_3
+     114: ldc2_w        #418                // long -1l
+     117: invokevirtual #413                // Method snownee/pintooltips/PinnedTooltipsService.pin:(Lorg/joml/Vector2ic;Ljava/util/List;Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;J)V
+     120: return
+
+  public static boolean isGrabbing();
+    Code:
+       0: invokestatic  #402                // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+       3: invokevirtual #405                // Method snownee/pintooltips/PinTooltipsConfig.hoveringAutoPinDelay:()I
+       6: istore_0
+       7: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      10: invokevirtual #436                // Method net/minecraft/client/KeyMapping.m_90857_:()Z
+      13: ifne          41
+      16: iload_0
+      17: iflt          45
+      20: getstatic     #409                // Field lastMouseMovedTime:J
+      23: lconst_0
+      24: lcmp
+      25: ifle          45
+      28: invokestatic  #396                // Method java/lang/System.currentTimeMillis:()J
+      31: getstatic     #409                // Field lastMouseMovedTime:J
+      34: lsub
+      35: iload_0
+      36: i2l
+      37: lcmp
+      38: iflt          45
+      41: iconst_1
+      42: goto          46
+      45: iconst_0
+      46: ireturn
+
+  public static boolean shouldShowTooltips(net.minecraft.client.gui.screens.Screen);
+    Code:
+       0: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       3: getfield      #441                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+       6: aload_0
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  private static void lambda$onInitializeClient$7(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.multiplayer.ClientPacketListener, net.minecraft.client.Minecraft);
+    Code:
+       0: aload_0
+       1: invokevirtual #444                // Method snownee/pintooltips/PinnedTooltipsService.clearStates:()V
+       4: return
+
+  private static void lambda$onInitializeClient$6(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.Minecraft, net.minecraft.client.gui.screens.Screen, int, int);
+    Code:
+       0: invokestatic  #402                // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+       3: invokevirtual #451                // Method snownee/pintooltips/PinTooltipsConfig.screenBlacklist:()Ljava/util/Set;
+       6: aload_2
+       7: invokevirtual #455                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+      10: invokevirtual #461                // Method java/lang/Class.getName:()Ljava/lang/String;
+      13: invokeinterface #464,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+      18: ifeq          22
+      21: return
+      22: getstatic     #466                // Field validateTranslations:Z
+      25: ifeq          63
+      28: aload_1
+      29: getfield      #179                // Field net/minecraft/client/Minecraft.f_91073_:Lnet/minecraft/client/multiplayer/ClientLevel;
+      32: ifnull        63
+      35: aload_1
+      36: getfield      #179                // Field net/minecraft/client/Minecraft.f_91073_:Lnet/minecraft/client/multiplayer/ClientLevel;
+      39: invokevirtual #191                // Method net/minecraft/client/multiplayer/ClientLevel.m_9598_:()Lnet/minecraft/core/RegistryAccess;
+      42: getstatic     #203                // Field net/minecraft/core/registries/Registries.f_256762_:Lnet/minecraft/resources/ResourceKey;
+      45: invokeinterface #470,  2          // InterfaceMethod net/minecraft/core/RegistryAccess.m_6632_:(Lnet/minecraft/resources/ResourceKey;)Ljava/util/Optional;
+      50: invokevirtual #475                // Method java/util/Optional.isPresent:()Z
+      53: ifeq          63
+      56: iconst_0
+      57: putstatic     #466                // Field validateTranslations:Z
+      60: invokestatic  #477                // Method validateTranslations:()V
+      63: lconst_0
+      64: putstatic     #409                // Field lastMouseMovedTime:J
+      67: aload_2
+      68: invokestatic  #481                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenKeyboardEvents.afterKeyPress:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+      71: invokedynamic #490,  0            // InvokeDynamic #2:afterKeyPress:()Lnet/fabricmc/fabric/api/client/screen/v1/ScreenKeyboardEvents$AfterKeyPress;
+      76: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+      79: aload_2
+      80: invokestatic  #493                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenKeyboardEvents.afterKeyRelease:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+      83: aload_0
+      84: invokedynamic #501,  0            // InvokeDynamic #3:afterKeyRelease:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenKeyboardEvents$AfterKeyRelease;
+      89: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+      92: aload_2
+      93: invokestatic  #504                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenMouseEvents.allowMouseClick:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+      96: aload_0
+      97: invokedynamic #514,  0            // InvokeDynamic #4:allowMouseClick:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenMouseEvents$AllowMouseClick;
+     102: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+     105: aload_2
+     106: invokestatic  #517                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenMouseEvents.allowMouseRelease:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+     109: aload_0
+     110: invokedynamic #524,  0            // InvokeDynamic #5:allowMouseRelease:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenMouseEvents$AllowMouseRelease;
+     115: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+     118: aload_2
+     119: invokestatic  #527                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenEvents.afterRender:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+     122: aload_0
+     123: invokedynamic #537,  0            // InvokeDynamic #6:afterRender:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenEvents$AfterRender;
+     128: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+     131: aload_2
+     132: invokestatic  #540                // Method net/fabricmc/fabric/api/client/screen/v1/ScreenEvents.remove:(Lnet/minecraft/client/gui/screens/Screen;)Lnet/fabricmc/fabric/api/event/Event;
+     135: aload_0
+     136: invokedynamic #551,  0            // InvokeDynamic #7:onRemove:(Lsnownee/pintooltips/PinnedTooltipsService;)Lnet/fabricmc/fabric/api/client/screen/v1/ScreenEvents$Remove;
+     141: invokevirtual #131                // Method net/fabricmc/fabric/api/event/Event.register:(Ljava/lang/Object;)V
+     144: return
+
+  private static void lambda$onInitializeClient$5(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen);
+    Code:
+       0: aload_0
+       1: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+       4: astore_2
+       5: aload_2
+       6: ifnull        14
+       9: aload_0
+      10: aload_2
+      11: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+      14: return
+
+  private static void lambda$onInitializeClient$4(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen, net.minecraft.client.gui.GuiGraphics, int, int, float);
+    Code:
+       0: aload_1
+       1: invokestatic  #561                // Method shouldShowTooltips:(Lnet/minecraft/client/gui/screens/Screen;)Z
+       4: ifne          8
+       7: return
+       8: getstatic     #407                // Field hasTooltipInThisFrame:Z
+      11: ifeq          51
+      14: iconst_0
+      15: putstatic     #407                // Field hasTooltipInThisFrame:Z
+      18: getstatic     #563                // Field lastMouseX:I
+      21: iload_3
+      22: if_icmpne     33
+      25: getstatic     #565                // Field lastMouseY:I
+      28: iload         4
+      30: if_icmpeq     63
+      33: iload_3
+      34: putstatic     #563                // Field lastMouseX:I
+      37: iload         4
+      39: putstatic     #565                // Field lastMouseY:I
+      42: invokestatic  #396                // Method java/lang/System.currentTimeMillis:()J
+      45: putstatic     #409                // Field lastMouseMovedTime:J
+      48: goto          63
+      51: iconst_0
+      52: putstatic     #563                // Field lastMouseX:I
+      55: iconst_0
+      56: putstatic     #565                // Field lastMouseY:I
+      59: lconst_0
+      60: putstatic     #409                // Field lastMouseMovedTime:J
+      63: aload_0
+      64: aload_0
+      65: iload_3
+      66: i2d
+      67: iload         4
+      69: i2d
+      70: invokevirtual #569                // Method snownee/pintooltips/PinnedTooltipsService.findHovered:(DD)Lsnownee/pintooltips/PinnedTooltip;
+      73: putfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+      76: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      79: getfield      #572                // Field net/minecraft/client/Minecraft.f_91062_:Lnet/minecraft/client/gui/Font;
+      82: astore        6
+      84: iconst_1
+      85: istore        7
+      87: aload_0
+      88: invokevirtual #575                // Method snownee/pintooltips/PinnedTooltipsService.tooltips:()Ljava/util/List;
+      91: invokeinterface #227,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      96: astore        8
+      98: aload         8
+     100: invokeinterface #233,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     105: ifeq          178
+     108: aload         8
+     110: invokeinterface #237,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     115: checkcast     #349                // class snownee/pintooltips/PinnedTooltip
+     118: astore        9
+     120: aload_2
+     121: invokevirtual #583                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+     124: invokevirtual #588                // Method com/mojang/blaze3d/vertex/PoseStack.m_85836_:()V
+     127: aload_2
+     128: invokevirtual #583                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+     131: fconst_0
+     132: fconst_0
+     133: iload         7
+     135: i2f
+     136: invokevirtual #592                // Method com/mojang/blaze3d/vertex/PoseStack.m_252880_:(FFF)V
+     139: aload         9
+     141: aload_0
+     142: aload_1
+     143: aload         6
+     145: aload_2
+     146: iload_3
+     147: iload         4
+     149: invokevirtual #596                // Method snownee/pintooltips/PinnedTooltip.render:(Lsnownee/pintooltips/PinnedTooltipsService;Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/client/gui/Font;Lnet/minecraft/client/gui/GuiGraphics;II)V
+     152: aload_2
+     153: invokevirtual #583                // Method net/minecraft/client/gui/GuiGraphics.m_280168_:()Lcom/mojang/blaze3d/vertex/PoseStack;
+     156: invokevirtual #599                // Method com/mojang/blaze3d/vertex/PoseStack.m_85849_:()V
+     159: invokestatic  #601                // Method getMaxZOffset:()I
+     162: iconst_1
+     163: isub
+     164: iload         7
+     166: sipush        400
+     169: iadd
+     170: invokestatic  #605                // Method java/lang/Math.min:(II)I
+     173: istore        7
+     175: goto          98
+     178: aload_0
+     179: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+     182: astore        8
+     184: aload         8
+     186: ifnull        212
+     189: aload         8
+     191: invokevirtual #608                // Method snownee/pintooltips/PinnedTooltip.isHovered:()Z
+     194: ifeq          212
+     197: aload         8
+     199: aload_0
+     200: getfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+     203: if_acmpeq     212
+     206: aload_0
+     207: aload         8
+     209: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+     212: aload_0
+     213: getfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+     216: ifnull        301
+     219: aload_0
+     220: getfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+     223: invokevirtual #610                // Method snownee/pintooltips/PinnedTooltip.hovered:()V
+     226: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+     229: invokevirtual #613                // Method net/minecraft/client/KeyMapping.m_90862_:()Z
+     232: ifne          275
+     235: invokestatic  #396                // Method java/lang/System.currentTimeMillis:()J
+     238: ldc2_w        #614                // long 2000l
+     241: ldiv
+     242: ldc2_w        #616                // long 2l
+     245: lrem
+     246: lconst_0
+     247: lcmp
+     248: ifne          275
+     251: ldc_w         #619                // String gui.pin_tooltips.clear_hint
+     254: iconst_1
+     255: anewarray     #4                  // class java/lang/Object
+     258: dup
+     259: iconst_0
+     260: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+     263: invokevirtual #623                // Method net/minecraft/client/KeyMapping.m_90863_:()Lnet/minecraft/network/chat/Component;
+     266: aastore
+     267: invokestatic  #627                // InterfaceMethod net/minecraft/network/chat/Component.m_237110_:(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;
+     270: astore        9
+     272: goto          283
+     275: ldc_w         #629                // String gui.pin_tooltips.unpin_hint
+     278: invokestatic  #632                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     281: astore        9
+     283: aload_2
+     284: aload         6
+     286: aload         9
+     288: aload_1
+     289: getfield      #358                // Field net/minecraft/client/gui/screens/Screen.f_96543_:I
+     292: iconst_2
+     293: idiv
+     294: iconst_4
+     295: ldc_w         #633                // int 11184810
+     298: invokevirtual #637                // Method net/minecraft/client/gui/GuiGraphics.m_280653_:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+     301: return
+
+  private static boolean lambda$onInitializeClient$3(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen, double, double, int);
+    Code:
+       0: aload_1
+       1: invokestatic  #561                // Method shouldShowTooltips:(Lnet/minecraft/client/gui/screens/Screen;)Z
+       4: ifne          9
+       7: iconst_1
+       8: ireturn
+       9: aload_0
+      10: getfield      #329                // Field snownee/pintooltips/PinnedTooltipsService.focused:Lsnownee/pintooltips/PinnedTooltip;
+      13: astore        7
+      15: aload_0
+      16: getfield      #332                // Field snownee/pintooltips/PinnedTooltipsService.dragging:Z
+      19: istore        8
+      21: aload_0
+      22: invokevirtual #444                // Method snownee/pintooltips/PinnedTooltipsService.clearStates:()V
+      25: aload_0
+      26: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      29: ifnull        49
+      32: aload         7
+      34: aload_0
+      35: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      38: if_acmpeq     49
+      41: aload_0
+      42: aload_0
+      43: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      46: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+      49: aload         7
+      51: ifnull        94
+      54: iload         6
+      56: ifne          92
+      59: iload         8
+      61: ifne          92
+      64: aload         7
+      66: dload_2
+      67: dload         4
+      69: invokestatic  #175                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      72: getfield      #572                // Field net/minecraft/client/Minecraft.f_91062_:Lnet/minecraft/client/gui/Font;
+      75: invokevirtual #649                // Method snownee/pintooltips/PinnedTooltip.getStyleAt:(DDLnet/minecraft/client/gui/Font;)Lnet/minecraft/network/chat/Style;
+      78: astore        9
+      80: aload         9
+      82: ifnull        92
+      85: aload_1
+      86: aload         9
+      88: invokevirtual #653                // Method net/minecraft/client/gui/screens/Screen.m_5561_:(Lnet/minecraft/network/chat/Style;)Z
+      91: pop
+      92: iconst_0
+      93: ireturn
+      94: iconst_1
+      95: ireturn
+
+  private static boolean lambda$onInitializeClient$2(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen, double, double, int);
+    Code:
+       0: aload_1
+       1: invokestatic  #561                // Method shouldShowTooltips:(Lnet/minecraft/client/gui/screens/Screen;)Z
+       4: ifne          9
+       7: iconst_1
+       8: ireturn
+       9: iload         6
+      11: ifeq          22
+      14: iload         6
+      16: iconst_2
+      17: if_icmpeq     22
+      20: iconst_1
+      21: ireturn
+      22: iload         6
+      24: iconst_2
+      25: if_icmpne     43
+      28: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      31: invokevirtual #436                // Method net/minecraft/client/KeyMapping.m_90857_:()Z
+      34: ifeq          43
+      37: aload_0
+      38: invokevirtual #658                // Method snownee/pintooltips/PinnedTooltipsService.clearTooltips:()V
+      41: iconst_0
+      42: ireturn
+      43: aload_0
+      44: getfield      #377                // Field snownee/pintooltips/PinnedTooltipsService.hovered:Lsnownee/pintooltips/PinnedTooltip;
+      47: astore        7
+      49: aload         7
+      51: ifnull        82
+      54: iload         6
+      56: ifne          74
+      59: aload_0
+      60: aload         7
+      62: putfield      #329                // Field snownee/pintooltips/PinnedTooltipsService.focused:Lsnownee/pintooltips/PinnedTooltip;
+      65: aload_0
+      66: aload         7
+      68: invokevirtual #661                // Method snownee/pintooltips/PinnedTooltipsService.placeOnTop:(Lsnownee/pintooltips/PinnedTooltip;)V
+      71: goto          80
+      74: aload_0
+      75: aload         7
+      77: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+      80: iconst_0
+      81: ireturn
+      82: iconst_1
+      83: ireturn
+
+  private static void lambda$onInitializeClient$1(snownee.pintooltips.PinnedTooltipsService, net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: aload_1
+       1: invokestatic  #561                // Method shouldShowTooltips:(Lnet/minecraft/client/gui/screens/Screen;)Z
+       4: ifeq          55
+       7: aload_0
+       8: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      11: ifnull        33
+      14: aload_0
+      15: getfield      #329                // Field snownee/pintooltips/PinnedTooltipsService.focused:Lsnownee/pintooltips/PinnedTooltip;
+      18: aload_0
+      19: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      22: if_acmpeq     33
+      25: aload_0
+      26: aload_0
+      27: invokevirtual #557                // Method snownee/pintooltips/PinnedTooltipsService.autoPinnedTooltip:()Lsnownee/pintooltips/PinnedTooltip;
+      30: invokevirtual #381                // Method snownee/pintooltips/PinnedTooltipsService.unpin:(Lsnownee/pintooltips/PinnedTooltip;)V
+      33: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      36: iload_2
+      37: iload_3
+      38: invokevirtual #665                // Method net/minecraft/client/KeyMapping.m_90832_:(II)Z
+      41: ifeq          55
+      44: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      47: iconst_0
+      48: invokevirtual #669                // Method net/minecraft/client/KeyMapping.m_7249_:(Z)V
+      51: iconst_m1
+      52: putstatic     #398                // Field keyPressedFrames:I
+      55: return
+
+  private static void lambda$onInitializeClient$0(net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: aload_0
+       1: invokestatic  #561                // Method shouldShowTooltips:(Lnet/minecraft/client/gui/screens/Screen;)Z
+       4: ifeq          35
+       7: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      10: iload_1
+      11: iload_2
+      12: invokevirtual #665                // Method net/minecraft/client/KeyMapping.m_90832_:(II)Z
+      15: ifeq          35
+      18: getstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      21: iconst_1
+      22: invokevirtual #669                // Method net/minecraft/client/KeyMapping.m_7249_:(Z)V
+      25: getstatic     #398                // Field keyPressedFrames:I
+      28: ifge          35
+      31: iconst_0
+      32: putstatic     #398                // Field keyPressedFrames:I
+      35: return
+
+  static {};
+    Code:
+       0: invokestatic  #679                // Method com/mojang/logging/LogUtils.getLogger:()Lorg/slf4j/Logger;
+       3: putstatic     #148                // Field LOGGER:Lorg/slf4j/Logger;
+       6: ldc_w         #681                // String chat.copy.click
+       9: invokestatic  #632                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      12: getstatic     #684                // Field net/minecraft/ChatFormatting.GRAY:Lnet/minecraft/ChatFormatting;
+      15: invokevirtual #290                // Method net/minecraft/network/chat/MutableComponent.m_130940_:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+      18: putstatic     #686                // Field CLICK_TO_COPY:Lnet/minecraft/network/chat/Component;
+      21: new           #48                 // class net/minecraft/network/chat/HoverEvent
+      24: dup
+      25: getstatic     #690                // Field net/minecraft/network/chat/HoverEvent$Action.f_130831_:Lnet/minecraft/network/chat/HoverEvent$Action;
+      28: getstatic     #686                // Field CLICK_TO_COPY:Lnet/minecraft/network/chat/Component;
+      31: invokespecial #693                // Method net/minecraft/network/chat/HoverEvent."<init>":(Lnet/minecraft/network/chat/HoverEvent$Action;Ljava/lang/Object;)V
+      34: putstatic     #695                // Field CLICK_TO_COPY_EVENT:Lnet/minecraft/network/chat/HoverEvent;
+      37: iconst_m1
+      38: putstatic     #398                // Field keyPressedFrames:I
+      41: new           #433                // class net/minecraft/client/KeyMapping
+      44: dup
+      45: ldc_w         #697                // String key.pin_tooltips.pin
+      48: getstatic     #701                // Field com/mojang/blaze3d/platform/InputConstants$Type.KEYSYM:Lcom/mojang/blaze3d/platform/InputConstants$Type;
+      51: sipush        342
+      54: ldc_w         #703                // String key.categories.misc
+      57: invokespecial #706                // Method net/minecraft/client/KeyMapping."<init>":(Ljava/lang/String;Lcom/mojang/blaze3d/platform/InputConstants$Type;ILjava/lang/String;)V
+      60: invokestatic  #712                // Method net/fabricmc/fabric/api/client/keybinding/v1/KeyBindingHelper.registerKeyBinding:(Lnet/minecraft/client/KeyMapping;)Lnet/minecraft/client/KeyMapping;
+      63: putstatic     #431                // Field GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+      66: invokestatic  #718                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+      69: invokeinterface #722,  1          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getConfigDir:()Ljava/nio/file/Path;
+      74: invokeinterface #728,  1          // InterfaceMethod java/nio/file/Path.toFile:()Ljava/io/File;
+      79: putstatic     #730                // Field configDirectory:Ljava/io/File;
+      82: invokestatic  #718                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+      85: invokeinterface #733,  1          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.isDevelopmentEnvironment:()Z
+      90: putstatic     #466                // Field validateTranslations:Z
+      93: return
+}

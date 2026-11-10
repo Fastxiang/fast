@@ -1,0 +1,50 @@
+Compiled from "DummyHoveredSlot.java"
+class snownee.pintooltips.util.DummyHoveredSlot$1 implements net.minecraft.world.Container {
+  snownee.pintooltips.util.DummyHoveredSlot$1();
+    Code:
+       0: aload_0
+       1: invokespecial #15                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public int m_6643_();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public boolean m_7983_();
+    Code:
+       0: iconst_1
+       1: ireturn
+
+  public net.minecraft.world.item.ItemStack m_8020_(int);
+    Code:
+       0: getstatic     #30                 // Field net/minecraft/world/item/ItemStack.f_41583_:Lnet/minecraft/world/item/ItemStack;
+       3: areturn
+
+  public net.minecraft.world.item.ItemStack m_7407_(int, int);
+    Code:
+       0: getstatic     #30                 // Field net/minecraft/world/item/ItemStack.f_41583_:Lnet/minecraft/world/item/ItemStack;
+       3: areturn
+
+  public net.minecraft.world.item.ItemStack m_8016_(int);
+    Code:
+       0: getstatic     #30                 // Field net/minecraft/world/item/ItemStack.f_41583_:Lnet/minecraft/world/item/ItemStack;
+       3: areturn
+
+  public void m_6836_(int, net.minecraft.world.item.ItemStack);
+    Code:
+       0: return
+
+  public void m_6596_();
+    Code:
+       0: return
+
+  public boolean m_6542_(net.minecraft.world.entity.player.Player);
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public void m_6211_();
+    Code:
+       0: return
+}

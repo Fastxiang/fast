@@ -1,0 +1,46 @@
+Compiled from "AbstractContainerScreenMixin.java"
+public class snownee.pintooltips.mixin.pin.AbstractContainerScreenMixin implements snownee.pintooltips.duck.PTContainerScreen {
+  protected net.minecraft.world.inventory.Slot f_97734_;
+
+  private net.minecraft.world.inventory.Slot pin_tooltips$originalHoveredSlot;
+
+  public snownee.pintooltips.mixin.pin.AbstractContainerScreenMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #22                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public void pin_tooltips$setDummyHoveredSlot(net.minecraft.world.inventory.Slot);
+    Code:
+       0: aload_0
+       1: getfield      #28                 // Field pin_tooltips$originalHoveredSlot:Lnet/minecraft/world/inventory/Slot;
+       4: ifnonnull     15
+       7: aload_0
+       8: aload_0
+       9: getfield      #30                 // Field f_97734_:Lnet/minecraft/world/inventory/Slot;
+      12: putfield      #28                 // Field pin_tooltips$originalHoveredSlot:Lnet/minecraft/world/inventory/Slot;
+      15: aload_0
+      16: aload_1
+      17: putfield      #30                 // Field f_97734_:Lnet/minecraft/world/inventory/Slot;
+      20: return
+
+  public void pin_tooltips$dropDummyHoveredSlot();
+    Code:
+       0: aload_0
+       1: aload_0
+       2: getfield      #28                 // Field pin_tooltips$originalHoveredSlot:Lnet/minecraft/world/inventory/Slot;
+       5: putfield      #30                 // Field f_97734_:Lnet/minecraft/world/inventory/Slot;
+       8: aload_0
+       9: aconst_null
+      10: putfield      #28                 // Field pin_tooltips$originalHoveredSlot:Lnet/minecraft/world/inventory/Slot;
+      13: return
+
+  private net.minecraft.world.item.ItemStack pin_tooltips$recordContext(net.minecraft.world.item.ItemStack, net.minecraft.client.gui.GuiGraphics);
+    Code:
+       0: aload_2
+       1: invokestatic  #48                 // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+       4: aload_1
+       5: invokeinterface #52,  2           // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$setRenderingItemStack:(Lnet/minecraft/world/item/ItemStack;)V
+      10: aload_1
+      11: areturn
+}

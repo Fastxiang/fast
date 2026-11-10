@@ -1,0 +1,54 @@
+{
+  "mappings": {
+    "net/fabricmc/fabric/mixin/screen/MouseMixin": {
+      "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPre(Lnet/minecraft/client/Mouse;Lnet/minecraft/client/gui/screen/Screen;D)Z": "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPre(Lnet/minecraft/client/MouseHandler;Lnet/minecraft/client/gui/screens/Screen;D)Z",
+      "onMouseScroll": "Lnet/minecraft/client/MouseHandler;m_91526_(JDD)V",
+      "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPost(Lnet/minecraft/client/Mouse;Lnet/minecraft/client/gui/screen/Screen;D)V": "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPost(Lnet/minecraft/client/MouseHandler;Lnet/minecraft/client/gui/screens/Screen;D)V"
+    },
+    "net/fabricmc/fabric/mixin/screen/MinecraftClientMixin": {
+      "Lnet/minecraft/client/gui/screen/Screen;removed()V": "Lnet/minecraft/client/gui/screens/Screen;m_7861_()V",
+      "Lnet/minecraft/client/gui/screen/Screen;tick()V": "Lnet/minecraft/client/gui/screens/Screen;m_86600_()V",
+      "stop": "Lnet/minecraft/client/Minecraft;m_91393_()V",
+      "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/resource/ResourcePackManager;Lnet/minecraft/server/SaveLoader;Z)V": "Lnet/minecraft/client/Minecraft;m_261031_(Ljava/lang/String;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/server/packs/repository/PackRepository;Lnet/minecraft/server/WorldStem;Z)V",
+      "Lnet/minecraft/client/gui/screen/LevelLoadingScreen;tick()V": "Lnet/minecraft/client/gui/screens/LevelLoadingScreen;m_86600_()V",
+      "setScreen": "Lnet/minecraft/client/Minecraft;m_91152_(Lnet/minecraft/client/gui/screens/Screen;)V",
+      "lambda$tick$42()V": "Lnet/minecraft/client/Minecraft;lambda$tick$42()V",
+      "Lnet/minecraft/client/MinecraftClient;render(Z)V": "Lnet/minecraft/client/Minecraft;m_91383_(Z)V"
+    },
+    "net/fabricmc/fabric/mixin/screen/ScreenAccessor": {
+      "textRenderer": "f_96547_:Lnet/minecraft/client/gui/Font;",
+      "client": "f_96541_:Lnet/minecraft/client/Minecraft;"
+    },
+    "net/fabricmc/fabric/mixin/screen/ScreenMixin": {
+      "init(Lnet/minecraft/client/MinecraftClient;II)V": "Lnet/minecraft/client/gui/screens/Screen;m_6575_(Lnet/minecraft/client/Minecraft;II)V",
+      "resize": "Lnet/minecraft/client/gui/screens/Screen;m_6574_(Lnet/minecraft/client/Minecraft;II)V"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "net/fabricmc/fabric/mixin/screen/MouseMixin": {
+        "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPre(Lnet/minecraft/client/Mouse;Lnet/minecraft/client/gui/screen/Screen;D)Z": "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPre(Lnet/minecraft/client/MouseHandler;Lnet/minecraft/client/gui/screens/Screen;D)Z",
+        "onMouseScroll": "Lnet/minecraft/client/MouseHandler;m_91526_(JDD)V",
+        "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPost(Lnet/minecraft/client/Mouse;Lnet/minecraft/client/gui/screen/Screen;D)V": "Lnet/minecraftforge/client/ForgeHooksClient;onScreenMouseScrollPost(Lnet/minecraft/client/MouseHandler;Lnet/minecraft/client/gui/screens/Screen;D)V"
+      },
+      "net/fabricmc/fabric/mixin/screen/MinecraftClientMixin": {
+        "Lnet/minecraft/client/gui/screen/Screen;removed()V": "Lnet/minecraft/client/gui/screens/Screen;m_7861_()V",
+        "Lnet/minecraft/client/gui/screen/Screen;tick()V": "Lnet/minecraft/client/gui/screens/Screen;m_86600_()V",
+        "stop": "Lnet/minecraft/client/Minecraft;m_91393_()V",
+        "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/resource/ResourcePackManager;Lnet/minecraft/server/SaveLoader;Z)V": "Lnet/minecraft/client/Minecraft;m_261031_(Ljava/lang/String;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/server/packs/repository/PackRepository;Lnet/minecraft/server/WorldStem;Z)V",
+        "Lnet/minecraft/client/gui/screen/LevelLoadingScreen;tick()V": "Lnet/minecraft/client/gui/screens/LevelLoadingScreen;m_86600_()V",
+        "setScreen": "Lnet/minecraft/client/Minecraft;m_91152_(Lnet/minecraft/client/gui/screens/Screen;)V",
+        "lambda$tick$42()V": "Lnet/minecraft/client/Minecraft;lambda$tick$42()V",
+        "Lnet/minecraft/client/MinecraftClient;render(Z)V": "Lnet/minecraft/client/Minecraft;m_91383_(Z)V"
+      },
+      "net/fabricmc/fabric/mixin/screen/ScreenAccessor": {
+        "textRenderer": "f_96547_:Lnet/minecraft/client/gui/Font;",
+        "client": "f_96541_:Lnet/minecraft/client/Minecraft;"
+      },
+      "net/fabricmc/fabric/mixin/screen/ScreenMixin": {
+        "init(Lnet/minecraft/client/MinecraftClient;II)V": "Lnet/minecraft/client/gui/screens/Screen;m_6575_(Lnet/minecraft/client/Minecraft;II)V",
+        "resize": "Lnet/minecraft/client/gui/screens/Screen;m_6574_(Lnet/minecraft/client/Minecraft;II)V"
+      }
+    }
+  }
+}

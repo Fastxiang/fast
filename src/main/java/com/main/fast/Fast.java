@@ -3,6 +3,7 @@ package com.main.fast;
 import com.main.fast.entity.FastBossEntity;
 import com.main.fast.registry.*;
 import com.main.fast.shop.network.ShopNetwork;
+import com.main.fast.skill.network.PhantomTelegraphPacket;
 import com.main.fast.skill.network.SkillIndicatorPacket;
 import com.main.fast.skill.network.SkillLinePacket;
 import com.main.fast.spell.network.SkillNetwork;
@@ -22,8 +23,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import com.main.fast.event.ArrowEventsHandler;
 import com.main.fast.event.PlayerEventsHandler;
-
 
 @Mod(Fast.MODID)
 public class Fast {
@@ -49,11 +50,20 @@ public class Fast {
 
         PlayerEventsHandler.register();
 
+        ArrowEventsHandler.register();
+
+        com.main.fast.maid.event.MaidCombatEvents.register();
+
         ShopNetwork.init();
 
         SkillNetwork.init();
 
+        // 登记给晴雪UI，让它扫到 FastShopUIBridge 上的 @KJSBindings。
+        com.main.fast.compat.apricity.ApricityCompat.init();
+
         SkillIndicatorPacket.init();
+
+        PhantomTelegraphPacket.init();
 
         SkillLinePacket.init();
 
@@ -113,6 +123,30 @@ public class Fast {
                 );
 
 
+                net.minecraft.client.renderer.entity.EntityRenderers.register(
+                        FastEntities.PHANTOM_HERO.get(),
+                        com.main.fast.entity.client.PhantomHeroRenderer::new
+                );
+
+
+                net.minecraft.client.renderer.entity.EntityRenderers.register(
+                        FastEntities.PIERCING_ARROW.get(),
+                        com.main.fast.entity.client.FastArrowRenderer::new
+                );
+
+
+                net.minecraft.client.renderer.entity.EntityRenderers.register(
+                        FastEntities.HOMING_ARROW.get(),
+                        com.main.fast.entity.client.FastArrowRenderer::new
+                );
+
+
+                net.minecraft.client.renderer.entity.EntityRenderers.register(
+                        FastEntities.MAGIC_ARROW.get(),
+                        com.main.fast.entity.client.FastArrowRenderer::new
+                );
+
+
             });
 
         }
@@ -155,6 +189,11 @@ public class Fast {
             event.put(
                     FastEntities.MYSTERIOUS_BLACK_CLOAKED_SWORDSMAN.get(),
                     com.main.fast.entity.BossMysteriousBlackCloakedSwordsman.createAttributes().build()
+            );
+
+            event.put(
+                    FastEntities.PHANTOM_HERO.get(),
+                    com.main.fast.entity.BossPhantomHero.createAttributes().build()
             );
 
         }

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- mode=gui：CSS 视口 = MC GUI 分辨率（窗口 ÷ GUI Scale），CSS 像素 ≡ 原版 GUI 像素。
+     这就是「原版渲染」的缩放方式 —— 整个界面像原版容器一样随 GUI Scale 整体放大，
+     无论窗口多大、分辨率多少，字都和原版字体一样大、一样清晰。
+     （之前 mode=browser 视口跟随窗口物理尺寸，同一个 1080px 宽的页面在
+     大窗口里字被相对压小，小窗口里又被撑爆 —— 分辨率一变样子全变。）
+     user-scalable=false 照旧禁掉 Ctrl+滚轮缩放。 -->
+<meta name="aui-viewport" content="mode=gui,user-scalable=false">
+<!-- 不拦截原生鼠标事件（content=none）。
+     AUI 的 intercept 会在 mousedown/mouseup 时对命中区域调 consumeNative()
+     （Document.interceptsMouseEventsAt → MouseEvent.tiggerEvent），
+     于是 Client.mouseButton 把 Forge 的 InputEvent.MouseButton.Pre 取消掉，
+     MouseHandler.onPress 见取消就直接 return —— Screen.mouseClicked 整条不走，
+     ScreenEvent.MouseButtonPressed/Released$Pre 也就永远不触发。
+     结果：PinTooltips（以及任何依赖 ScreenEvent 鼠标事件的模组）收不到点击，
+     tooltip 抓不住、拖不动、右键关不掉。本页是独占 Screen 而非世界内 Overlay，
+     不需要靠 intercept 挡住「点击穿透到游戏」，所以直接关掉。
+     none 后 AUI 自己的 DOM 事件（click / contextmenu / mousemove /…）照常派发，
+     唯一区别是不再吞掉原生输入（见 AUI 文档 apricity-screen#page-meta-configuration）。
+     注意：<input> 仍按 AUI 自身逻辑 consumeNative()，输入框行为不变。 -->
+<meta name="aui-mouse-events" content="none">
+<title>森林杂货铺</title>
+
+<!-- 不引主题 ore.css：本页全部样式自给（trait_forge 页同样不引主题），
+     且该路径在 jar 里实际不存在，引了只会多一次加载失败 -->
+<link rel="stylesheet" href="shop.css">
+</head>
+
+<body>
+<main class="shop" id="shop-root">
+
+  <header class="sign">
+    <button class="sign-close" id="shop-close" type="button" title="关闭商店">×</button>
+    <div class="sign-title">
+      <span class="flower">◆</span>
+      森林杂货铺
+      <span class="flower">◆</span>
+    </div>
+  </header>
+
+  <!-- 双栏主体：左栏 = 余额 / 买卖切换 / 分类收藏，右栏 = 搜索 + 货架。
+       用 flex 两层嵌套（不是 grid）：AUI 的 grid 轨道按 max-content 定尺，
+       `grid-column: 1 / -1` 与 `minmax(0,1fr)` 都不会按预期收缩/通栏，
+       结果就是招牌只占左栏、右栏被撑爆、买卖页签被行高拉成长条。 -->
+  <div class="shop-body">
+
+    <div class="shop-side">
+      <section class="wallet">
+        <span class="wallet-tip">今天也要好好冒险呀！</span>
+        <span class="wallet-money">
+          <span class="coin">●</span>
+          <span id="money">0</span>
+        </span>
+      </section>
+
+      <!-- 购买 / 出售 切换 -->
+      <div class="trade-tabs" id="trade-tabs">
+        <button class="trade-tab" id="tab-buy" type="button">购买</button>
+        <button class="trade-tab" id="tab-sell" type="button">出售</button>
+      </div>
+
+      <!-- 分类按钮（点开全窗分类菜单）+ 收藏分类面板 -->
+      <div class="filter-row">
+        <span class="filter-label">货架分类</span>
+
+        <div class="category-wrap">
+          <button
+            type="button"
+            class="category-button"
+            id="category-button"
+            aria-expanded="false"
+          >
+            <span id="category-label">全部分类</span>
+            <span class="category-arrow">▼</span>
+          </button>
+
+          <div class="category-menu" id="category-menu">
+            <div class="category-menu-head">
+              <div class="category-menu-text">
+                <div class="category-menu-title">◆ 选择货架分类</div>
+                <div class="category-menu-subtitle">左键进入 · 右键收藏 · 按住拖动可排序</div>
+              </div>
+              <button class="category-menu-close" id="close-category-menu"
+                type="button">返回</button>
+            </div>
+            <div class="category-list" id="category-list"></div>
+          </div>
+        </div>
+
+        <section class="favorites-panel">
+          <div class="favorites-heading">
+            <span>★ 收藏分类</span>
+            <span class="favorites-tip">右键分类收藏</span>
+          </div>
+          <div class="favorites-list" id="favorites-list"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="shop-main">
+      <!-- 搜索物品名称、ID -->
+      <div class="search-box">
+        <span class="search-symbol">◎</span>
+        <input
+          id="search-input"
+          class="search-input"
+          type="text"
+          placeholder="寻找宝物……名称 / 物品 ID"
+          autocomplete="off"
+        >
+        <button class="clear-search" id="clear-search"
+          type="button" title="清空搜索">×</button>
+      </div>
+
+      <section class="shelf">
+        <div class="shelf-heading">
+          <strong id="shelf-title">◆ 今日上架</strong>
+          <span class="shelf-count" id="shelf-count">0 件好物</span>
+        </div>
+
+        <div class="shelf-body">
+          <div class="product-grid" id="product-grid"></div>
+
+          <!-- 分页：条目有 190+ 个，一次性全渲染会把首屏排版拖到秒级 -->
+          <div class="pager" id="pager">
+            <button class="pager-button" id="page-prev" type="button">‹ 上一页</button>
+            <span class="page-label" id="page-label">1 / 1 页</span>
+            <button class="pager-button" id="page-next" type="button">下一页 ›</button>
+          </div>
+
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">◇</div>
+            <div>没有找到这样的宝物呢……</div>
+            <div>换个关键词试试看吧！</div>
+          </div>
+        </div>
+
+        <div class="shelf-beam"></div>
+      </section>
+    </div>
+
+  </div>
+
+  <p class="shop-hint">◆ 点击商品查看详情，挑选喜欢的数量吧！ ◆</p>
+
+  <footer class="footer">
+    <span>◆ 森林小镇</span>
+    <span>·</span>
+    <span>每日营业</span>
+    <span>·</span>
+    <span>★ 欢迎光临</span>
+  </footer>
+</main>
+
+<!-- 商品详情与数量购买 -->
+<div class="backdrop" id="backdrop">
+  <!-- id 是给 Java 侧量位置用的（详情那份 tooltip 要贴在它右边，见 ShopTooltipState） -->
+  <section class="dialog" id="detail-dialog" role="dialog" aria-modal="true">
+
+    <header class="dialog-header">
+      <strong id="dialog-title">商品详情</strong>
+      <button class="close-button" id="close-dialog"
+        type="button" aria-label="关闭">×</button>
+    </header>
+
+    <!-- 信息区：固定不滚（MC 横屏窗口矮，塞进滚动区必被滚走看不见）。
+         图标在左，名称 / 分类·背包在右。描述不放这里 —— 右侧钉住的卡片本来就有，
+         弹窗里再放一遍既占高度还会把购买区挤出去；购买区的滚动只是兜底。 -->
+    <div class="dialog-info">
+      <div class="preview-icon" id="preview-icon"></div>
+      <div class="preview-text">
+        <div class="preview-name" id="preview-name">商品名称</div>
+        <div class="preview-meta">
+          <span class="preview-rarity" id="preview-category">未分类</span>
+          <span class="preview-have" id="preview-have"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 购买区：固定在弹窗底部、永远可见 —— 不能塞进滚动区，
+         否则矮视口下要滚轮才能发现购买键（用户不可能第一时间想到滚轮）。 -->
+    <div class="dialog-actions">
+      <div class="quantity-title" id="quantity-title">想要买多少个呢？</div>
+
+      <div class="quantity-control">
+        <button class="quantity-button" id="quantity-minus"
+          type="button" aria-label="减少数量">−</button>
+
+        <input class="quantity-input" id="quantity-input"
+          type="number" min="1" max="2304" step="1"
+          value="1" inputmode="numeric" aria-label="交易数量">
+
+        <button class="quantity-button" id="quantity-plus"
+          type="button" aria-label="增加数量">+</button>
+      </div>
+
+      <div class="quick-quantity" id="quick-quantity">
+        <button class="quick-button" id="quick-1" type="button">1 个</button>
+        <button class="quick-button" id="quick-8" type="button">8 个</button>
+        <button class="quick-button" id="quick-16" type="button">16 个</button>
+        <button class="quick-button" id="quick-64" type="button">64 个</button>
+        <button class="quick-button" id="quick-max" type="button">全部</button>
+      </div>
+
+      <div class="total-panel">
+        <div class="total-row">
+          <span id="unit-label">单价</span>
+          <span class="total-value">
+            <span class="coin">●</span>
+            <span id="unit-price">0</span>
+          </span>
+        </div>
+
+        <div class="total-row">
+          <span id="quantity-label">购买数量</span>
+          <strong id="quantity-summary">1 个</strong>
+        </div>
+
+        <div class="total-row">
+          <span id="total-label">合计花费</span>
+          <span class="total-value">
+            <span class="coin">●</span>
+            <span id="total-price">0</span>
+          </span>
+        </div>
+
+        <div class="total-row">
+          <span id="remain-label">购买后余额</span>
+          <strong id="remaining-money">0</strong>
+        </div>
+      </div>
+
+      <button class="buy-button" id="buy-button" type="button">
+        带回家！★
+      </button>
+
+      <div class="notice" id="notice" aria-live="polite"></div>
+    </div>
+  </section>
+</div>
+
+<script src="shop.js"></script>
+</body>
+</html>

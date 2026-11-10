@@ -1,0 +1,43 @@
+Compiled from "InitEvent.java"
+public class com.sighs.apricityui.client.InitEvent {
+  private static int tickCounter;
+
+  public com.sighs.apricityui.client.InitEvent();
+    Code:
+       0: aload_0
+       1: invokespecial #30                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void localStorageInit(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent);
+    Code:
+       0: getstatic     #41                 // Field com/sighs/apricityui/init/Window.window:Lcom/sighs/apricityui/init/Window;
+       3: getfield      #45                 // Field com/sighs/apricityui/init/Window.localStorage:Lcom/sighs/apricityui/util/LocalStorage;
+       6: invokevirtual #50                 // Method com/sighs/apricityui/util/LocalStorage.load:()V
+       9: return
+
+  public static void onClientTick(net.minecraftforge.event.TickEvent$ClientTickEvent);
+    Code:
+       0: aload_0
+       1: getfield      #58                 // Field net/minecraftforge/event/TickEvent$ClientTickEvent.phase:Lnet/minecraftforge/event/TickEvent$Phase;
+       4: getstatic     #61                 // Field net/minecraftforge/event/TickEvent$Phase.END:Lnet/minecraftforge/event/TickEvent$Phase;
+       7: if_acmpne     40
+      10: getstatic     #63                 // Field tickCounter:I
+      13: iconst_1
+      14: iadd
+      15: putstatic     #63                 // Field tickCounter:I
+      18: getstatic     #63                 // Field tickCounter:I
+      21: sipush        5000
+      24: if_icmplt     40
+      27: iconst_0
+      28: putstatic     #63                 // Field tickCounter:I
+      31: getstatic     #41                 // Field com/sighs/apricityui/init/Window.window:Lcom/sighs/apricityui/init/Window;
+      34: getfield      #45                 // Field com/sighs/apricityui/init/Window.localStorage:Lcom/sighs/apricityui/util/LocalStorage;
+      37: invokevirtual #66                 // Method com/sighs/apricityui/util/LocalStorage.save:()V
+      40: return
+
+  static {};
+    Code:
+       0: iconst_0
+       1: putstatic     #63                 // Field tickCounter:I
+       4: return
+}

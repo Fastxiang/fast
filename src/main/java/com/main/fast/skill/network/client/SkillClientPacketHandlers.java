@@ -1,7 +1,9 @@
 package com.main.fast.skill.network.client;
 
+import com.main.fast.skill.client.PhantomTelegraphRenderer;
 import com.main.fast.skill.client.SkillIndicatorRenderer;
 import com.main.fast.skill.client.SkillLineIndicatorRenderer;
+import com.main.fast.skill.network.PhantomTelegraphPacket;
 import com.main.fast.skill.network.SkillIndicatorPacket;
 import com.main.fast.skill.network.SkillLinePacket;
 import net.minecraftforge.network.NetworkEvent;
@@ -20,6 +22,24 @@ public class SkillClientPacketHandlers {
     public static void handleSkillLine(SkillLinePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             SkillLineIndicatorRenderer.addLineFromPacket(msg);
+        });
+        ctx.get().setPacketHandled(true);
+    }
+
+    public static void handlePhantomTelegraph(PhantomTelegraphPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            PhantomTelegraphRenderer.addTelegraph(
+                    msg.getShape(),
+                    msg.getOwnerId(),
+                    msg.getOrigin(),
+                    msg.getYaw(),
+                    msg.getRadius(),
+                    msg.getHalfAngle(),
+                    msg.getHalfWidth(),
+                    msg.getDuration(),
+                    msg.getFade(),
+                    msg.getColor()
+            );
         });
         ctx.get().setPacketHandled(true);
     }

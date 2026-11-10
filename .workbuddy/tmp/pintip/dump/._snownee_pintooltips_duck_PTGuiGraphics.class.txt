@@ -1,0 +1,20 @@
+Compiled from "PTGuiGraphics.java"
+public interface snownee.pintooltips.duck.PTGuiGraphics {
+  public abstract void pin_tooltips$setRenderingItemStack(net.minecraft.world.item.ItemStack);
+
+  public abstract net.minecraft.world.item.ItemStack pin_tooltips$getRenderingItemStack();
+
+  public abstract void pin_tooltips$setRenderingPinned(boolean);
+
+  public abstract boolean pin_tooltips$getRenderingPinned();
+
+  public abstract void pin_tooltips$setRenderingPinnedEvent(boolean);
+
+  public abstract boolean pin_tooltips$getRenderingPinnedEvent();
+
+  public static snownee.pintooltips.duck.PTGuiGraphics of(net.minecraft.client.gui.GuiGraphics);
+    Code:
+       0: aload_0
+       1: checkcast     #2                  // class snownee/pintooltips/duck/PTGuiGraphics
+       4: areturn
+}

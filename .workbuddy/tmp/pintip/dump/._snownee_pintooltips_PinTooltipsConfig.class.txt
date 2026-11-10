@@ -1,0 +1,216 @@
+Compiled from "PinTooltipsConfig.java"
+public final class snownee.pintooltips.PinTooltipsConfig extends java.lang.Record {
+  private final boolean hideMissingDescriptions;
+
+  private final boolean jadeModEnchantmentModName;
+
+  private final boolean jadeModMobEffectModName;
+
+  private final int hoveringAutoPinDelay;
+
+  private final java.util.Set<java.lang.String> screenBlacklist;
+
+  public static final com.mojang.serialization.Codec<snownee.pintooltips.PinTooltipsConfig> CODEC;
+
+  private static final snownee.pintooltips.util.JsonConfig<snownee.pintooltips.PinTooltipsConfig> INSTANCE;
+
+  private static snownee.pintooltips.PinTooltipsConfig override;
+
+  public snownee.pintooltips.PinTooltipsConfig(boolean, boolean, boolean, int, java.util.Set<java.lang.String>);
+    Code:
+       0: aload_0
+       1: invokespecial #44                 // Method java/lang/Record."<init>":()V
+       4: aload_0
+       5: iload_1
+       6: putfield      #46                 // Field hideMissingDescriptions:Z
+       9: aload_0
+      10: iload_2
+      11: putfield      #48                 // Field jadeModEnchantmentModName:Z
+      14: aload_0
+      15: iload_3
+      16: putfield      #50                 // Field jadeModMobEffectModName:Z
+      19: aload_0
+      20: iload         4
+      22: putfield      #52                 // Field hoveringAutoPinDelay:I
+      25: aload_0
+      26: aload         5
+      28: putfield      #54                 // Field screenBlacklist:Ljava/util/Set;
+      31: return
+
+  public static snownee.pintooltips.PinTooltipsConfig get();
+    Code:
+       0: getstatic     #59                 // Field override:Lsnownee/pintooltips/PinTooltipsConfig;
+       3: ifnull        10
+       6: getstatic     #59                 // Field override:Lsnownee/pintooltips/PinTooltipsConfig;
+       9: areturn
+      10: getstatic     #61                 // Field INSTANCE:Lsnownee/pintooltips/util/JsonConfig;
+      13: invokevirtual #66                 // Method snownee/pintooltips/util/JsonConfig.get:()Ljava/lang/Object;
+      16: checkcast     #2                  // class snownee/pintooltips/PinTooltipsConfig
+      19: areturn
+
+  public static void save();
+    Code:
+       0: getstatic     #61                 // Field INSTANCE:Lsnownee/pintooltips/util/JsonConfig;
+       3: invokevirtual #69                 // Method snownee/pintooltips/util/JsonConfig.save:()V
+       6: return
+
+  private static java.util.Set<java.lang.String> defaultBlacklist();
+    Code:
+       0: ldc           #74                 // class net/minecraft/client/gui/screens/PauseScreen
+       2: invokevirtual #80                 // Method java/lang/Class.getName:()Ljava/lang/String;
+       5: ldc           #82                 // class net/minecraft/client/gui/screens/ChatScreen
+       7: invokevirtual #80                 // Method java/lang/Class.getName:()Ljava/lang/String;
+      10: ldc           #84                 // class net/minecraft/client/gui/screens/GenericDirtMessageScreen
+      12: invokevirtual #80                 // Method java/lang/Class.getName:()Ljava/lang/String;
+      15: ldc           #86                 // class net/minecraft/client/gui/screens/ReceivingLevelScreen
+      17: invokevirtual #80                 // Method java/lang/Class.getName:()Ljava/lang/String;
+      20: ldc           #88                 // class net/minecraft/client/gui/screens/ProgressScreen
+      22: invokevirtual #80                 // Method java/lang/Class.getName:()Ljava/lang/String;
+      25: invokestatic  #94                 // InterfaceMethod java/util/Set.of:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;
+      28: areturn
+
+  public static void setOverride(snownee.pintooltips.PinTooltipsConfig);
+    Code:
+       0: aload_0
+       1: putstatic     #59                 // Field override:Lsnownee/pintooltips/PinTooltipsConfig;
+       4: return
+
+  public final java.lang.String toString();
+    Code:
+       0: aload_0
+       1: invokedynamic #115,  0            // InvokeDynamic #0:toString:(Lsnownee/pintooltips/PinTooltipsConfig;)Ljava/lang/String;
+       6: areturn
+
+  public final int hashCode();
+    Code:
+       0: aload_0
+       1: invokedynamic #120,  0            // InvokeDynamic #0:hashCode:(Lsnownee/pintooltips/PinTooltipsConfig;)I
+       6: ireturn
+
+  public final boolean equals(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokedynamic #125,  0            // InvokeDynamic #0:equals:(Lsnownee/pintooltips/PinTooltipsConfig;Ljava/lang/Object;)Z
+       7: ireturn
+
+  public boolean hideMissingDescriptions();
+    Code:
+       0: aload_0
+       1: getfield      #46                 // Field hideMissingDescriptions:Z
+       4: ireturn
+
+  public boolean jadeModEnchantmentModName();
+    Code:
+       0: aload_0
+       1: getfield      #48                 // Field jadeModEnchantmentModName:Z
+       4: ireturn
+
+  public boolean jadeModMobEffectModName();
+    Code:
+       0: aload_0
+       1: getfield      #50                 // Field jadeModMobEffectModName:Z
+       4: ireturn
+
+  public int hoveringAutoPinDelay();
+    Code:
+       0: aload_0
+       1: getfield      #52                 // Field hoveringAutoPinDelay:I
+       4: ireturn
+
+  public java.util.Set<java.lang.String> screenBlacklist();
+    Code:
+       0: aload_0
+       1: getfield      #54                 // Field screenBlacklist:Ljava/util/Set;
+       4: areturn
+
+  private static snownee.pintooltips.PinTooltipsConfig lambda$static$2();
+    Code:
+       0: new           #2                  // class snownee/pintooltips/PinTooltipsConfig
+       3: dup
+       4: iconst_1
+       5: iconst_1
+       6: iconst_1
+       7: sipush        1500
+      10: invokestatic  #131                // Method defaultBlacklist:()Ljava/util/Set;
+      13: invokespecial #133                // Method "<init>":(ZZZILjava/util/Set;)V
+      16: areturn
+
+  private static com.mojang.datafixers.kinds.App lambda$static$1(com.mojang.serialization.codecs.RecordCodecBuilder$Instance);
+    Code:
+       0: aload_0
+       1: getstatic     #141                // Field com/mojang/serialization/Codec.BOOL:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+       4: ldc           #142                // String hideMissingDescriptions
+       6: invokeinterface #148,  2          // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      11: iconst_1
+      12: invokestatic  #154                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      15: invokevirtual #160                // Method com/mojang/serialization/MapCodec.orElse:(Ljava/lang/Object;)Lcom/mojang/serialization/MapCodec;
+      18: invokedynamic #178,  0            // InvokeDynamic #1:apply:()Ljava/util/function/Function;
+      23: invokevirtual #182                // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      26: getstatic     #141                // Field com/mojang/serialization/Codec.BOOL:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      29: ldc           #183                // String jadeModEnchantmentModName
+      31: invokeinterface #148,  2          // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      36: iconst_1
+      37: invokestatic  #154                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      40: invokevirtual #160                // Method com/mojang/serialization/MapCodec.orElse:(Ljava/lang/Object;)Lcom/mojang/serialization/MapCodec;
+      43: invokedynamic #187,  0            // InvokeDynamic #2:apply:()Ljava/util/function/Function;
+      48: invokevirtual #182                // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      51: getstatic     #141                // Field com/mojang/serialization/Codec.BOOL:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      54: ldc           #188                // String jadeModMobEffectModName
+      56: invokeinterface #148,  2          // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      61: iconst_1
+      62: invokestatic  #154                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      65: invokevirtual #160                // Method com/mojang/serialization/MapCodec.orElse:(Ljava/lang/Object;)Lcom/mojang/serialization/MapCodec;
+      68: invokedynamic #192,  0            // InvokeDynamic #3:apply:()Ljava/util/function/Function;
+      73: invokevirtual #182                // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      76: getstatic     #195                // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      79: ldc           #196                // String hoveringAutoPinDelay
+      81: invokeinterface #148,  2          // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      86: sipush        1500
+      89: invokestatic  #201                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      92: invokevirtual #160                // Method com/mojang/serialization/MapCodec.orElse:(Ljava/lang/Object;)Lcom/mojang/serialization/MapCodec;
+      95: invokedynamic #207,  0            // InvokeDynamic #4:apply:()Ljava/util/function/Function;
+     100: invokevirtual #182                // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     103: getstatic     #210                // Field com/mojang/serialization/Codec.STRING:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+     106: invokeinterface #214,  1          // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.listOf:()Lcom/mojang/serialization/Codec;
+     111: invokedynamic #221,  0            // InvokeDynamic #5:apply:()Ljava/util/function/Function;
+     116: invokedynamic #231,  0            // InvokeDynamic #6:apply:()Ljava/util/function/Function;
+     121: invokeinterface #235,  3          // InterfaceMethod com/mojang/serialization/Codec.xmap:(Ljava/util/function/Function;Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;
+     126: ldc           #236                // String screenBlacklist
+     128: invokeinterface #237,  2          // InterfaceMethod com/mojang/serialization/Codec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     133: invokedynamic #243,  0            // InvokeDynamic #7:get:()Ljava/util/function/Supplier;
+     138: invokevirtual #247                // Method com/mojang/serialization/MapCodec.orElseGet:(Ljava/util/function/Supplier;)Lcom/mojang/serialization/MapCodec;
+     141: invokedynamic #253,  0            // InvokeDynamic #8:apply:()Ljava/util/function/Function;
+     146: invokevirtual #182                // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     149: invokevirtual #257                // Method com/mojang/serialization/codecs/RecordCodecBuilder$Instance.group:(Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;)Lcom/mojang/datafixers/Products$P5;
+     152: aload_0
+     153: invokedynamic #265,  0            // InvokeDynamic #9:apply:()Lcom/mojang/datafixers/util/Function5;
+     158: invokevirtual #268                // Method com/mojang/datafixers/Products$P5.apply:(Lcom/mojang/datafixers/kinds/Applicative;Lcom/mojang/datafixers/util/Function5;)Lcom/mojang/datafixers/kinds/App;
+     161: areturn
+
+  private static java.util.Set lambda$static$0(java.util.List);
+    Code:
+       0: new           #272                // class it/unimi/dsi/fastutil/objects/ObjectOpenHashSet
+       3: dup
+       4: aload_0
+       5: invokespecial #275                // Method it/unimi/dsi/fastutil/objects/ObjectOpenHashSet."<init>":(Ljava/util/Collection;)V
+       8: areturn
+
+  static {};
+    Code:
+       0: invokedynamic #283,  0            // InvokeDynamic #10:apply:()Ljava/util/function/Function;
+       5: invokestatic  #287                // Method com/mojang/serialization/codecs/RecordCodecBuilder.create:(Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;
+       8: putstatic     #289                // Field CODEC:Lcom/mojang/serialization/Codec;
+      11: new           #63                 // class snownee/pintooltips/util/JsonConfig
+      14: dup
+      15: getstatic     #295                // Field snownee/pintooltips/PinTooltips.configDirectory:Ljava/io/File;
+      18: invokevirtual #301                // Method java/io/File.toPath:()Ljava/nio/file/Path;
+      21: ldc_w         #303                // String pin_tooltips.json
+      24: invokeinterface #309,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      29: getstatic     #289                // Field CODEC:Lcom/mojang/serialization/Codec;
+      32: invokedynamic #320,  0            // InvokeDynamic #11:run:()Ljava/lang/Runnable;
+      37: invokedynamic #325,  0            // InvokeDynamic #12:get:()Ljava/util/function/Supplier;
+      42: invokespecial #328                // Method snownee/pintooltips/util/JsonConfig."<init>":(Ljava/nio/file/Path;Lcom/mojang/serialization/Codec;Ljava/lang/Runnable;Ljava/util/function/Supplier;)V
+      45: putstatic     #61                 // Field INSTANCE:Lsnownee/pintooltips/util/JsonConfig;
+      48: return
+}

@@ -1,6 +1,7 @@
 {
     "item.fast.scatter_bow": "散射弓",
     "entity.fast.alex": "艾莉克斯",
+    "entity.fast.phantom_hero": "昔日勇者的幻影",
     "attribute.name.fast.sword_limit": "环绕飞剑生成上限",
     "attribute.name.fast.sword_hover_radius": "飞剑悬浮范围",
     "attribute.name.fast.sword_hover_speed": "飞剑悬浮速度",
@@ -61,5 +62,11 @@
     "category.food": "食物",
     "category.material": "材料",
     "category.potion": "药水",
-    "category.tool": "工具"
+    "category.tool": "工具",
+    "death.attack.fast.converted.passthrough": "%1$s受到了%2$s的伤害",
+    "death.attack.fast.converted.passthrough.player": "%1$s被%2$s击败了",
+    "jei.fast.acquire.title": "整合包物品的获取方式",
+    "jei.fast.acquire.label": "获取方式",
+    "jei.fast.acquire.source": "来源：",
+    "jei.fast.stage_requirement": "解锁条件：%s"
 }

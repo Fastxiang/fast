@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Specification-Title: pin_tooltips
+Specification-Version: 1
+Implementation-Title: PinTooltips
+Implementation-Version: 1.3.1+forge
+Implementation-Timestamp: 2025-06-09T15:03:59+0800
+MixinConfigs: pin_tooltips.mixins.json
+

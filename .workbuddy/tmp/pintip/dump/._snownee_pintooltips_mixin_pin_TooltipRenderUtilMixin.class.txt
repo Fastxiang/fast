@@ -1,0 +1,101 @@
+Compiled from "TooltipRenderUtilMixin.java"
+public class snownee.pintooltips.mixin.pin.TooltipRenderUtilMixin {
+  private static final java.lang.ThreadLocal<java.lang.Boolean> pin_tooltips$lock;
+
+  public snownee.pintooltips.mixin.pin.TooltipRenderUtilMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private static void m_280115_(net.minecraft.client.gui.GuiGraphics, int, int, int, int, int, int, int);
+    Code:
+       0: new           #28                 // class java/lang/AssertionError
+       3: dup
+       4: invokespecial #29                 // Method java/lang/AssertionError."<init>":()V
+       7: athrow
+
+  private static void pin_tooltips$renderFrameGradient(net.minecraft.client.gui.GuiGraphics, int, int, int, int, int, int, int, org.spongepowered.asm.mixin.injection.callback.CallbackInfo);
+    Code:
+       0: invokestatic  #53                 // Method snownee/pintooltips/PinTooltips.isGrabbing:()Z
+       3: ifne          18
+       6: aload_0
+       7: invokestatic  #59                 // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.of:(Lnet/minecraft/client/gui/GuiGraphics;)Lsnownee/pintooltips/duck/PTGuiGraphics;
+      10: invokeinterface #62,  1           // InterfaceMethod snownee/pintooltips/duck/PTGuiGraphics.pin_tooltips$getRenderingPinned:()Z
+      15: ifeq          19
+      18: return
+      19: getstatic     #64                 // Field pin_tooltips$lock:Ljava/lang/ThreadLocal;
+      22: invokevirtual #70                 // Method java/lang/ThreadLocal.get:()Ljava/lang/Object;
+      25: checkcast     #72                 // class java/lang/Boolean
+      28: invokevirtual #75                 // Method java/lang/Boolean.booleanValue:()Z
+      31: ifeq          35
+      34: return
+      35: invokestatic  #80                 // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+      38: invokevirtual #84                 // Method snownee/pintooltips/PinTooltipsConfig.hoveringAutoPinDelay:()I
+      41: istore        9
+      43: getstatic     #88                 // Field snownee/pintooltips/PinTooltips.lastMouseMovedTime:J
+      46: lconst_0
+      47: lcmp
+      48: ifeq          56
+      51: iload         9
+      53: ifgt          57
+      56: return
+      57: invokestatic  #94                 // Method java/lang/System.currentTimeMillis:()J
+      60: getstatic     #88                 // Field snownee/pintooltips/PinTooltips.lastMouseMovedTime:J
+      63: lsub
+      64: l2f
+      65: iload         9
+      67: i2f
+      68: fdiv
+      69: fconst_0
+      70: fconst_1
+      71: invokestatic  #100                // Method net/minecraft/util/Mth.m_14036_:(FFF)F
+      74: fstore        10
+      76: fload         10
+      78: ldc           #101                // float 0.2f
+      80: fcmpg
+      81: ifge          85
+      84: return
+      85: ldc           #102                // int 16777215
+      87: fload         10
+      89: ldc           #103                // float 255.0f
+      91: fmul
+      92: f2i
+      93: bipush        24
+      95: ishl
+      96: ior
+      97: istore        11
+      99: getstatic     #64                 // Field pin_tooltips$lock:Ljava/lang/ThreadLocal;
+     102: iconst_1
+     103: invokestatic  #107                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     106: invokevirtual #111                // Method java/lang/ThreadLocal.set:(Ljava/lang/Object;)V
+     109: aload_0
+     110: iload_1
+     111: iload_2
+     112: iload_3
+     113: iload         4
+     115: iload         5
+     117: iconst_1
+     118: iadd
+     119: iload         11
+     121: iload         11
+     123: invokestatic  #113                // Method m_280115_:(Lnet/minecraft/client/gui/GuiGraphics;IIIIIII)V
+     126: getstatic     #64                 // Field pin_tooltips$lock:Ljava/lang/ThreadLocal;
+     129: iconst_0
+     130: invokestatic  #107                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     133: invokevirtual #111                // Method java/lang/ThreadLocal.set:(Ljava/lang/Object;)V
+     136: return
+
+  private static java.lang.Boolean lambda$static$0();
+    Code:
+       0: iconst_0
+       1: invokestatic  #107                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       4: areturn
+
+  static {};
+    Code:
+       0: invokedynamic #141,  0            // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
+       5: invokestatic  #145                // Method java/lang/ThreadLocal.withInitial:(Ljava/util/function/Supplier;)Ljava/lang/ThreadLocal;
+       8: putstatic     #64                 // Field pin_tooltips$lock:Ljava/lang/ThreadLocal;
+      11: return
+}

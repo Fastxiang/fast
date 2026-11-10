@@ -1,0 +1,288 @@
+// priority: 998
+
+/**
+ * 技能标签表
+ * 键为技能id，值为该技能的标签数组
+ *
+ * 标签分类与判定规则：
+ *   伤害类型：physical 物理 / magic 法术
+ *     - 物理：伤害类型为玩家攻击、生物攻击等物理伤害
+ *     - 法术：存在学派（火焰/冰霜/雷霆/自然/猩红/神圣/唤魔/末影）即为法术
+ *   攻击形态：melee 近战 / projectile 投射物 / aoe 范围
+ *     - 近战：攻击形态为近距离（挥砍、突进撞击、贴脸反击）
+ *     - 投射物：技能自身产生飞行的伤害载具实体（火球、箭、血针、飞剑等），
+ *       原地生成的力场/尖刺/云雾/召唤物不算投射物
+ *     - 范围：一次释放的伤害/生效判定是范围性的（爆炸半径、锥形/扇形判定、
+ *       周围或区域选取、连锁弹射、地面云雾落雨、范围增益）
+ *       只是「一次放出多枚各自单体命中的投射物」不算范围（如猩红刺狱、火焰追踪弹幕）
+ *   学派：fire 火焰 / ice 冰霜 / lightning 雷霆 / nature 自然 / blood 猩红 / holy 神圣 / evocation 唤魔 / ender 末影
+ *   功能：buff 增益 / control 控制 / heal 治疗 / summon 召唤 / movement 位移
+ *
+ * 例：巨型火球 = fire + magic + projectile
+ *     蓄力斩   = physical + melee
+ *     蓄力箭   = physical + projectile
+ */
+let SkillToTagObj = {}
+
+// 短id -> 完整id，技能树里用的是 fireball 这类短id，法术表里用的是完整id
+let SkillShortIdToFullId = {}
+
+// 标签 -> 技能id列表
+let TagToSkillObj = {}
+
+/**
+ * 给技能添加标签，重复添加同一个标签不会生效
+ * @param {string} skillId 技能id
+ * @param {string} tag 标签
+ */
+function addSkillTag(skillId, tag) {
+    if (!skillId || !tag) return
+    if (!SkillToTagObj[skillId]) {
+        SkillToTagObj[skillId] = []
+        let string = skillId.split(":")
+        if (string.length === 2) {
+            SkillShortIdToFullId[string[1]] = skillId
+        }
+    }
+    let tags = SkillToTagObj[skillId]
+    if (tags.includes(tag)) return
+    tags.push(tag)
+
+    if (!TagToSkillObj[tag]) {
+        TagToSkillObj[tag] = []
+    }
+    if (!TagToSkillObj[tag].includes(skillId)) {
+        TagToSkillObj[tag].push(skillId)
+    }
+
+    // 女仆战斗 AI 在 Java 侧，按标签判断「这个技能该在什么情况下放」
+    $FastMaid.registerSkillTag(skillId, tag)
+}
+
+/**
+ * 批量给技能添加标签
+ * @param {string} skillId 技能id
+ * @param {string[]} tags 标签列表
+ */
+function addSkillTags(skillId, tags) {
+    tags.forEach(tag => {
+        addSkillTag(skillId, tag)
+    })
+}
+
+/**
+ * 通过技能id获得全部标签，支持短id（如 fireball）
+ * @param {string} skillId 技能id
+ * @returns {string[]} 标签列表
+ */
+function getSkillTags(skillId) {
+    if (!skillId) return []
+    if (SkillToTagObj[skillId]) return SkillToTagObj[skillId]
+    if (SkillShortIdToFullId[skillId]) return SkillToTagObj[SkillShortIdToFullId[skillId]]
+    return []
+}
+
+/**
+ * 通过技能id检测是否拥有指定标签
+ * @param {string} skillId 技能id
+ * @param {string} tag 标签
+ * @returns {boolean}
+ */
+function hasSkillTag(skillId, tag) {
+    return getSkillTags(skillId).includes(tag)
+}
+
+/**
+ * 通过技能id检测是否拥有其中任意一个标签
+ * @param {string} skillId 技能id
+ * @param {string[]} tags 标签列表
+ * @returns {boolean}
+ */
+function hasAnySkillTag(skillId, tags) {
+    let skillTags = getSkillTags(skillId)
+    for (let tag of tags) {
+        if (skillTags.includes(tag)) return true
+    }
+    return false
+}
+
+/**
+ * 通过技能id检测是否拥有全部标签
+ * @param {string} skillId 技能id
+ * @param {string[]} tags 标签列表
+ * @returns {boolean}
+ */
+function hasAllSkillTags(skillId, tags) {
+    let skillTags = getSkillTags(skillId)
+    for (let tag of tags) {
+        if (!skillTags.includes(tag)) return false
+    }
+    return true
+}
+
+/**
+ * 通过标签获得拥有该标签的全部技能id
+ * @param {string} tag 标签
+ * @returns {string[]} 技能id列表
+ */
+function getSkillsByTag(tag) {
+    if (!tag) return []
+    return TagToSkillObj[tag] || []
+}
+
+/**
+ * 从skillObj中获取拥有指定标签的技能对象
+ * @param {Object} skillObj 技能对象，键为技能id，值为等级
+ * @param {string} tag 标签
+ * @returns {Object} 筛选后的技能对象
+ */
+function getSkillObjByTagFromSkillObj(skillObj, tag) {
+    if (!skillObj) return {}
+    let tagSkillObj = {}
+    for (let key in skillObj) {
+        if (hasSkillTag(key, tag)) {
+            tagSkillObj[key] = skillObj[key]
+        }
+    }
+    return tagSkillObj
+}
+
+// 标签的中文显示名，技能描述里的标签行由此生成
+let SkillTagNameObj = {
+    physical: "物理",
+    magic: "法术",
+    melee: "近战",
+    projectile: "投射物",
+    aoe: "范围",
+    fire: "火焰",
+    ice: "冰霜",
+    lightning: "雷霆",
+    nature: "自然",
+    blood: "猩红",
+    holy: "神圣",
+    evocation: "唤魔",
+    ender: "末影",
+    buff: "增益",
+    control: "控制",
+    heal: "治疗",
+    summon: "召唤",
+    movement: "位移"
+}
+
+// 标签的显示顺序：学派 → 伤害类型 → 攻击形态 → 功能
+let SkillTagDisplayOrder = [
+    "fire", "ice", "lightning", "nature", "blood", "holy", "evocation", "ender",
+    "physical", "magic",
+    "melee", "projectile", "aoe",
+    "buff", "control", "heal", "summon", "movement"
+]
+
+/**
+ * 通过技能id获得标签的显示文本，标签按显示顺序排列
+ * @param {string} skillId 技能id
+ * @param {string} separator 分隔符，默认空格
+ * @returns {string} 如 火焰 法术 投射物
+ */
+function getSkillTagText(skillId, separator) {
+    let tags = getSkillTags(skillId)
+    if (tags.length === 0) return ""
+    let join = separator || " "
+    let sortList = tags.slice()
+    sortList.sort((a, b) => {
+        let ai = SkillTagDisplayOrder.indexOf(a)
+        let bi = SkillTagDisplayOrder.indexOf(b)
+        if (ai < 0) ai = 999
+        if (bi < 0) bi = 999
+        return ai - bi
+    })
+    return sortList.map(tag => SkillTagNameObj[tag] || tag).join(join)
+}
+
+
+// ===== 技能树法术 =====
+
+// 物理系
+addSkillTags("fast_irons_spellbooks_addition:taunt", ["physical", "control"])
+addSkillTags("fast_irons_spellbooks_addition:perfect_guard", ["physical", "buff"])
+// 战吼：只是给周围加攻击力buff（WarCryEffect 是 BENEFICIAL，+1%/级），不对敌人施加任何减益
+addSkillTags("fast_irons_spellbooks_addition:war_cry", ["physical", "buff", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:brute_fury", ["physical", "buff"])
+addSkillTags("fast_irons_spellbooks_addition:power_shot", ["physical", "projectile"])
+addSkillTags("fast_irons_spellbooks_addition:ammo_supply", ["physical", "buff"])
+addSkillTags("fast_irons_spellbooks_addition:mana_recharge", ["physical", "buff"])
+addSkillTags("fast_irons_spellbooks_addition:phantom_step", ["physical", "movement"])
+addSkillTags("fast_irons_spellbooks_addition:arrow_rain", ["physical", "projectile", "aoe"])
+// 分身射手：分身会按主手武器在近战与远程（射箭）之间切换，攻击形态不固定，只给召唤
+addSkillTags("fast_irons_spellbooks_addition:mirror_shooter", ["physical", "summon"])
+addSkillTags("fast_irons_spellbooks_addition:blade_awakening", ["physical", "buff"])
+addSkillTags("fast_irons_spellbooks_addition:charge_slash", ["physical", "melee", "aoe"])
+// 碾压姿态：吟唱期间受击会对前方4格造成500%物理攻击的近战反击
+addSkillTags("fast_irons_spellbooks_addition:crushing_stance", ["physical", "buff", "melee", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:raging_slash", ["physical", "melee", "control", "aoe"])
+// 反击姿态：吟唱期间受击会释放反击/破甲反击，属于身前物理近战打击
+addSkillTags("fast_irons_spellbooks_addition:counter_stance", ["physical", "buff", "melee", "aoe"])
+
+// 八大学派
+addSkillTags("irons_spellbooks:teleport", ["magic", "ender", "movement"])
+addSkillTags("irons_spellbooks:fireball", ["magic", "fire", "projectile", "aoe"])
+addSkillTags("irons_spellbooks:poison_arrow", ["magic", "nature", "projectile", "aoe"])
+addSkillTags("irons_spellbooks:volt_strike", ["magic", "lightning", "melee", "movement"])
+addSkillTags("irons_spellbooks:ray_of_frost", ["magic", "ice"])
+addSkillTags("irons_spellbooks:acupuncture", ["magic", "blood", "projectile"])
+addSkillTags("irons_spellbooks:firecracker", ["magic", "evocation", "projectile", "aoe"])
+addSkillTags("irons_spellbooks:blessing_of_life", ["magic", "holy", "heal"])
+addSkillTags("irons_spellbooks:magic_arrow", ["magic", "ender", "projectile"])
+addSkillTags("irons_spellbooks:magma_bomb", ["magic", "fire", "projectile", "aoe"])
+addSkillTags("irons_spellbooks:chain_lightning", ["magic", "lightning", "aoe"])
+addSkillTags("irons_spellbooks:poison_splash", ["magic", "nature", "aoe"])
+addSkillTags("irons_spellbooks:ice_spikes", ["magic", "ice", "aoe"])
+addSkillTags("irons_spellbooks:blood_needles", ["magic", "blood", "projectile"])
+addSkillTags("irons_spellbooks:summon_horse", ["magic", "evocation", "summon"])
+addSkillTags("irons_spellbooks:shadow_slash", ["magic", "ender", "melee", "aoe"])
+addSkillTags("irons_spellbooks:guiding_bolt", ["magic", "holy", "projectile"])
+
+// 各学派最终阶法术
+addSkillTags("irons_spellbooks:shockwave", ["magic", "lightning", "aoe"])
+addSkillTags("irons_spellbooks:flaming_barrage", ["magic", "fire", "projectile"])
+addSkillTags("irons_spellbooks:oakskin", ["magic", "nature", "buff"])
+addSkillTags("irons_spellbooks:raise_dead", ["magic", "blood", "summon"])
+addSkillTags("irons_spellbooks:cone_of_cold", ["magic", "ice", "aoe"])
+addSkillTags("irons_spellbooks:shield", ["magic", "evocation", "summon"])
+addSkillTags("irons_spellbooks:cleanse", ["magic", "holy", "aoe"])
+// 召唤利剑：魔法剑是 SummonedWeaponEntity（召唤物，setMeleeBias 近战），不是投射物
+addSkillTags("irons_spellbooks:summon_swords", ["magic", "ender", "summon"])
+
+// ===== 技能改造后的法术（替换法术，标签与原技能保持一致） =====
+
+addSkillTags("fast_irons_spellbooks_addition:volt_strike_refresh", ["magic", "lightning", "melee", "movement"])
+addSkillTags("fast_irons_spellbooks_addition:ray_of_frost_concerto", ["magic", "ice"])
+addSkillTags("fast_irons_spellbooks_addition:ray_of_frost_pursuit", ["magic", "ice"])
+addSkillTags("fast_irons_spellbooks_addition:blood_rain", ["magic", "blood", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:blessing_of_life_compassion", ["magic", "holy", "heal", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:magic_arrow_swift", ["magic", "ender", "projectile"])
+addSkillTags("fast_irons_spellbooks_addition:magic_arrow_moving_dragon_breath", ["magic", "ender", "projectile"])
+addSkillTags("fast_irons_spellbooks_addition:magic_fireball_tracking", ["magic", "fire", "projectile", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:magic_fireball_fission", ["magic", "fire", "projectile", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:volt_strike_thunder_array", ["magic", "lightning", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:blood_debt", ["magic", "blood"])
+addSkillTags("fast_irons_spellbooks_addition:blessing_of_life_missa", ["magic", "holy", "heal", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:firecracker_twin_soul", ["magic", "evocation", "projectile", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:poison_arrow_miasma_burst", ["magic", "nature", "projectile", "aoe"])
+
+// 元素随勇者调律切换的法术
+addSkillTags("fast_irons_spellbooks_addition:magic_beam", ["magic"])
+
+// ===== 末影饰品直接给予的法术 =====
+
+addSkillTags("irons_spellbooks:poison_breath", ["magic", "nature", "aoe"])
+addSkillTags("irons_spellbooks:lightning_lance", ["magic", "lightning", "projectile"])
+addSkillTags("irons_spellbooks:lob_creeper", ["magic", "evocation", "projectile", "aoe"])
+addSkillTags("irons_spellbooks:ice_block", ["magic", "ice"])
+addSkillTags("irons_spellbooks:scorch", ["magic", "fire", "aoe"])
+addSkillTags("irons_spellbooks:starfall", ["magic", "ender", "aoe"])
+addSkillTags("irons_spellbooks:healing_circle", ["magic", "holy", "heal", "aoe"])
+addSkillTags("irons_spellbooks:blood_slash", ["magic", "blood", "melee", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:explosion", ["magic", "fire", "projectile", "aoe"])
+addSkillTags("fast_irons_spellbooks_addition:hero_resonance", ["physical", "buff"])
+// 弱点标记：给目标挂负面标记，本身不造成伤害 → 物理 + 控制，无攻击形态
+addSkillTags("fast_irons_spellbooks_addition:weak_point_mark", ["physical", "control"])

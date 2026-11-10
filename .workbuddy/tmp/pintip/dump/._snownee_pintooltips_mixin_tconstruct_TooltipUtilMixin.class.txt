@@ -1,0 +1,91 @@
+Compiled from "TooltipUtilMixin.java"
+public class snownee.pintooltips.mixin.tconstruct.TooltipUtilMixin {
+  public snownee.pintooltips.mixin.tconstruct.TooltipUtilMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #24                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private static net.minecraft.network.chat.Component pin_tooltips$addModifierNames(slimeknights.tconstruct.library.modifiers.Modifier, slimeknights.tconstruct.library.tools.nbt.IToolStackView, slimeknights.tconstruct.library.modifiers.ModifierEntry, net.minecraft.core.RegistryAccess, com.llamalad7.mixinextras.injector.wrapoperation.Operation<net.minecraft.network.chat.Component>);
+    Code:
+       0: aload         4
+       2: iconst_4
+       3: anewarray     #4                  // class java/lang/Object
+       6: dup
+       7: iconst_0
+       8: aload_0
+       9: aastore
+      10: dup
+      11: iconst_1
+      12: aload_1
+      13: aastore
+      14: dup
+      15: iconst_2
+      16: aload_2
+      17: aastore
+      18: dup
+      19: iconst_3
+      20: aload_3
+      21: aastore
+      22: invokeinterface #43,  2           // InterfaceMethod com/llamalad7/mixinextras/injector/wrapoperation/Operation.call:([Ljava/lang/Object;)Ljava/lang/Object;
+      27: checkcast     #45                 // class net/minecraft/network/chat/Component
+      30: astore        5
+      32: invokestatic  #51                 // Method snownee/pintooltips/PinTooltipsHooks.isGrabbing:()Z
+      35: ifeq          138
+      38: aload_0
+      39: aload_1
+      40: aload_2
+      41: invokevirtual #57                 // Method slimeknights/tconstruct/library/modifiers/Modifier.getDescriptionList:(Lslimeknights/tconstruct/library/tools/nbt/IToolStackView;Lslimeknights/tconstruct/library/modifiers/ModifierEntry;)Ljava/util/List;
+      44: astore        6
+      46: invokestatic  #61                 // InterfaceMethod net/minecraft/network/chat/Component.m_237119_:()Lnet/minecraft/network/chat/MutableComponent;
+      49: aload         6
+      51: iconst_0
+      52: invokeinterface #67,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      57: checkcast     #45                 // class net/minecraft/network/chat/Component
+      60: invokevirtual #73                 // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      63: astore        7
+      65: aload         6
+      67: invokeinterface #77,  1           // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      72: lconst_1
+      73: invokeinterface #83,  3           // InterfaceMethod java/util/stream/Stream.skip:(J)Ljava/util/stream/Stream;
+      78: invokedynamic #101,  0            // InvokeDynamic #0:apply:()Ljava/util/function/Function;
+      83: invokeinterface #105,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      88: aload         7
+      90: invokedynamic #116,  0            // InvokeDynamic #1:apply:()Ljava/util/function/BinaryOperator;
+      95: invokeinterface #120,  3          // InterfaceMethod java/util/stream/Stream.reduce:(Ljava/lang/Object;Ljava/util/function/BinaryOperator;)Ljava/lang/Object;
+     100: checkcast     #69                 // class net/minecraft/network/chat/MutableComponent
+     103: astore        8
+     105: new           #14                 // class net/minecraft/network/chat/HoverEvent
+     108: dup
+     109: getstatic     #124                // Field net/minecraft/network/chat/HoverEvent$Action.f_130831_:Lnet/minecraft/network/chat/HoverEvent$Action;
+     112: aload         8
+     114: invokespecial #127                // Method net/minecraft/network/chat/HoverEvent."<init>":(Lnet/minecraft/network/chat/HoverEvent$Action;Ljava/lang/Object;)V
+     117: astore        9
+     119: aload         5
+     121: invokeinterface #88,  1           // InterfaceMethod net/minecraft/network/chat/Component.m_6881_:()Lnet/minecraft/network/chat/MutableComponent;
+     126: aload         9
+     128: invokedynamic #137,  0            // InvokeDynamic #2:apply:(Lnet/minecraft/network/chat/HoverEvent;)Ljava/util/function/UnaryOperator;
+     133: invokevirtual #141                // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+     136: astore        5
+     138: aload         5
+     140: areturn
+
+  private static net.minecraft.network.chat.Style lambda$pin_tooltips$addModifierNames$1(net.minecraft.network.chat.HoverEvent, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_1
+       1: iconst_1
+       2: invokestatic  #168                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       5: invokevirtual #174                // Method net/minecraft/network/chat/Style.m_131162_:(Ljava/lang/Boolean;)Lnet/minecraft/network/chat/Style;
+       8: aload_0
+       9: invokevirtual #178                // Method net/minecraft/network/chat/Style.m_131144_:(Lnet/minecraft/network/chat/HoverEvent;)Lnet/minecraft/network/chat/Style;
+      12: areturn
+
+  private static net.minecraft.network.chat.MutableComponent lambda$pin_tooltips$addModifierNames$0(net.minecraft.network.chat.MutableComponent, net.minecraft.network.chat.MutableComponent);
+    Code:
+       0: aload_0
+       1: ldc           #182                // String \n
+       3: invokevirtual #186                // Method net/minecraft/network/chat/MutableComponent.m_130946_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       6: aload_1
+       7: invokevirtual #73                 // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      10: areturn
+}

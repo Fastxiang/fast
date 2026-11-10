@@ -1,0 +1,171 @@
+Compiled from "ScreenMixin.java"
+public class snownee.pintooltips.mixin.interact.ScreenMixin {
+  protected net.minecraft.client.Minecraft f_96541_;
+
+  public snownee.pintooltips.mixin.interact.ScreenMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private void pin_tooltips$handleComponentClicked(net.minecraft.network.chat.Style, org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<java.lang.Boolean>);
+    Code:
+       0: aload_1
+       1: invokevirtual #44                 // Method net/minecraft/network/chat/Style.m_131182_:()Lnet/minecraft/network/chat/ClickEvent;
+       4: astore_3
+       5: aload_3
+       6: ifnull        26
+       9: aload_0
+      10: getfield      #46                 // Field f_96541_:Lnet/minecraft/client/Minecraft;
+      13: ifnull        26
+      16: aload_3
+      17: invokevirtual #50                 // Method net/minecraft/network/chat/ClickEvent.m_130622_:()Lnet/minecraft/network/chat/ClickEvent$Action;
+      20: getstatic     #54                 // Field net/minecraft/network/chat/ClickEvent$Action.RUN_COMMAND:Lnet/minecraft/network/chat/ClickEvent$Action;
+      23: if_acmpeq     27
+      26: return
+      27: aload_3
+      28: invokevirtual #58                 // Method net/minecraft/network/chat/ClickEvent.m_130623_:()Ljava/lang/String;
+      31: astore        4
+      33: aload         4
+      35: ldc           #60                 // String @pin_tooltips
+      37: invokevirtual #66                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      40: ifne          44
+      43: return
+      44: aload         4
+      46: bipush        14
+      48: invokevirtual #70                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      51: astore        4
+      53: aload         4
+      55: ldc           #72                 // String click_effect
+      57: invokevirtual #66                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      60: ifeq          162
+      63: aload         4
+      65: bipush        13
+      67: invokevirtual #70                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      70: astore        4
+      72: aload         4
+      74: invokestatic  #78                 // Method net/minecraft/nbt/TagParser.m_129359_:(Ljava/lang/String;)Lnet/minecraft/nbt/CompoundTag;
+      77: invokestatic  #84                 // Method net/minecraft/world/effect/MobEffectInstance.m_19560_:(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/world/effect/MobEffectInstance;
+      80: astore        5
+      82: aload         5
+      84: ifnonnull     88
+      87: return
+      88: aload_0
+      89: getfield      #46                 // Field f_96541_:Lnet/minecraft/client/Minecraft;
+      92: invokevirtual #90                 // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      95: astore        6
+      97: aload_0
+      98: getfield      #46                 // Field f_96541_:Lnet/minecraft/client/Minecraft;
+     101: getfield      #94                 // Field net/minecraft/client/Minecraft.f_91067_:Lnet/minecraft/client/MouseHandler;
+     104: invokevirtual #100                // Method net/minecraft/client/MouseHandler.m_91589_:()D
+     107: aload         6
+     109: invokevirtual #106                // Method com/mojang/blaze3d/platform/Window.m_85445_:()I
+     112: i2d
+     113: dmul
+     114: aload         6
+     116: invokevirtual #109                // Method com/mojang/blaze3d/platform/Window.m_85443_:()I
+     119: i2d
+     120: ddiv
+     121: dstore        7
+     123: aload_0
+     124: getfield      #46                 // Field f_96541_:Lnet/minecraft/client/Minecraft;
+     127: getfield      #94                 // Field net/minecraft/client/Minecraft.f_91067_:Lnet/minecraft/client/MouseHandler;
+     130: invokevirtual #112                // Method net/minecraft/client/MouseHandler.m_91594_:()D
+     133: aload         6
+     135: invokevirtual #115                // Method com/mojang/blaze3d/platform/Window.m_85446_:()I
+     138: i2d
+     139: dmul
+     140: aload         6
+     142: invokevirtual #118                // Method com/mojang/blaze3d/platform/Window.m_85444_:()I
+     145: i2d
+     146: ddiv
+     147: dstore        9
+     149: aload         5
+     151: dload         7
+     153: dload         9
+     155: iconst_0
+     156: invokestatic  #124                // Method snownee/pintooltips/PinTooltipsCompats.clickEffect:(Lnet/minecraft/world/effect/MobEffectInstance;DDI)V
+     159: goto          239
+     162: aload         4
+     164: ldc           #126                // String click_enchantment
+     166: invokevirtual #66                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+     169: ifeq          239
+     172: aload         4
+     174: bipush        18
+     176: invokevirtual #70                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+     179: ldc           #128                // String
+     181: invokestatic  #134                // Method org/apache/commons/lang3/StringUtils.split:(Ljava/lang/String;Ljava/lang/String;)[Ljava/lang/String;
+     184: astore        5
+     186: getstatic     #140                // Field net/minecraft/core/registries/BuiltInRegistries.f_256876_:Lnet/minecraft/core/Registry;
+     189: new           #142                // class net/minecraft/resources/ResourceLocation
+     192: dup
+     193: aload         5
+     195: iconst_0
+     196: aaload
+     197: invokespecial #145                // Method net/minecraft/resources/ResourceLocation."<init>":(Ljava/lang/String;)V
+     200: invokeinterface #151,  2          // InterfaceMethod net/minecraft/core/Registry.m_6612_:(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/Optional;
+     205: astore        6
+     207: aload         6
+     209: invokevirtual #157                // Method java/util/Optional.isEmpty:()Z
+     212: ifeq          216
+     215: return
+     216: aload         5
+     218: iconst_1
+     219: aaload
+     220: invokestatic  #165                // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     223: istore        7
+     225: aload         6
+     227: invokevirtual #169                // Method java/util/Optional.get:()Ljava/lang/Object;
+     230: checkcast     #171                // class net/minecraft/world/item/enchantment/Enchantment
+     233: iload         7
+     235: iconst_0
+     236: invokestatic  #175                // Method snownee/pintooltips/PinTooltipsCompats.clickEnchantment:(Lnet/minecraft/world/item/enchantment/Enchantment;II)V
+     239: goto          256
+     242: astore        5
+     244: getstatic     #181                // Field snownee/pintooltips/PinTooltips.LOGGER:Lorg/slf4j/Logger;
+     247: ldc           #183                // String Failed to parse component action
+     249: aload         5
+     251: invokeinterface #189,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     256: aload_2
+     257: iconst_1
+     258: invokestatic  #195                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     261: invokevirtual #201                // Method org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable.setReturnValue:(Ljava/lang/Object;)V
+     264: return
+    Exception table:
+       from    to  target type
+          44    87   242   Class java/lang/Throwable
+          88   215   242   Class java/lang/Throwable
+         216   239   242   Class java/lang/Throwable
+
+  private void pin_tooltips$renderWithTooltip(net.minecraft.client.gui.GuiGraphics, int, int, float, com.llamalad7.mixinextras.injector.wrapoperation.Operation<java.lang.Void>);
+    Code:
+       0: invokestatic  #234                // Method snownee/pintooltips/PinTooltipsHooks.markGrabbing:()Z
+       3: istore        6
+       5: aload         5
+       7: iconst_4
+       8: anewarray     #4                  // class java/lang/Object
+      11: dup
+      12: iconst_0
+      13: aload_1
+      14: aastore
+      15: dup
+      16: iconst_1
+      17: iload_2
+      18: invokestatic  #237                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      21: aastore
+      22: dup
+      23: iconst_2
+      24: iload_3
+      25: invokestatic  #237                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      28: aastore
+      29: dup
+      30: iconst_3
+      31: fload         4
+      33: invokestatic  #242                // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+      36: aastore
+      37: invokeinterface #248,  2          // InterfaceMethod com/llamalad7/mixinextras/injector/wrapoperation/Operation.call:([Ljava/lang/Object;)Ljava/lang/Object;
+      42: pop
+      43: iload         6
+      45: invokestatic  #252                // Method snownee/pintooltips/PinTooltipsHooks.unmarkGrabbing:(Z)V
+      48: return
+}

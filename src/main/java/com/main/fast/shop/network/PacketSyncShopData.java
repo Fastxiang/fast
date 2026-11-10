@@ -15,9 +15,19 @@ public class PacketSyncShopData {
     private final String shopId;
     private final List<ShopEntry> entries;
 
-    public PacketSyncShopData(String shopId, List<ShopEntry> entries) {
+    /**
+     * 服务端用 {@code ShopManager.setCategoryOrder} 指定的分类顺序。
+     *
+     * <p>跟条目一起下发，是因为页面必须按这个顺序摆分类，而客户端手里的
+     * {@code ShopManager} 只有 KubeJS 服务端脚本注册的东西 —— 它注册不到。
+     * 空列表表示「没指定」，页面自己按注册顺序排。
+     */
+    private final List<String> categoryOrder;
+
+    public PacketSyncShopData(String shopId, List<ShopEntry> entries, List<String> categoryOrder) {
         this.shopId = shopId;
         this.entries = entries;
+        this.categoryOrder = categoryOrder == null ? new ArrayList<>() : categoryOrder;
     }
 
     public String getShopId() {
@@ -26,6 +36,10 @@ public class PacketSyncShopData {
 
     public List<ShopEntry> getEntries() {
         return entries;
+    }
+
+    public List<String> getCategoryOrder() {
+        return categoryOrder;
     }
 
     public static void encode(PacketSyncShopData msg, FriendlyByteBuf buf) {
@@ -38,6 +52,12 @@ public class PacketSyncShopData {
             buf.writeBoolean(e.buy);
             buf.writeUtf(e.category == null ? "" : e.category);
             buf.writeUtf(e.requiredStage == null ? "" : e.requiredStage);
+        }
+
+        buf.writeInt(msg.categoryOrder.size());
+
+        for (String key : msg.categoryOrder) {
+            buf.writeUtf(key == null ? "" : key);
         }
     }
 
@@ -63,7 +83,18 @@ public class PacketSyncShopData {
             ));
         }
 
-        return new PacketSyncShopData(shopId, list);
+        int orderSize = buf.readInt();
+        List<String> order = new ArrayList<>();
+
+        for (int i = 0; i < orderSize; i++) {
+            String key = buf.readUtf();
+
+            if (!key.isEmpty()) {
+                order.add(key);
+            }
+        }
+
+        return new PacketSyncShopData(shopId, list, order);
     }
 
     public static void handle(PacketSyncShopData msg, Supplier<NetworkEvent.Context> ctx) {

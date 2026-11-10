@@ -1,0 +1,18 @@
+Compiled from "PotionUtilsMixin.java"
+public class snownee.pintooltips.mixin.interact.PotionUtilsMixin {
+  public snownee.pintooltips.mixin.interact.PotionUtilsMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private static net.minecraft.network.chat.MutableComponent pin_tooltips$addPotionTooltip(net.minecraft.network.chat.MutableComponent, net.minecraft.ChatFormatting, net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: invokestatic  #33                 // Method snownee/pintooltips/PinTooltipsHooks.isGrabbing:()Z
+       3: ifeq          11
+       6: aload_0
+       7: aload_2
+       8: invokestatic  #39                 // Method snownee/pintooltips/util/ComponentDecorator.mobEffect:(Lnet/minecraft/network/chat/MutableComponent;Lnet/minecraft/world/effect/MobEffectInstance;)V
+      11: aload_0
+      12: areturn
+}

@@ -1,0 +1,12 @@
+Compiled from "PinTooltipsForge.java"
+public class snownee.pintooltips.PinTooltipsForge {
+  public snownee.pintooltips.PinTooltipsForge();
+    Code:
+       0: aload_0
+       1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+       4: getstatic     #18                 // Field net/minecraftforge/fml/loading/FMLEnvironment.dist:Lnet/minecraftforge/api/distmarker/Dist;
+       7: invokevirtual #24                 // Method net/minecraftforge/api/distmarker/Dist.isClient:()Z
+      10: ifeq          16
+      13: invokestatic  #29                 // Method snownee/pintooltips/PinTooltipsForgeClient.init:()V
+      16: return
+}

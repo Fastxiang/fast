@@ -1,0 +1,4 @@
+Compiled from "GuiGraphicsAccess.java"
+public interface snownee.pintooltips.mixin.pin.GuiGraphicsAccess {
+  public abstract void callRenderTooltipInternal(net.minecraft.client.gui.Font, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>, int, int, net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner);
+}

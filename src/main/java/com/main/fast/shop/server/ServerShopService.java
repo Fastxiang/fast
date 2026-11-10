@@ -37,7 +37,7 @@ public class ServerShopService {
 
         ShopNetwork.CHANNEL.send(
                 PacketDistributor.PLAYER.with(() -> player),
-                new PacketSyncShopData(shopId, filtered)
+                new PacketSyncShopData(shopId, filtered, ShopManager.getCategoryOrder(shopId))
         );
     }
 

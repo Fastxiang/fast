@@ -1,0 +1,89 @@
+Compiled from "MEICompat.java"
+public class snownee.pintooltips.compat.MEICompat {
+  private static java.lang.Object INSTANCE;
+
+  private static java.lang.reflect.Method METHOD;
+
+  public snownee.pintooltips.compat.MEICompat();
+    Code:
+       0: aload_0
+       1: invokespecial #13                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private static java.lang.Object getInstance();
+    Code:
+       0: getstatic     #21                 // Field INSTANCE:Ljava/lang/Object;
+       3: ifnonnull     58
+       6: ldc           #23                 // String settingdust.more_enchantment_info.MoreEnchantmentInfoClient
+       8: invokestatic  #29                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+      11: astore_0
+      12: aload_0
+      13: ldc           #30                 // String INSTANCE
+      15: invokevirtual #34                 // Method java/lang/Class.getDeclaredField:(Ljava/lang/String;)Ljava/lang/reflect/Field;
+      18: aconst_null
+      19: invokevirtual #40                 // Method java/lang/reflect/Field.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      22: putstatic     #21                 // Field INSTANCE:Ljava/lang/Object;
+      25: aload_0
+      26: ldc           #42                 // String viewEnchantment
+      28: iconst_1
+      29: anewarray     #25                 // class java/lang/Class
+      32: dup
+      33: iconst_0
+      34: ldc           #44                 // class net/minecraft/world/item/enchantment/Enchantment
+      36: aastore
+      37: invokevirtual #48                 // Method java/lang/Class.getDeclaredMethod:(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+      40: putstatic     #50                 // Field METHOD:Ljava/lang/reflect/Method;
+      43: goto          58
+      46: astore_0
+      47: getstatic     #56                 // Field snownee/pintooltips/PinTooltips.LOGGER:Lorg/slf4j/Logger;
+      50: ldc           #58                 // String Failed to get instance of MoreEnchantmentInfoClient
+      52: aload_0
+      53: invokeinterface #64,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      58: getstatic     #21                 // Field INSTANCE:Ljava/lang/Object;
+      61: areturn
+    Exception table:
+       from    to  target type
+           6    43    46   Class java/lang/Throwable
+
+  public static boolean canClickEnchantment(net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment>);
+    Code:
+       0: invokestatic  #76                 // Method isAvailable:()Z
+       3: ireturn
+
+  public static void clickEnchantment(net.minecraft.world.item.enchantment.Enchantment, int);
+    Code:
+       0: invokestatic  #76                 // Method isAvailable:()Z
+       3: ifeq          39
+       6: getstatic     #50                 // Field METHOD:Ljava/lang/reflect/Method;
+       9: invokestatic  #83                 // Method getInstance:()Ljava/lang/Object;
+      12: iconst_1
+      13: anewarray     #4                  // class java/lang/Object
+      16: dup
+      17: iconst_0
+      18: aload_0
+      19: aastore
+      20: invokevirtual #89                 // Method java/lang/reflect/Method.invoke:(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+      23: pop
+      24: goto          39
+      27: astore_2
+      28: getstatic     #56                 // Field snownee/pintooltips/PinTooltips.LOGGER:Lorg/slf4j/Logger;
+      31: ldc           #91                 // String Failed to invoke viewEnchantment
+      33: aload_2
+      34: invokeinterface #64,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      39: return
+    Exception table:
+       from    to  target type
+           6    24    27   Class java/lang/Throwable
+
+  private static boolean isAvailable();
+    Code:
+       0: invokestatic  #83                 // Method getInstance:()Ljava/lang/Object;
+       3: ifnull        19
+       6: invokestatic  #100                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       9: getfield      #104                // Field net/minecraft/client/Minecraft.f_91073_:Lnet/minecraft/client/multiplayer/ClientLevel;
+      12: ifnull        19
+      15: iconst_1
+      16: goto          20
+      19: iconst_0
+      20: ireturn
+}

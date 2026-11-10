@@ -1,0 +1,30 @@
+Compiled from "EnchantmentMixin.java"
+public class snownee.pintooltips.mixin.interact.EnchantmentMixin {
+  public snownee.pintooltips.mixin.interact.EnchantmentMixin();
+    Code:
+       0: aload_0
+       1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private net.minecraft.network.chat.Component pin_tooltips$getFullname(net.minecraft.network.chat.Component, int);
+    Code:
+       0: invokestatic  #28                 // Method snownee/pintooltips/PinTooltipsHooks.isGrabbing:()Z
+       3: ifeq          39
+       6: aload_1
+       7: instanceof    #30                 // class net/minecraft/network/chat/MutableComponent
+      10: ifeq          39
+      13: aload_1
+      14: checkcast     #30                 // class net/minecraft/network/chat/MutableComponent
+      17: astore_3
+      18: aload_0
+      19: checkcast     #32                 // class net/minecraft/world/item/enchantment/Enchantment
+      22: astore        4
+      24: aload_3
+      25: getstatic     #38                 // Field net/minecraft/core/registries/BuiltInRegistries.f_256876_:Lnet/minecraft/core/Registry;
+      28: aload         4
+      30: invokeinterface #44,  2           // InterfaceMethod net/minecraft/core/Registry.m_263177_:(Ljava/lang/Object;)Lnet/minecraft/core/Holder;
+      35: iload_2
+      36: invokestatic  #50                 // Method snownee/pintooltips/util/ComponentDecorator.enchantment:(Lnet/minecraft/network/chat/MutableComponent;Lnet/minecraft/core/Holder;I)V
+      39: aload_1
+      40: areturn
+}

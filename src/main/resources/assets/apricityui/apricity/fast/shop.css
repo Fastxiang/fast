@@ -1,0 +1,1208 @@
+/* 森林杂货铺 —— 晴雪UI（AUI）页面样式
+ *
+ * 【缩放模型：原版式】页面 meta 用 mode=gui，CSS 视口 = MC GUI 分辨率
+ * （窗口物理尺寸 ÷ GUI Scale，实测 640x331 见日志 [AUI Screen] init ... viewport=），
+ * 也就是 CSS 像素 ≡ 原版 GUI 像素。整个界面像原版容器一样随 GUI Scale
+ * 整体放大 —— 不管窗口 800 还是 4K，UI 占屏幕的比例、字号大小永远一样，
+ * 和原版字体一样清晰。之前 mode=browser 视口跟随窗口物理尺寸，
+ * 固定 1080px 宽的版式在大窗口里字被相对压小、小窗口里被撑爆。
+ *
+ * 设计基准：视口 640x331（1080p 常见 GUI Scale 下的 GUI 分辨率），
+ * 面板 600x322 居中。视口更小（GUI Scale 更大）时走底部 @media 降级。
+ *
+ * AUI 是自建渲染引擎，不是浏览器。下面这些浏览器写法在这里会静默失效，一概不用：
+ *   · text-shadow / outline / font 简写 / overflow-wrap（改用 word-break）/ inset 简写
+ *   · 负 margin（会被夹成 0）—— 需要出血的地方改成让父级不铺 padding
+ *   · border-style 只有 solid，dashed 会画成实线，这里统一写实线
+ *   · position: sticky（弹窗头部改用「弹窗是 flex column + 内容区自己滚」实现钉住）
+ *
+ * 外壳一律用 flex（照旧版写法）。AUI 的 grid 轨道是按内容 max-content 定尺的：
+ * `minmax(0,1fr)` 不会收缩、`grid-column: 1 / -1` 不会通栏，8 列轨道也不会
+ * 按容器宽度等分。grid 只留给货架这种「固定列宽」的地方（列宽写死 px）。
+ *
+ * 【字号纪律】像素字体（下面 @font-face 那只）em=10px、cap 7px，只有 ASCII 字形；
+ * 非 10 倍数会让 ASCII 字形落在半像素上发糊。所以凡是可能含 ASCII（数字、英文、
+ * 物品 ID）的文本，字号一律取 10 的倍数；纯中文/纯雅黑符号（◆ ● ★ × −）的
+ * 才允许 12 / 14 这类自由字号。中文与符号全靠 "Microsoft YaHei" 兜底。
+ *
+ * body 保持透明（旧版就是 transparent）：本 Screen 自己不铺底，让游戏画面透出来。
+ */
+
+@font-face {
+  font-family: "MinecraftPixel";
+  src: url("../hud/fonts/minecraft-regular.otf");
+}
+
+/* 同一份像素字体的兜底路径（AUI 主题自带的 ore 字体）。 */
+@font-face {
+  font-family: "MCPixelJar";
+  src: url("../apricityui/theme/ore/fonts/minecraft-regular.otf");
+}
+
+:root {
+  --grass: #7fbd4e;
+  --grass-light: #a5df70;
+  --grass-hover: #8bcb57;
+  --grass-dark: #4c7e31;
+  --dirt: #95653e;
+  --wood: #d5ae79;
+  --cream: #fff9df;
+  --paper: #eee5c5;
+  --coin: #f5d46b;
+  --ink: #465b35;
+  --border: #59432d;
+  --ui-font: "MinecraftPixel", "MCPixelJar", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 300px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-family: var(--ui-font);
+  font-size: 10px;
+  /* 旧版就是透明底：本 Screen 不铺背景，让游戏画面透出来 */
+  background-color: transparent;
+  /* 关掉 AUI 的拖拽文本选择（Interaction.getUserSelect 会沿父链继承）。
+     否则按住左键拖动常驻 tooltip 时，AUI 会同时在页面上刷一片文字高亮，
+     和 PinTooltips 的原生拖动抢鼠标。数量输入框另行放开，见下面的 input 规则。 */
+  user-select: none;
+}
+
+/* AUI 没有浏览器默认样式，button / input 必须自己指定字号与字体 */
+button, input {
+  font-family: var(--ui-font);
+  font-size: 10px;
+}
+
+/* 数量输入框仍要能拖选/双击选数字，单独把自己的 user-select 调回来 */
+input {
+  user-select: text;
+}
+
+button {
+  color: var(--ink);
+  cursor: pointer;
+
+  /* ── 按钮内容的居中 ──────────────────────────────────────────────
+   * AUI 的 <button> 默认把文本行盒贴在内容盒顶部 —— 它自己的主题就是靠不对称
+   * padding 硬推的（见自带 theme/mcui.css 的 `padding: 7px 16px 13px`）。
+   * 内容盒比行盒高多少，字就偏上多少；而且 − + × 这些非中文字形的行盒度量
+   * 各不一样，偏移量还会互不相同 —— 数量那对加减号就是这么一上一下的。
+   *
+   * 统一交给 flex 居中，与内容盒高度、字形度量都无关：
+   * AUI 明确支持「匿名文本 flex item」和 align-items（docs/en/guide/html-css-coverage.md:88），
+   * 裸文本（没包 <span>）也能被正确摆放。
+   *
+   * 需要别的排布的按钮自己声明了 display / justify，类选择器优先级高于这里的
+   * 元素选择器，不受影响：.category-option（space-between）、.category-button、
+   * .product（flex column）。
+   */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
+
+/* ───── 窗口外壳（全 flex，两层嵌套）─────
+ * .shop        纵向：招牌 → 主体(flex:1) → 提示 → 页脚
+ * .shop-body   横向：左栏(定宽 156) + 右栏(flex:1)
+ * 所有可伸缩的高度都靠 flex:1 + min-height:0 传下去，货架内部再自己滚，
+ * 这样「购买/出售」是写死的高度，不会被货架的行高连带拉长。
+ * 尺寸是 GUI 像素：600x322 在 640x331 视口里四周留 5px 透气。
+ * 写法纪律：min() 里只放「简单值」或「整段 calc()」（旧版验证过的两种形式）；
+ * `min(100% - 8px, 600px)` 这种裸数学表达式 AUI 解析不了；而 calc(100% - Npx)
+ * 里的 100% 相对的是没有显式高度的 body，算不出来 —— 相对视口的尺寸一律用 vh。
+ * 上一版踩过：.shop 宽高解析失败 → 面板塌成 0 → 整个商店看不见。
+ */
+.shop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 600px);
+  height: min(calc(100vh - 8px), 322px);
+  margin: auto;
+  padding: 6px;
+  overflow: hidden;
+  border: 3px solid #4f3927;
+  background: #e7d3a7;
+  box-shadow: inset 0 0 0 2px #f6e6bd, 4px 4px rgba(54,70,36,.28);
+}
+
+.shop-body {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  gap: 6px;
+  min-height: 0;
+  margin-top: 5px;
+}
+
+.shop-side {
+  display: flex;
+  flex: 0 0 156px;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 0;
+  width: 156px;
+}
+
+.shop-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* 左栏下半：分类按钮 + 收藏面板，占满剩余高度 */
+.filter-row {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 0;
+  padding: 6px;
+  border: 2px solid #795637;
+  background: #d9bd8c;
+  box-shadow: inset 0 0 0 2px #eddbb3;
+}
+
+/* ───── 草方块招牌 ───── */
+
+.sign {
+  position: relative;
+  flex-shrink: 0;
+  /* 上内边距必须大于草方块条的总高（内容 6 + 上下描边 2×2 = 10px）：
+     条子是绝对定位、画在文字上层的，padding 只有 5px 时它会盖掉标题字的顶部，
+     看起来就是「森林杂货铺」上半截被削平。11px = 10 + 1px 呼吸。 */
+  padding: 11px 8px 4px;
+  border: 3px solid var(--border);
+  background: var(--wood);
+  box-shadow:
+    inset 0 2px #f4d7a6,
+    inset 0 -3px #95643c,
+    0 2px rgba(60,75,37,.2);
+}
+
+/* 草方块顶条：AUI 会把负 margin 夹成 0，所以直接贴着边框内侧画 */
+.sign::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 6px;
+  border: 2px solid #365529;
+  background: repeating-linear-gradient(
+    90deg,
+    #6cab3d 0 7px,
+    #9bd663 7px 12px,
+    #79bd48 12px 18px
+  );
+}
+
+.sign-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #fff8d8;
+  /* 纯中文 + ◆（都是雅黑兜底），可以不用 10 的倍数 */
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.flower {
+  color: #4c7e30;
+  font-size: 12px;
+}
+
+.sign-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 5;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 2px solid #5c4029;
+  background: #f2e2b8;
+  color: #5b402b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.sign-close:hover { background: #fff0b8; }
+
+/* ───── 余额 ───── */
+
+.wallet {
+  flex-shrink: 0;
+  display: flex;
+  /* 提示语和余额分成两行：左栏只有 156px，10px 字号下
+     「今天也要好好冒险呀！」(约 110px) + 「● 56,865」(约 55px) 塞不进 138px 的内容宽，
+     一行排就会把提示语最后一个字挤到金币图标底下（以前就是这样缺字的）。 */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px 5px;
+  padding: 5px 7px;
+  border: 2px solid #61462e;
+  background: var(--cream);
+  box-shadow: inset 0 -2px #d8c9a1;
+}
+
+/* 独占一行：这样余额数字再长也只会往下压，不会去挤提示语 */
+.wallet-tip {
+  width: 100%;
+  flex-shrink: 0;
+  color: #7b6849;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.wallet-money {
+  display: flex;
+  /* 折行后这一行只有它一个，靠 width:100% + 右对齐把数字留在右侧（原来的视觉位置）。
+     margin-left:auto 在换行后的 flex 行里 AUI 不认，别指望它。 */
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  color: #89631b;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.coin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #a57922;
+  background: var(--coin);
+  box-shadow: inset 0 0 0 1px #ffe99b;
+  color: #966c1b;
+  /* 盒子内容区只有 9px，● 用 10px 会顶满甚至溢出、看着偏位 */
+  font-size: 7px;
+  flex-shrink: 0;
+}
+
+/* ───── 购买 / 出售 ───── */
+
+.trade-tabs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.trade-tab {
+  flex: 1;
+  min-height: 24px;
+  padding: 2px 4px;
+  border: 2px solid #5b6f3a;
+  background: #c4b489;
+  box-shadow: inset 0 -2px #9d8c63;
+  color: #55503c;
+  font-weight: bold;
+  text-align: center;
+}
+
+.trade-tab:hover { background: #d8c79c; }
+
+.trade-tab.active {
+  border-color: #3d622c;
+  background: var(--grass);
+  box-shadow: inset 0 2px rgba(255,255,255,.25), inset 0 -3px var(--grass-dark);
+  color: #fffbe3;
+}
+
+/* ───── 搜索框 ───── */
+
+.search-box {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 5px 2px 7px;
+  border: 2px solid #654b32;
+  background: #f5eed4;
+  box-shadow: inset 0 -2px #d8c9a5;
+}
+
+.search-symbol {
+  color: #77964f;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 0;
+  height: 21px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #455b34;
+  font-size: 10px;
+}
+
+.search-input::placeholder { color: #a29472; }
+
+.clear-search {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 2px solid #8c7955;
+  background: #e9dfbd;
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* ───── 分类（按钮 + 全窗菜单）─────
+   .filter-row 的排列在上面的外壳区定义，这里只管里面的零件 */
+
+.filter-label {
+  flex-shrink: 0;
+  color: #49653a;
+  font-size: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* 保持 static：让 .category-menu 的 absolute 相对整个 .shop 定位 */
+.category-wrap {
+  position: static;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.category-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 26px;
+  padding: 4px 7px;
+  border: 2px solid #3d622c;
+  background: var(--grass);
+  box-shadow: inset 0 2px rgba(255,255,255,.25), inset 0 -3px var(--grass-dark);
+  color: #fffbe3;
+  text-align: left;
+  font-weight: bold;
+}
+
+.category-button:hover { background: var(--grass-hover); }
+
+.category-arrow { font-size: 10px; }
+
+.category-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  padding: 0;
+  border: 3px solid #4e3927;
+  background: #d4b181;
+  box-shadow: inset 0 0 0 2px #e9c998;
+}
+
+.category-menu.open { display: flex; }
+
+.category-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 6px 9px;
+  border-bottom: 3px solid #4e3927;
+  background: var(--wood);
+  box-shadow: inset 0 2px #f4d7a6, inset 0 -3px #95643c;
+  color: #fff8dc;
+}
+
+.category-menu-text { min-width: 0; }
+
+.category-menu-title {
+  /* 纯中文 + ◆（雅黑兜底），可用自由字号 */
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.category-menu-subtitle {
+  margin-top: 2px;
+  color: #715033;
+  font-size: 10px;
+}
+
+.category-menu-close {
+  flex-shrink: 0;
+  min-width: 32px;
+  height: 26px;
+  padding: 0 6px;
+  border: 2px solid #4d3928;
+  background: #f3e4bd;
+  color: #5b402b;
+  font-weight: bold;
+}
+
+/* 分类项用 flex-wrap 自动分行（grid 的 1fr 在 AUI 里不会等分宽度）。
+   flex-basis 150 + grow 1：每行塞得下几个就几个，剩下的宽度均分给它们。 */
+.category-list {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.category-list::-webkit-scrollbar,
+.product-grid::-webkit-scrollbar,
+.favorites-list::-webkit-scrollbar { width: 8px; }
+
+.category-list::-webkit-scrollbar-track,
+.product-grid::-webkit-scrollbar-track,
+.favorites-list::-webkit-scrollbar-track {
+  border: 2px solid #765033;
+  background: #e3c89a;
+}
+
+.category-list::-webkit-scrollbar-thumb,
+.product-grid::-webkit-scrollbar-thumb,
+.favorites-list::-webkit-scrollbar-thumb {
+  border: 2px solid #4e3927;
+  background: #82b84f;
+  box-shadow: inset 0 0 0 1px #b4df7e;
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 150px;
+  min-height: 34px;
+  padding: 5px 7px;
+  border: 2px solid #775638;
+  background: #f4ebcf;
+  box-shadow: inset 2px 2px #fff8e0, inset -2px -2px #d4c29a;
+  text-align: left;
+}
+
+.category-option:hover {
+  border-color: #81b953;
+  background: #e3f0c4;
+}
+
+.category-option.active {
+  border-color: #527b37;
+  background: #a6d777;
+  color: #355625;
+  font-weight: bold;
+}
+
+/* 拖动中的那一项：被「拎起来」了 —— 拖到哪儿都不该被面板边框裁掉，
+   所以 JS 会把它挂到 body 上并写死 position/left/top（见 shop.js 的 fsDragLift）。
+   这里只负责外观：抬起阴影 + 轻微透明，像从货架上拿起来的一件东西。 */
+.category-option.dragging {
+  z-index: 200;
+  opacity: .92;
+  border-color: #e0a93a;
+  background: #fff2c4;
+  color: #6b4a12;
+  box-shadow:
+    inset 2px 2px #fffbe0,
+    inset -2px -2px #d9bb7c,
+    3px 3px rgba(60, 40, 20, .3);
+  pointer-events: none;
+}
+
+/* 原位留下的空壳：只占住那个坑，告诉玩家「松手就落在这儿」 */
+.category-option.drop-slot {
+  border-color: #c9a86a;
+  background: #e6d3a8;
+  box-shadow: inset 0 0 0 2px #d6bf90;
+}
+
+.category-option-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.category-option-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 2px solid #6b4d31;
+  background: #d9c397;
+  box-shadow: inset 1px 1px #f4e5c2, inset -1px -1px #b39a6d;
+  /* ◆ ● ■ 都是雅黑符号，可用自由字号 */
+  font-size: 11px;
+}
+
+.category-option.active .category-option-icon {
+  background: #c3e79b;
+  border-color: #527b37;
+}
+
+.category-option-name {
+  min-width: 0;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+.option-count {
+  flex-shrink: 0;
+  color: #8b7b5b;
+  font-size: 10px;
+}
+
+/* 已收藏分类上的星标（分类菜单里）*/
+.favorite-mark {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: #b18424;
+  font-size: 12px;
+}
+
+/* ───── 左栏收藏面板 ───── */
+
+.favorites-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 5px;
+  border: 2px solid #795637;
+  background: #c9a775;
+  box-shadow: inset 0 0 0 2px #e8d0a2, inset 0 -3px #a77b4d;
+}
+
+.favorites-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 0 0 4px;
+  border-bottom: 2px solid #987047;
+  color: #fff5d7;
+  font-weight: bold;
+}
+
+.favorites-tip {
+  color: #765333;
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.favorites-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 5px 2px 2px;
+}
+
+.favorite-category {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  min-height: 26px;
+  padding: 3px 6px;
+  border: 2px solid #705033;
+  background: #f4ebcf;
+  box-shadow: inset 1px 1px #fff8e0, inset -1px -1px #d4c29a;
+  text-align: left;
+}
+
+.favorite-category:hover,
+.favorite-category.active {
+  border-color: #527b37;
+  background: #b6df8a;
+}
+
+.favorite-category-icon { font-size: 12px; flex-shrink: 0; }
+
+.favorite-category-name {
+  min-width: 0;
+  flex: 1;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+.favorite-category-star { color: #b18424; font-size: 10px; flex-shrink: 0; }
+
+.favorites-empty {
+  padding: 8px 4px;
+  color: #715033;
+  font-size: 10px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* ───── 货架 ───── */
+
+/* 底部横梁要通栏，所以这一层不铺 padding，改由子块各自承担 */
+.shelf {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  border: 3px solid #543a27;
+  background: #bd915e;
+  box-shadow: inset 0 0 0 2px #e1b77e, inset 0 -3px #80542f;
+}
+
+.shelf-heading {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 5px 0;
+  padding: 0 2px 3px;
+  border-bottom: 2px solid #956a43;
+  color: #fff7dc;
+}
+
+.shelf-heading strong { font-size: 10px; }
+
+.shelf-count {
+  flex-shrink: 0;
+  color: #f8e6c2;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.shelf-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 6px 3px;
+}
+
+/* 货架网格：列宽写死 48px，不用 repeat(8, minmax(0,1fr))。
+ * AUI 的 grid 轨道按内容 max-content 定尺，`1fr` 既不等分也不收缩 ——
+ * 8 条轨道会直接冲出面板右边被裁掉。
+ * 48px 是 GUI 像素：主区约 420 宽（600 - 边框padding - 侧栏156 - gap6），
+ * 8 列 = 8×48 + 7×2(gap) = 398，加上 8px 滚动条正好放得下；
+ * 右栏/侧栏宽度变了这里要跟着算。
+ * 每页 24 个（8×3 行，FS_PAGE_SIZE=24），行距 2px。 */
+.product-grid {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  align-content: start;
+  grid-template-columns: repeat(8, 48px);
+  gap: 2px;
+  padding: 1px 2px 3px 1px;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  /* 52 = 图标 32 + 价格行 ~11 + 上下富余。之前压到 46 时
+     内容比盒子高，flex 居中后上下各被边框裁掉 3px ——
+     表现就是「图标被削顶、价格数字下半截没了」。 */
+  height: 52px;
+  padding: 1px 1px;
+  border: 2px solid #5e4934;
+  background: #e9e1c7;
+  box-shadow: inset 1px 1px #fff6de, inset -2px -2px #b7a88a;
+}
+
+.product:hover {
+  border-color: #fff0a0;
+  background: #fff3c7;
+}
+
+.product.selected {
+  border-color: #f5d866;
+  background: #fff0a5;
+}
+
+/* 物品图标走引擎原生的 <slot size iconScale> 放大通道，不用 CSS transform。
+ *
+ * 为什么不用 transform: scale：transform 会把元素推进另一条「图层」绘制路径
+ * （Base.hasVisualTransform / findTopLayerRoot / FLAT_DOCUMENT_LAYER_STEP），
+ * 物品虽然大小位置对，但贴图会被压暗。slot 的 iconScale 是引擎在物品自己的
+ * pose 里做的缩放，和原版背包同一条渲染路径，亮度就是原版的亮度。
+ *
+ * 几何必须一一对应，保证位置/尺寸和原来完全一致：
+ *   槽位 DOM 盒子尺寸 == 图标尺寸 iconScale × 16
+ *   32 == 2 × 16（详情弹窗：48 == 3 × 16）
+ *
+ * 【必须显式居中 item】引擎画物品时的坐标不是取 item 的 CSS 盒子左上角，而是
+ *   ItemNode.centeredBodyX = bodyRect.x + (bodyWidth - 16) / 2
+ * 也就是「用物品自己的盒子在 16px 图里居中」。而 global.css 里有
+ *   slot > item { position: absolute; left: 1px; top: 1px }
+ * 槽位放大到 32 之后 item 还钉在 (1,1) 会整体向左上偏 —— 所以下面给每档槽位
+ * 把 left/top 覆盖成 (槽位边长 - 16) / 2：32 → 8，48 → 16。
+ * 换 iconScale 时这两个数要跟着一起改。
+ *
+ * background:none 干掉 global.css 给 slot 的深灰底纹 area.png；
+ * render="item" + --aui-slot-render-bg:0 再各挡一层，三保险。
+ * interactive="0" / pointer="0"：不绑定菜单槽位时引擎本来就不画前景遮罩，
+ * 这两个属性只是再声明一次「这里只用来显示」，顺手关掉引擎自带的物品 tooltip
+ * （悬停的 tooltip 由我们自己在 Java 侧用原版渲染叠一层，见 ShopTooltipState）。 */
+.product-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.product-icon > slot {
+  --aui-slot-size: 32;
+  --aui-slot-icon-scale: 2;
+  --aui-slot-render-bg: 0;
+  --aui-slot-interactive: 0;
+  width: 32px;
+  height: 32px;
+  background: none;
+}
+
+.product-icon > slot > item {
+  left: 8px;
+  top: 8px;
+  font-size: 0;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  margin-top: 1px;
+  color: #76561c;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.product-price.sell-price { color: #4f7a35; }
+
+.pager {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 2px 2px 0;
+}
+
+.pager-button {
+  min-height: 17px;
+  padding: 0 7px;
+  border: 2px solid #6b4d31;
+  background: #e9dfbd;
+  color: #5b402b;
+  font-weight: bold;
+}
+
+.pager-button:hover { background: #fff0b8; }
+
+.page-label {
+  color: #f8e6c2;
+  font-size: 10px;
+}
+
+.empty-state {
+  display: none;
+  padding: 20px 6px;
+  color: #fff5d8;
+  text-align: center;
+  line-height: 2;
+}
+
+.empty-state.show { display: block; }
+
+.empty-icon { font-size: 20px; }
+
+.shelf-beam {
+  flex-shrink: 0;
+  height: 5px;
+  margin: 0;
+  border-top: 2px solid #e2b77f;
+  background: #815632;
+  box-shadow: 0 2px #60402a;
+}
+
+/* 提示与页脚是纯装饰：GUI 视口的高度很金贵（331px 上下），
+   默认不显示，等视口够高（GUI Scale 小、窗口大）再放出来。 */
+.shop-hint {
+  display: none;
+  flex-shrink: 0;
+  margin: 4px 0 2px;
+  color: #4c693b;
+  text-align: center;
+  font-size: 10px;
+}
+
+.footer {
+  display: none;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 3px;
+  color: #527442;
+  font-size: 10px;
+}
+
+@media (min-height: 380px) {
+  .shop-hint { display: block; }
+}
+
+@media (min-height: 430px) {
+  .footer { display: flex; }
+}
+
+/* ───── 二级交易弹窗 ───── */
+
+.backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 60;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: rgba(35,49,26,.7);
+}
+
+.backdrop.open { display: flex; }
+
+/* AUI 没有 sticky，所以「头部钉住」改成整个弹窗是 flex column、
+   内容区自己滚动 —— 效果一样，× 永远在视野里。 */
+.dialog {
+  display: flex;
+  flex-direction: column;
+  /* backdrop 自带 8px padding，min(100%) 取到的就是留好边的内容宽 */
+  width: min(100%, 380px);
+  max-height: calc(100vh - 12px);
+  border: 3px solid #4c3827;
+  background: var(--cream);
+  box-shadow: inset 0 0 0 2px #e2c99c, 4px 4px rgba(0,0,0,.25);
+  animation: appear .1s steps(2, end);
+}
+
+@keyframes appear {
+  from { transform: scale(.96); }
+  to { transform: scale(1); }
+}
+
+.dialog-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-bottom: 3px solid #3b602c;
+  background: #7dbd4d;
+  color: #fffbe5;
+}
+
+.dialog-header strong { font-size: 14px; }
+
+.close-button {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid #4d6c34;
+  background: #e1efc6;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* 弹窗分两段：信息区固定不滚（MC 横屏窗口矮，可滚的信息区必被购买区挤没、
+   图标和描述整个看不见），购买区固定在底部永远可见。 */
+.dialog-info {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 8px 3px;
+}
+
+/* 购买区：数量选择 + 合计 + 购买键。flex-basis auto + 允许收缩 ——
+   极端矮的视口下购买区自身也塞不下时，退化为在购买区内滚动，
+   保证永远不会冲出屏幕。 */
+.dialog-actions {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2px 8px 6px;
+  border-top: 2px solid #dcc99e;
+  background: #f0e5c6;
+}
+
+.preview-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border: 3px solid #66503a;
+  background: #b8b8a0;
+  box-shadow: inset 2px 2px #d7d7bd, inset -2px -2px #969681;
+}
+
+/* 详情弹窗的大图标：同 .product-icon，走 <slot iconScale>，不用 CSS transform */
+.preview-icon > slot {
+  --aui-slot-size: 40;
+  --aui-slot-icon-scale: 2.5;
+  --aui-slot-render-bg: 0;
+  --aui-slot-interactive: 0;
+  width: 40px;
+  height: 40px;
+  background: none;
+  flex-shrink: 0;
+}
+
+.preview-icon > slot > item {
+  left: 12px;
+  top: 12px;
+  font-size: 0;
+}
+
+.preview-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.preview-name {
+  color: #435d30;
+  font-size: 12px;
+  font-weight: bold;
+  word-break: break-all;
+  line-height: 1.3;
+}
+
+/* 分类 + 背包数量并排一行，省竖向空间 */
+.preview-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 1px;
+}
+
+.preview-rarity {
+  color: #9b772c;
+  font-size: 10px;
+}
+
+.preview-have {
+  color: #6d7f57;
+  font-size: 10px;
+}
+
+/* 描述不放弹窗里 —— 右侧钉住的卡片本来就有完整描述，
+   弹窗里再放一遍既占高度还会把购买区挤出去。 */
+
+.quantity-title {
+  margin-bottom: 2px;
+  color: #6d5a3d;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* 数量控制条：40px 按钮 + 中间输入框。用 flex 而不是 grid 40px/1fr/40px
+   —— AUI 的 `1fr` 不会去抢剩余宽度，中间那格会缩成输入框的内容宽。 */
+.quantity-control {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.quantity-control .quantity-button { flex: 0 0 40px; }
+
+.quantity-button {
+  min-height: 28px;
+  padding: 0;
+  border: 2px solid #526f35;
+  background: #a6d477;
+  box-shadow: inset 0 -3px #79ad4d;
+  color: #385729;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.quantity-button:hover { background: #bde793; }
+
+.quantity-input {
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 100%;
+  min-width: 0;
+  border: 2px solid #8a7650;
+  background: #fff8df;
+  color: #55472f;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  appearance: textfield;
+}
+
+.quick-quantity {
+  display: flex;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.quick-button {
+  flex: 1;
+  padding: 2px;
+  border: 2px solid #a08b60;
+  background: #eae0bd;
+  color: #6b593c;
+  font-size: 10px;
+}
+
+.quick-button:hover { background: #fff0b8; }
+
+.total-panel {
+  margin-top: 4px;
+  padding: 4px;
+  border: 2px solid #c2b18a;
+  background: #f5edcf;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  color: #796644;
+  font-size: 10px;
+}
+
+.total-row + .total-row { margin-top: 3px; }
+
+.total-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #89631b;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.balance-ok { color: #4c8339; }
+.balance-low { color: #bd5545; }
+
+.buy-button {
+  width: 100%;
+  margin-top: 4px;
+  padding: 4px;
+  border: 2px solid #345626;
+  background: #79b949;
+  box-shadow: inset 0 2px rgba(255,255,255,.25), inset 0 -3px #4a792e;
+  color: #fffbe4;
+  /* 「带回家！★」全中文 + 雅黑符号，可用自由字号 */
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.buy-button:hover { background: #8dcc57; }
+
+.buy-button:disabled {
+  background: #a49d87;
+  border-color: #77705d;
+  box-shadow: inset 0 -3px #77705d;
+}
+
+.notice {
+  margin-top: 2px;
+  color: #59803e;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* ───── 数据桥不可用时的兜底提示 ───── */
+
+.bridge-error {
+  margin: 6px 6px;
+  padding: 6px;
+  border: 2px solid #bb5555;
+  background: #f6dfdc;
+  color: #8c3a30;
+  font-size: 10px;
+  line-height: 1.7;
+  word-break: break-all;
+}
+
+/* ───── 更小 GUI 视口的降级（AUI 的 @media 按 GUI 逻辑视口算）─────
+   GUI Scale 更大时视口会小于设计基准（如 480x270），这里逐级减列、收窄侧栏。 */
+
+@media (max-width: 560px) {
+  .shop-side { flex: 0 0 132px; width: 132px; }
+  .product-grid { grid-template-columns: repeat(6, 48px); }
+}
+
+@media (max-width: 500px) {
+  .shop-side { flex: 0 0 116px; width: 116px; }
+  .product-grid { grid-template-columns: repeat(4, 48px); }
+  .wallet-tip { display: none; }
+}
+
+@media (max-height: 300px) {
+  .shop { padding: 4px; }
+  .sign { padding: 3px 6px 2px; }
+  .sign-title { font-size: 13px; }
+  .shop-body { margin-top: 3px; }
+  .shelf-body { padding: 2px 4px 2px; }
+  .product { height: 44px; }
+}

@@ -1,0 +1,72 @@
+Compiled from "PinTooltipsHooks.java"
+public class snownee.pintooltips.PinTooltipsHooks {
+  private static final java.lang.ThreadLocal<java.lang.Integer> isGrabbing;
+
+  public snownee.pintooltips.PinTooltipsHooks();
+    Code:
+       0: aload_0
+       1: invokespecial #17                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static boolean markGrabbing();
+    Code:
+       0: invokestatic  #25                 // Method snownee/pintooltips/PinTooltips.isGrabbing:()Z
+       3: ifeq          31
+       6: getstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+       9: getstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+      12: invokevirtual #33                 // Method java/lang/ThreadLocal.get:()Ljava/lang/Object;
+      15: checkcast     #35                 // class java/lang/Integer
+      18: invokevirtual #39                 // Method java/lang/Integer.intValue:()I
+      21: iconst_1
+      22: iadd
+      23: invokestatic  #43                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      26: invokevirtual #47                 // Method java/lang/ThreadLocal.set:(Ljava/lang/Object;)V
+      29: iconst_1
+      30: ireturn
+      31: iconst_0
+      32: ireturn
+
+  public static void unmarkGrabbing(boolean);
+    Code:
+       0: iload_0
+       1: ifeq          33
+       4: getstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+       7: invokevirtual #33                 // Method java/lang/ThreadLocal.get:()Ljava/lang/Object;
+      10: checkcast     #35                 // class java/lang/Integer
+      13: invokevirtual #39                 // Method java/lang/Integer.intValue:()I
+      16: istore_1
+      17: iload_1
+      18: ifle          33
+      21: getstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+      24: iload_1
+      25: iconst_1
+      26: isub
+      27: invokestatic  #43                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      30: invokevirtual #47                 // Method java/lang/ThreadLocal.set:(Ljava/lang/Object;)V
+      33: return
+
+  public static boolean isGrabbing();
+    Code:
+       0: getstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+       3: invokevirtual #33                 // Method java/lang/ThreadLocal.get:()Ljava/lang/Object;
+       6: checkcast     #35                 // class java/lang/Integer
+       9: invokevirtual #39                 // Method java/lang/Integer.intValue:()I
+      12: ifle          19
+      15: iconst_1
+      16: goto          20
+      19: iconst_0
+      20: ireturn
+
+  private static java.lang.Integer lambda$static$0();
+    Code:
+       0: iconst_0
+       1: invokestatic  #43                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       4: areturn
+
+  static {};
+    Code:
+       0: invokedynamic #71,  0             // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
+       5: invokestatic  #75                 // Method java/lang/ThreadLocal.withInitial:(Ljava/util/function/Supplier;)Ljava/lang/ThreadLocal;
+       8: putstatic     #27                 // Field isGrabbing:Ljava/lang/ThreadLocal;
+      11: return
+}

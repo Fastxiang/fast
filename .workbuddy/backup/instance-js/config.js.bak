@@ -1,0 +1,671 @@
+// priority: 1000
+const killcont = new Map();
+const instance = new Map();
+const instancetime = new Map();
+
+function registerDungeonRaw(name, data) {
+	if (!data) return
+
+	global.dungeonData[name] = {
+		mobs: data.mobs || {},
+		list: data.list || [],
+		config: data.config || {}
+	}
+}
+
+function notifyPlayers(level, x, y, z, radius, message) {
+	x += 0.5;
+	y += 0.5;
+	z += 0.5;
+	const aabb = createCenteredAABB(x, y, z, radius);
+	level.getEntitiesWithin(aabb).forEach(entity => {
+		if (entity.isPlayer()) {
+			let PlayerPersistentData = entity.persistentData;
+			if (PlayerPersistentData.DungeonChatLogEnabled) return
+			entity.tell(message);
+		}
+	});
+}
+
+/** 向副本周围指定范围内的玩家同步怪物的末影饰品/等级数据（供 Jade 显示） */
+function syncMobEntityDataToPlayers(level, x, y, z, radius) {
+	x += 0.5;
+	y += 0.5;
+	z += 0.5;
+	const aabb = createCenteredAABB(x, y, z, radius);
+	level.getEntitiesWithin(aabb).forEach(entity => {
+		if (entity.isPlayer()) {
+			syncMobEntityData(entity);
+		}
+	});
+}
+
+let NewCustomSpellNbtList = {
+	spell: [
+		"irons_spellbooks:fireball",
+		"irons_spellbooks:heat_surge",
+		"irons_spellbooks:wall_of_fire",
+		"irons_spellbooks:fire_breath",
+		"irons_spellbooks:magma_bomb",
+		"irons_spellbooks:scorch",
+		"irons_spellbooks:burning_dash",
+		"irons_spellbooks:blaze_storm",
+		"irons_spellbooks:firebolt",
+		"irons_spellbooks:flaming_barrage",
+		"irons_spellbooks:flaming_strike",
+		"irons_spellbooks:poison_arrow",
+		"irons_spellbooks:earthquake",
+		"irons_spellbooks:poison_splash",
+		"irons_spellbooks:spider_aspect",
+		"irons_spellbooks:firefly_swarm",
+		"irons_spellbooks:root",
+		"irons_spellbooks:blight",
+		"irons_spellbooks:stomp",
+		"irons_spellbooks:acid_orb",
+		"irons_spellbooks:poison_breath",
+		"irons_spellbooks:gluttony",
+		"irons_spellbooks:frostbite",
+		"irons_spellbooks:ice_block",
+		"irons_spellbooks:ray_of_frost",
+		"irons_spellbooks:cone_of_cold",
+		"irons_spellbooks:frost_step",
+		"irons_spellbooks:frostwave",
+		"irons_spellbooks:summon_polar_bear",
+		"irons_spellbooks:icicle",
+		"irons_spellbooks:arrow_volley",
+		"irons_spellbooks:fang_ward",
+		"irons_spellbooks:fang_strike",
+		"irons_spellbooks:chain_creeper",
+		"irons_spellbooks:gust",
+		"irons_spellbooks:summon_vex",
+		"irons_spellbooks:lob_creeper",
+		"irons_spellbooks:wololo",
+		"irons_spellbooks:shield",
+		"irons_spellbooks:summon_horse",
+		"irons_spellbooks:spectral_hammer",
+		"irons_spellbooks:firecracker",
+		"irons_spellbooks:portal",
+		"irons_spellbooks:black_hole",
+		"irons_spellbooks:recall",
+		"irons_spellbooks:magic_missile",
+		"irons_spellbooks:summon_ender_chest",
+		"irons_spellbooks:magic_arrow",
+		"irons_spellbooks:teleport",
+		"irons_spellbooks:dragon_breath",
+		"irons_spellbooks:counterspell",
+		"irons_spellbooks:healing_circle",
+		"irons_spellbooks:blessing_of_life",
+		"irons_spellbooks:angel_wing",
+		"irons_spellbooks:sunbeam",
+		"irons_spellbooks:fortify",
+		"irons_spellbooks:guiding_bolt",
+		"irons_spellbooks:heal",
+		"irons_spellbooks:wisp",
+		"irons_spellbooks:divine_smite",
+		"irons_spellbooks:greater_heal",
+		"irons_spellbooks:raise_dead",
+		"irons_spellbooks:blood_slash",
+		"irons_spellbooks:blood_step",
+		"irons_spellbooks:acupuncture",
+		"irons_spellbooks:ray_of_siphoning",
+		"irons_spellbooks:blood_needles",
+		"irons_spellbooks:sacrifice",
+		"irons_spellbooks:devour",
+		"irons_spellbooks:wither_skull",
+		"irons_spellbooks:thunderstorm",
+		"irons_spellbooks:ascension",
+		"irons_spellbooks:lightning_lance",
+		"irons_spellbooks:shockwave",
+		"irons_spellbooks:electrocute",
+		"irons_spellbooks:lightning_bolt",
+		"irons_spellbooks:ball_lightning",
+		"irons_spellbooks:chain_lightning"
+	],
+	level: {
+		1: [1],
+		2: [2],
+	},
+	delay: {
+		1: [10],
+		2: [10, 5, 15, 20],
+	}
+}
+
+function NewCustomSpellNbt(Nbtlevel) {
+	let spellConfig = {};
+	if (!Nbtlevel) Nbtlevel = 1
+	let types = ["spell", "level", "delay", "spell", "spell"];
+	let NewType = types[Math.floor(Math.random() * types.length)];
+
+	let candidates = NewCustomSpellNbtList[NewType];
+	if (!candidates || candidates.length === 0) return null;
+
+	let value = 1
+	if (NewType === "spell") {
+		value = candidates[Math.floor(Math.random() * candidates.length)];
+	} else {
+		let thisList = candidates[Nbtlevel]
+		value = thisList[Math.floor(Math.random() * thisList.length)];
+	}
+
+	spellConfig.type = NewType;
+	spellConfig.value = value;
+
+	return spellConfig;
+}
+
+// 生成副本物品的函数
+function generateInstanceItem(selectedReward) {
+	let itemConfig = {
+		item: selectedReward.item,
+		count: selectedReward.count || 1,
+		nbt: selectedReward.nbt,
+		Range: selectedReward.Range
+	};
+	if (itemConfig.item === "fast:custom_spell") {
+		itemConfig.nbt = { spellConfig: NewCustomSpellNbt(selectedReward.NbtLevel) }
+	}
+	// 拥有enderbonus的物品走createEnderBonusItem，使其显示名称同步带上属性
+	if (itemConfig.nbt && itemConfig.nbt.enderbonus) {
+		let item = createEnderBonusItem(itemConfig.item, itemConfig.nbt.enderbonus)
+		item.setCount(itemConfig.count)
+		return item
+	}
+	if (itemConfig.nbt && itemConfig.Range) {
+		itemConfig.Range.forEach(rangeConfig => {
+			const pathParts = rangeConfig.nbtname.split('.');
+			let target = itemConfig.nbt;
+			// 遍历路径，确保嵌套结构存在
+			for (let i = 0; i < pathParts.length - 1; i++) {
+				const part = pathParts[i];
+				if (!target[part]) target[part] = {};
+				target = target[part];
+			}
+			// 设置随机值
+			const min = rangeConfig.min;
+			const max = rangeConfig.max;
+			target[pathParts.pop()] = Math.floor(Math.random() * (max - min + 1)) + min;
+		});
+		return Item.of(itemConfig.item, itemConfig.count, itemConfig.nbt);
+	} else if (itemConfig.nbt) {
+		return Item.of(itemConfig.item, itemConfig.count || 1, itemConfig.nbt);
+	} else {
+		return Item.of(itemConfig.item, itemConfig.count || 1);
+	}
+	return null
+}
+
+function addXpPlayers(level, player, radius, xp) {
+	const aabb = createCenteredAABB(player.x, player.y, player.z, radius);
+	level.getEntitiesWithin(aabb).forEach(entity => {
+		if (entity.isPlayer()) {
+			addPlayerXp(entity, xp)
+		}
+	});
+}
+
+function PlayersCanSpawnCardBox(radius, level, x, y, z, dungeonType) {
+	const aabb = createCenteredAABB(x, y, z, radius);
+	level.getEntitiesWithin(aabb).forEach(entity => {
+		if (entity.isPlayer()) {
+			NewItemEntityCardBox(entity, level, dungeonType)
+		}
+	});
+}
+
+BlockEvents.rightClicked(event => {
+	if (event.hand == "OFF_HAND") return;
+	const item = event.getItem()
+	const block = event.block
+	const player = event.player
+	const level = block.level
+	let nbt = item.nbt
+	let Itemxpup = 1
+	let IteminstanceName = item.id
+	let NeedBlock = false
+	let Iteminstance = null
+	let noShrink = false
+	if (nbt) {
+		Iteminstance = nbt.instance
+		if (Iteminstance) {
+			if (Iteminstance.type != "instance") return
+			let x = Iteminstance.x
+			let z = Iteminstance.z
+			let InCount = Iteminstance.count
+			let thisInCounr = Iteminstance.thiscount
+			if (thisXZHavePlayer(player, x, z, 50)) {
+				Itemxpup = Iteminstance.xpup || 1
+				IteminstanceName = Iteminstance[`name${thisInCounr}`]
+				NeedBlock = true
+			}
+		}
+	}
+	if (block.id === "minecraft:sea_lantern") {
+		NeedBlock = true
+	}
+	if (!NeedBlock) return
+	const x = block.x,
+		y = block.y,
+		z = block.z;
+	const currentPos = new $Vec3(x + 0.5, y + 0.5, z + 0.5)
+	const key = `${x},${y},${z}`
+	const server = event.server;
+	let PlayerPersistentData = player.persistentData;
+	let persistentData = PlayerPersistentData.enderBonus;
+	let dimension = level.dimension.toString();
+	let placex = x - 23;
+	let placey = y - 1;
+	let placez = z + 23;
+
+
+
+	let selectedDungeon = null
+	for (const [dungeonType, data] of Object.entries(global.dungeonData)) {
+		let config = data.config
+		if (IteminstanceName === config.keyItem || IteminstanceName === config.noShrinkItem) {
+
+			if (IteminstanceName === config.noShrinkItem) {
+				noShrink = true
+			}
+
+			let open = false;
+
+			for (const [existingKey, existingData] of instance) {
+				let existingAABB = createCenteredAABB(
+					existingData.instancex + 0.5,
+					existingData.instancey + 0.5,
+					existingData.instancez + 0.5,
+					100
+				)
+
+				if (existingAABB.contains(currentPos)) {
+					open = true
+					break
+				}
+			}
+
+			if (open) {
+				player.tell(Text.translatable('ender_bonus.instance.message.nearby_open'))
+				return
+			}
+
+			selectedDungeon = {
+				type: dungeonType,
+				time: config.time,
+				totalWaves: config.totalWaves,
+				reward: config.reward,
+				place: config.place,
+				placexz: config.placexz,
+			}
+
+			break
+		}
+	}
+	if (!selectedDungeon) return;
+	let place = selectedDungeon.place;
+	let placexz = selectedDungeon.placexz;
+	if (place && place != 'noop') {
+		server.runCommandSilent(`execute in ${dimension} run place template ${place} ${placex + placexz.x} ${placey} ${placez + placexz.z} counterclockwise_90`)
+	}
+	let PlayerUuid = player.uuid.toString()
+	instance.set(key, {
+		instancehas: true,
+		instancelevel: level,
+		instancex: x,
+		instancez: z,
+		instancey: y,
+		MaxTime: selectedDungeon.time,
+		dungeonType: selectedDungeon.type, // 存储副本类型
+		reward: selectedDungeon.reward, // 存储奖励信息
+		area: "noop",
+		intdimension: dimension,
+		xpup: Itemxpup,
+		playeruuid: PlayerUuid,
+	})
+	if (!Iteminstance && !noShrink) {
+		item.shrink(1)
+	} else if (!noShrink) {
+		Iteminstance.thiscount += 1
+		if (!Iteminstance[`name${Iteminstance.thiscount}`]) {
+			Iteminstance.type = "noop"
+		}
+		player.sendData("removeWaypoint", {
+			x: Iteminstance.x,
+			y: Iteminstance.y,
+			z: Iteminstance.z
+		});
+	}
+
+	server.tell(Text.translatable(
+		'ender_bonus.instance.message.opened',
+		Text.translatable(`instance.${selectedDungeon.type}.name`)))
+	notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.message.start_in_3'))
+	notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.countdown', 3))
+	// 开始生成第一波
+	server.scheduleInTicks(20, () => {
+		server.scheduleInTicks(20, () => {
+			server.scheduleInTicks(20, () => {
+				notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.countdown', 0))
+				instancetime.set(key, selectedDungeon.time)
+				let BossBar = newBossBar(level, key, server, x, y, z, "副本剩余时间", 50, 'noop', 1)
+				spawnWave(x, y, z, 1, selectedDungeon.type, block.level, PlayerUuid)
+			})
+			notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.countdown', 1))
+		})
+		notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.countdown', 2))
+	})
+})
+
+// 修改后的生成波次函数
+function spawnWave(x, y, z, waveNumber, dungeonType, level, PlayerUuid) {
+	notifyPlayers(level, x, y, z, 50,
+		Text.translatable('ender_bonus.instance.wave_start', waveNumber, Text.translatable(`instance.${dungeonType}.name`)))
+
+	let key = `${x},${y},${z}`
+	killcont.set(key, 0)
+
+	let ThisInstance = instance.get(key)
+
+	// 获取当前波次的生物配置
+	const waveConfig = global.dungeonData[dungeonType].mobs[waveNumber]
+
+	// 计算总击杀数
+	let totalMobs = waveConfig.reduce((sum, mob) => sum + mob.count, 0)
+
+	let player = level.server.getPlayer(PlayerUuid)
+
+	if (!player) {
+		let thisaabb = createCenteredAABB(x, y, z, 55);
+		level.getEntitiesWithin(thisaabb).forEach(entity => {
+			if (entity.isPlayer()) {
+				player = entity
+			}
+		});
+	}
+
+	let diffLevelNum = 1;
+	if (player) {
+		let diffStage = player.stages.getAll().toArray().find(stage => stage.startsWith('difficult_level_'));
+		if (diffStage) {
+			diffLevelNum = parseInt(diffStage.match('difficult_level_(\\d+)')[1]);
+		}
+	}
+
+
+	// 生成生物
+	waveConfig.forEach(mobConfig => {
+		for (let i = 0; i < mobConfig.count; i++) {
+			let mobType = mobConfig.type;
+			let newxp = mobConfig.xp | 1;
+			let thisxpup = ThisInstance.xpup
+			if (mobType === "list") {
+				let dungeonTypeList = global.dungeonData[dungeonType].list;
+				const randomIndex = Math.floor(Math.random() * dungeonTypeList.length);
+				mobType = dungeonTypeList[randomIndex];
+			}
+			let mob = level.createEntity(mobType)
+			mob.setPosition(x + (Math.random() * 5 - 2.5), y + 1, z + (Math.random() * 5 - 2.5))
+
+			mob.potionEffects.add('minecraft:glowing', 600, 0, false, false);
+
+			if (mobType === "minecraft:skeleton") {
+				let bow = Item.of('minecraft:bow', 1)
+				addSpecialProperty(bow, "skeleton_will")
+				mob.setItemSlot('mainhand', bow);
+			}
+
+			if (mobType === "minecraft:pillager") {
+				let crossbow = Item.of('minecraft:crossbow', 1)
+				mob.setItemSlot('mainhand', crossbow)
+			}
+
+			if (mobConfig.attributes) {
+				for (let attribute in mobConfig.attributes) {
+					if (mobConfig.attributes.hasOwnProperty(attribute)) {
+						let value = mobConfig.attributes[attribute];
+						mob.setAttributeBaseValue(attribute, value);
+					}
+				}
+			}
+
+			if (mobConfig.equipment) {
+				let equip = mobConfig.equipment;
+
+				if (equip.mainhand) mob.setItemSlot('mainhand', equip.mainhand);
+				if (equip.offhand) mob.setItemSlot('offhand', equip.offhand);
+
+				if (equip.head) mob.setItemSlot('head', equip.head);
+				if (equip.chest) mob.setItemSlot('chest', equip.chest);
+				if (equip.legs) mob.setItemSlot('legs', equip.legs);
+				if (equip.feet) mob.setItemSlot('feet', equip.feet);
+			}
+
+			mob.persistentData.Instance = {
+				type: dungeonType,
+				wave: waveNumber,
+				spawnx: x,
+				spawny: y,
+				spawnz: z,
+				xp: newxp,
+				xpup: thisxpup,
+				killcount: totalMobs,
+			}
+
+			mob.persistentData.customData = { difflevelnum: diffLevelNum, moblevelnum: mobConfig.level }
+
+			if (mobConfig.EnderBonus) {
+				mob.persistentData.customData.enderbonus = mobConfig.EnderBonus
+			}
+
+			if (mobConfig.variant) {
+				mob.persistentData.putString("variant", mobConfig.variant)
+			}
+
+			mob.spawn()
+		}
+	})
+
+	// 本波怪物全部生成完毕后，向副本周围50格的玩家同步一次怪物数据（供 Jade 显示末影饰品/等级）
+	syncMobEntityDataToPlayers(level, x, y, z, 50)
+}
+
+const EnderBonusOnInstanceCompleted = new EnderBonusHandler()
+
+// 实体死亡事件处理
+EntityEvents.death(event => {
+	const entity = event.entity
+	let MobThisData = entity.persistentData
+	let uuid = entity.uuid
+	let server = entity.server
+	BossEntitySpawn.removeBossBar(uuid, server)
+	let xp = 0
+	let Entitynbt = false
+	let killer = entity.lastHurtByMob
+	if (entity.type === "mutantmonsters:mutant_zombie") {
+		killer = getClosestPlayer(entity, 50)
+	}
+	if (!killer) return
+	if (entity.isPlayer()) {
+		BossEntitySpawn.removeBossBar(killer.uuid, server)
+	}
+	let Owner = getEntityOwner(killer)
+	if (!(killer.isPlayer() || (Owner && Owner.isPlayer()))) return;
+	if (MobThisData.RogueLike) {
+		RogueLikeMobDeadEvent(entity, MobThisData.RogueLike)
+		return
+	}
+	let Instance = null
+	if (MobThisData.Instance) {
+		Instance = MobThisData.Instance
+		Entitynbt = true
+		xp = 1
+		let xpup = Instance.xpup
+		let newxp = Instance.xp
+		if (newxp) {
+			xp = newxp * xpup
+		}
+	}
+	if (!xp) return
+	let level = killer.level
+	if (Owner) {
+		addXpPlayers(level, Owner, 50, xp)
+	} else {
+		addXpPlayers(level, killer, 50, xp)
+	}
+	if (!Entitynbt) return
+	if (Owner && killer.type === "touhou_little_maid:maid") {
+		let maidData = killer.persistentData;
+		if (hasEntityEnderBonus(Owner, "tarotcards:the_lovers")) {
+			if (!maidData.theLoversPresent) {
+				maidData.theLoversPresent = 1;
+			}
+			if (++maidData.theLoversPresent > 5) {
+				addMaidFavorability(killer, 1);
+				maidData.theLoversPresent = 1;
+			}
+		}
+	}
+	let x = Instance.spawnx
+	let y = Instance.spawny
+	let z = Instance.spawnz
+	let PlayerUuid = Instance.playeruuid
+	let needkill = Instance.killcount
+	let key = `${x},${y},${z}`
+	let killCount = killcont.get(key)
+	let dungeonType = Instance.type
+	let waveNumber = Instance.wave
+	killCount++
+	killcont.set(key, killCount)
+	let needkillhave = needkill - killCount
+	notifyPlayers(level, x, y, z, 50, Text.translatable('ender_bonus.instance.kill_required', "§d" + needkill, "§d" + needkillhave))
+	const rewardConfig = global.dungeonData[dungeonType].config
+
+	// 检查波次完成
+	if (killCount >= needkill) {
+		if (waveNumber >= rewardConfig.totalWaves) {
+			let friendEntities = getFriendEntitiesAtPos(level, x, y, z, 50)
+			friendEntities.forEach(e => {
+				let uuid = e.uuid
+				let obj = global.EntityEnderBonus[uuid]
+				if (obj) {
+					let InstanceEvent = {
+						entity: e,
+						deadEntity: entity,
+						InstanceData: Instance,
+						killer: killer,
+					}
+					let itemIds = Object.keys(obj)
+					EnderBonusOnInstanceCompleted.run(itemIds, [InstanceEvent], e)
+				}
+			})
+			notifyPlayers(level, x, y, z, 50,
+				Text.translatable('ender_bonus.instance.complete_reward'))
+			let KeyInstance = instance.get(key);
+			BossEntitySpawn.removeBossBar(key, server)
+			// let area = KeyInstance.area;
+			// deleteLoquat(area, level)
+			instance.delete(key)
+			instancetime.delete(key)
+			killcont.delete(key)
+			let RewardItemList = []
+			rewardConfig.reward.forEach(itemconfig => {
+				let thisItem = null
+				// 使用随机数判断是否掉落
+				if (Math.random() <= (itemconfig.chance || 1)) {
+					thisItem = generateInstanceItem(itemconfig)
+					if (!thisItem) return
+					RewardItemList.push(thisItem)
+				}
+				if (!thisItem) return
+				let langId = itemconfig.item.replace(':', '.')
+				if (!itemconfig.item.includes('instance_pass')) {
+					notifyPlayers(level, x, y, z, 50,
+						Text.translatable('ender_bonus.instance.reward_item', Text.translatable(`item.${langId}`)))
+				}
+			})
+			spawnPackage(level, x, y + 2, z, RewardItemList)
+		} else {
+			waveNumber = Instance.wave + 1
+			killcont.set(key, 0)
+
+			// 生成下一波
+			spawnWave(x, y, z, waveNumber, dungeonType, level, PlayerUuid)
+		}
+	}
+})
+
+ServerEvents.tick(event => {
+	const server = event.server
+	if (server.tickCount % 20 != 0) return // 每秒执行一次
+	// 遍历所有副本的计时
+	instancetime.forEach((time, key) => {
+		let ThisInstance = instance.get(key)
+		let level = ThisInstance.instancelevel
+		let x = ThisInstance.instancex
+		let y = ThisInstance.instancey
+		let z = ThisInstance.instancez
+		let MaxTime = ThisInstance.MaxTime
+		let BossBar = BossEntitySpawn.BossBar[key]
+
+		const newTime = time - 1
+		if (BossBar) {
+			BossBar.setProgress(newTime / MaxTime);
+		}
+		instancetime.set(key, newTime) // 更新时间
+		if (newTime <= 5) {
+			notifyPlayers(level, x, y, z, 50,
+				Text.translatable('ender_bonus.instance.time_left', newTime)
+			)
+		}
+
+		// 时间耗尽处理
+		if (newTime <= 0) {
+			notifyPlayers(level, x, y, z, 50,
+				Text.translatable('ender_bonus.instance.timeout'))
+			level.getEntities().forEach(entity => {
+				let persistentData = entity.persistentData
+				if (!persistentData.Instance) return
+				let Instance = persistentData.Instance
+				let x2 = Instance.spawnx
+				let y2 = Instance.spawny
+				let z2 = Instance.spawnz
+				let key2 = `${x2},${y2},${z2}`
+				if (key2 != key) return
+				let uuid = entity.uuid
+				BossEntitySpawn.removeBossBar(uuid, server)
+				entity.discard()
+			})
+
+			// 清理相关数据
+			BossEntitySpawn.removeBossBar(key, server)
+			// let area = ThisInstance.area;
+			// deleteLoquat(area, level)
+			instance.delete(key)
+			instancetime.delete(key)
+			killcont.delete(key)
+			instancetime.delete(key)
+		}
+	})
+})
+
+ServerEvents.unloaded(event => {
+	// 服务端关闭清理所有副本和相关怪物
+	instance.forEach((instances, key) => {
+		let level = instances.instancelevel
+		let server = level.server;
+		level.getEntities().forEach(entity => {
+			let persistentData = entity.persistentData
+			if (!persistentData.Instance) return
+			let uuid = entity.uuid
+			BossEntitySpawn.removeBossBar(uuid, server)
+			entity.discard()
+		})
+		BossEntitySpawn.removeBossBar(key, server)
+		let area = instances.area;
+		deleteLoquat(area, level)
+		instance.delete(key)
+		instancetime.delete(key)
+		killcont.delete(key)
+		instancetime.delete(key)
+	})
+})

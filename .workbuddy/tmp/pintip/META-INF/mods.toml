@@ -1,0 +1,41 @@
+modLoader="javafml"
+loaderVersion="[46,)"
+
+license="All Rights Reserved"
+issueTrackerURL="https://github.com/Snownee/PinTooltips/issues"
+
+[[mods]]
+modId="pin_tooltips"
+version="1.3.1+forge"
+displayName="Pin Tooltips"
+displayURL="https://github.com/Snownee/PinTooltips"
+logoFile="logo.png"
+credits=""
+authors="Snownee, SettingDust"
+description='''
+Adds the ability to pin tooltips to the screen and view more information from them such as enchantment and mob effect descriptions.
+'''
+
+[[dependencies.pin_tooltips]]
+modId="forge"
+mandatory=true
+versionRange="[46,)"
+side="CLIENT"
+
+[[dependencies.pin_tooltips]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20,)"
+side="CLIENT"
+
+[[dependencies.pin_tooltips]]
+modId="fabric_api"
+mandatory=true
+versionRange="[0.92,)"
+side="CLIENT"
+
+[[dependencies.pin_tooltips]]
+modId="more_enchantment_info"
+mandatory=false
+versionRange="[0.2,)"
+side="CLIENT"

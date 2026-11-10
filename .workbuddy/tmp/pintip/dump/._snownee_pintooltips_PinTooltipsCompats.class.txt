@@ -1,0 +1,147 @@
+Compiled from "PinTooltipsCompats.java"
+public class snownee.pintooltips.PinTooltipsCompats {
+  public static boolean jeed;
+
+  public static boolean jade;
+
+  public static boolean moreEnchantmentInfo;
+
+  public snownee.pintooltips.PinTooltipsCompats();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static boolean canClickEffect(net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: getstatic     #27                 // Field jeed:Z
+       3: ifeq          11
+       6: aload_0
+       7: invokestatic  #31                 // Method snownee/pintooltips/compat/JeedCompat.canClickEffect:(Lnet/minecraft/world/effect/MobEffectInstance;)Z
+      10: ireturn
+      11: iconst_0
+      12: ireturn
+
+  public static void clickEffect(net.minecraft.world.effect.MobEffectInstance, double, double, int);
+    Code:
+       0: getstatic     #27                 // Field jeed:Z
+       3: ifeq          14
+       6: aload_0
+       7: dload_1
+       8: dload_3
+       9: iload         5
+      11: invokestatic  #37                 // Method snownee/pintooltips/compat/JeedCompat.clickEffect:(Lnet/minecraft/world/effect/MobEffectInstance;DDI)V
+      14: return
+
+  public static boolean canClickEnchantment(net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment>);
+    Code:
+       0: getstatic     #47                 // Field moreEnchantmentInfo:Z
+       3: ifeq          11
+       6: aload_0
+       7: invokestatic  #51                 // Method snownee/pintooltips/compat/MEICompat.canClickEnchantment:(Lnet/minecraft/core/Holder;)Z
+      10: ireturn
+      11: iconst_0
+      12: ireturn
+
+  public static void clickEnchantment(net.minecraft.world.item.enchantment.Enchantment, int, int);
+    Code:
+       0: getstatic     #47                 // Field moreEnchantmentInfo:Z
+       3: ifeq          11
+       6: aload_0
+       7: iload_2
+       8: invokestatic  #59                 // Method snownee/pintooltips/compat/MEICompat.clickEnchantment:(Lnet/minecraft/world/item/enchantment/Enchantment;I)V
+      11: return
+
+  public static net.minecraft.network.chat.Component appendModName(net.minecraft.network.chat.Component, net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: invokestatic  #69                 // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+       3: invokevirtual #73                 // Method snownee/pintooltips/PinTooltipsConfig.jadeModEnchantmentModName:()Z
+       6: ifeq          15
+       9: invokestatic  #76                 // Method shouldAppendModName:()Z
+      12: ifne          17
+      15: aload_0
+      16: areturn
+      17: getstatic     #82                 // Field net/minecraft/core/registries/BuiltInRegistries.f_256974_:Lnet/minecraft/core/Registry;
+      20: aload_1
+      21: invokevirtual #88                 // Method net/minecraft/world/effect/MobEffectInstance.m_19544_:()Lnet/minecraft/world/effect/MobEffect;
+      24: invokeinterface #94,  2           // InterfaceMethod net/minecraft/core/Registry.m_7981_:(Ljava/lang/Object;)Lnet/minecraft/resources/ResourceLocation;
+      29: astore_2
+      30: aload_2
+      31: ifnonnull     36
+      34: aload_0
+      35: areturn
+      36: aload_0
+      37: aload_2
+      38: invokestatic  #102                // Method snownee/jade/util/ModIdentification.getModName:(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/String;
+      41: invokestatic  #105                // Method appendModName:(Lnet/minecraft/network/chat/Component;Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+      44: areturn
+
+  public static net.minecraft.network.chat.Component appendModName(net.minecraft.network.chat.Component, net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment>);
+    Code:
+       0: invokestatic  #69                 // Method snownee/pintooltips/PinTooltipsConfig.get:()Lsnownee/pintooltips/PinTooltipsConfig;
+       3: invokevirtual #73                 // Method snownee/pintooltips/PinTooltipsConfig.jadeModEnchantmentModName:()Z
+       6: ifeq          15
+       9: invokestatic  #76                 // Method shouldAppendModName:()Z
+      12: ifne          17
+      15: aload_0
+      16: areturn
+      17: aload_1
+      18: invokeinterface #117,  1          // InterfaceMethod net/minecraft/core/Holder.m_203543_:()Ljava/util/Optional;
+      23: invokevirtual #123                // Method java/util/Optional.orElseThrow:()Ljava/lang/Object;
+      26: checkcast     #125                // class net/minecraft/resources/ResourceKey
+      29: invokevirtual #129                // Method net/minecraft/resources/ResourceKey.m_135782_:()Lnet/minecraft/resources/ResourceLocation;
+      32: astore_2
+      33: aload_0
+      34: aload_2
+      35: invokestatic  #102                // Method snownee/jade/util/ModIdentification.getModName:(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/String;
+      38: invokestatic  #105                // Method appendModName:(Lnet/minecraft/network/chat/Component;Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+      41: areturn
+
+  private static net.minecraft.network.chat.Component appendModName(net.minecraft.network.chat.Component, java.lang.String);
+    Code:
+       0: aload_0
+       1: invokeinterface #135,  1          // InterfaceMethod net/minecraft/network/chat/Component.m_6881_:()Lnet/minecraft/network/chat/MutableComponent;
+       6: ldc           #137                // String \n
+       8: invokevirtual #143                // Method net/minecraft/network/chat/MutableComponent.m_130946_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      11: invokestatic  #146                // InterfaceMethod snownee/jade/api/config/IWailaConfig.get:()Lsnownee/jade/api/config/IWailaConfig;
+      14: invokeinterface #150,  1          // InterfaceMethod snownee/jade/api/config/IWailaConfig.getFormatting:()Lsnownee/jade/api/config/IWailaConfig$IConfigFormatting;
+      19: invokeinterface #153,  1          // InterfaceMethod snownee/jade/api/config/IWailaConfig$IConfigFormatting.getModName:()Ljava/lang/String;
+      24: iconst_1
+      25: anewarray     #4                  // class java/lang/Object
+      28: dup
+      29: iconst_0
+      30: aload_1
+      31: aastore
+      32: invokevirtual #159                // Method java/lang/String.formatted:([Ljava/lang/Object;)Ljava/lang/String;
+      35: invokevirtual #143                // Method net/minecraft/network/chat/MutableComponent.m_130946_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      38: areturn
+
+  public static boolean shouldAppendModName();
+    Code:
+       0: getstatic     #163                // Field jade:Z
+       3: ifeq          26
+       6: invokestatic  #146                // InterfaceMethod snownee/jade/api/config/IWailaConfig.get:()Lsnownee/jade/api/config/IWailaConfig;
+       9: invokeinterface #167,  1          // InterfaceMethod snownee/jade/api/config/IWailaConfig.getGeneral:()Lsnownee/jade/api/config/IWailaConfig$IConfigGeneral;
+      14: invokeinterface #170,  1          // InterfaceMethod snownee/jade/api/config/IWailaConfig$IConfigGeneral.showItemModNameTooltip:()Z
+      19: ifeq          26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: ireturn
+
+  static {};
+    Code:
+       0: invokestatic  #177                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+       3: ldc           #178                // String jeed
+       5: invokeinterface #182,  2          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.isModLoaded:(Ljava/lang/String;)Z
+      10: putstatic     #27                 // Field jeed:Z
+      13: invokestatic  #177                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+      16: ldc           #183                // String jade
+      18: invokeinterface #182,  2          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.isModLoaded:(Ljava/lang/String;)Z
+      23: putstatic     #163                // Field jade:Z
+      26: invokestatic  #177                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+      29: ldc           #185                // String more_enchantment_info
+      31: invokeinterface #182,  2          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.isModLoaded:(Ljava/lang/String;)Z
+      36: putstatic     #47                 // Field moreEnchantmentInfo:Z
+      39: return
+}

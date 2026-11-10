@@ -22,3 +22,37 @@ description="fast mod"
     versionRange="[1.20.1,1.20.2)"
     ordering="NONE"
     side="BOTH"
+
+# 晴雪UI（ApricityUI）：商店界面的渲染层。
+# 均为可选依赖：缺失时商店自动回落到内置的原版风格 ShopScreen，不影响其他功能。
+# 页面脚本跑在 Rhino 上，故需要 kubejs + rhino 同时在场。
+[[dependencies.fast]]
+    modId="apricityui"
+    mandatory=false
+    versionRange="[1.2.0,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.fast]]
+    modId="kubejs"
+    mandatory=false
+    versionRange="[1.0.0,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.fast]]
+    modId="rhino"
+    mandatory=false
+    versionRange="[1.0.0,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+# JEI：可选依赖。装了就把「整合包物品的获取方式」注册成一个独立分类
+# （com.main.fast.compat.jei.FastJeiPlugin，@JeiPlugin 由 JEI 自己扫描），
+# 没装时这些类不会被加载，不影响其他功能。
+[[dependencies.fast]]
+    modId="jei"
+    mandatory=false
+    versionRange="[15,)"
+    ordering="AFTER"
+    side="CLIENT"

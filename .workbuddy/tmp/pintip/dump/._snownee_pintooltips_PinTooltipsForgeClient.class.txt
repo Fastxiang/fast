@@ -1,0 +1,43 @@
+Compiled from "PinTooltipsForgeClient.java"
+public class snownee.pintooltips.PinTooltipsForgeClient {
+  public snownee.pintooltips.PinTooltipsForgeClient();
+    Code:
+       0: aload_0
+       1: invokespecial #22                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void init();
+    Code:
+       0: getstatic     #31                 // Field snownee/pintooltips/PinTooltips.GRAB_KEY:Lnet/minecraft/client/KeyMapping;
+       3: invokestatic  #37                 // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       6: pop
+       7: invokestatic  #43                 // Method net/minecraftforge/fml/javafmlmod/FMLJavaModLoadingContext.get:()Lnet/minecraftforge/fml/javafmlmod/FMLJavaModLoadingContext;
+      10: invokevirtual #47                 // Method net/minecraftforge/fml/javafmlmod/FMLJavaModLoadingContext.getModEventBus:()Lnet/minecraftforge/eventbus/api/IEventBus;
+      13: invokedynamic #66,  0             // InvokeDynamic #0:accept:()Ljava/util/function/Consumer;
+      18: invokeinterface #72,  2           // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.addListener:(Ljava/util/function/Consumer;)V
+      23: getstatic     #78                 // Field net/minecraftforge/common/MinecraftForge.EVENT_BUS:Lnet/minecraftforge/eventbus/api/IEventBus;
+      26: invokedynamic #85,  0             // InvokeDynamic #1:accept:()Ljava/util/function/Consumer;
+      31: invokeinterface #72,  2           // InterfaceMethod net/minecraftforge/eventbus/api/IEventBus.addListener:(Ljava/util/function/Consumer;)V
+      36: return
+
+  private static void lambda$init$1(net.minecraftforge.client.event.ScreenEvent$MouseDragged$Pre);
+    Code:
+       0: aload_0
+       1: invokevirtual #89                 // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre.getScreen:()Lnet/minecraft/client/gui/screens/Screen;
+       4: aload_0
+       5: invokevirtual #93                 // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre.getMouseButton:()I
+       8: aload_0
+       9: invokevirtual #97                 // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre.getDragX:()D
+      12: aload_0
+      13: invokevirtual #100                // Method net/minecraftforge/client/event/ScreenEvent$MouseDragged$Pre.getDragY:()D
+      16: invokestatic  #104                // Method snownee/pintooltips/PinTooltips.onDrag:(Lnet/minecraft/client/gui/screens/Screen;IDD)V
+      19: return
+
+  private static void lambda$init$0(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent);
+    Code:
+       0: new           #27                 // class snownee/pintooltips/PinTooltips
+       3: dup
+       4: invokespecial #107                // Method snownee/pintooltips/PinTooltips."<init>":()V
+       7: invokevirtual #110                // Method snownee/pintooltips/PinTooltips.onInitializeClient:()V
+      10: return
+}

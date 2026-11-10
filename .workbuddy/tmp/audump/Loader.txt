@@ -1,0 +1,1303 @@
+Compiled from "Loader.java"
+public class com.sighs.apricityui.loader.Loader {
+  private static final java.lang.String DEV_ASSET_ROOT;
+
+  private static final java.lang.String COMMON_DEV_ASSET_ROOT;
+
+  protected final java.lang.String extension;
+
+  protected int loadedResourceCount;
+
+  protected java.util.function.BiConsumer<java.lang.String, java.lang.String> handler;
+
+  protected com.sighs.apricityui.loader.Loader(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokespecial #34                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: invokedynamic #53,  0             // InvokeDynamic #0:accept:()Ljava/util/function/BiConsumer;
+      10: putfield      #55                 // Field handler:Ljava/util/function/BiConsumer;
+      13: aload_0
+      14: aload_1
+      15: putfield      #57                 // Field extension:Ljava/lang/String;
+      18: return
+
+  public static java.io.InputStream getResourceStream(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #69                 // Method java/lang/String.isEmpty:()Z
+       8: ifeq          13
+      11: aconst_null
+      12: areturn
+      13: aload_0
+      14: ldc           #71                 // String /
+      16: invokevirtual #75                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      19: ifeq          30
+      22: aload_0
+      23: iconst_1
+      24: invokevirtual #79                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      27: goto          31
+      30: aload_0
+      31: astore_1
+      32: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+      35: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      40: astore_2
+      41: aload_2
+      42: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      47: ifeq          111
+      50: aload_2
+      51: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      56: checkcast     #100                // class java/nio/file/Path
+      59: astore_3
+      60: aload_3
+      61: aload_1
+      62: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      67: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      72: astore        4
+      74: aload         4
+      76: iconst_0
+      77: anewarray     #110                // class java/nio/file/LinkOption
+      80: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      83: ifeq          108
+      86: aload         4
+      88: iconst_0
+      89: anewarray     #110                // class java/nio/file/LinkOption
+      92: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      95: ifeq          108
+      98: aload         4
+     100: iconst_0
+     101: anewarray     #121                // class java/nio/file/OpenOption
+     104: invokestatic  #125                // Method java/nio/file/Files.newInputStream:(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;
+     107: areturn
+     108: goto          41
+     111: invokestatic  #128                // Method getDevProjectRoots:()Ljava/util/List;
+     114: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+     119: astore_2
+     120: aload_2
+     121: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     126: ifeq          213
+     129: aload_2
+     130: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     135: checkcast     #100                // class java/nio/file/Path
+     138: astore_3
+     139: aload_3
+     140: aload_1
+     141: invokestatic  #132                // Method buildProjectRootCandidates:(Ljava/nio/file/Path;Ljava/lang/String;)Ljava/util/List;
+     144: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+     149: astore        4
+     151: aload         4
+     153: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     158: ifeq          210
+     161: aload         4
+     163: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     168: checkcast     #100                // class java/nio/file/Path
+     171: astore        5
+     173: aload         5
+     175: iconst_0
+     176: anewarray     #110                // class java/nio/file/LinkOption
+     179: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     182: ifeq          207
+     185: aload         5
+     187: iconst_0
+     188: anewarray     #110                // class java/nio/file/LinkOption
+     191: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     194: ifeq          207
+     197: aload         5
+     199: iconst_0
+     200: anewarray     #121                // class java/nio/file/OpenOption
+     203: invokestatic  #125                // Method java/nio/file/Files.newInputStream:(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;
+     206: areturn
+     207: goto          151
+     210: goto          120
+     213: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+     216: aload_1
+     217: invokedynamic #147,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     222: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+     227: astore_2
+     228: aload_2
+     229: iconst_0
+     230: anewarray     #110                // class java/nio/file/LinkOption
+     233: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     236: ifeq          259
+     239: aload_2
+     240: iconst_0
+     241: anewarray     #110                // class java/nio/file/LinkOption
+     244: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     247: ifeq          259
+     250: aload_2
+     251: iconst_0
+     252: anewarray     #121                // class java/nio/file/OpenOption
+     255: invokestatic  #125                // Method java/nio/file/Files.newInputStream:(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;
+     258: areturn
+     259: goto          275
+     262: astore_1
+     263: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     266: ldc           #155                // String [AUI Resource] filesystem resource read failed path={}
+     268: aload_0
+     269: aload_1
+     270: invokeinterface #161,  4          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+     275: ldc           #2                  // class com/sighs/apricityui/loader/Loader
+     277: invokevirtual #167                // Method java/lang/Class.getClassLoader:()Ljava/lang/ClassLoader;
+     280: aload_0
+     281: ldc           #71                 // String /
+     283: invokevirtual #75                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+     286: ifeq          297
+     289: aload_0
+     290: iconst_1
+     291: invokevirtual #79                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+     294: goto          298
+     297: aload_0
+     298: invokedynamic #172,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     303: invokevirtual #175                // Method java/lang/ClassLoader.getResourceAsStream:(Ljava/lang/String;)Ljava/io/InputStream;
+     306: astore_1
+     307: aload_1
+     308: ifnull        313
+     311: aload_1
+     312: areturn
+     313: aconst_null
+     314: areturn
+    Exception table:
+       from    to  target type
+          13   107   262   Class java/io/IOException
+         108   206   262   Class java/io/IOException
+         207   258   262   Class java/io/IOException
+
+  public static boolean isRemotePath(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnonnull     6
+       4: iconst_0
+       5: ireturn
+       6: aload_0
+       7: invokevirtual #194                // Method java/lang/String.trim:()Ljava/lang/String;
+      10: astore_1
+      11: aload_1
+      12: iconst_1
+      13: iconst_0
+      14: ldc           #196                // String https://
+      16: iconst_0
+      17: ldc           #196                // String https://
+      19: invokevirtual #200                // Method java/lang/String.length:()I
+      22: invokevirtual #204                // Method java/lang/String.regionMatches:(ZILjava/lang/String;II)Z
+      25: ireturn
+
+  public static java.lang.String resolve(java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: ifnonnull     7
+       4: ldc           #208                // String
+       6: areturn
+       7: aload_1
+       8: invokevirtual #194                // Method java/lang/String.trim:()Ljava/lang/String;
+      11: astore_2
+      12: aload_2
+      13: invokevirtual #69                 // Method java/lang/String.isEmpty:()Z
+      16: ifeq          22
+      19: ldc           #208                // String
+      21: areturn
+      22: aload_2
+      23: invokestatic  #210                // Method isRemotePath:(Ljava/lang/String;)Z
+      26: ifeq          31
+      29: aload_2
+      30: areturn
+      31: aload_2
+      32: ldc           #71                 // String /
+      34: invokevirtual #75                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      37: ifeq          46
+      40: aload_2
+      41: iconst_1
+      42: invokevirtual #79                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      45: areturn
+      46: aload_0
+      47: ifnonnull     55
+      50: ldc           #208                // String
+      52: goto          56
+      55: aload_0
+      56: astore_3
+      57: aload_3
+      58: ldc           #71                 // String /
+      60: invokevirtual #214                // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+      63: ifeq          80
+      66: aload_3
+      67: iconst_0
+      68: aload_3
+      69: bipush        47
+      71: invokevirtual #218                // Method java/lang/String.lastIndexOf:(I)I
+      74: invokevirtual #221                // Method java/lang/String.substring:(II)Ljava/lang/String;
+      77: goto          82
+      80: ldc           #208                // String
+      82: astore        4
+      84: aload         4
+      86: aload_2
+      87: invokedynamic #225,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      92: ldc           #71                 // String /
+      94: invokevirtual #229                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      97: astore        5
+      99: new           #231                // class java/util/Stack
+     102: dup
+     103: invokespecial #232                // Method java/util/Stack."<init>":()V
+     106: astore        6
+     108: aload         5
+     110: astore        7
+     112: aload         7
+     114: arraylength
+     115: istore        8
+     117: iconst_0
+     118: istore        9
+     120: iload         9
+     122: iload         8
+     124: if_icmpge     196
+     127: aload         7
+     129: iload         9
+     131: aaload
+     132: astore        10
+     134: aload         10
+     136: invokevirtual #69                 // Method java/lang/String.isEmpty:()Z
+     139: ifne          190
+     142: aload         10
+     144: ldc           #236                // String .
+     146: invokevirtual #240                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     149: ifeq          155
+     152: goto          190
+     155: aload         10
+     157: ldc           #242                // String ..
+     159: invokevirtual #240                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     162: ifeq          182
+     165: aload         6
+     167: invokevirtual #243                // Method java/util/Stack.isEmpty:()Z
+     170: ifne          190
+     173: aload         6
+     175: invokevirtual #246                // Method java/util/Stack.pop:()Ljava/lang/Object;
+     178: pop
+     179: goto          190
+     182: aload         6
+     184: aload         10
+     186: invokevirtual #250                // Method java/util/Stack.push:(Ljava/lang/Object;)Ljava/lang/Object;
+     189: pop
+     190: iinc          9, 1
+     193: goto          120
+     196: ldc           #71                 // String /
+     198: aload         6
+     200: invokestatic  #254                // Method java/lang/String.join:(Ljava/lang/CharSequence;Ljava/lang/Iterable;)Ljava/lang/String;
+     203: areturn
+
+  static java.util.List<java.nio.file.Path> getDevResourceRoots();
+    Code:
+       0: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+       3: astore_0
+       4: new           #267                // class java/util/LinkedHashSet
+       7: dup
+       8: invokespecial #268                // Method java/util/LinkedHashSet."<init>":()V
+      11: astore_1
+      12: aload_0
+      13: astore_2
+      14: iconst_0
+      15: istore_3
+      16: iload_3
+      17: bipush        6
+      19: if_icmpgt     124
+      22: aload_2
+      23: ifnull        124
+      26: ldc           #20                 // String src/main/resources/assets/apricityui/apricity
+      28: ldc           #23                 // String common/src/main/resources/assets/apricityui/apricity
+      30: invokestatic  #272                // InterfaceMethod java/util/List.of:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;
+      33: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      38: astore        4
+      40: aload         4
+      42: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      47: ifeq          111
+      50: aload         4
+      52: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      57: checkcast     #65                 // class java/lang/String
+      60: astore        5
+      62: aload_2
+      63: aload         5
+      65: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      70: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      75: astore        6
+      77: aload         6
+      79: iconst_0
+      80: anewarray     #110                // class java/nio/file/LinkOption
+      83: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      86: ifeq          108
+      89: aload         6
+      91: iconst_0
+      92: anewarray     #110                // class java/nio/file/LinkOption
+      95: invokestatic  #275                // Method java/nio/file/Files.isDirectory:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      98: ifeq          108
+     101: aload_1
+     102: aload         6
+     104: invokevirtual #278                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+     107: pop
+     108: goto          40
+     111: aload_2
+     112: invokeinterface #281,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+     117: astore_2
+     118: iinc          3, 1
+     121: goto          16
+     124: new           #283                // class java/util/ArrayList
+     127: dup
+     128: aload_1
+     129: invokespecial #286                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+     132: astore_3
+     133: aload_3
+     134: aload_0
+     135: invokedynamic #299,  0            // InvokeDynamic #4:applyAsInt:(Ljava/nio/file/Path;)Ljava/util/function/ToIntFunction;
+     140: invokestatic  #305                // InterfaceMethod java/util/Comparator.comparingInt:(Ljava/util/function/ToIntFunction;)Ljava/util/Comparator;
+     143: invokeinterface #309,  1          // InterfaceMethod java/util/Comparator.reversed:()Ljava/util/Comparator;
+     148: invokeinterface #313,  2          // InterfaceMethod java/util/List.sort:(Ljava/util/Comparator;)V
+     153: aload_3
+     154: areturn
+
+  public static java.nio.file.Path getPrimaryDevResourceRoot();
+    Code:
+       0: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+       3: astore_0
+       4: aload_0
+       5: invokeinterface #324,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      10: ifeq          17
+      13: aconst_null
+      14: goto          27
+      17: aload_0
+      18: iconst_0
+      19: invokeinterface #328,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      24: checkcast     #100                // class java/nio/file/Path
+      27: areturn
+
+  static java.util.List<java.nio.file.Path> getDevProjectRoots();
+    Code:
+       0: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+       3: astore_0
+       4: new           #267                // class java/util/LinkedHashSet
+       7: dup
+       8: invokespecial #268                // Method java/util/LinkedHashSet."<init>":()V
+      11: astore_1
+      12: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+      15: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      20: astore_2
+      21: aload_2
+      22: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      27: ifeq          94
+      30: aload_2
+      31: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      36: checkcast     #100                // class java/nio/file/Path
+      39: astore_3
+      40: aload_3
+      41: astore        4
+      43: iconst_0
+      44: istore        5
+      46: iload         5
+      48: bipush        8
+      50: if_icmpgt     91
+      53: aload         4
+      55: ifnull        91
+      58: aload         4
+      60: invokestatic  #332                // Method isProjectRoot:(Ljava/nio/file/Path;)Z
+      63: ifeq          76
+      66: aload_1
+      67: aload         4
+      69: invokevirtual #278                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+      72: pop
+      73: goto          91
+      76: aload         4
+      78: invokeinterface #281,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+      83: astore        4
+      85: iinc          5, 1
+      88: goto          46
+      91: goto          21
+      94: aload_0
+      95: astore_2
+      96: iconst_0
+      97: istore_3
+      98: iload_3
+      99: bipush        8
+     101: if_icmpgt     134
+     104: aload_2
+     105: ifnull        134
+     108: aload_2
+     109: invokestatic  #332                // Method isProjectRoot:(Ljava/nio/file/Path;)Z
+     112: ifeq          121
+     115: aload_1
+     116: aload_2
+     117: invokevirtual #278                // Method java/util/LinkedHashSet.add:(Ljava/lang/Object;)Z
+     120: pop
+     121: aload_2
+     122: invokeinterface #281,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+     127: astore_2
+     128: iinc          3, 1
+     131: goto          98
+     134: new           #283                // class java/util/ArrayList
+     137: dup
+     138: aload_1
+     139: invokespecial #286                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+     142: areturn
+
+  static java.util.List<java.nio.file.Path> buildProjectRootCandidates(java.nio.file.Path, java.lang.String);
+    Code:
+       0: new           #283                // class java/util/ArrayList
+       3: dup
+       4: invokespecial #335                // Method java/util/ArrayList."<init>":()V
+       7: astore_2
+       8: aload_0
+       9: ifnull        23
+      12: aload_1
+      13: ifnull        23
+      16: aload_1
+      17: invokevirtual #338                // Method java/lang/String.isBlank:()Z
+      20: ifeq          25
+      23: aload_2
+      24: areturn
+      25: aload_1
+      26: ldc_w         #340                // String \\
+      29: ldc           #71                 // String /
+      31: invokevirtual #344                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      34: ldc           #71                 // String /
+      36: invokevirtual #229                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      39: astore_3
+      40: iconst_0
+      41: istore        4
+      43: iload         4
+      45: aload_3
+      46: arraylength
+      47: if_icmpge     103
+      50: ldc           #71                 // String /
+      52: aload_3
+      53: iload         4
+      55: aload_3
+      56: arraylength
+      57: invokestatic  #350                // Method java/util/Arrays.copyOfRange:([Ljava/lang/Object;II)[Ljava/lang/Object;
+      60: checkcast     #352                // class "[Ljava/lang/CharSequence;"
+      63: invokestatic  #355                // Method java/lang/String.join:(Ljava/lang/CharSequence;[Ljava/lang/CharSequence;)Ljava/lang/String;
+      66: astore        5
+      68: aload         5
+      70: invokevirtual #338                // Method java/lang/String.isBlank:()Z
+      73: ifeq          79
+      76: goto          97
+      79: aload_2
+      80: aload_0
+      81: aload         5
+      83: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      88: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      93: invokevirtual #356                // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+      96: pop
+      97: iinc          4, 1
+     100: goto          43
+     103: aload_2
+     104: areturn
+
+  static void loadFilesystemStaticResources(java.util.Map<java.lang.String, com.sighs.apricityui.loader.Loader$StaticResourceEntry>);
+    Code:
+       0: aload_0
+       1: invokestatic  #366                // Method loadLocalFolderEntries:(Ljava/util/Map;)V
+       4: aload_0
+       5: invokestatic  #369                // Method loadDevFolderEntries:(Ljava/util/Map;)V
+       8: return
+
+  static java.lang.String readGlobalCSS();
+    Code:
+       0: ldc_w         #377                // String global.css
+       3: invokestatic  #379                // Method getResourceStream:(Ljava/lang/String;)Ljava/io/InputStream;
+       6: astore_0
+       7: aload_0
+       8: ifnull        36
+      11: new           #65                 // class java/lang/String
+      14: dup
+      15: aload_0
+      16: invokevirtual #383                // Method java/io/InputStream.readAllBytes:()[B
+      19: getstatic     #389                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      22: invokespecial #392                // Method java/lang/String."<init>":([BLjava/nio/charset/Charset;)V
+      25: astore_1
+      26: aload_0
+      27: ifnull        34
+      30: aload_0
+      31: invokevirtual #395                // Method java/io/InputStream.close:()V
+      34: aload_1
+      35: areturn
+      36: aload_0
+      37: ifnull        67
+      40: aload_0
+      41: invokevirtual #395                // Method java/io/InputStream.close:()V
+      44: goto          67
+      47: astore_1
+      48: aload_0
+      49: ifnull        65
+      52: aload_0
+      53: invokevirtual #395                // Method java/io/InputStream.close:()V
+      56: goto          65
+      59: astore_2
+      60: aload_1
+      61: aload_2
+      62: invokevirtual #399                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      65: aload_1
+      66: athrow
+      67: goto          83
+      70: astore_0
+      71: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      74: ldc_w         #401                // String [AUI Resource] failed to read global.css
+      77: aload_0
+      78: invokeinterface #404,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      83: aconst_null
+      84: areturn
+    Exception table:
+       from    to  target type
+           7    26    47   Class java/lang/Throwable
+          52    56    59   Class java/lang/Throwable
+           0    34    70   Class java/io/IOException
+          36    67    70   Class java/io/IOException
+
+  public static java.lang.String readGlobalJS();
+    Code:
+       0: ldc_w         #408                // String global.js
+       3: invokestatic  #379                // Method getResourceStream:(Ljava/lang/String;)Ljava/io/InputStream;
+       6: astore_0
+       7: aload_0
+       8: ifnull        36
+      11: new           #65                 // class java/lang/String
+      14: dup
+      15: aload_0
+      16: invokevirtual #383                // Method java/io/InputStream.readAllBytes:()[B
+      19: getstatic     #389                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      22: invokespecial #392                // Method java/lang/String."<init>":([BLjava/nio/charset/Charset;)V
+      25: astore_1
+      26: aload_0
+      27: ifnull        34
+      30: aload_0
+      31: invokevirtual #395                // Method java/io/InputStream.close:()V
+      34: aload_1
+      35: areturn
+      36: aload_0
+      37: ifnull        67
+      40: aload_0
+      41: invokevirtual #395                // Method java/io/InputStream.close:()V
+      44: goto          67
+      47: astore_1
+      48: aload_0
+      49: ifnull        65
+      52: aload_0
+      53: invokevirtual #395                // Method java/io/InputStream.close:()V
+      56: goto          65
+      59: astore_2
+      60: aload_1
+      61: aload_2
+      62: invokevirtual #399                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      65: aload_1
+      66: athrow
+      67: goto          83
+      70: astore_0
+      71: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      74: ldc_w         #410                // String [AUI Resource] failed to read global.js
+      77: aload_0
+      78: invokeinterface #404,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      83: aconst_null
+      84: areturn
+    Exception table:
+       from    to  target type
+           7    26    47   Class java/lang/Throwable
+          52    56    59   Class java/lang/Throwable
+           0    34    70   Class java/io/IOException
+          36    67    70   Class java/io/IOException
+
+  private static boolean isProjectRoot(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: ifnonnull     6
+       4: iconst_0
+       5: ireturn
+       6: aload_0
+       7: ldc_w         #412                // String build.gradle
+      10: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      15: iconst_0
+      16: anewarray     #110                // class java/nio/file/LinkOption
+      19: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      22: ifne          63
+      25: aload_0
+      26: ldc_w         #414                // String settings.gradle
+      29: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      34: iconst_0
+      35: anewarray     #110                // class java/nio/file/LinkOption
+      38: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      41: ifne          63
+      44: aload_0
+      45: ldc_w         #416                // String .git
+      48: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      53: iconst_0
+      54: anewarray     #110                // class java/nio/file/LinkOption
+      57: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      60: ifeq          67
+      63: iconst_1
+      64: goto          68
+      67: iconst_0
+      68: ireturn
+
+  static java.lang.String extensionOf(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnonnull     7
+       4: ldc           #208                // String
+       6: areturn
+       7: aload_0
+       8: bipush        46
+      10: invokevirtual #218                // Method java/lang/String.lastIndexOf:(I)I
+      13: istore_1
+      14: iload_1
+      15: iflt          28
+      18: iload_1
+      19: aload_0
+      20: invokevirtual #200                // Method java/lang/String.length:()I
+      23: iconst_1
+      24: isub
+      25: if_icmpne     31
+      28: ldc           #208                // String
+      30: areturn
+      31: aload_0
+      32: iload_1
+      33: iconst_1
+      34: iadd
+      35: invokevirtual #79                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      38: getstatic     #423                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      41: invokevirtual #427                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+      44: areturn
+
+  static java.lang.String safe(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnonnull     9
+       4: ldc           #208                // String
+       6: goto          10
+       9: aload_0
+      10: areturn
+
+  public static boolean isHiddenPath(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #69                 // Method java/lang/String.isEmpty:()Z
+       8: ifeq          13
+      11: iconst_0
+      12: ireturn
+      13: aload_0
+      14: iconst_0
+      15: invokevirtual #435                // Method java/lang/String.charAt:(I)C
+      18: bipush        46
+      20: if_icmpne     25
+      23: iconst_1
+      24: ireturn
+      25: iconst_0
+      26: istore_1
+      27: iload_1
+      28: aload_0
+      29: invokevirtual #200                // Method java/lang/String.length:()I
+      32: iconst_1
+      33: isub
+      34: if_icmpge     75
+      37: aload_0
+      38: iload_1
+      39: invokevirtual #435                // Method java/lang/String.charAt:(I)C
+      42: istore_2
+      43: iload_2
+      44: bipush        47
+      46: if_icmpeq     55
+      49: iload_2
+      50: bipush        92
+      52: if_icmpne     69
+      55: aload_0
+      56: iload_1
+      57: iconst_1
+      58: iadd
+      59: invokevirtual #435                // Method java/lang/String.charAt:(I)C
+      62: bipush        46
+      64: if_icmpne     69
+      67: iconst_1
+      68: ireturn
+      69: iinc          1, 1
+      72: goto          27
+      75: iconst_0
+      76: ireturn
+
+  public static java.util.List<java.nio.file.Path> getWatchRoots();
+    Code:
+       0: new           #283                // class java/util/ArrayList
+       3: dup
+       4: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+       7: invokespecial #286                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      10: astore_0
+      11: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+      14: ldc_w         #441                // String apricity
+      17: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      22: invokeinterface #444,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      27: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      32: astore_1
+      33: aload_1
+      34: iconst_0
+      35: anewarray     #110                // class java/nio/file/LinkOption
+      38: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      41: ifeq          63
+      44: aload_1
+      45: iconst_0
+      46: anewarray     #110                // class java/nio/file/LinkOption
+      49: invokestatic  #275                // Method java/nio/file/Files.isDirectory:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      52: ifeq          63
+      55: aload_0
+      56: aload_1
+      57: invokeinterface #445,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      62: pop
+      63: aload_0
+      64: areturn
+
+  protected void loadFromLocalFolder();
+    Code:
+       0: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+       3: ldc_w         #441                // String apricity
+       6: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      11: astore_1
+      12: aload_1
+      13: iconst_0
+      14: anewarray     #110                // class java/nio/file/LinkOption
+      17: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      20: ifne          33
+      23: aload_1
+      24: iconst_0
+      25: anewarray     #449                // class java/nio/file/attribute/FileAttribute
+      28: invokestatic  #453                // Method java/nio/file/Files.createDirectories:(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/file/Path;
+      31: pop
+      32: return
+      33: aload_1
+      34: iconst_0
+      35: anewarray     #455                // class java/nio/file/FileVisitOption
+      38: invokestatic  #459                // Method java/nio/file/Files.walk:(Ljava/nio/file/Path;[Ljava/nio/file/FileVisitOption;)Ljava/util/stream/Stream;
+      41: astore_2
+      42: aload_2
+      43: invokedynamic #469,  0            // InvokeDynamic #5:test:()Ljava/util/function/Predicate;
+      48: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      53: aload_1
+      54: invokedynamic #483,  0            // InvokeDynamic #6:test:(Ljava/nio/file/Path;)Ljava/util/function/Predicate;
+      59: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      64: aload_0
+      65: invokedynamic #490,  0            // InvokeDynamic #7:test:(Lcom/sighs/apricityui/loader/Loader;)Ljava/util/function/Predicate;
+      70: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      75: aload_0
+      76: aload_1
+      77: invokedynamic #502,  0            // InvokeDynamic #8:accept:(Lcom/sighs/apricityui/loader/Loader;Ljava/nio/file/Path;)Ljava/util/function/Consumer;
+      82: invokeinterface #506,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      87: aload_2
+      88: ifnull        124
+      91: aload_2
+      92: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+      97: goto          124
+     100: astore_3
+     101: aload_2
+     102: ifnull        122
+     105: aload_2
+     106: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+     111: goto          122
+     114: astore        4
+     116: aload_3
+     117: aload         4
+     119: invokevirtual #399                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     122: aload_3
+     123: athrow
+     124: goto          141
+     127: astore_2
+     128: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     131: ldc_w         #509                // String [AUI Resource] failed to scan local resource root={}
+     134: aload_1
+     135: aload_2
+     136: invokeinterface #512,  4          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+     141: return
+    Exception table:
+       from    to  target type
+          42    87   100   Class java/lang/Throwable
+         105   111   114   Class java/lang/Throwable
+          12    32   127   Class java/io/IOException
+          33   124   127   Class java/io/IOException
+
+  protected void loadFromDevFolders();
+    Code:
+       0: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+       3: astore_1
+       4: aload_1
+       5: invokeinterface #324,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      10: ifeq          14
+      13: return
+      14: new           #283                // class java/util/ArrayList
+      17: dup
+      18: aload_1
+      19: invokespecial #286                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      22: astore_2
+      23: aload_2
+      24: invokestatic  #523                // Method java/util/Collections.reverse:(Ljava/util/List;)V
+      27: aload_2
+      28: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      33: astore_3
+      34: aload_3
+      35: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      40: ifeq          63
+      43: aload_3
+      44: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      49: checkcast     #100                // class java/nio/file/Path
+      52: astore        4
+      54: aload_0
+      55: aload         4
+      57: invokevirtual #526                // Method loadFromRootFolder:(Ljava/nio/file/Path;)V
+      60: goto          34
+      63: return
+
+  protected void loadFromRootFolder(java.nio.file.Path);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: anewarray     #110                // class java/nio/file/LinkOption
+       5: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ifne          12
+      11: return
+      12: aload_1
+      13: iconst_0
+      14: anewarray     #455                // class java/nio/file/FileVisitOption
+      17: invokestatic  #459                // Method java/nio/file/Files.walk:(Ljava/nio/file/Path;[Ljava/nio/file/FileVisitOption;)Ljava/util/stream/Stream;
+      20: astore_2
+      21: aload_2
+      22: invokedynamic #533,  0            // InvokeDynamic #9:test:()Ljava/util/function/Predicate;
+      27: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      32: aload_1
+      33: invokedynamic #538,  0            // InvokeDynamic #10:test:(Ljava/nio/file/Path;)Ljava/util/function/Predicate;
+      38: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      43: aload_0
+      44: invokedynamic #543,  0            // InvokeDynamic #11:test:(Lcom/sighs/apricityui/loader/Loader;)Ljava/util/function/Predicate;
+      49: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      54: aload_0
+      55: aload_1
+      56: invokedynamic #548,  0            // InvokeDynamic #12:accept:(Lcom/sighs/apricityui/loader/Loader;Ljava/nio/file/Path;)Ljava/util/function/Consumer;
+      61: invokeinterface #506,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      66: aload_2
+      67: ifnull        103
+      70: aload_2
+      71: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+      76: goto          103
+      79: astore_3
+      80: aload_2
+      81: ifnull        101
+      84: aload_2
+      85: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+      90: goto          101
+      93: astore        4
+      95: aload_3
+      96: aload         4
+      98: invokevirtual #399                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     101: aload_3
+     102: athrow
+     103: goto          120
+     106: astore_2
+     107: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     110: ldc_w         #550                // String [AUI Resource] failed to scan dev resource root={}
+     113: aload_1
+     114: aload_2
+     115: invokeinterface #512,  4          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+     120: return
+    Exception table:
+       from    to  target type
+          21    66    79   Class java/lang/Throwable
+          84    90    93   Class java/lang/Throwable
+           0    11   106   Class java/io/IOException
+          12   103   106   Class java/io/IOException
+
+  private static void loadLocalFolderEntries(java.util.Map<java.lang.String, com.sighs.apricityui.loader.Loader$StaticResourceEntry>);
+    Code:
+       0: invokestatic  #135                // Method getGameDir:()Ljava/nio/file/Path;
+       3: ldc_w         #441                // String apricity
+       6: invokeinterface #104,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+      11: invokeinterface #444,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      16: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      21: astore_1
+      22: aload_0
+      23: aload_1
+      24: getstatic     #554                // Field com/sighs/apricityui/loader/Loader$ResourceLayer.LOCAL_FOLDER:Lcom/sighs/apricityui/loader/Loader$ResourceLayer;
+      27: aload_1
+      28: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      33: aload_1
+      34: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      39: invokestatic  #561                // Method loadFromRootEntries:(Ljava/util/Map;Ljava/nio/file/Path;Lcom/sighs/apricityui/loader/Loader$ResourceLayer;Ljava/lang/String;Ljava/lang/String;)V
+      42: return
+
+  private static void loadDevFolderEntries(java.util.Map<java.lang.String, com.sighs.apricityui.loader.Loader$StaticResourceEntry>);
+    Code:
+       0: invokestatic  #83                 // Method getDevResourceRoots:()Ljava/util/List;
+       3: astore_1
+       4: aload_1
+       5: invokeinterface #324,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+      10: ifeq          14
+      13: return
+      14: new           #283                // class java/util/ArrayList
+      17: dup
+      18: aload_1
+      19: invokespecial #286                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      22: astore_2
+      23: aload_2
+      24: invokestatic  #523                // Method java/util/Collections.reverse:(Ljava/util/List;)V
+      27: aload_2
+      28: invokeinterface #89,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      33: astore_3
+      34: aload_3
+      35: invokeinterface #94,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      40: ifeq          89
+      43: aload_3
+      44: invokeinterface #98,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      49: checkcast     #100                // class java/nio/file/Path
+      52: astore        4
+      54: aload         4
+      56: invokeinterface #444,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      61: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      66: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      71: astore        5
+      73: aload_0
+      74: aload         4
+      76: getstatic     #564                // Field com/sighs/apricityui/loader/Loader$ResourceLayer.DEV_FOLDER:Lcom/sighs/apricityui/loader/Loader$ResourceLayer;
+      79: aload         5
+      81: aload         5
+      83: invokestatic  #561                // Method loadFromRootEntries:(Ljava/util/Map;Ljava/nio/file/Path;Lcom/sighs/apricityui/loader/Loader$ResourceLayer;Ljava/lang/String;Ljava/lang/String;)V
+      86: goto          34
+      89: return
+
+  private static void loadFromRootEntries(java.util.Map<java.lang.String, com.sighs.apricityui.loader.Loader$StaticResourceEntry>, java.nio.file.Path, com.sighs.apricityui.loader.Loader$ResourceLayer, java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: anewarray     #110                // class java/nio/file/LinkOption
+       5: invokestatic  #116                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ifeq          22
+      11: aload_1
+      12: iconst_0
+      13: anewarray     #110                // class java/nio/file/LinkOption
+      16: invokestatic  #275                // Method java/nio/file/Files.isDirectory:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      19: ifne          23
+      22: return
+      23: aload_1
+      24: iconst_0
+      25: anewarray     #455                // class java/nio/file/FileVisitOption
+      28: invokestatic  #459                // Method java/nio/file/Files.walk:(Ljava/nio/file/Path;[Ljava/nio/file/FileVisitOption;)Ljava/util/stream/Stream;
+      31: astore        5
+      33: aload         5
+      35: invokedynamic #571,  0            // InvokeDynamic #13:test:()Ljava/util/function/Predicate;
+      40: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      45: aload_1
+      46: invokedynamic #576,  0            // InvokeDynamic #14:test:(Ljava/nio/file/Path;)Ljava/util/function/Predicate;
+      51: invokeinterface #475,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      56: aload_1
+      57: aload_0
+      58: aload_2
+      59: aload_3
+      60: aload         4
+      62: invokedynamic #584,  0            // InvokeDynamic #15:accept:(Ljava/nio/file/Path;Ljava/util/Map;Lcom/sighs/apricityui/loader/Loader$ResourceLayer;Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/Consumer;
+      67: invokeinterface #506,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      72: aload         5
+      74: ifnull        116
+      77: aload         5
+      79: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+      84: goto          116
+      87: astore        6
+      89: aload         5
+      91: ifnull        113
+      94: aload         5
+      96: invokeinterface #507,  1          // InterfaceMethod java/util/stream/Stream.close:()V
+     101: goto          113
+     104: astore        7
+     106: aload         6
+     108: aload         7
+     110: invokevirtual #399                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     113: aload         6
+     115: athrow
+     116: goto          135
+     119: astore        5
+     121: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     124: ldc_w         #588                // String [AUI Resource] failed to enumerate static resources root={}
+     127: aload_1
+     128: aload         5
+     130: invokeinterface #161,  4          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+     135: return
+    Exception table:
+       from    to  target type
+          33    72    87   Class java/lang/Throwable
+          94   101   104   Class java/lang/Throwable
+           0    22   119   Class java/io/IOException
+          23   116   119   Class java/io/IOException
+
+  private static int distanceFrom(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_1
+       1: invokeinterface #281,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+       6: astore_2
+       7: aload_2
+       8: ifnonnull     15
+      11: ldc_w         #594                // int 2147483647
+      14: ireturn
+      15: aload_2
+      16: invokeinterface #597,  1          // InterfaceMethod java/nio/file/Path.getNameCount:()I
+      21: aload_0
+      22: invokeinterface #597,  1          // InterfaceMethod java/nio/file/Path.getNameCount:()I
+      27: isub
+      28: ireturn
+      29: astore_2
+      30: ldc_w         #594                // int 2147483647
+      33: ireturn
+    Exception table:
+       from    to  target type
+           0    14    29   Class java/lang/Exception
+          15    28    29   Class java/lang/Exception
+
+  private static java.nio.file.Path getGameDir();
+    Code:
+       0: invokestatic  #606                // Method com/sighs/apricityui/spi/AuiServices.client:()Lcom/sighs/apricityui/spi/AuiClientService;
+       3: invokeinterface #611,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiClientService.getGameDirectory:()Ljava/nio/file/Path;
+       8: astore_0
+       9: aload_0
+      10: ifnull        17
+      13: aload_0
+      14: goto          36
+      17: ldc           #208                // String
+      19: iconst_0
+      20: anewarray     #65                 // class java/lang/String
+      23: invokestatic  #614                // InterfaceMethod java/nio/file/Path.of:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      26: invokeinterface #444,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      31: invokeinterface #108,  1          // InterfaceMethod java/nio/file/Path.normalize:()Ljava/nio/file/Path;
+      36: areturn
+
+  private static void lambda$loadFromRootEntries$12(java.nio.file.Path, java.util.Map, com.sighs.apricityui.loader.Loader$ResourceLayer, java.lang.String, java.lang.String, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload         5
+       3: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+       8: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      13: ldc_w         #340                // String \\
+      16: ldc           #71                 // String /
+      18: invokevirtual #344                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      21: astore        6
+      23: aload         6
+      25: invokevirtual #338                // Method java/lang/String.isBlank:()Z
+      28: ifeq          32
+      31: return
+      32: aload         5
+      34: invokestatic  #623                // Method java/nio/file/Files.size:(Ljava/nio/file/Path;)J
+      37: lstore        7
+      39: aload_1
+      40: aload         6
+      42: new           #7                  // class com/sighs/apricityui/loader/Loader$StaticResourceEntry
+      45: dup
+      46: aload         6
+      48: aload         6
+      50: invokestatic  #625                // Method extensionOf:(Ljava/lang/String;)Ljava/lang/String;
+      53: aload_2
+      54: aload_3
+      55: aload         4
+      57: lload         7
+      59: invokespecial #628                // Method com/sighs/apricityui/loader/Loader$StaticResourceEntry."<init>":(Ljava/lang/String;Ljava/lang/String;Lcom/sighs/apricityui/loader/Loader$ResourceLayer;Ljava/lang/String;Ljava/lang/String;J)V
+      62: invokeinterface #632,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      67: pop
+      68: goto          88
+      71: astore        6
+      73: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      76: ldc_w         #634                // String [AUI Resource] failed to inspect static resource file={}
+      79: aload         5
+      81: aload         6
+      83: invokeinterface #161,  4          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+      88: return
+    Exception table:
+       from    to  target type
+           0    31    71   Class java/io/IOException
+          32    68    71   Class java/io/IOException
+
+  private static boolean lambda$loadFromRootEntries$11(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+       7: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      12: invokestatic  #638                // Method isHiddenPath:(Ljava/lang/String;)Z
+      15: ifne          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  private static boolean lambda$loadFromRootEntries$10(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #110                // class java/nio/file/LinkOption
+       5: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ireturn
+
+  private void lambda$loadFromRootFolder$9(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_2
+       1: getstatic     #389                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+       4: invokestatic  #643                // Method java/nio/file/Files.readString:(Ljava/nio/file/Path;Ljava/nio/charset/Charset;)Ljava/lang/String;
+       7: astore_3
+       8: aload_1
+       9: aload_2
+      10: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+      15: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      20: ldc_w         #340                // String \\
+      23: ldc           #71                 // String /
+      25: invokevirtual #344                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      28: astore        4
+      30: aload_0
+      31: getfield      #55                 // Field handler:Ljava/util/function/BiConsumer;
+      34: aload         4
+      36: aload_3
+      37: invokeinterface #647,  3          // InterfaceMethod java/util/function/BiConsumer.accept:(Ljava/lang/Object;Ljava/lang/Object;)V
+      42: aload_0
+      43: dup
+      44: getfield      #649                // Field loadedResourceCount:I
+      47: iconst_1
+      48: iadd
+      49: putfield      #649                // Field loadedResourceCount:I
+      52: goto          86
+      55: astore_3
+      56: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      59: ldc_w         #651                // String [AUI Resource] failed to read dev .{} file={}
+      62: iconst_3
+      63: anewarray     #4                  // class java/lang/Object
+      66: dup
+      67: iconst_0
+      68: aload_0
+      69: getfield      #57                 // Field extension:Ljava/lang/String;
+      72: aastore
+      73: dup
+      74: iconst_1
+      75: aload_2
+      76: aastore
+      77: dup
+      78: iconst_2
+      79: aload_3
+      80: aastore
+      81: invokeinterface #654,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+      86: return
+    Exception table:
+       from    to  target type
+           0    52    55   Class java/io/IOException
+
+  private boolean lambda$loadFromRootFolder$8(java.nio.file.Path);
+    Code:
+       0: aload_1
+       1: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+       6: aload_0
+       7: getfield      #57                 // Field extension:Ljava/lang/String;
+      10: invokedynamic #658,  0            // InvokeDynamic #16:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      15: invokevirtual #661                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z
+      18: ireturn
+
+  private static boolean lambda$loadFromRootFolder$7(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+       7: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      12: invokestatic  #638                // Method isHiddenPath:(Ljava/lang/String;)Z
+      15: ifne          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  private static boolean lambda$loadFromRootFolder$6(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #110                // class java/nio/file/LinkOption
+       5: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ireturn
+
+  private void lambda$loadFromLocalFolder$5(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_2
+       1: getstatic     #389                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+       4: invokestatic  #643                // Method java/nio/file/Files.readString:(Ljava/nio/file/Path;Ljava/nio/charset/Charset;)Ljava/lang/String;
+       7: astore_3
+       8: aload_1
+       9: aload_2
+      10: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+      15: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      20: ldc_w         #340                // String \\
+      23: ldc           #71                 // String /
+      25: invokevirtual #344                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      28: astore        4
+      30: aload_0
+      31: getfield      #55                 // Field handler:Ljava/util/function/BiConsumer;
+      34: aload         4
+      36: aload_3
+      37: invokeinterface #647,  3          // InterfaceMethod java/util/function/BiConsumer.accept:(Ljava/lang/Object;Ljava/lang/Object;)V
+      42: aload_0
+      43: dup
+      44: getfield      #649                // Field loadedResourceCount:I
+      47: iconst_1
+      48: iadd
+      49: putfield      #649                // Field loadedResourceCount:I
+      52: goto          86
+      55: astore_3
+      56: getstatic     #153                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      59: ldc_w         #663                // String [AUI Resource] failed to read local .{} file={}
+      62: iconst_3
+      63: anewarray     #4                  // class java/lang/Object
+      66: dup
+      67: iconst_0
+      68: aload_0
+      69: getfield      #57                 // Field extension:Ljava/lang/String;
+      72: aastore
+      73: dup
+      74: iconst_1
+      75: aload_2
+      76: aastore
+      77: dup
+      78: iconst_2
+      79: aload_3
+      80: aastore
+      81: invokeinterface #654,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+      86: return
+    Exception table:
+       from    to  target type
+           0    52    55   Class java/io/IOException
+
+  private boolean lambda$loadFromLocalFolder$4(java.nio.file.Path);
+    Code:
+       0: aload_1
+       1: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+       6: aload_0
+       7: getfield      #57                 // Field extension:Ljava/lang/String;
+      10: invokedynamic #658,  0            // InvokeDynamic #16:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      15: invokevirtual #661                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z
+      18: ireturn
+
+  private static boolean lambda$loadFromLocalFolder$3(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #619,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+       7: invokeinterface #557,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      12: invokestatic  #638                // Method isHiddenPath:(Ljava/lang/String;)Z
+      15: ifne          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  private static boolean lambda$loadFromLocalFolder$2(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #110                // class java/nio/file/LinkOption
+       5: invokestatic  #119                // Method java/nio/file/Files.isRegularFile:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ireturn
+
+  private static int lambda$getDevResourceRoots$1(java.nio.file.Path, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #665                // Method distanceFrom:(Ljava/nio/file/Path;Ljava/nio/file/Path;)I
+       5: ireturn
+
+  private static void lambda$new$0(java.lang.String, java.lang.String);
+    Code:
+       0: return
+}

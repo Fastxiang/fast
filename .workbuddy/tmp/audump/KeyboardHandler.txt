@@ -1,0 +1,1804 @@
+Compiled from "KeyboardHandler.java"
+public class net.minecraft.client.KeyboardHandler {
+  public static final int f_167812_;
+
+  private final net.minecraft.client.Minecraft f_90867_;
+
+  private final com.mojang.blaze3d.platform.ClipboardManager f_90869_;
+
+  private long f_90870_;
+
+  private long f_90871_;
+
+  private long f_90872_;
+
+  private boolean f_90873_;
+
+  public net.minecraft.client.KeyboardHandler(net.minecraft.client.Minecraft);
+    Code:
+       0: aload_0
+       1: invokespecial #49                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: new           #51                 // class com/mojang/blaze3d/platform/ClipboardManager
+       8: dup
+       9: invokespecial #52                 // Method com/mojang/blaze3d/platform/ClipboardManager."<init>":()V
+      12: putfield      #54                 // Field f_90869_:Lcom/mojang/blaze3d/platform/ClipboardManager;
+      15: aload_0
+      16: ldc2_w        #55                 // long -1l
+      19: putfield      #58                 // Field f_90870_:J
+      22: aload_0
+      23: ldc2_w        #55                 // long -1l
+      26: putfield      #60                 // Field f_90871_:J
+      29: aload_0
+      30: ldc2_w        #55                 // long -1l
+      33: putfield      #62                 // Field f_90872_:J
+      36: aload_0
+      37: aload_1
+      38: putfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      41: return
+
+  private boolean m_167813_(int);
+    Code:
+       0: iload_1
+       1: lookupswitch  { // 5
+                    69: 52
+                    76: 106
+                    85: 160
+                    86: 211
+                    87: 265
+               default: 319
+          }
+      52: aload_0
+      53: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      56: aload_0
+      57: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      60: getfield      #74                 // Field net/minecraft/client/Minecraft.f_90978_:Z
+      63: ifne          70
+      66: iconst_1
+      67: goto          71
+      70: iconst_0
+      71: putfield      #74                 // Field net/minecraft/client/Minecraft.f_90978_:Z
+      74: aload_0
+      75: ldc           #76                 // String ChunkPath: {0}
+      77: iconst_1
+      78: anewarray     #4                  // class java/lang/Object
+      81: dup
+      82: iconst_0
+      83: aload_0
+      84: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      87: getfield      #74                 // Field net/minecraft/client/Minecraft.f_90978_:Z
+      90: ifeq          98
+      93: ldc           #78                 // String shown
+      95: goto          100
+      98: ldc           #84                 // String hidden
+     100: aastore
+     101: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     104: iconst_1
+     105: ireturn
+     106: aload_0
+     107: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     110: aload_0
+     111: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     114: getfield      #91                 // Field net/minecraft/client/Minecraft.f_90980_:Z
+     117: ifne          124
+     120: iconst_1
+     121: goto          125
+     124: iconst_0
+     125: putfield      #91                 // Field net/minecraft/client/Minecraft.f_90980_:Z
+     128: aload_0
+     129: ldc           #93                 // String SmartCull: {0}
+     131: iconst_1
+     132: anewarray     #4                  // class java/lang/Object
+     135: dup
+     136: iconst_0
+     137: aload_0
+     138: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     141: getfield      #91                 // Field net/minecraft/client/Minecraft.f_90980_:Z
+     144: ifeq          152
+     147: ldc           #95                 // String enabled
+     149: goto          154
+     152: ldc           #97                 // String disabled
+     154: aastore
+     155: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     158: iconst_1
+     159: ireturn
+     160: invokestatic  #103                // Method net/minecraft/client/gui/screens/Screen.m_96638_:()Z
+     163: ifeq          189
+     166: aload_0
+     167: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     170: getfield      #107                // Field net/minecraft/client/Minecraft.f_91060_:Lnet/minecraft/client/renderer/LevelRenderer;
+     173: invokevirtual #112                // Method net/minecraft/client/renderer/LevelRenderer.m_173019_:()V
+     176: aload_0
+     177: ldc           #114                // String Killed frustum
+     179: iconst_0
+     180: anewarray     #4                  // class java/lang/Object
+     183: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     186: goto          209
+     189: aload_0
+     190: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     193: getfield      #107                // Field net/minecraft/client/Minecraft.f_91060_:Lnet/minecraft/client/renderer/LevelRenderer;
+     196: invokevirtual #117                // Method net/minecraft/client/renderer/LevelRenderer.m_173018_:()V
+     199: aload_0
+     200: ldc           #119                // String Captured frustum
+     202: iconst_0
+     203: anewarray     #4                  // class java/lang/Object
+     206: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     209: iconst_1
+     210: ireturn
+     211: aload_0
+     212: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     215: aload_0
+     216: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     219: getfield      #122                // Field net/minecraft/client/Minecraft.f_90979_:Z
+     222: ifne          229
+     225: iconst_1
+     226: goto          230
+     229: iconst_0
+     230: putfield      #122                // Field net/minecraft/client/Minecraft.f_90979_:Z
+     233: aload_0
+     234: ldc           #124                // String ChunkVisibility: {0}
+     236: iconst_1
+     237: anewarray     #4                  // class java/lang/Object
+     240: dup
+     241: iconst_0
+     242: aload_0
+     243: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     246: getfield      #122                // Field net/minecraft/client/Minecraft.f_90979_:Z
+     249: ifeq          257
+     252: ldc           #95                 // String enabled
+     254: goto          259
+     257: ldc           #97                 // String disabled
+     259: aastore
+     260: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     263: iconst_1
+     264: ireturn
+     265: aload_0
+     266: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     269: aload_0
+     270: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     273: getfield      #127                // Field net/minecraft/client/Minecraft.f_167842_:Z
+     276: ifne          283
+     279: iconst_1
+     280: goto          284
+     283: iconst_0
+     284: putfield      #127                // Field net/minecraft/client/Minecraft.f_167842_:Z
+     287: aload_0
+     288: ldc           #129                // String WireFrame: {0}
+     290: iconst_1
+     291: anewarray     #4                  // class java/lang/Object
+     294: dup
+     295: iconst_0
+     296: aload_0
+     297: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     300: getfield      #127                // Field net/minecraft/client/Minecraft.f_167842_:Z
+     303: ifeq          311
+     306: ldc           #95                 // String enabled
+     308: goto          313
+     311: ldc           #97                 // String disabled
+     313: aastore
+     314: invokevirtual #88                 // Method m_167837_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     317: iconst_1
+     318: ireturn
+     319: iconst_0
+     320: ireturn
+
+  private void m_167824_(net.minecraft.ChatFormatting, net.minecraft.network.chat.Component);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: getfield      #136                // Field net/minecraft/client/Minecraft.f_91065_:Lnet/minecraft/client/gui/Gui;
+       7: invokevirtual #142                // Method net/minecraft/client/gui/Gui.m_93076_:()Lnet/minecraft/client/gui/components/ChatComponent;
+      10: invokestatic  #148                // InterfaceMethod net/minecraft/network/chat/Component.m_237119_:()Lnet/minecraft/network/chat/MutableComponent;
+      13: ldc           #150                // String debug.prefix
+      15: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      18: iconst_2
+      19: anewarray     #156                // class net/minecraft/ChatFormatting
+      22: dup
+      23: iconst_0
+      24: aload_1
+      25: aastore
+      26: dup
+      27: iconst_1
+      28: getstatic     #160                // Field net/minecraft/ChatFormatting.BOLD:Lnet/minecraft/ChatFormatting;
+      31: aastore
+      32: invokevirtual #166                // Method net/minecraft/network/chat/MutableComponent.m_130944_:([Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+      35: invokevirtual #170                // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      38: getstatic     #176                // Field net/minecraft/network/chat/CommonComponents.f_263701_:Lnet/minecraft/network/chat/Component;
+      41: invokevirtual #170                // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      44: aload_2
+      45: invokevirtual #170                // Method net/minecraft/network/chat/MutableComponent.m_7220_:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+      48: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+      51: return
+
+  private void m_167822_(net.minecraft.network.chat.Component);
+    Code:
+       0: aload_0
+       1: getstatic     #188                // Field net/minecraft/ChatFormatting.YELLOW:Lnet/minecraft/ChatFormatting;
+       4: aload_1
+       5: invokevirtual #190                // Method m_167824_:(Lnet/minecraft/ChatFormatting;Lnet/minecraft/network/chat/Component;)V
+       8: return
+
+  private void m_90913_(java.lang.String, java.lang.Object...);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokestatic  #196                // InterfaceMethod net/minecraft/network/chat/Component.m_237110_:(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;
+       6: invokevirtual #198                // Method m_167822_:(Lnet/minecraft/network/chat/Component;)V
+       9: return
+
+  private void m_90948_(java.lang.String, java.lang.Object...);
+    Code:
+       0: aload_0
+       1: getstatic     #205                // Field net/minecraft/ChatFormatting.RED:Lnet/minecraft/ChatFormatting;
+       4: aload_1
+       5: aload_2
+       6: invokestatic  #196                // InterfaceMethod net/minecraft/network/chat/Component.m_237110_:(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;
+       9: invokevirtual #190                // Method m_167824_:(Lnet/minecraft/ChatFormatting;Lnet/minecraft/network/chat/Component;)V
+      12: return
+
+  private void m_167837_(java.lang.String, java.lang.Object...);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokestatic  #213                // Method java/text/MessageFormat.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       6: invokestatic  #216                // InterfaceMethod net/minecraft/network/chat/Component.m_237113_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       9: invokevirtual #198                // Method m_167822_:(Lnet/minecraft/network/chat/Component;)V
+      12: return
+
+  private boolean m_90932_(int);
+    Code:
+       0: aload_0
+       1: getfield      #58                 // Field f_90870_:J
+       4: lconst_0
+       5: lcmp
+       6: ifle          26
+       9: aload_0
+      10: getfield      #58                 // Field f_90870_:J
+      13: invokestatic  #225                // Method net/minecraft/Util.m_137550_:()J
+      16: ldc2_w        #226                // long 100l
+      19: lsub
+      20: lcmp
+      21: ifge          26
+      24: iconst_1
+      25: ireturn
+      26: iload_1
+      27: lookupswitch  { // 14
+                    65: 148
+                    66: 170
+                    67: 221
+                    68: 383
+                    71: 409
+                    72: 443
+                    73: 513
+                    76: 554
+                    78: 591
+                    80: 695
+                    81: 765
+                    83: 955
+                    84: 1044
+                   293: 1065
+               default: 1109
+          }
+     148: aload_0
+     149: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     152: getfield      #107                // Field net/minecraft/client/Minecraft.f_91060_:Lnet/minecraft/client/renderer/LevelRenderer;
+     155: invokevirtual #230                // Method net/minecraft/client/renderer/LevelRenderer.m_109818_:()V
+     158: aload_0
+     159: ldc           #232                // String debug.reload_chunks.message
+     161: iconst_0
+     162: anewarray     #4                  // class java/lang/Object
+     165: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     168: iconst_1
+     169: ireturn
+     170: aload_0
+     171: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     174: invokevirtual #238                // Method net/minecraft/client/Minecraft.m_91290_:()Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;
+     177: invokevirtual #243                // Method net/minecraft/client/renderer/entity/EntityRenderDispatcher.m_114377_:()Z
+     180: ifne          187
+     183: iconst_1
+     184: goto          188
+     187: iconst_0
+     188: istore_2
+     189: aload_0
+     190: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     193: invokevirtual #238                // Method net/minecraft/client/Minecraft.m_91290_:()Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;
+     196: iload_2
+     197: invokevirtual #247                // Method net/minecraft/client/renderer/entity/EntityRenderDispatcher.m_114473_:(Z)V
+     200: aload_0
+     201: iload_2
+     202: ifeq          210
+     205: ldc           #249                // String debug.show_hitboxes.on
+     207: goto          212
+     210: ldc           #251                // String debug.show_hitboxes.off
+     212: iconst_0
+     213: anewarray     #4                  // class java/lang/Object
+     216: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     219: iconst_1
+     220: ireturn
+     221: aload_0
+     222: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     225: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     228: invokevirtual #260                // Method net/minecraft/client/player/LocalPlayer.m_36330_:()Z
+     231: ifeq          236
+     234: iconst_0
+     235: ireturn
+     236: aload_0
+     237: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     240: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     243: getfield      #264                // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+     246: astore_3
+     247: aload_3
+     248: ifnonnull     253
+     251: iconst_0
+     252: ireturn
+     253: aload_0
+     254: ldc_w         #268                // String debug.copy_location.message
+     257: iconst_0
+     258: anewarray     #4                  // class java/lang/Object
+     261: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     264: aload_0
+     265: getstatic     #274                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+     268: ldc_w         #276                // String /execute in %s run tp @s %.2f %.2f %.2f %.2f %.2f
+     271: bipush        6
+     273: anewarray     #4                  // class java/lang/Object
+     276: dup
+     277: iconst_0
+     278: aload_0
+     279: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     282: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     285: invokevirtual #280                // Method net/minecraft/client/player/LocalPlayer.m_9236_:()Lnet/minecraft/world/level/Level;
+     288: invokevirtual #286                // Method net/minecraft/world/level/Level.m_46472_:()Lnet/minecraft/resources/ResourceKey;
+     291: invokevirtual #292                // Method net/minecraft/resources/ResourceKey.m_135782_:()Lnet/minecraft/resources/ResourceLocation;
+     294: aastore
+     295: dup
+     296: iconst_1
+     297: aload_0
+     298: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     301: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     304: invokevirtual #296                // Method net/minecraft/client/player/LocalPlayer.m_20185_:()D
+     307: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     310: aastore
+     311: dup
+     312: iconst_2
+     313: aload_0
+     314: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     317: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     320: invokevirtual #305                // Method net/minecraft/client/player/LocalPlayer.m_20186_:()D
+     323: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     326: aastore
+     327: dup
+     328: iconst_3
+     329: aload_0
+     330: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     333: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     336: invokevirtual #308                // Method net/minecraft/client/player/LocalPlayer.m_20189_:()D
+     339: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     342: aastore
+     343: dup
+     344: iconst_4
+     345: aload_0
+     346: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     349: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     352: invokevirtual #312                // Method net/minecraft/client/player/LocalPlayer.m_146908_:()F
+     355: invokestatic  #317                // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+     358: aastore
+     359: dup
+     360: iconst_5
+     361: aload_0
+     362: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     365: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     368: invokevirtual #320                // Method net/minecraft/client/player/LocalPlayer.m_146909_:()F
+     371: invokestatic  #317                // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+     374: aastore
+     375: invokestatic  #323                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     378: invokevirtual #327                // Method m_90911_:(Ljava/lang/String;)V
+     381: iconst_1
+     382: ireturn
+     383: aload_0
+     384: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     387: getfield      #136                // Field net/minecraft/client/Minecraft.f_91065_:Lnet/minecraft/client/gui/Gui;
+     390: ifnull        407
+     393: aload_0
+     394: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     397: getfield      #136                // Field net/minecraft/client/Minecraft.f_91065_:Lnet/minecraft/client/gui/Gui;
+     400: invokevirtual #142                // Method net/minecraft/client/gui/Gui.m_93076_:()Lnet/minecraft/client/gui/components/ChatComponent;
+     403: iconst_0
+     404: invokevirtual #330                // Method net/minecraft/client/gui/components/ChatComponent.m_93795_:(Z)V
+     407: iconst_1
+     408: ireturn
+     409: aload_0
+     410: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     413: getfield      #334                // Field net/minecraft/client/Minecraft.f_91064_:Lnet/minecraft/client/renderer/debug/DebugRenderer;
+     416: invokevirtual #339                // Method net/minecraft/client/renderer/debug/DebugRenderer.m_113506_:()Z
+     419: istore_3
+     420: aload_0
+     421: iload_3
+     422: ifeq          431
+     425: ldc_w         #341                // String debug.chunk_boundaries.on
+     428: goto          434
+     431: ldc_w         #343                // String debug.chunk_boundaries.off
+     434: iconst_0
+     435: anewarray     #4                  // class java/lang/Object
+     438: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     441: iconst_1
+     442: ireturn
+     443: aload_0
+     444: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     447: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     450: aload_0
+     451: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     454: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     457: getfield      #352                // Field net/minecraft/client/Options.f_92125_:Z
+     460: ifne          467
+     463: iconst_1
+     464: goto          468
+     467: iconst_0
+     468: putfield      #352                // Field net/minecraft/client/Options.f_92125_:Z
+     471: aload_0
+     472: aload_0
+     473: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     476: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     479: getfield      #352                // Field net/minecraft/client/Options.f_92125_:Z
+     482: ifeq          491
+     485: ldc_w         #354                // String debug.advanced_tooltips.on
+     488: goto          494
+     491: ldc_w         #356                // String debug.advanced_tooltips.off
+     494: iconst_0
+     495: anewarray     #4                  // class java/lang/Object
+     498: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     501: aload_0
+     502: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     505: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     508: invokevirtual #359                // Method net/minecraft/client/Options.m_92169_:()V
+     511: iconst_1
+     512: ireturn
+     513: aload_0
+     514: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     517: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     520: invokevirtual #260                // Method net/minecraft/client/player/LocalPlayer.m_36330_:()Z
+     523: ifne          552
+     526: aload_0
+     527: aload_0
+     528: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     531: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     534: iconst_2
+     535: invokevirtual #362                // Method net/minecraft/client/player/LocalPlayer.m_20310_:(I)Z
+     538: invokestatic  #103                // Method net/minecraft/client/gui/screens/Screen.m_96638_:()Z
+     541: ifne          548
+     544: iconst_1
+     545: goto          549
+     548: iconst_0
+     549: invokevirtual #366                // Method m_90928_:(ZZ)V
+     552: iconst_1
+     553: ireturn
+     554: aload_0
+     555: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     558: aload_0
+     559: invokedynamic #381,  0            // InvokeDynamic #0:accept:(Lnet/minecraft/client/KeyboardHandler;)Ljava/util/function/Consumer;
+     564: invokevirtual #385                // Method net/minecraft/client/Minecraft.m_167946_:(Ljava/util/function/Consumer;)Z
+     567: ifeq          589
+     570: aload_0
+     571: ldc_w         #387                // String debug.profiling.start
+     574: iconst_1
+     575: anewarray     #4                  // class java/lang/Object
+     578: dup
+     579: iconst_0
+     580: bipush        10
+     582: invokestatic  #392                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     585: aastore
+     586: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     589: iconst_1
+     590: ireturn
+     591: aload_0
+     592: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     595: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     598: iconst_2
+     599: invokevirtual #362                // Method net/minecraft/client/player/LocalPlayer.m_20310_:(I)Z
+     602: ifne          619
+     605: aload_0
+     606: ldc_w         #394                // String debug.creative_spectator.error
+     609: iconst_0
+     610: anewarray     #4                  // class java/lang/Object
+     613: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     616: goto          693
+     619: aload_0
+     620: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     623: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     626: invokevirtual #397                // Method net/minecraft/client/player/LocalPlayer.m_5833_:()Z
+     629: ifne          652
+     632: aload_0
+     633: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     636: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     639: getfield      #264                // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+     642: ldc_w         #399                // String gamemode spectator
+     645: invokevirtual #403                // Method net/minecraft/client/multiplayer/ClientPacketListener.m_246979_:(Ljava/lang/String;)Z
+     648: pop
+     649: goto          693
+     652: aload_0
+     653: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     656: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     659: getfield      #264                // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+     662: aload_0
+     663: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     666: getfield      #407                // Field net/minecraft/client/Minecraft.f_91072_:Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;
+     669: invokevirtual #413                // Method net/minecraft/client/multiplayer/MultiPlayerGameMode.m_105294_:()Lnet/minecraft/world/level/GameType;
+     672: getstatic     #419                // Field net/minecraft/world/level/GameType.CREATIVE:Lnet/minecraft/world/level/GameType;
+     675: invokestatic  #425                // Method com/google/common/base/MoreObjects.firstNonNull:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     678: checkcast     #415                // class net/minecraft/world/level/GameType
+     681: invokevirtual #429                // Method net/minecraft/world/level/GameType.m_46405_:()Ljava/lang/String;
+     684: invokedynamic #441,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     689: invokevirtual #403                // Method net/minecraft/client/multiplayer/ClientPacketListener.m_246979_:(Ljava/lang/String;)Z
+     692: pop
+     693: iconst_1
+     694: ireturn
+     695: aload_0
+     696: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     699: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     702: aload_0
+     703: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     706: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     709: getfield      #444                // Field net/minecraft/client/Options.f_92126_:Z
+     712: ifne          719
+     715: iconst_1
+     716: goto          720
+     719: iconst_0
+     720: putfield      #444                // Field net/minecraft/client/Options.f_92126_:Z
+     723: aload_0
+     724: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     727: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     730: invokevirtual #359                // Method net/minecraft/client/Options.m_92169_:()V
+     733: aload_0
+     734: aload_0
+     735: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     738: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     741: getfield      #444                // Field net/minecraft/client/Options.f_92126_:Z
+     744: ifeq          753
+     747: ldc_w         #446                // String debug.pause_focus.on
+     750: goto          756
+     753: ldc_w         #448                // String debug.pause_focus.off
+     756: iconst_0
+     757: anewarray     #4                  // class java/lang/Object
+     760: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     763: iconst_1
+     764: ireturn
+     765: aload_0
+     766: ldc_w         #450                // String debug.help.message
+     769: iconst_0
+     770: anewarray     #4                  // class java/lang/Object
+     773: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     776: aload_0
+     777: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     780: getfield      #136                // Field net/minecraft/client/Minecraft.f_91065_:Lnet/minecraft/client/gui/Gui;
+     783: invokevirtual #142                // Method net/minecraft/client/gui/Gui.m_93076_:()Lnet/minecraft/client/gui/components/ChatComponent;
+     786: astore        4
+     788: aload         4
+     790: ldc_w         #452                // String debug.reload_chunks.help
+     793: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     796: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     799: aload         4
+     801: ldc_w         #454                // String debug.show_hitboxes.help
+     804: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     807: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     810: aload         4
+     812: ldc_w         #456                // String debug.copy_location.help
+     815: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     818: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     821: aload         4
+     823: ldc_w         #458                // String debug.clear_chat.help
+     826: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     829: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     832: aload         4
+     834: ldc_w         #460                // String debug.chunk_boundaries.help
+     837: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     840: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     843: aload         4
+     845: ldc_w         #462                // String debug.advanced_tooltips.help
+     848: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     851: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     854: aload         4
+     856: ldc_w         #464                // String debug.inspect.help
+     859: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     862: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     865: aload         4
+     867: ldc_w         #466                // String debug.profiling.help
+     870: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     873: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     876: aload         4
+     878: ldc_w         #468                // String debug.creative_spectator.help
+     881: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     884: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     887: aload         4
+     889: ldc_w         #470                // String debug.pause_focus.help
+     892: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     895: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     898: aload         4
+     900: ldc_w         #472                // String debug.help.help
+     903: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     906: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     909: aload         4
+     911: ldc_w         #474                // String debug.dump_dynamic_textures.help
+     914: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     917: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     920: aload         4
+     922: ldc_w         #476                // String debug.reload_resourcepacks.help
+     925: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     928: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     931: aload         4
+     933: ldc_w         #478                // String debug.pause.help
+     936: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     939: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     942: aload         4
+     944: ldc_w         #480                // String debug.gamemodes.help
+     947: invokestatic  #154                // InterfaceMethod net/minecraft/network/chat/Component.m_237115_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+     950: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+     953: iconst_1
+     954: ireturn
+     955: aload_0
+     956: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     959: getfield      #484                // Field net/minecraft/client/Minecraft.f_91069_:Ljava/io/File;
+     962: invokevirtual #490                // Method java/io/File.toPath:()Ljava/nio/file/Path;
+     965: invokeinterface #495,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+     970: astore        5
+     972: aload         5
+     974: invokestatic  #501                // Method com/mojang/blaze3d/platform/TextureUtil.getDebugTexturePath:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+     977: astore        6
+     979: aload_0
+     980: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     983: invokevirtual #505                // Method net/minecraft/client/Minecraft.m_91097_:()Lnet/minecraft/client/renderer/texture/TextureManager;
+     986: aload         6
+     988: invokevirtual #511                // Method net/minecraft/client/renderer/texture/TextureManager.m_276085_:(Ljava/nio/file/Path;)V
+     991: aload         5
+     993: aload         6
+     995: invokeinterface #514,  2          // InterfaceMethod java/nio/file/Path.relativize:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+    1000: invokeinterface #517,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+    1005: invokestatic  #216                // InterfaceMethod net/minecraft/network/chat/Component.m_237113_:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+    1008: getstatic     #520                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+    1011: invokevirtual #524                // Method net/minecraft/network/chat/MutableComponent.m_130940_:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+    1014: aload         6
+    1016: invokedynamic #537,  0            // InvokeDynamic #2:apply:(Ljava/nio/file/Path;)Ljava/util/function/UnaryOperator;
+    1021: invokevirtual #541                // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+    1024: astore        7
+    1026: aload_0
+    1027: ldc_w         #543                // String debug.dump_dynamic_textures
+    1030: iconst_1
+    1031: anewarray     #4                  // class java/lang/Object
+    1034: dup
+    1035: iconst_0
+    1036: aload         7
+    1038: aastore
+    1039: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+    1042: iconst_1
+    1043: ireturn
+    1044: aload_0
+    1045: ldc_w         #545                // String debug.reload_resourcepacks.message
+    1048: iconst_0
+    1049: anewarray     #4                  // class java/lang/Object
+    1052: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+    1055: aload_0
+    1056: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+    1059: invokevirtual #549                // Method net/minecraft/client/Minecraft.m_91391_:()Ljava/util/concurrent/CompletableFuture;
+    1062: pop
+    1063: iconst_1
+    1064: ireturn
+    1065: aload_0
+    1066: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+    1069: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+    1072: iconst_2
+    1073: invokevirtual #362                // Method net/minecraft/client/player/LocalPlayer.m_20310_:(I)Z
+    1076: ifne          1093
+    1079: aload_0
+    1080: ldc_w         #551                // String debug.gamemodes.error
+    1083: iconst_0
+    1084: anewarray     #4                  // class java/lang/Object
+    1087: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+    1090: goto          1107
+    1093: aload_0
+    1094: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+    1097: new           #553                // class net/minecraft/client/gui/screens/debug/GameModeSwitcherScreen
+    1100: dup
+    1101: invokespecial #554                // Method net/minecraft/client/gui/screens/debug/GameModeSwitcherScreen."<init>":()V
+    1104: invokevirtual #558                // Method net/minecraft/client/Minecraft.m_91152_:(Lnet/minecraft/client/gui/screens/Screen;)V
+    1107: iconst_1
+    1108: ireturn
+    1109: iconst_0
+    1110: ireturn
+
+  private void m_90928_(boolean, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: getfield      #572                // Field net/minecraft/client/Minecraft.f_91077_:Lnet/minecraft/world/phys/HitResult;
+       7: astore_3
+       8: aload_3
+       9: ifnull        329
+      12: getstatic     #576                // Field net/minecraft/client/KeyboardHandler$1.f_90963_:[I
+      15: aload_3
+      16: invokevirtual #580                // Method net/minecraft/world/phys/HitResult.m_6662_:()Lnet/minecraft/world/phys/HitResult$Type;
+      19: invokevirtual #584                // Method net/minecraft/world/phys/HitResult$Type.ordinal:()I
+      22: iaload
+      23: lookupswitch  { // 2
+                     1: 48
+                     2: 196
+               default: 329
+          }
+      48: aload_3
+      49: checkcast     #586                // class net/minecraft/world/phys/BlockHitResult
+      52: invokevirtual #590                // Method net/minecraft/world/phys/BlockHitResult.m_82425_:()Lnet/minecraft/core/BlockPos;
+      55: astore        4
+      57: aload_0
+      58: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      61: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+      64: invokevirtual #280                // Method net/minecraft/client/player/LocalPlayer.m_9236_:()Lnet/minecraft/world/level/Level;
+      67: aload         4
+      69: invokevirtual #594                // Method net/minecraft/world/level/Level.m_8055_:(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;
+      72: astore        5
+      74: iload_1
+      75: ifeq          170
+      78: iload_2
+      79: ifeq          113
+      82: aload_0
+      83: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      86: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+      89: getfield      #264                // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+      92: invokevirtual #598                // Method net/minecraft/client/multiplayer/ClientPacketListener.m_105149_:()Lnet/minecraft/client/DebugQueryHandler;
+      95: aload         4
+      97: aload_0
+      98: aload         5
+     100: aload         4
+     102: invokedynamic #608,  0            // InvokeDynamic #3:accept:(Lnet/minecraft/client/KeyboardHandler;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ljava/util/function/Consumer;
+     107: invokevirtual #614                // Method net/minecraft/client/DebugQueryHandler.m_90708_:(Lnet/minecraft/core/BlockPos;Ljava/util/function/Consumer;)V
+     110: goto          329
+     113: aload_0
+     114: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     117: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     120: invokevirtual #280                // Method net/minecraft/client/player/LocalPlayer.m_9236_:()Lnet/minecraft/world/level/Level;
+     123: aload         4
+     125: invokevirtual #622                // Method net/minecraft/world/level/Level.m_7702_:(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;
+     128: astore        6
+     130: aload         6
+     132: ifnull        143
+     135: aload         6
+     137: invokevirtual #628                // Method net/minecraft/world/level/block/entity/BlockEntity.m_187482_:()Lnet/minecraft/nbt/CompoundTag;
+     140: goto          144
+     143: aconst_null
+     144: astore        7
+     146: aload_0
+     147: aload         5
+     149: aload         4
+     151: aload         7
+     153: invokevirtual #633                // Method m_90899_:(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/nbt/CompoundTag;)V
+     156: aload_0
+     157: ldc_w         #635                // String debug.inspect.client.block
+     160: iconst_0
+     161: anewarray     #4                  // class java/lang/Object
+     164: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     167: goto          329
+     170: aload_0
+     171: aload         5
+     173: aload         4
+     175: aconst_null
+     176: checkcast     #630                // class net/minecraft/nbt/CompoundTag
+     179: invokevirtual #633                // Method m_90899_:(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/nbt/CompoundTag;)V
+     182: aload_0
+     183: ldc_w         #635                // String debug.inspect.client.block
+     186: iconst_0
+     187: anewarray     #4                  // class java/lang/Object
+     190: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     193: goto          329
+     196: aload_3
+     197: checkcast     #637                // class net/minecraft/world/phys/EntityHitResult
+     200: invokevirtual #641                // Method net/minecraft/world/phys/EntityHitResult.m_82443_:()Lnet/minecraft/world/entity/Entity;
+     203: astore        6
+     205: getstatic     #647                // Field net/minecraft/core/registries/BuiltInRegistries.f_256780_:Lnet/minecraft/core/DefaultedRegistry;
+     208: aload         6
+     210: invokevirtual #653                // Method net/minecraft/world/entity/Entity.m_6095_:()Lnet/minecraft/world/entity/EntityType;
+     213: invokeinterface #659,  2          // InterfaceMethod net/minecraft/core/DefaultedRegistry.m_7981_:(Ljava/lang/Object;)Lnet/minecraft/resources/ResourceLocation;
+     218: astore        7
+     220: iload_1
+     221: ifeq          303
+     224: iload_2
+     225: ifeq          262
+     228: aload_0
+     229: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     232: getfield      #255                // Field net/minecraft/client/Minecraft.f_91074_:Lnet/minecraft/client/player/LocalPlayer;
+     235: getfield      #264                // Field net/minecraft/client/player/LocalPlayer.f_108617_:Lnet/minecraft/client/multiplayer/ClientPacketListener;
+     238: invokevirtual #598                // Method net/minecraft/client/multiplayer/ClientPacketListener.m_105149_:()Lnet/minecraft/client/DebugQueryHandler;
+     241: aload         6
+     243: invokevirtual #662                // Method net/minecraft/world/entity/Entity.m_19879_:()I
+     246: aload_0
+     247: aload         7
+     249: aload         6
+     251: invokedynamic #670,  0            // InvokeDynamic #4:accept:(Lnet/minecraft/client/KeyboardHandler;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/entity/Entity;)Ljava/util/function/Consumer;
+     256: invokevirtual #674                // Method net/minecraft/client/DebugQueryHandler.m_90702_:(ILjava/util/function/Consumer;)V
+     259: goto          329
+     262: aload         6
+     264: new           #630                // class net/minecraft/nbt/CompoundTag
+     267: dup
+     268: invokespecial #677                // Method net/minecraft/nbt/CompoundTag."<init>":()V
+     271: invokevirtual #681                // Method net/minecraft/world/entity/Entity.m_20240_:(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;
+     274: astore        8
+     276: aload_0
+     277: aload         7
+     279: aload         6
+     281: invokevirtual #685                // Method net/minecraft/world/entity/Entity.m_20182_:()Lnet/minecraft/world/phys/Vec3;
+     284: aload         8
+     286: invokevirtual #689                // Method m_90922_:(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/nbt/CompoundTag;)V
+     289: aload_0
+     290: ldc_w         #691                // String debug.inspect.client.entity
+     293: iconst_0
+     294: anewarray     #4                  // class java/lang/Object
+     297: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     300: goto          329
+     303: aload_0
+     304: aload         7
+     306: aload         6
+     308: invokevirtual #685                // Method net/minecraft/world/entity/Entity.m_20182_:()Lnet/minecraft/world/phys/Vec3;
+     311: aconst_null
+     312: checkcast     #630                // class net/minecraft/nbt/CompoundTag
+     315: invokevirtual #689                // Method m_90922_:(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/nbt/CompoundTag;)V
+     318: aload_0
+     319: ldc_w         #691                // String debug.inspect.client.entity
+     322: iconst_0
+     323: anewarray     #4                  // class java/lang/Object
+     326: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     329: return
+
+  private void m_90899_(net.minecraft.world.level.block.state.BlockState, net.minecraft.core.BlockPos, net.minecraft.nbt.CompoundTag);
+    Code:
+       0: new           #710                // class java/lang/StringBuilder
+       3: dup
+       4: aload_1
+       5: invokestatic  #716                // Method net/minecraft/commands/arguments/blocks/BlockStateParser.m_116769_:(Lnet/minecraft/world/level/block/state/BlockState;)Ljava/lang/String;
+       8: invokespecial #718                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+      11: astore        4
+      13: aload_3
+      14: ifnull        24
+      17: aload         4
+      19: aload_3
+      20: invokevirtual #722                // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+      23: pop
+      24: getstatic     #274                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      27: ldc_w         #724                // String /setblock %d %d %d %s
+      30: iconst_4
+      31: anewarray     #4                  // class java/lang/Object
+      34: dup
+      35: iconst_0
+      36: aload_2
+      37: invokevirtual #727                // Method net/minecraft/core/BlockPos.m_123341_:()I
+      40: invokestatic  #392                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      43: aastore
+      44: dup
+      45: iconst_1
+      46: aload_2
+      47: invokevirtual #730                // Method net/minecraft/core/BlockPos.m_123342_:()I
+      50: invokestatic  #392                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      53: aastore
+      54: dup
+      55: iconst_2
+      56: aload_2
+      57: invokevirtual #733                // Method net/minecraft/core/BlockPos.m_123343_:()I
+      60: invokestatic  #392                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      63: aastore
+      64: dup
+      65: iconst_3
+      66: aload         4
+      68: aastore
+      69: invokestatic  #323                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      72: astore        5
+      74: aload_0
+      75: aload         5
+      77: invokevirtual #327                // Method m_90911_:(Ljava/lang/String;)V
+      80: return
+
+  private void m_90922_(net.minecraft.resources.ResourceLocation, net.minecraft.world.phys.Vec3, net.minecraft.nbt.CompoundTag);
+    Code:
+       0: aload_3
+       1: ifnull        96
+       4: aload_3
+       5: ldc_w         #741                // String UUID
+       8: invokevirtual #744                // Method net/minecraft/nbt/CompoundTag.m_128473_:(Ljava/lang/String;)V
+      11: aload_3
+      12: ldc_w         #746                // String Pos
+      15: invokevirtual #744                // Method net/minecraft/nbt/CompoundTag.m_128473_:(Ljava/lang/String;)V
+      18: aload_3
+      19: ldc_w         #748                // String Dimension
+      22: invokevirtual #744                // Method net/minecraft/nbt/CompoundTag.m_128473_:(Ljava/lang/String;)V
+      25: aload_3
+      26: invokestatic  #754                // Method net/minecraft/nbt/NbtUtils.m_178061_:(Lnet/minecraft/nbt/Tag;)Lnet/minecraft/network/chat/Component;
+      29: invokeinterface #757,  1          // InterfaceMethod net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+      34: astore        5
+      36: getstatic     #274                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      39: ldc_w         #759                // String /summon %s %.2f %.2f %.2f %s
+      42: iconst_5
+      43: anewarray     #4                  // class java/lang/Object
+      46: dup
+      47: iconst_0
+      48: aload_1
+      49: invokevirtual #760                // Method net/minecraft/resources/ResourceLocation.toString:()Ljava/lang/String;
+      52: aastore
+      53: dup
+      54: iconst_1
+      55: aload_2
+      56: getfield      #766                // Field net/minecraft/world/phys/Vec3.f_82479_:D
+      59: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      62: aastore
+      63: dup
+      64: iconst_2
+      65: aload_2
+      66: getfield      #769                // Field net/minecraft/world/phys/Vec3.f_82480_:D
+      69: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      72: aastore
+      73: dup
+      74: iconst_3
+      75: aload_2
+      76: getfield      #772                // Field net/minecraft/world/phys/Vec3.f_82481_:D
+      79: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      82: aastore
+      83: dup
+      84: iconst_4
+      85: aload         5
+      87: aastore
+      88: invokestatic  #323                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      91: astore        4
+      93: goto          148
+      96: getstatic     #274                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      99: ldc_w         #774                // String /summon %s %.2f %.2f %.2f
+     102: iconst_4
+     103: anewarray     #4                  // class java/lang/Object
+     106: dup
+     107: iconst_0
+     108: aload_1
+     109: invokevirtual #760                // Method net/minecraft/resources/ResourceLocation.toString:()Ljava/lang/String;
+     112: aastore
+     113: dup
+     114: iconst_1
+     115: aload_2
+     116: getfield      #766                // Field net/minecraft/world/phys/Vec3.f_82479_:D
+     119: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     122: aastore
+     123: dup
+     124: iconst_2
+     125: aload_2
+     126: getfield      #769                // Field net/minecraft/world/phys/Vec3.f_82480_:D
+     129: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     132: aastore
+     133: dup
+     134: iconst_3
+     135: aload_2
+     136: getfield      #772                // Field net/minecraft/world/phys/Vec3.f_82481_:D
+     139: invokestatic  #302                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     142: aastore
+     143: invokestatic  #323                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     146: astore        4
+     148: aload_0
+     149: aload         4
+     151: invokevirtual #327                // Method m_90911_:(Ljava/lang/String;)V
+     154: return
+
+  public void m_90893_(long, int, int, int, int);
+    Code:
+       0: lload_1
+       1: aload_0
+       2: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       5: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+       8: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      11: lcmp
+      12: ifne          935
+      15: aload_0
+      16: getfield      #58                 // Field f_90870_:J
+      19: lconst_0
+      20: lcmp
+      21: ifle          69
+      24: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      27: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      30: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      33: bipush        67
+      35: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+      38: ifeq          59
+      41: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      44: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      47: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      50: sipush        292
+      53: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+      56: ifne          128
+      59: aload_0
+      60: ldc2_w        #55                 // long -1l
+      63: putfield      #58                 // Field f_90870_:J
+      66: goto          128
+      69: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      72: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      75: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      78: bipush        67
+      80: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+      83: ifeq          128
+      86: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+      89: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      92: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      95: sipush        292
+      98: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+     101: ifeq          128
+     104: aload_0
+     105: iconst_1
+     106: putfield      #800                // Field f_90873_:Z
+     109: aload_0
+     110: invokestatic  #225                // Method net/minecraft/Util.m_137550_:()J
+     113: putfield      #58                 // Field f_90870_:J
+     116: aload_0
+     117: invokestatic  #225                // Method net/minecraft/Util.m_137550_:()J
+     120: putfield      #60                 // Field f_90871_:J
+     123: aload_0
+     124: lconst_0
+     125: putfield      #62                 // Field f_90872_:J
+     128: aload_0
+     129: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     132: getfield      #804                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+     135: astore        7
+     137: aload         7
+     139: ifnull        211
+     142: iload_3
+     143: tableswitch   { // 258 to 265
+                   258: 188
+                   259: 198
+                   260: 198
+                   261: 198
+                   262: 201
+                   263: 201
+                   264: 201
+                   265: 201
+               default: 198
+          }
+     188: aload_0
+     189: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     192: getstatic     #810                // Field net/minecraft/client/InputType.KEYBOARD_TAB:Lnet/minecraft/client/InputType;
+     195: invokevirtual #814                // Method net/minecraft/client/Minecraft.m_264033_:(Lnet/minecraft/client/InputType;)V
+     198: goto          211
+     201: aload_0
+     202: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     205: getstatic     #817                // Field net/minecraft/client/InputType.KEYBOARD_ARROW:Lnet/minecraft/client/InputType;
+     208: invokevirtual #814                // Method net/minecraft/client/Minecraft.m_264033_:(Lnet/minecraft/client/InputType;)V
+     211: iload         5
+     213: iconst_1
+     214: if_icmpne     354
+     217: aload_0
+     218: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     221: getfield      #804                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+     224: instanceof    #819                // class net/minecraft/client/gui/screens/controls/KeyBindsScreen
+     227: ifeq          249
+     230: aload         7
+     232: checkcast     #819                // class net/minecraft/client/gui/screens/controls/KeyBindsScreen
+     235: getfield      #822                // Field net/minecraft/client/gui/screens/controls/KeyBindsScreen.f_193976_:J
+     238: invokestatic  #225                // Method net/minecraft/Util.m_137550_:()J
+     241: ldc2_w        #823                // long 20l
+     244: lsub
+     245: lcmp
+     246: ifgt          354
+     249: aload_0
+     250: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     253: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     256: getfield      #828                // Field net/minecraft/client/Options.f_92105_:Lnet/minecraft/client/KeyMapping;
+     259: iload_3
+     260: iload         4
+     262: invokevirtual #834                // Method net/minecraft/client/KeyMapping.m_90832_:(II)Z
+     265: ifeq          305
+     268: aload_0
+     269: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     272: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+     275: invokevirtual #837                // Method com/mojang/blaze3d/platform/Window.m_85438_:()V
+     278: aload_0
+     279: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     282: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     285: invokevirtual #841                // Method net/minecraft/client/Options.m_231829_:()Lnet/minecraft/client/OptionInstance;
+     288: aload_0
+     289: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     292: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+     295: invokevirtual #844                // Method com/mojang/blaze3d/platform/Window.m_85440_:()Z
+     298: invokestatic  #849                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+     301: invokevirtual #854                // Method net/minecraft/client/OptionInstance.m_231514_:(Ljava/lang/Object;)V
+     304: return
+     305: aload_0
+     306: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     309: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     312: getfield      #857                // Field net/minecraft/client/Options.f_92102_:Lnet/minecraft/client/KeyMapping;
+     315: iload_3
+     316: iload         4
+     318: invokevirtual #834                // Method net/minecraft/client/KeyMapping.m_90832_:(II)Z
+     321: ifeq          354
+     324: invokestatic  #860                // Method net/minecraft/client/gui/screens/Screen.m_96637_:()Z
+     327: ifeq          330
+     330: aload_0
+     331: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     334: getfield      #484                // Field net/minecraft/client/Minecraft.f_91069_:Ljava/io/File;
+     337: aload_0
+     338: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     341: invokevirtual #864                // Method net/minecraft/client/Minecraft.m_91385_:()Lcom/mojang/blaze3d/pipeline/RenderTarget;
+     344: aload_0
+     345: invokedynamic #869,  0            // InvokeDynamic #5:accept:(Lnet/minecraft/client/KeyboardHandler;)Ljava/util/function/Consumer;
+     350: invokestatic  #875                // Method net/minecraft/client/Screenshot.m_92289_:(Ljava/io/File;Lcom/mojang/blaze3d/pipeline/RenderTarget;Ljava/util/function/Consumer;)V
+     353: return
+     354: aload_0
+     355: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     358: invokevirtual #879                // Method net/minecraft/client/Minecraft.m_240477_:()Lnet/minecraft/client/GameNarrator;
+     361: invokevirtual #884                // Method net/minecraft/client/GameNarrator.m_93316_:()Z
+     364: ifeq          520
+     367: aload         7
+     369: ifnull        397
+     372: aload         7
+     374: invokevirtual #888                // Method net/minecraft/client/gui/screens/Screen.m_7222_:()Lnet/minecraft/client/gui/components/events/GuiEventListener;
+     377: instanceof    #890                // class net/minecraft/client/gui/components/EditBox
+     380: ifeq          397
+     383: aload         7
+     385: invokevirtual #888                // Method net/minecraft/client/gui/screens/Screen.m_7222_:()Lnet/minecraft/client/gui/components/events/GuiEventListener;
+     388: checkcast     #890                // class net/minecraft/client/gui/components/EditBox
+     391: invokevirtual #893                // Method net/minecraft/client/gui/components/EditBox.m_94204_:()Z
+     394: ifne          401
+     397: iconst_1
+     398: goto          402
+     401: iconst_0
+     402: istore        8
+     404: iload         5
+     406: ifeq          520
+     409: iload_3
+     410: bipush        66
+     412: if_icmpne     520
+     415: invokestatic  #860                // Method net/minecraft/client/gui/screens/Screen.m_96637_:()Z
+     418: ifeq          520
+     421: iload         8
+     423: ifeq          520
+     426: aload_0
+     427: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     430: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     433: invokevirtual #896                // Method net/minecraft/client/Options.m_231930_:()Lnet/minecraft/client/OptionInstance;
+     436: invokevirtual #900                // Method net/minecraft/client/OptionInstance.m_231551_:()Ljava/lang/Object;
+     439: getstatic     #906                // Field net/minecraft/client/NarratorStatus.OFF:Lnet/minecraft/client/NarratorStatus;
+     442: if_acmpne     449
+     445: iconst_1
+     446: goto          450
+     449: iconst_0
+     450: istore        9
+     452: aload_0
+     453: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     456: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     459: invokevirtual #896                // Method net/minecraft/client/Options.m_231930_:()Lnet/minecraft/client/OptionInstance;
+     462: aload_0
+     463: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     466: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     469: invokevirtual #896                // Method net/minecraft/client/Options.m_231930_:()Lnet/minecraft/client/OptionInstance;
+     472: invokevirtual #900                // Method net/minecraft/client/OptionInstance.m_231551_:()Ljava/lang/Object;
+     475: checkcast     #902                // class net/minecraft/client/NarratorStatus
+     478: invokevirtual #909                // Method net/minecraft/client/NarratorStatus.m_91618_:()I
+     481: iconst_1
+     482: iadd
+     483: invokestatic  #913                // Method net/minecraft/client/NarratorStatus.m_91619_:(I)Lnet/minecraft/client/NarratorStatus;
+     486: invokevirtual #854                // Method net/minecraft/client/OptionInstance.m_231514_:(Ljava/lang/Object;)V
+     489: aload         7
+     491: instanceof    #915                // class net/minecraft/client/gui/screens/SimpleOptionsSubScreen
+     494: ifeq          505
+     497: aload         7
+     499: checkcast     #915                // class net/minecraft/client/gui/screens/SimpleOptionsSubScreen
+     502: invokevirtual #918                // Method net/minecraft/client/gui/screens/SimpleOptionsSubScreen.m_96682_:()V
+     505: iload         9
+     507: ifeq          520
+     510: aload         7
+     512: ifnull        520
+     515: aload         7
+     517: invokevirtual #921                // Method net/minecraft/client/gui/screens/Screen.m_169418_:()V
+     520: aload         7
+     522: ifnull        572
+     525: iconst_1
+     526: newarray       boolean
+     528: dup
+     529: iconst_0
+     530: iconst_0
+     531: bastore
+     532: astore        8
+     534: iload         5
+     536: aload         8
+     538: aload         7
+     540: iload_3
+     541: iload         4
+     543: iload         6
+     545: invokedynamic #931,  0            // InvokeDynamic #6:run:(I[ZLnet/minecraft/client/gui/screens/Screen;III)Ljava/lang/Runnable;
+     550: ldc_w         #933                // String keyPressed event handler
+     553: aload         7
+     555: invokevirtual #937                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+     558: invokevirtual #942                // Method java/lang/Class.getCanonicalName:()Ljava/lang/String;
+     561: invokestatic  #946                // Method net/minecraft/client/gui/screens/Screen.m_96579_:(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V
+     564: aload         8
+     566: iconst_0
+     567: baload
+     568: ifeq          572
+     571: return
+     572: aload_0
+     573: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     576: getfield      #804                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+     579: ifnonnull     925
+     582: iload_3
+     583: iload         4
+     585: invokestatic  #950                // Method com/mojang/blaze3d/platform/InputConstants.m_84827_:(II)Lcom/mojang/blaze3d/platform/InputConstants$Key;
+     588: astore        8
+     590: iload         5
+     592: ifne          722
+     595: aload         8
+     597: iconst_0
+     598: invokestatic  #954                // Method net/minecraft/client/KeyMapping.m_90837_:(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V
+     601: iload_3
+     602: sipush        292
+     605: if_icmpne     925
+     608: aload_0
+     609: getfield      #800                // Field f_90873_:Z
+     612: ifeq          623
+     615: aload_0
+     616: iconst_0
+     617: putfield      #800                // Field f_90873_:Z
+     620: goto          925
+     623: aload_0
+     624: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     627: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     630: aload_0
+     631: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     634: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     637: getfield      #957                // Field net/minecraft/client/Options.f_92063_:Z
+     640: ifne          647
+     643: iconst_1
+     644: goto          648
+     647: iconst_0
+     648: putfield      #957                // Field net/minecraft/client/Options.f_92063_:Z
+     651: aload_0
+     652: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     655: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     658: aload_0
+     659: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     662: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     665: getfield      #957                // Field net/minecraft/client/Options.f_92063_:Z
+     668: ifeq          681
+     671: invokestatic  #103                // Method net/minecraft/client/gui/screens/Screen.m_96638_:()Z
+     674: ifeq          681
+     677: iconst_1
+     678: goto          682
+     681: iconst_0
+     682: putfield      #960                // Field net/minecraft/client/Options.f_92064_:Z
+     685: aload_0
+     686: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     689: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     692: aload_0
+     693: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     696: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     699: getfield      #957                // Field net/minecraft/client/Options.f_92063_:Z
+     702: ifeq          715
+     705: invokestatic  #963                // Method net/minecraft/client/gui/screens/Screen.m_96639_:()Z
+     708: ifeq          715
+     711: iconst_1
+     712: goto          716
+     715: iconst_0
+     716: putfield      #966                // Field net/minecraft/client/Options.f_92065_:Z
+     719: goto          925
+     722: iload_3
+     723: sipush        293
+     726: if_icmpne     749
+     729: aload_0
+     730: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     733: getfield      #970                // Field net/minecraft/client/Minecraft.f_91063_:Lnet/minecraft/client/renderer/GameRenderer;
+     736: ifnull        749
+     739: aload_0
+     740: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     743: getfield      #970                // Field net/minecraft/client/Minecraft.f_91063_:Lnet/minecraft/client/renderer/GameRenderer;
+     746: invokevirtual #975                // Method net/minecraft/client/renderer/GameRenderer.m_109130_:()V
+     749: iconst_0
+     750: istore        9
+     752: iload_3
+     753: sipush        256
+     756: if_icmpne     785
+     759: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+     762: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+     765: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+     768: sipush        292
+     771: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+     774: istore        10
+     776: aload_0
+     777: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     780: iload         10
+     782: invokevirtual #978                // Method net/minecraft/client/Minecraft.m_91358_:(Z)V
+     785: invokestatic  #794                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+     788: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+     791: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+     794: sipush        292
+     797: invokestatic  #798                // Method com/mojang/blaze3d/platform/InputConstants.m_84830_:(JI)Z
+     800: ifeq          815
+     803: aload_0
+     804: iload_3
+     805: invokevirtual #980                // Method m_90932_:(I)Z
+     808: ifeq          815
+     811: iconst_1
+     812: goto          816
+     815: iconst_0
+     816: istore        9
+     818: aload_0
+     819: dup
+     820: getfield      #800                // Field f_90873_:Z
+     823: iload         9
+     825: ior
+     826: putfield      #800                // Field f_90873_:Z
+     829: iload_3
+     830: sipush        290
+     833: if_icmpne     864
+     836: aload_0
+     837: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     840: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     843: aload_0
+     844: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     847: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     850: getfield      #983                // Field net/minecraft/client/Options.f_92062_:Z
+     853: ifne          860
+     856: iconst_1
+     857: goto          861
+     860: iconst_0
+     861: putfield      #983                // Field net/minecraft/client/Options.f_92062_:Z
+     864: iload         9
+     866: ifeq          878
+     869: aload         8
+     871: iconst_0
+     872: invokestatic  #954                // Method net/minecraft/client/KeyMapping.m_90837_:(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V
+     875: goto          889
+     878: aload         8
+     880: iconst_1
+     881: invokestatic  #954                // Method net/minecraft/client/KeyMapping.m_90837_:(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V
+     884: aload         8
+     886: invokestatic  #987                // Method net/minecraft/client/KeyMapping.m_90835_:(Lcom/mojang/blaze3d/platform/InputConstants$Key;)V
+     889: aload_0
+     890: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     893: getfield      #347                // Field net/minecraft/client/Minecraft.f_91066_:Lnet/minecraft/client/Options;
+     896: getfield      #960                // Field net/minecraft/client/Options.f_92064_:Z
+     899: ifeq          925
+     902: iload_3
+     903: bipush        48
+     905: if_icmplt     925
+     908: iload_3
+     909: bipush        57
+     911: if_icmpgt     925
+     914: aload_0
+     915: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+     918: iload_3
+     919: bipush        48
+     921: isub
+     922: invokevirtual #991                // Method net/minecraft/client/Minecraft.m_91111_:(I)V
+     925: iload_3
+     926: iload         4
+     928: iload         5
+     930: iload         6
+     932: invokestatic  #997                // Method net/minecraftforge/client/ForgeHooksClient.onKeyInput:(IIII)V
+     935: return
+
+  private void m_90889_(long, int, int);
+    Code:
+       0: lload_1
+       1: aload_0
+       2: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       5: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+       8: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      11: lcmp
+      12: ifne          133
+      15: aload_0
+      16: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      19: getfield      #804                // Field net/minecraft/client/Minecraft.f_91080_:Lnet/minecraft/client/gui/screens/Screen;
+      22: astore        5
+      24: aload         5
+      26: ifnull        133
+      29: aload_0
+      30: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      33: invokevirtual #1015               // Method net/minecraft/client/Minecraft.m_91265_:()Lnet/minecraft/client/gui/screens/Overlay;
+      36: ifnonnull     133
+      39: iload_3
+      40: invokestatic  #1021               // Method java/lang/Character.charCount:(I)I
+      43: iconst_1
+      44: if_icmpne     74
+      47: aload         5
+      49: iload_3
+      50: iload         4
+      52: invokedynamic #1029,  0           // InvokeDynamic #7:run:(Lnet/minecraft/client/gui/screens/Screen;II)Ljava/lang/Runnable;
+      57: ldc_w         #1031               // String charTyped event handler
+      60: aload         5
+      62: invokevirtual #937                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+      65: invokevirtual #942                // Method java/lang/Class.getCanonicalName:()Ljava/lang/String;
+      68: invokestatic  #946                // Method net/minecraft/client/gui/screens/Screen.m_96579_:(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V
+      71: goto          133
+      74: iload_3
+      75: invokestatic  #1035               // Method java/lang/Character.toChars:(I)[C
+      78: astore        6
+      80: aload         6
+      82: arraylength
+      83: istore        7
+      85: iconst_0
+      86: istore        8
+      88: iload         8
+      90: iload         7
+      92: if_icmpge     133
+      95: aload         6
+      97: iload         8
+      99: caload
+     100: istore        9
+     102: aload         5
+     104: iload         9
+     106: iload         4
+     108: invokedynamic #1045,  0           // InvokeDynamic #8:run:(Lnet/minecraft/client/gui/screens/Screen;CI)Ljava/lang/Runnable;
+     113: ldc_w         #1031               // String charTyped event handler
+     116: aload         5
+     118: invokevirtual #937                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+     121: invokevirtual #942                // Method java/lang/Class.getCanonicalName:()Ljava/lang/String;
+     124: invokestatic  #946                // Method net/minecraft/client/gui/screens/Screen.m_96579_:(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V
+     127: iinc          8, 1
+     130: goto          88
+     133: return
+
+  public void m_90887_(long);
+    Code:
+       0: lload_1
+       1: aload_0
+       2: invokedynamic #1062,  0           // InvokeDynamic #9:invoke:(Lnet/minecraft/client/KeyboardHandler;)Lorg/lwjgl/glfw/GLFWKeyCallbackI;
+       7: aload_0
+       8: invokedynamic #1070,  0           // InvokeDynamic #10:invoke:(Lnet/minecraft/client/KeyboardHandler;)Lorg/lwjgl/glfw/GLFWCharModsCallbackI;
+      13: invokestatic  #1074               // Method com/mojang/blaze3d/platform/InputConstants.m_84844_:(JLorg/lwjgl/glfw/GLFWKeyCallbackI;Lorg/lwjgl/glfw/GLFWCharModsCallbackI;)V
+      16: return
+
+  public java.lang.String m_90876_();
+    Code:
+       0: aload_0
+       1: getfield      #54                 // Field f_90869_:Lcom/mojang/blaze3d/platform/ClipboardManager;
+       4: aload_0
+       5: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       8: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      11: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      14: aload_0
+      15: invokedynamic #1085,  0           // InvokeDynamic #11:invoke:(Lnet/minecraft/client/KeyboardHandler;)Lorg/lwjgl/glfw/GLFWErrorCallbackI;
+      20: invokevirtual #1089               // Method com/mojang/blaze3d/platform/ClipboardManager.m_83995_:(JLorg/lwjgl/glfw/GLFWErrorCallbackI;)Ljava/lang/String;
+      23: areturn
+
+  public void m_90911_(java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #1092               // Method java/lang/String.isEmpty:()Z
+       4: ifne          25
+       7: aload_0
+       8: getfield      #54                 // Field f_90869_:Lcom/mojang/blaze3d/platform/ClipboardManager;
+      11: aload_0
+      12: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      15: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      18: invokevirtual #790                // Method com/mojang/blaze3d/platform/Window.m_85439_:()J
+      21: aload_1
+      22: invokevirtual #1096               // Method com/mojang/blaze3d/platform/ClipboardManager.m_83988_:(JLjava/lang/String;)V
+      25: return
+
+  public void m_90931_();
+    Code:
+       0: aload_0
+       1: getfield      #58                 // Field f_90870_:J
+       4: lconst_0
+       5: lcmp
+       6: ifle          172
+       9: invokestatic  #225                // Method net/minecraft/Util.m_137550_:()J
+      12: lstore_1
+      13: ldc2_w        #1099               // long 10000l
+      16: lload_1
+      17: aload_0
+      18: getfield      #58                 // Field f_90870_:J
+      21: lsub
+      22: lsub
+      23: lstore_3
+      24: lload_1
+      25: aload_0
+      26: getfield      #60                 // Field f_90871_:J
+      29: lsub
+      30: lstore        5
+      32: lload_3
+      33: lconst_0
+      34: lcmp
+      35: ifge          99
+      38: invokestatic  #860                // Method net/minecraft/client/gui/screens/Screen.m_96637_:()Z
+      41: ifeq          47
+      44: invokestatic  #1105               // Method com/mojang/blaze3d/Blaze3D.m_83639_:()V
+      47: ldc_w         #1107               // String Manually triggered debug crash
+      50: astore        7
+      52: new           #1109               // class net/minecraft/CrashReport
+      55: dup
+      56: ldc_w         #1107               // String Manually triggered debug crash
+      59: new           #1111               // class java/lang/Throwable
+      62: dup
+      63: ldc_w         #1107               // String Manually triggered debug crash
+      66: invokespecial #1112               // Method java/lang/Throwable."<init>":(Ljava/lang/String;)V
+      69: invokespecial #1115               // Method net/minecraft/CrashReport."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+      72: astore        8
+      74: aload         8
+      76: ldc_w         #1117               // String Manual crash details
+      79: invokevirtual #1121               // Method net/minecraft/CrashReport.m_127514_:(Ljava/lang/String;)Lnet/minecraft/CrashReportCategory;
+      82: astore        9
+      84: aload         9
+      86: invokestatic  #1127               // Method net/minecraft/util/NativeModuleLister.m_184679_:(Lnet/minecraft/CrashReportCategory;)V
+      89: new           #1129               // class net/minecraft/ReportedException
+      92: dup
+      93: aload         8
+      95: invokespecial #1132               // Method net/minecraft/ReportedException."<init>":(Lnet/minecraft/CrashReport;)V
+      98: athrow
+      99: lload         5
+     101: ldc2_w        #1133               // long 1000l
+     104: lcmp
+     105: iflt          172
+     108: aload_0
+     109: getfield      #62                 // Field f_90872_:J
+     112: lconst_0
+     113: lcmp
+     114: ifne          131
+     117: aload_0
+     118: ldc_w         #1136               // String debug.crash.message
+     121: iconst_0
+     122: anewarray     #4                  // class java/lang/Object
+     125: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     128: goto          157
+     131: aload_0
+     132: ldc_w         #1138               // String debug.crash.warning
+     135: iconst_1
+     136: anewarray     #4                  // class java/lang/Object
+     139: dup
+     140: iconst_0
+     141: lload_3
+     142: l2f
+     143: ldc_w         #1139               // float 1000.0f
+     146: fdiv
+     147: invokestatic  #1145               // Method net/minecraft/util/Mth.m_14167_:(F)I
+     150: invokestatic  #392                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     153: aastore
+     154: invokevirtual #1147               // Method m_90948_:(Ljava/lang/String;[Ljava/lang/Object;)V
+     157: aload_0
+     158: lload_1
+     159: putfield      #60                 // Field f_90871_:J
+     162: aload_0
+     163: dup
+     164: getfield      #62                 // Field f_90872_:J
+     167: lconst_1
+     168: ladd
+     169: putfield      #62                 // Field f_90872_:J
+     172: return
+
+  private void m_90877_(int, long);
+    Code:
+       0: iload_1
+       1: ldc_w         #1155               // int 65545
+       4: if_icmpeq     19
+       7: aload_0
+       8: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+      11: invokevirtual #785                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      14: iload_1
+      15: lload_2
+      16: invokevirtual #1158               // Method com/mojang/blaze3d/platform/Window.m_85382_:(IJ)V
+      19: return
+
+  private void m_90934_(long, int, int);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: aload_0
+       5: lload_1
+       6: iload_3
+       7: iload         4
+       9: invokedynamic #1167,  0           // InvokeDynamic #12:run:(Lnet/minecraft/client/KeyboardHandler;JII)Ljava/lang/Runnable;
+      14: invokevirtual #1171               // Method net/minecraft/client/Minecraft.execute:(Ljava/lang/Runnable;)V
+      17: return
+
+  private void m_167827_(long, int, int);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: iload_3
+       3: iload         4
+       5: invokevirtual #1176               // Method m_90889_:(JII)V
+       8: return
+
+  private void m_90938_(long, int, int, int, int);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: aload_0
+       5: lload_1
+       6: iload_3
+       7: iload         4
+       9: iload         5
+      11: iload         6
+      13: invokedynamic #1186,  0           // InvokeDynamic #13:run:(Lnet/minecraft/client/KeyboardHandler;JIIII)Ljava/lang/Runnable;
+      18: invokevirtual #1171               // Method net/minecraft/client/Minecraft.execute:(Ljava/lang/Runnable;)V
+      21: return
+
+  private void m_167831_(long, int, int, int, int);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: iload_3
+       3: iload         4
+       5: iload         5
+       7: iload         6
+       9: invokevirtual #1193               // Method m_90893_:(JIIII)V
+      12: return
+
+  private static void lambda$charTyped$7(net.minecraft.client.gui.screens.Screen, char, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: iload_2
+       3: invokestatic  #1202               // Method net/minecraftforge/client/ForgeHooksClient.onScreenCharTypedPre:(Lnet/minecraft/client/gui/screens/Screen;CI)Z
+       6: ifeq          10
+       9: return
+      10: aload_0
+      11: iload_1
+      12: iload_2
+      13: invokevirtual #1206               // Method net/minecraft/client/gui/screens/Screen.m_5534_:(CI)Z
+      16: ifeq          20
+      19: return
+      20: aload_0
+      21: iload_1
+      22: iload_2
+      23: invokestatic  #1209               // Method net/minecraftforge/client/ForgeHooksClient.onScreenCharTypedPost:(Lnet/minecraft/client/gui/screens/Screen;CI)V
+      26: return
+
+  private static void lambda$charTyped$6(net.minecraft.client.gui.screens.Screen, int, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: i2c
+       3: iload_2
+       4: invokestatic  #1202               // Method net/minecraftforge/client/ForgeHooksClient.onScreenCharTypedPre:(Lnet/minecraft/client/gui/screens/Screen;CI)Z
+       7: ifeq          11
+      10: return
+      11: aload_0
+      12: iload_1
+      13: i2c
+      14: iload_2
+      15: invokevirtual #1206               // Method net/minecraft/client/gui/screens/Screen.m_5534_:(CI)Z
+      18: ifeq          22
+      21: return
+      22: aload_0
+      23: iload_1
+      24: i2c
+      25: iload_2
+      26: invokestatic  #1209               // Method net/minecraftforge/client/ForgeHooksClient.onScreenCharTypedPost:(Lnet/minecraft/client/gui/screens/Screen;CI)V
+      29: return
+
+  private static void lambda$keyPress$5(int, boolean[], net.minecraft.client.gui.screens.Screen, int, int, int);
+    Code:
+       0: iload_0
+       1: iconst_1
+       2: if_icmpeq     65
+       5: iload_0
+       6: iconst_2
+       7: if_icmpeq     65
+      10: iload_0
+      11: ifne          117
+      14: aload_1
+      15: iconst_0
+      16: aload_2
+      17: iload_3
+      18: iload         4
+      20: iload         5
+      22: invokestatic  #1213               // Method net/minecraftforge/client/ForgeHooksClient.onScreenKeyReleasedPre:(Lnet/minecraft/client/gui/screens/Screen;III)Z
+      25: bastore
+      26: aload_1
+      27: iconst_0
+      28: baload
+      29: ifne          44
+      32: aload_1
+      33: iconst_0
+      34: aload_2
+      35: iload_3
+      36: iload         4
+      38: iload         5
+      40: invokevirtual #1217               // Method net/minecraft/client/gui/screens/Screen.m_7920_:(III)Z
+      43: bastore
+      44: aload_1
+      45: iconst_0
+      46: baload
+      47: ifne          117
+      50: aload_1
+      51: iconst_0
+      52: aload_2
+      53: iload_3
+      54: iload         4
+      56: iload         5
+      58: invokestatic  #1220               // Method net/minecraftforge/client/ForgeHooksClient.onScreenKeyReleasedPost:(Lnet/minecraft/client/gui/screens/Screen;III)Z
+      61: bastore
+      62: goto          117
+      65: aload_2
+      66: invokevirtual #1223               // Method net/minecraft/client/gui/screens/Screen.m_169416_:()V
+      69: aload_1
+      70: iconst_0
+      71: aload_2
+      72: iload_3
+      73: iload         4
+      75: iload         5
+      77: invokestatic  #1226               // Method net/minecraftforge/client/ForgeHooksClient.onScreenKeyPressedPre:(Lnet/minecraft/client/gui/screens/Screen;III)Z
+      80: bastore
+      81: aload_1
+      82: iconst_0
+      83: baload
+      84: ifne          99
+      87: aload_1
+      88: iconst_0
+      89: aload_2
+      90: iload_3
+      91: iload         4
+      93: iload         5
+      95: invokevirtual #1229               // Method net/minecraft/client/gui/screens/Screen.m_7933_:(III)Z
+      98: bastore
+      99: aload_1
+     100: iconst_0
+     101: baload
+     102: ifne          117
+     105: aload_1
+     106: iconst_0
+     107: aload_2
+     108: iload_3
+     109: iload         4
+     111: iload         5
+     113: invokestatic  #1232               // Method net/minecraftforge/client/ForgeHooksClient.onScreenKeyPressedPost:(Lnet/minecraft/client/gui/screens/Screen;III)Z
+     116: bastore
+     117: return
+
+  private void m_90916_(net.minecraft.network.chat.Component);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: aload_0
+       5: aload_1
+       6: invokedynamic #1239,  0           // InvokeDynamic #14:run:(Lnet/minecraft/client/KeyboardHandler;Lnet/minecraft/network/chat/Component;)Ljava/lang/Runnable;
+      11: invokevirtual #1171               // Method net/minecraft/client/Minecraft.execute:(Ljava/lang/Runnable;)V
+      14: return
+
+  private void m_167840_(net.minecraft.network.chat.Component);
+    Code:
+       0: aload_0
+       1: getfield      #64                 // Field f_90867_:Lnet/minecraft/client/Minecraft;
+       4: getfield      #136                // Field net/minecraft/client/Minecraft.f_91065_:Lnet/minecraft/client/gui/Gui;
+       7: invokevirtual #142                // Method net/minecraft/client/gui/Gui.m_93076_:()Lnet/minecraft/client/gui/components/ChatComponent;
+      10: aload_1
+      11: invokevirtual #182                // Method net/minecraft/client/gui/components/ChatComponent.m_93785_:(Lnet/minecraft/network/chat/Component;)V
+      14: return
+
+  private void m_90918_(net.minecraft.resources.ResourceLocation, net.minecraft.world.entity.Entity, net.minecraft.nbt.CompoundTag);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokevirtual #685                // Method net/minecraft/world/entity/Entity.m_20182_:()Lnet/minecraft/world/phys/Vec3;
+       6: aload_3
+       7: invokevirtual #689                // Method m_90922_:(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/nbt/CompoundTag;)V
+      10: aload_0
+      11: ldc_w         #1243               // String debug.inspect.server.entity
+      14: iconst_0
+      15: anewarray     #4                  // class java/lang/Object
+      18: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+      21: return
+
+  private void m_90944_(net.minecraft.world.level.block.state.BlockState, net.minecraft.core.BlockPos, net.minecraft.nbt.CompoundTag);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: aload_3
+       4: invokevirtual #633                // Method m_90899_:(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/nbt/CompoundTag;)V
+       7: aload_0
+       8: ldc_w         #1248               // String debug.inspect.server.block
+      11: iconst_0
+      12: anewarray     #4                  // class java/lang/Object
+      15: invokevirtual #234                // Method m_90913_:(Ljava/lang/String;[Ljava/lang/Object;)V
+      18: return
+
+  private static net.minecraft.network.chat.Style m_276074_(java.nio.file.Path, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_1
+       1: new           #25                 // class net/minecraft/network/chat/ClickEvent
+       4: dup
+       5: getstatic     #1255               // Field net/minecraft/network/chat/ClickEvent$Action.OPEN_FILE:Lnet/minecraft/network/chat/ClickEvent$Action;
+       8: aload_0
+       9: invokeinterface #1259,  1         // InterfaceMethod java/nio/file/Path.toFile:()Ljava/io/File;
+      14: invokevirtual #1260               // Method java/io/File.toString:()Ljava/lang/String;
+      17: invokespecial #1263               // Method net/minecraft/network/chat/ClickEvent."<init>":(Lnet/minecraft/network/chat/ClickEvent$Action;Ljava/lang/String;)V
+      20: invokevirtual #1269               // Method net/minecraft/network/chat/Style.m_131142_:(Lnet/minecraft/network/chat/ClickEvent;)Lnet/minecraft/network/chat/Style;
+      23: areturn
+}

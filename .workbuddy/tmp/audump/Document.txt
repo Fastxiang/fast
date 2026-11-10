@@ -1,0 +1,3585 @@
+Compiled from "Document.java"
+public class com.sighs.apricityui.init.Document {
+  private static final java.lang.String MOUSE_EVENTS_META_NAME;
+
+  private static final long SLOW_REFRESH_LOG_THRESHOLD_NS;
+
+  private static final double CLICK_PRESS_SLOP_PX;
+
+  private static final double TEXT_DRAG_SLOP_PX;
+
+  private final com.sighs.apricityui.dom.ElementTree tree;
+
+  private final com.sighs.apricityui.render.RenderQueue render;
+
+  private final java.lang.String path;
+
+  public final java.util.Map<java.lang.String, java.util.Map<java.lang.String, com.sighs.apricityui.parser.CSS$Declaration>> CSSCache;
+
+  public final java.util.List<com.sighs.apricityui.parser.CSS$DebugRule> CSSDebugRules;
+
+  public final java.util.List<java.lang.String> JSCache;
+
+  public com.sighs.apricityui.element.Html documentElement;
+
+  public com.sighs.apricityui.element.Head head;
+
+  public com.sighs.apricityui.element.Body body;
+
+  private final java.util.UUID uuid;
+
+  public final boolean inWorld;
+
+  private volatile boolean reloadPersistent;
+
+  private volatile boolean interceptMouseEvents;
+
+  private volatile boolean manuallyRendered;
+
+  private volatile long refreshGeneration;
+
+  private volatile long timedLayoutGeneration;
+
+  private volatile com.sighs.apricityui.init.Document$InitialCommitSlice initialCommitSlice;
+
+  private volatile com.sighs.apricityui.init.Document$LifecycleState lifecycleState;
+
+  private volatile java.lang.String readyState;
+
+  private volatile com.sighs.apricityui.init.Element lastClickTarget;
+
+  private volatile int lastClickButton;
+
+  private volatile long lastClickTimeNs;
+
+  private volatile int clickCount;
+
+  private volatile double pressX;
+
+  private volatile double pressY;
+
+  private volatile double viewportScaleX;
+
+  private volatile double viewportScaleY;
+
+  private volatile double viewportOffsetX;
+
+  private volatile double viewportOffsetY;
+
+  private volatile long viewportVersion;
+
+  private final com.sighs.apricityui.viewport.ApricityViewport$State viewportState;
+
+  private volatile com.sighs.apricityui.viewport.ApricityViewport viewport;
+
+  private final com.sighs.apricityui.dom.MutationObserverManager mutationManager;
+
+  private final com.sighs.apricityui.style.StyleScope style;
+
+  private final com.sighs.apricityui.behavior.MotionTrack motion;
+
+  private final com.sighs.apricityui.behavior.FocusRing focus;
+
+  private final com.sighs.apricityui.behavior.DocumentSelection documentSelection;
+
+  private final com.sighs.apricityui.behavior.richtext.RichTextSelection richTextSelection;
+
+  private final java.util.IdentityHashMap<com.sighs.apricityui.init.Element, com.sighs.apricityui.init.Document$SelectionCacheEntry> selectionCache;
+
+  private java.util.List<com.sighs.apricityui.init.Element> selectionUnitsCache;
+
+  private final java.util.Set<com.sighs.apricityui.init.Element> activeScrollElements;
+
+  private final java.util.Set<com.sighs.apricityui.init.Element> mutableInlineStyleElements;
+
+  private final com.sighs.apricityui.init.Document$TextDragState textDrag;
+
+  private final java.util.ArrayList<com.sighs.apricityui.init.Document$ScrollShift> scrollShifts;
+
+  public com.sighs.apricityui.init.Document(java.lang.String, boolean);
+    Code:
+       0: aload_0
+       1: invokespecial #175                // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: new           #177                // class com/sighs/apricityui/dom/ElementTree
+       8: dup
+       9: aload_0
+      10: invokespecial #180                // Method com/sighs/apricityui/dom/ElementTree."<init>":(Lcom/sighs/apricityui/init/Document;)V
+      13: putfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+      16: aload_0
+      17: new           #184                // class com/sighs/apricityui/render/RenderQueue
+      20: dup
+      21: aload_0
+      22: invokespecial #185                // Method com/sighs/apricityui/render/RenderQueue."<init>":(Lcom/sighs/apricityui/init/Document;)V
+      25: putfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      28: aload_0
+      29: new           #189                // class java/util/LinkedHashMap
+      32: dup
+      33: invokespecial #190                // Method java/util/LinkedHashMap."<init>":()V
+      36: putfield      #192                // Field CSSCache:Ljava/util/Map;
+      39: aload_0
+      40: new           #194                // class java/util/ArrayList
+      43: dup
+      44: invokespecial #195                // Method java/util/ArrayList."<init>":()V
+      47: putfield      #197                // Field CSSDebugRules:Ljava/util/List;
+      50: aload_0
+      51: new           #194                // class java/util/ArrayList
+      54: dup
+      55: invokespecial #195                // Method java/util/ArrayList."<init>":()V
+      58: putfield      #199                // Field JSCache:Ljava/util/List;
+      61: aload_0
+      62: invokestatic  #205                // Method java/util/UUID.randomUUID:()Ljava/util/UUID;
+      65: putfield      #207                // Field uuid:Ljava/util/UUID;
+      68: aload_0
+      69: iconst_0
+      70: putfield      #209                // Field reloadPersistent:Z
+      73: aload_0
+      74: iconst_0
+      75: putfield      #211                // Field manuallyRendered:Z
+      78: aload_0
+      79: lconst_0
+      80: putfield      #213                // Field refreshGeneration:J
+      83: aload_0
+      84: ldc2_w        #214                // long -1l
+      87: putfield      #217                // Field timedLayoutGeneration:J
+      90: aload_0
+      91: getstatic     #220                // Field com/sighs/apricityui/init/Document$LifecycleState.LOADING:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      94: putfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      97: aload_0
+      98: getstatic     #220                // Field com/sighs/apricityui/init/Document$LifecycleState.LOADING:Lcom/sighs/apricityui/init/Document$LifecycleState;
+     101: getfield      #225                // Field com/sighs/apricityui/init/Document$LifecycleState.readyStateValue:Ljava/lang/String;
+     104: putfield      #227                // Field readyState:Ljava/lang/String;
+     107: aload_0
+     108: aconst_null
+     109: putfield      #229                // Field lastClickTarget:Lcom/sighs/apricityui/init/Element;
+     112: aload_0
+     113: iconst_m1
+     114: putfield      #231                // Field lastClickButton:I
+     117: aload_0
+     118: lconst_0
+     119: putfield      #233                // Field lastClickTimeNs:J
+     122: aload_0
+     123: iconst_0
+     124: putfield      #235                // Field clickCount:I
+     127: aload_0
+     128: dconst_0
+     129: putfield      #237                // Field pressX:D
+     132: aload_0
+     133: dconst_0
+     134: putfield      #239                // Field pressY:D
+     137: aload_0
+     138: dconst_1
+     139: putfield      #241                // Field viewportScaleX:D
+     142: aload_0
+     143: dconst_1
+     144: putfield      #243                // Field viewportScaleY:D
+     147: aload_0
+     148: dconst_0
+     149: putfield      #245                // Field viewportOffsetX:D
+     152: aload_0
+     153: dconst_0
+     154: putfield      #247                // Field viewportOffsetY:D
+     157: aload_0
+     158: lconst_1
+     159: putfield      #249                // Field viewportVersion:J
+     162: aload_0
+     163: new           #34                 // class com/sighs/apricityui/viewport/ApricityViewport
+     166: dup
+     167: iconst_1
+     168: iconst_1
+     169: fconst_1
+     170: dconst_1
+     171: invokespecial #252                // Method com/sighs/apricityui/viewport/ApricityViewport."<init>":(IIFD)V
+     174: putfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     177: aload_0
+     178: new           #256                // class com/sighs/apricityui/dom/MutationObserverManager
+     181: dup
+     182: aload_0
+     183: invokespecial #257                // Method com/sighs/apricityui/dom/MutationObserverManager."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     186: putfield      #259                // Field mutationManager:Lcom/sighs/apricityui/dom/MutationObserverManager;
+     189: aload_0
+     190: new           #261                // class com/sighs/apricityui/style/StyleScope
+     193: dup
+     194: aload_0
+     195: invokespecial #262                // Method com/sighs/apricityui/style/StyleScope."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     198: putfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+     201: aload_0
+     202: new           #266                // class com/sighs/apricityui/behavior/MotionTrack
+     205: dup
+     206: aload_0
+     207: invokespecial #267                // Method com/sighs/apricityui/behavior/MotionTrack."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     210: putfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+     213: aload_0
+     214: new           #271                // class com/sighs/apricityui/behavior/FocusRing
+     217: dup
+     218: aload_0
+     219: invokespecial #272                // Method com/sighs/apricityui/behavior/FocusRing."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     222: putfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+     225: aload_0
+     226: new           #276                // class com/sighs/apricityui/behavior/DocumentSelection
+     229: dup
+     230: aload_0
+     231: invokespecial #277                // Method com/sighs/apricityui/behavior/DocumentSelection."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     234: putfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+     237: aload_0
+     238: new           #281                // class com/sighs/apricityui/behavior/richtext/RichTextSelection
+     241: dup
+     242: aload_0
+     243: invokespecial #282                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection."<init>":(Lcom/sighs/apricityui/init/Document;)V
+     246: putfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+     249: aload_0
+     250: new           #286                // class java/util/IdentityHashMap
+     253: dup
+     254: invokespecial #287                // Method java/util/IdentityHashMap."<init>":()V
+     257: putfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+     260: aload_0
+     261: aconst_null
+     262: putfield      #291                // Field selectionUnitsCache:Ljava/util/List;
+     265: aload_0
+     266: invokestatic  #295                // Method java/util/concurrent/ConcurrentHashMap.newKeySet:()Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
+     269: putfield      #297                // Field activeScrollElements:Ljava/util/Set;
+     272: aload_0
+     273: new           #299                // class java/util/WeakHashMap
+     276: dup
+     277: invokespecial #300                // Method java/util/WeakHashMap."<init>":()V
+     280: invokestatic  #306                // Method java/util/Collections.newSetFromMap:(Ljava/util/Map;)Ljava/util/Set;
+     283: putfield      #308                // Field mutableInlineStyleElements:Ljava/util/Set;
+     286: aload_0
+     287: new           #15                 // class com/sighs/apricityui/init/Document$TextDragState
+     290: dup
+     291: invokespecial #309                // Method com/sighs/apricityui/init/Document$TextDragState."<init>":()V
+     294: putfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+     297: aload_0
+     298: new           #194                // class java/util/ArrayList
+     301: dup
+     302: invokespecial #195                // Method java/util/ArrayList."<init>":()V
+     305: putfield      #313                // Field scrollShifts:Ljava/util/ArrayList;
+     308: aload_0
+     309: aload_1
+     310: putfield      #315                // Field path:Ljava/lang/String;
+     313: aload_0
+     314: iload_2
+     315: putfield      #317                // Field inWorld:Z
+     318: aload_0
+     319: aload_1
+     320: invokestatic  #321                // Method com/sighs/apricityui/viewport/ApricityViewport.spec:(Ljava/lang/String;)Lcom/sighs/apricityui/viewport/ApricityViewport$Spec;
+     323: aload_1
+     324: invokevirtual #325                // Method com/sighs/apricityui/viewport/ApricityViewport$Spec.createState:(Ljava/lang/String;)Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+     327: putfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+     330: aload_0
+     331: aload_1
+     332: ldc           #85                 // String aui-mouse-events
+     334: invokestatic  #331                // Method com/sighs/apricityui/parser/HTML.findMetaContent:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     337: invokestatic  #335                // Method parseMouseEventInterception:(Ljava/lang/String;)Z
+     340: putfield      #337                // Field interceptMouseEvents:Z
+     343: return
+
+  public boolean interceptsMouseEvents();
+    Code:
+       0: aload_0
+       1: getfield      #337                // Field interceptMouseEvents:Z
+       4: ireturn
+
+  public boolean interceptsMouseEventsAt(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: getfield      #337                // Field interceptMouseEvents:Z
+       4: ifeq          23
+       7: aload_0
+       8: aload_0
+       9: aload_1
+      10: invokevirtual #347                // Method screenToDocumentPosition:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/layout/Position;
+      13: invokevirtual #351                // Method hitTest:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/init/Element;
+      16: ifnull        23
+      19: iconst_1
+      20: goto          24
+      23: iconst_0
+      24: ireturn
+
+  private static boolean parseMouseEventInterception(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+       8: ifeq          13
+      11: iconst_0
+      12: ireturn
+      13: aload_0
+      14: invokevirtual #362                // Method java/lang/String.trim:()Ljava/lang/String;
+      17: getstatic     #368                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      20: invokevirtual #372                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+      23: astore_1
+      24: iconst_m1
+      25: istore_2
+      26: aload_1
+      27: invokevirtual #376                // Method java/lang/String.hashCode:()I
+      30: lookupswitch  { // 6
+                    49: 163
+                  3551: 148
+                119527: 133
+               3569038: 118
+              93832333: 103
+             502538434: 88
+               default: 175
+          }
+      88: aload_1
+      89: ldc_w         #378                // String intercept
+      92: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      95: ifeq          175
+      98: iconst_0
+      99: istore_2
+     100: goto          175
+     103: aload_1
+     104: ldc_w         #384                // String block
+     107: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     110: ifeq          175
+     113: iconst_1
+     114: istore_2
+     115: goto          175
+     118: aload_1
+     119: ldc_w         #386                // String true
+     122: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     125: ifeq          175
+     128: iconst_2
+     129: istore_2
+     130: goto          175
+     133: aload_1
+     134: ldc_w         #388                // String yes
+     137: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     140: ifeq          175
+     143: iconst_3
+     144: istore_2
+     145: goto          175
+     148: aload_1
+     149: ldc_w         #390                // String on
+     152: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     155: ifeq          175
+     158: iconst_4
+     159: istore_2
+     160: goto          175
+     163: aload_1
+     164: ldc_w         #392                // String 1
+     167: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     170: ifeq          175
+     173: iconst_5
+     174: istore_2
+     175: iload_2
+     176: tableswitch   { // 0 to 5
+                     0: 216
+                     1: 216
+                     2: 216
+                     3: 216
+                     4: 216
+                     5: 216
+               default: 220
+          }
+     216: iconst_1
+     217: goto          221
+     220: iconst_0
+     221: ireturn
+
+  public java.util.UUID getUuid();
+    Code:
+       0: aload_0
+       1: getfield      #207                // Field uuid:Ljava/util/UUID;
+       4: areturn
+
+  public void setViewportTransform(double, double, double, double);
+    Code:
+       0: aload_0
+       1: dload_1
+       2: dconst_0
+       3: dcmpl
+       4: ifle          18
+       7: dload_1
+       8: invokestatic  #402                // Method java/lang/Double.isFinite:(D)Z
+      11: ifeq          18
+      14: dload_1
+      15: goto          19
+      18: dconst_1
+      19: putfield      #241                // Field viewportScaleX:D
+      22: aload_0
+      23: dload_3
+      24: dconst_0
+      25: dcmpl
+      26: ifle          40
+      29: dload_3
+      30: invokestatic  #402                // Method java/lang/Double.isFinite:(D)Z
+      33: ifeq          40
+      36: dload_3
+      37: goto          41
+      40: dconst_1
+      41: putfield      #243                // Field viewportScaleY:D
+      44: aload_0
+      45: dload         5
+      47: invokestatic  #402                // Method java/lang/Double.isFinite:(D)Z
+      50: ifeq          58
+      53: dload         5
+      55: goto          59
+      58: dconst_0
+      59: putfield      #245                // Field viewportOffsetX:D
+      62: aload_0
+      63: dload         7
+      65: invokestatic  #402                // Method java/lang/Double.isFinite:(D)Z
+      68: ifeq          76
+      71: dload         7
+      73: goto          77
+      76: dconst_0
+      77: putfield      #247                // Field viewportOffsetY:D
+      80: return
+
+  public com.sighs.apricityui.layout.Position screenToDocumentPosition(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_1
+       1: ifnonnull     8
+       4: getstatic     #411                // Field com/sighs/apricityui/layout/Position.ZERO:Lcom/sighs/apricityui/layout/Position;
+       7: areturn
+       8: new           #408                // class com/sighs/apricityui/layout/Position
+      11: dup
+      12: aload_1
+      13: getfield      #414                // Field com/sighs/apricityui/layout/Position.x:D
+      16: aload_0
+      17: getfield      #245                // Field viewportOffsetX:D
+      20: dsub
+      21: aload_0
+      22: getfield      #241                // Field viewportScaleX:D
+      25: ddiv
+      26: aload_1
+      27: getfield      #417                // Field com/sighs/apricityui/layout/Position.y:D
+      30: aload_0
+      31: getfield      #247                // Field viewportOffsetY:D
+      34: dsub
+      35: aload_0
+      36: getfield      #243                // Field viewportScaleY:D
+      39: ddiv
+      40: invokespecial #420                // Method com/sighs/apricityui/layout/Position."<init>":(DD)V
+      43: areturn
+
+  public com.sighs.apricityui.layout.Position documentToScreenPosition(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_1
+       1: ifnonnull     8
+       4: getstatic     #411                // Field com/sighs/apricityui/layout/Position.ZERO:Lcom/sighs/apricityui/layout/Position;
+       7: areturn
+       8: new           #408                // class com/sighs/apricityui/layout/Position
+      11: dup
+      12: aload_1
+      13: getfield      #414                // Field com/sighs/apricityui/layout/Position.x:D
+      16: aload_0
+      17: getfield      #241                // Field viewportScaleX:D
+      20: dmul
+      21: aload_0
+      22: getfield      #245                // Field viewportOffsetX:D
+      25: dadd
+      26: aload_1
+      27: getfield      #417                // Field com/sighs/apricityui/layout/Position.y:D
+      30: aload_0
+      31: getfield      #243                // Field viewportScaleY:D
+      34: dmul
+      35: aload_0
+      36: getfield      #247                // Field viewportOffsetY:D
+      39: dadd
+      40: invokespecial #420                // Method com/sighs/apricityui/layout/Position."<init>":(DD)V
+      43: areturn
+
+  public com.sighs.apricityui.layout.Position guiToDocumentPosition(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #347                // Method screenToDocumentPosition:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/layout/Position;
+       5: areturn
+
+  public com.sighs.apricityui.layout.Position documentToGuiPosition(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #427                // Method documentToScreenPosition:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/layout/Position;
+       5: areturn
+
+  public com.sighs.apricityui.layout.Position getMouseDocumentPosition();
+    Code:
+       0: aload_0
+       1: invokestatic  #434                // Method com/sighs/apricityui/render/Operation.getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+       4: invokevirtual #347                // Method screenToDocumentPosition:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/layout/Position;
+       7: areturn
+
+  public com.sighs.apricityui.layout.Size getViewportSize();
+    Code:
+       0: aload_0
+       1: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+       4: astore_1
+       5: new           #438                // class com/sighs/apricityui/layout/Size
+       8: dup
+       9: aload_1
+      10: invokevirtual #441                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutWidth:()I
+      13: i2d
+      14: aload_1
+      15: invokevirtual #444                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutHeight:()I
+      18: i2d
+      19: invokespecial #445                // Method com/sighs/apricityui/layout/Size."<init>":(DD)V
+      22: areturn
+
+  public double getViewportScaleX();
+    Code:
+       0: aload_0
+       1: getfield      #241                // Field viewportScaleX:D
+       4: dreturn
+
+  public double getViewportScaleY();
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field viewportScaleY:D
+       4: dreturn
+
+  public com.sighs.apricityui.viewport.ApricityViewport getViewport();
+    Code:
+       0: aload_0
+       1: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+       4: areturn
+
+  public boolean isManuallyRendered();
+    Code:
+       0: aload_0
+       1: getfield      #211                // Field manuallyRendered:Z
+       4: ireturn
+
+  public void setManuallyRendered(boolean);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #211                // Field manuallyRendered:Z
+       5: return
+
+  public long getViewportVersion();
+    Code:
+       0: aload_0
+       1: getfield      #249                // Field viewportVersion:J
+       4: lreturn
+
+  public void applyViewport(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+       4: astore_2
+       5: invokestatic  #465                // Method net/minecraft/client/Minecraft.m_91087_:()Lnet/minecraft/client/Minecraft;
+       8: astore_3
+       9: aload_3
+      10: ifnonnull     50
+      13: invokestatic  #468                // Method com/sighs/apricityui/layout/Size.getHeadlessWindowSize:()Lcom/sighs/apricityui/layout/Size;
+      16: astore        4
+      18: aload_0
+      19: aload_0
+      20: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      23: aload         4
+      25: invokevirtual #471                // Method com/sighs/apricityui/layout/Size.width:()D
+      28: invokestatic  #477                // Method java/lang/Math.round:(D)J
+      31: l2i
+      32: aload         4
+      34: invokevirtual #480                // Method com/sighs/apricityui/layout/Size.height:()D
+      37: invokestatic  #477                // Method java/lang/Math.round:(D)J
+      40: l2i
+      41: invokevirtual #484                // Method com/sighs/apricityui/viewport/ApricityViewport$State.resolveHeadless:(II)Lcom/sighs/apricityui/viewport/ApricityViewport;
+      44: putfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+      47: goto          65
+      50: aload_0
+      51: aload_0
+      52: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      55: aload_3
+      56: invokevirtual #488                // Method net/minecraft/client/Minecraft.m_91268_:()Lcom/mojang/blaze3d/platform/Window;
+      59: invokevirtual #492                // Method com/sighs/apricityui/viewport/ApricityViewport$State.resolve:(Lcom/mojang/blaze3d/platform/Window;)Lcom/sighs/apricityui/viewport/ApricityViewport;
+      62: putfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+      65: goto          112
+      68: astore_3
+      69: aload_3
+      70: invokestatic  #496                // Method isUnavailableClientRuntime:(Ljava/lang/NoClassDefFoundError;)Z
+      73: ifne          78
+      76: aload_3
+      77: athrow
+      78: invokestatic  #468                // Method com/sighs/apricityui/layout/Size.getHeadlessWindowSize:()Lcom/sighs/apricityui/layout/Size;
+      81: astore        4
+      83: aload_0
+      84: aload_0
+      85: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      88: aload         4
+      90: invokevirtual #471                // Method com/sighs/apricityui/layout/Size.width:()D
+      93: invokestatic  #477                // Method java/lang/Math.round:(D)J
+      96: l2i
+      97: aload         4
+      99: invokevirtual #480                // Method com/sighs/apricityui/layout/Size.height:()D
+     102: invokestatic  #477                // Method java/lang/Math.round:(D)J
+     105: l2i
+     106: invokevirtual #484                // Method com/sighs/apricityui/viewport/ApricityViewport$State.resolveHeadless:(II)Lcom/sighs/apricityui/viewport/ApricityViewport;
+     109: putfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     112: aload_0
+     113: aload_0
+     114: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     117: invokevirtual #500                // Method com/sighs/apricityui/viewport/ApricityViewport.renderScale:()F
+     120: f2d
+     121: aload_0
+     122: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     125: invokevirtual #500                // Method com/sighs/apricityui/viewport/ApricityViewport.renderScale:()F
+     128: f2d
+     129: dconst_0
+     130: dconst_0
+     131: invokevirtual #502                // Method setViewportTransform:(DDDD)V
+     134: aload_0
+     135: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     138: aload_2
+     139: invokevirtual #503                // Method com/sighs/apricityui/viewport/ApricityViewport.equals:(Ljava/lang/Object;)Z
+     142: ifne          162
+     145: aload_0
+     146: dup
+     147: getfield      #249                // Field viewportVersion:J
+     150: lconst_1
+     151: ladd
+     152: putfield      #249                // Field viewportVersion:J
+     155: getstatic     #509                // Field com/sighs/apricityui/resource/async/style/StyleAsyncHandler.INSTANCE:Lcom/sighs/apricityui/resource/async/style/StyleAsyncHandler;
+     158: aload_0
+     159: invokevirtual #512                // Method com/sighs/apricityui/resource/async/style/StyleAsyncHandler.handleViewportChange:(Lcom/sighs/apricityui/init/Document;)V
+     162: iload_1
+     163: ifeq          172
+     166: aload_0
+     167: bipush        7
+     169: invokevirtual #516                // Method markDirty:(I)V
+     172: return
+    Exception table:
+       from    to  target type
+           5    65    68   Class java/lang/NoClassDefFoundError
+
+  private static boolean isUnavailableClientRuntime(java.lang.NoClassDefFoundError);
+    Code:
+       0: aload_0
+       1: invokevirtual #527                // Method java/lang/NoClassDefFoundError.getMessage:()Ljava/lang/String;
+       4: astore_1
+       5: aload_1
+       6: ifnonnull     11
+       9: iconst_0
+      10: ireturn
+      11: aload_1
+      12: bipush        46
+      14: bipush        47
+      16: invokevirtual #531                // Method java/lang/String.replace:(CC)Ljava/lang/String;
+      19: astore_2
+      20: aload_2
+      21: ldc_w         #533                // String net/minecraft/client/
+      24: invokevirtual #536                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      27: ifne          40
+      30: aload_2
+      31: ldc_w         #538                // String com/mojang/blaze3d/platform/Window
+      34: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      37: ifeq          44
+      40: iconst_1
+      41: goto          45
+      44: iconst_0
+      45: ireturn
+
+  public boolean handleViewportZoom(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+       4: invokevirtual #546                // Method com/sighs/apricityui/viewport/ApricityViewport$State.canUserScale:()Z
+       7: ifne          12
+      10: iconst_0
+      11: ireturn
+      12: iload_1
+      13: ifeq          26
+      16: aload_0
+      17: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      20: invokevirtual #549                // Method com/sighs/apricityui/viewport/ApricityViewport$State.zoomIn:()Z
+      23: goto          33
+      26: aload_0
+      27: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      30: invokevirtual #552                // Method com/sighs/apricityui/viewport/ApricityViewport$State.zoomOut:()Z
+      33: istore_2
+      34: iload_2
+      35: ifne          40
+      38: iconst_0
+      39: ireturn
+      40: aload_0
+      41: getfield      #315                // Field path:Ljava/lang/String;
+      44: iconst_1
+      45: invokestatic  #557                // Method com/sighs/apricityui/dom/DocumentRegistry.applyViewportForPath:(Ljava/lang/String;Z)V
+      48: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      51: ldc_w         #565                // String [AUI Viewport] zoom path={} zoom={} viewport={}x{}
+      54: iconst_4
+      55: anewarray     #4                  // class java/lang/Object
+      58: dup
+      59: iconst_0
+      60: aload_0
+      61: getfield      #315                // Field path:Ljava/lang/String;
+      64: aastore
+      65: dup
+      66: iconst_1
+      67: getstatic     #368                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      70: ldc_w         #567                // String %.2f
+      73: iconst_1
+      74: anewarray     #4                  // class java/lang/Object
+      77: dup
+      78: iconst_0
+      79: aload_0
+      80: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+      83: invokevirtual #570                // Method com/sighs/apricityui/viewport/ApricityViewport.zoom:()D
+      86: invokestatic  #574                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      89: aastore
+      90: invokestatic  #578                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      93: aastore
+      94: dup
+      95: iconst_2
+      96: aload_0
+      97: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     100: invokevirtual #441                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutWidth:()I
+     103: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     106: aastore
+     107: dup
+     108: iconst_3
+     109: aload_0
+     110: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     113: invokevirtual #444                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutHeight:()I
+     116: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     119: aastore
+     120: invokeinterface #589,  3          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;[Ljava/lang/Object;)V
+     125: iconst_1
+     126: ireturn
+
+  public boolean resetViewportZoom();
+    Code:
+       0: aload_0
+       1: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+       4: invokevirtual #546                // Method com/sighs/apricityui/viewport/ApricityViewport$State.canUserScale:()Z
+       7: ifne          12
+      10: iconst_0
+      11: ireturn
+      12: aload_0
+      13: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      16: invokevirtual #594                // Method com/sighs/apricityui/viewport/ApricityViewport$State.resetZoom:()Z
+      19: ifne          24
+      22: iconst_0
+      23: ireturn
+      24: aload_0
+      25: getfield      #315                // Field path:Ljava/lang/String;
+      28: iconst_1
+      29: invokestatic  #557                // Method com/sighs/apricityui/dom/DocumentRegistry.applyViewportForPath:(Ljava/lang/String;Z)V
+      32: iconst_1
+      33: ireturn
+
+  public boolean setViewportZoom(double);
+    Code:
+       0: aload_0
+       1: getfield      #327                // Field viewportState:Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+       4: dload_1
+       5: invokevirtual #598                // Method com/sighs/apricityui/viewport/ApricityViewport$State.setZoom:(D)Z
+       8: istore_3
+       9: iload_3
+      10: ifne          15
+      13: iconst_0
+      14: ireturn
+      15: aload_0
+      16: getfield      #317                // Field inWorld:Z
+      19: ifeq          30
+      22: aload_0
+      23: iconst_1
+      24: invokevirtual #600                // Method applyViewport:(Z)V
+      27: goto          38
+      30: aload_0
+      31: getfield      #315                // Field path:Ljava/lang/String;
+      34: iconst_1
+      35: invokestatic  #557                // Method com/sighs/apricityui/dom/DocumentRegistry.applyViewportForPath:(Ljava/lang/String;Z)V
+      38: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      41: ldc_w         #602                // String [AUI Viewport] editor zoom path={} zoom={} viewport={}x{}
+      44: iconst_4
+      45: anewarray     #4                  // class java/lang/Object
+      48: dup
+      49: iconst_0
+      50: aload_0
+      51: getfield      #315                // Field path:Ljava/lang/String;
+      54: aastore
+      55: dup
+      56: iconst_1
+      57: getstatic     #368                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      60: ldc_w         #567                // String %.2f
+      63: iconst_1
+      64: anewarray     #4                  // class java/lang/Object
+      67: dup
+      68: iconst_0
+      69: aload_0
+      70: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+      73: invokevirtual #570                // Method com/sighs/apricityui/viewport/ApricityViewport.zoom:()D
+      76: invokestatic  #574                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      79: aastore
+      80: invokestatic  #578                // Method java/lang/String.format:(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      83: aastore
+      84: dup
+      85: iconst_2
+      86: aload_0
+      87: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+      90: invokevirtual #441                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutWidth:()I
+      93: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      96: aastore
+      97: dup
+      98: iconst_3
+      99: aload_0
+     100: getfield      #254                // Field viewport:Lcom/sighs/apricityui/viewport/ApricityViewport;
+     103: invokevirtual #444                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutHeight:()I
+     106: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     109: aastore
+     110: invokeinterface #589,  3          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;[Ljava/lang/Object;)V
+     115: iconst_1
+     116: ireturn
+
+  public void refreshStyles();
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: invokestatic  #607                // Method com/sighs/apricityui/parser/HTML.getTemple:(Ljava/lang/String;)Ljava/lang/String;
+       7: astore_1
+       8: aload_1
+       9: ifnonnull     13
+      12: return
+      13: new           #40                 // class com/sighs/apricityui/parser/CSS$Extractor
+      16: dup
+      17: aload_0
+      18: getfield      #315                // Field path:Ljava/lang/String;
+      21: invokespecial #610                // Method com/sighs/apricityui/parser/CSS$Extractor."<init>":(Ljava/lang/String;)V
+      24: astore_2
+      25: aload_2
+      26: aload_1
+      27: invokevirtual #613                // Method com/sighs/apricityui/parser/CSS$Extractor.handle:(Ljava/lang/String;)Ljava/lang/String;
+      30: pop
+      31: aload_2
+      32: aload_0
+      33: invokevirtual #616                // Method com/sighs/apricityui/parser/CSS$Extractor.pushToDocument:(Lcom/sighs/apricityui/init/Document;)V
+      36: aload_0
+      37: invokevirtual #619                // Method reapplyStylesFromCache:()V
+      40: return
+
+  public void refresh();
+    Code:
+       0: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+       3: lstore_1
+       4: aload_0
+       5: invokevirtual #633                // Method beginRefreshLifecycle:()V
+       8: aload_0
+       9: getfield      #315                // Field path:Ljava/lang/String;
+      12: invokestatic  #321                // Method com/sighs/apricityui/viewport/ApricityViewport.spec:(Ljava/lang/String;)Lcom/sighs/apricityui/viewport/ApricityViewport$Spec;
+      15: aload_0
+      16: getfield      #315                // Field path:Ljava/lang/String;
+      19: invokevirtual #325                // Method com/sighs/apricityui/viewport/ApricityViewport$Spec.createState:(Ljava/lang/String;)Lcom/sighs/apricityui/viewport/ApricityViewport$State;
+      22: pop
+      23: aload_0
+      24: aload_0
+      25: getfield      #315                // Field path:Ljava/lang/String;
+      28: ldc           #85                 // String aui-mouse-events
+      30: invokestatic  #331                // Method com/sighs/apricityui/parser/HTML.findMetaContent:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      33: invokestatic  #335                // Method parseMouseEventInterception:(Ljava/lang/String;)Z
+      36: putfield      #337                // Field interceptMouseEvents:Z
+      39: aload_0
+      40: iconst_0
+      41: invokevirtual #600                // Method applyViewport:(Z)V
+      44: aload_0
+      45: invokestatic  #637                // Method withContext:(Lcom/sighs/apricityui/init/Document;)Lcom/sighs/apricityui/init/Document$ContextScope;
+      48: astore_3
+      49: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+      52: lstore        4
+      54: ldc_w         #639                // String reset
+      57: astore        6
+      59: invokestatic  #642                // Method com/sighs/apricityui/layout/Size.clearRootFontOverride:()V
+      62: aload_0
+      63: getfield      #192                // Field CSSCache:Ljava/util/Map;
+      66: invokeinterface #647,  1          // InterfaceMethod java/util/Map.clear:()V
+      71: aload_0
+      72: getfield      #197                // Field CSSDebugRules:Ljava/util/List;
+      75: invokeinterface #650,  1          // InterfaceMethod java/util/List.clear:()V
+      80: aload_0
+      81: getfield      #199                // Field JSCache:Ljava/util/List;
+      84: invokeinterface #650,  1          // InterfaceMethod java/util/List.clear:()V
+      89: aload_0
+      90: getfield      #308                // Field mutableInlineStyleElements:Ljava/util/Set;
+      93: invokeinterface #653,  1          // InterfaceMethod java/util/Set.clear:()V
+      98: aload_0
+      99: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+     102: invokevirtual #654                // Method com/sighs/apricityui/dom/ElementTree.clear:()V
+     105: aload_0
+     106: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+     109: invokevirtual #656                // Method com/sighs/apricityui/render/RenderQueue.reset:()V
+     112: aload_0
+     113: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+     116: invokevirtual #657                // Method com/sighs/apricityui/behavior/MotionTrack.clear:()V
+     119: aload_0
+     120: invokevirtual #660                // Method invalidateSelectorIndex:()V
+     123: ldc_w         #662                // String html/css/js extraction
+     126: astore        6
+     128: aload_0
+     129: aload_0
+     130: getfield      #315                // Field path:Ljava/lang/String;
+     133: invokestatic  #666                // Method com/sighs/apricityui/parser/HTML.create:(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;)Lcom/sighs/apricityui/parser/HTML$DocumentRoot;
+     136: astore        7
+     138: aload         7
+     140: ifnull        151
+     143: aload         7
+     145: invokevirtual #669                // Method com/sighs/apricityui/parser/HTML$DocumentRoot.body:()Lcom/sighs/apricityui/element/Body;
+     148: ifnonnull     173
+     151: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     154: ldc_w         #671                // String [AUI Document] refresh produced no body path={} stage={}
+     157: aload_0
+     158: getfield      #315                // Field path:Ljava/lang/String;
+     161: aload         6
+     163: invokeinterface #674,  4          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+     168: aload_3
+     169: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+     172: return
+     173: aload_0
+     174: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+     177: ifnull        195
+     180: aload         7
+     182: invokevirtual #669                // Method com/sighs/apricityui/parser/HTML$DocumentRoot.body:()Lcom/sighs/apricityui/element/Body;
+     185: aload_0
+     186: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+     189: getfield      #685                // Field com/sighs/apricityui/element/Body.EventListener:Ljava/util/concurrent/CopyOnWriteArrayList;
+     192: invokevirtual #689                // Method com/sighs/apricityui/element/Body.setEventListeners:(Ljava/util/concurrent/CopyOnWriteArrayList;)V
+     195: aload_0
+     196: aload         7
+     198: invokevirtual #692                // Method com/sighs/apricityui/parser/HTML$DocumentRoot.documentElement:()Lcom/sighs/apricityui/element/Html;
+     201: putfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     204: aload_0
+     205: aload         7
+     207: invokevirtual #697                // Method com/sighs/apricityui/parser/HTML$DocumentRoot.head:()Lcom/sighs/apricityui/element/Head;
+     210: putfield      #699                // Field head:Lcom/sighs/apricityui/element/Head;
+     213: aload_0
+     214: aload         7
+     216: invokevirtual #669                // Method com/sighs/apricityui/parser/HTML$DocumentRoot.body:()Lcom/sighs/apricityui/element/Body;
+     219: putfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+     222: aload_0
+     223: invokevirtual #702                // Method rebuildElementIndexFromBody:()V
+     226: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     229: lstore        8
+     231: ldc_w         #704                // String initial style calculation
+     234: astore        6
+     236: aload_0
+     237: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     240: ifnull        272
+     243: aload_0
+     244: invokevirtual #707                // Method resolveRootFontSize:()D
+     247: invokestatic  #574                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     250: invokestatic  #711                // Method com/sighs/apricityui/layout/Size.setRootFontOverride:(Ljava/lang/Double;)V
+     253: aload_0
+     254: aload_0
+     255: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     258: invokevirtual #715                // Method clearRenderCaches:(Lcom/sighs/apricityui/init/Element;)V
+     261: aload_0
+     262: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+     265: aload_0
+     266: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     269: invokevirtual #718                // Method com/sighs/apricityui/style/StyleScope.recomputeSubtree:(Lcom/sighs/apricityui/init/Element;)V
+     272: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     275: lstore        10
+     277: ldc_w         #720                // String document expanders
+     280: astore        6
+     282: invokestatic  #726                // Method com/sighs/apricityui/spi/AuiServices.expander:()Lcom/sighs/apricityui/dom/DocumentExpander;
+     285: aload_0
+     286: invokeinterface #731,  2          // InterfaceMethod com/sighs/apricityui/dom/DocumentExpander.apply:(Lcom/sighs/apricityui/init/Document;)V
+     291: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     294: lstore        12
+     296: ldc_w         #733                // String final style calculation
+     299: astore        6
+     301: aload_0
+     302: aload_0
+     303: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     306: invokevirtual #715                // Method clearRenderCaches:(Lcom/sighs/apricityui/init/Element;)V
+     309: aload_0
+     310: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+     313: aload_0
+     314: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     317: invokevirtual #718                // Method com/sighs/apricityui/style/StyleScope.recomputeSubtree:(Lcom/sighs/apricityui/init/Element;)V
+     320: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     323: lstore        14
+     325: aload_0
+     326: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+     329: invokevirtual #737                // Method com/sighs/apricityui/dom/ElementTree.getElements:()Ljava/util/ArrayList;
+     332: invokedynamic #757,  0            // InvokeDynamic #0:accept:()Ljava/util/function/Consumer;
+     337: invokevirtual #761                // Method java/util/ArrayList.forEach:(Ljava/util/function/Consumer;)V
+     340: aload_0
+     341: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+     344: invokevirtual #656                // Method com/sighs/apricityui/render/RenderQueue.reset:()V
+     347: aload_0
+     348: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+     351: invokevirtual #764                // Method com/sighs/apricityui/render/RenderQueue.rebuildPaintList:()V
+     354: aload_0
+     355: invokestatic  #769                // Method com/sighs/apricityui/resource/async/image/ImageAsyncHandler.prefetchImages:(Lcom/sighs/apricityui/init/Document;)V
+     358: aload_0
+     359: invokevirtual #772                // Method enterInteractive:()V
+     362: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     365: lstore        16
+     367: ldc_w         #774                // String global javascript
+     370: astore        6
+     372: invokestatic  #779                // Method com/sighs/apricityui/loader/Loader.readGlobalJS:()Ljava/lang/String;
+     375: astore        18
+     377: aload         18
+     379: ifnull        407
+     382: aload         18
+     384: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+     387: ifne          407
+     390: invokestatic  #783                // Method com/sighs/apricityui/spi/AuiServices.script:()Lcom/sighs/apricityui/spi/AuiScriptService;
+     393: aload         18
+     395: aload_0
+     396: getfield      #207                // Field uuid:Ljava/util/UUID;
+     399: invokevirtual #786                // Method java/util/UUID.toString:()Ljava/lang/String;
+     402: invokeinterface #792,  3          // InterfaceMethod com/sighs/apricityui/spi/AuiScriptService.evalGlobal:(Ljava/lang/String;Ljava/lang/String;)V
+     407: ldc_w         #794                // String document javascript
+     410: astore        6
+     412: aload_0
+     413: getfield      #199                // Field JSCache:Ljava/util/List;
+     416: invokeinterface #798,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+     421: astore        19
+     423: aload         19
+     425: invokeinterface #803,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     430: ifeq          468
+     433: aload         19
+     435: invokeinterface #807,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     440: checkcast     #355                // class java/lang/String
+     443: astore        20
+     445: invokestatic  #783                // Method com/sighs/apricityui/spi/AuiServices.script:()Lcom/sighs/apricityui/spi/AuiScriptService;
+     448: aload         20
+     450: aconst_null
+     451: aload_0
+     452: getfield      #315                // Field path:Ljava/lang/String;
+     455: invokedynamic #818,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     460: invokeinterface #822,  4          // InterfaceMethod com/sighs/apricityui/spi/AuiScriptService.eval:(Ljava/lang/String;Lcom/sighs/apricityui/event/Event;Ljava/lang/String;)V
+     465: goto          423
+     468: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     471: lstore        19
+     473: ldc_w         #824                // String lifecycle events
+     476: astore        6
+     478: aload_0
+     479: ldc_w         #826                // String DOMContentLoaded
+     482: iconst_0
+     483: invokevirtual #829                // Method fireLifecycleEvent:(Ljava/lang/String;Z)V
+     486: aload_0
+     487: invokevirtual #832                // Method enterComplete:()V
+     490: aload_0
+     491: ldc_w         #834                // String load
+     494: iconst_0
+     495: invokevirtual #829                // Method fireLifecycleEvent:(Ljava/lang/String;Z)V
+     498: invokestatic  #630                // Method java/lang/System.nanoTime:()J
+     501: lstore        21
+     503: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     506: ldc_w         #836                // String [AUI Document] refresh complete path={} elements={} cssRules={} scripts={}
+     509: iconst_4
+     510: anewarray     #4                  // class java/lang/Object
+     513: dup
+     514: iconst_0
+     515: aload_0
+     516: getfield      #315                // Field path:Ljava/lang/String;
+     519: aastore
+     520: dup
+     521: iconst_1
+     522: aload_0
+     523: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+     526: invokevirtual #737                // Method com/sighs/apricityui/dom/ElementTree.getElements:()Ljava/util/ArrayList;
+     529: invokevirtual #839                // Method java/util/ArrayList.size:()I
+     532: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     535: aastore
+     536: dup
+     537: iconst_2
+     538: aload_0
+     539: getfield      #192                // Field CSSCache:Ljava/util/Map;
+     542: invokeinterface #840,  1          // InterfaceMethod java/util/Map.size:()I
+     547: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     550: aastore
+     551: dup
+     552: iconst_3
+     553: aload_0
+     554: getfield      #199                // Field JSCache:Ljava/util/List;
+     557: invokeinterface #841,  1          // InterfaceMethod java/util/List.size:()I
+     562: invokestatic  #583                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     565: aastore
+     566: invokeinterface #589,  3          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;[Ljava/lang/Object;)V
+     571: aload_0
+     572: lload_1
+     573: lload         4
+     575: lload         8
+     577: lload         10
+     579: lload         12
+     581: lload         14
+     583: lload         16
+     585: lload         19
+     587: lload         21
+     589: invokevirtual #845                // Method logSlowRefreshTiming:(JJJJJJJJJ)V
+     592: goto          629
+     595: astore        8
+     597: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+     600: ldc_w         #847                // String [AUI Document] refresh failed path={} stage={}
+     603: iconst_3
+     604: anewarray     #4                  // class java/lang/Object
+     607: dup
+     608: iconst_0
+     609: aload_0
+     610: getfield      #315                // Field path:Ljava/lang/String;
+     613: aastore
+     614: dup
+     615: iconst_1
+     616: aload         6
+     618: aastore
+     619: dup
+     620: iconst_2
+     621: aload         8
+     623: aastore
+     624: invokeinterface #849,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+     629: aload_3
+     630: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+     633: goto          645
+     636: astore        23
+     638: aload_3
+     639: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+     642: aload         23
+     644: athrow
+     645: return
+    Exception table:
+       from    to  target type
+         138   168   595   Class java/lang/Exception
+         173   592   595   Class java/lang/Exception
+          59   168   636   any
+         173   629   636   any
+         636   638   636   any
+
+  private void logSlowRefreshTiming(long, long, long, long, long, long, long, long, long);
+    Code:
+       0: lload         17
+       2: lload_1
+       3: lsub
+       4: lstore        19
+       6: lload         19
+       8: ldc2_w        #88                 // long 50000000l
+      11: lcmp
+      12: ifge          16
+      15: return
+      16: getstatic     #563                // Field com/sighs/apricityui/ApricityUI.LOGGER:Lorg/slf4j/Logger;
+      19: ldc_w         #871                // String [AUI Document] refresh timing path={} total={}ms resetViewport={}ms extraction={}ms initialStyle={}ms expanders={}ms finalStyle={}ms paintPrefetch={}ms scripts={}ms lifecycle={}ms
+      22: bipush        10
+      24: anewarray     #4                  // class java/lang/Object
+      27: dup
+      28: iconst_0
+      29: aload_0
+      30: getfield      #315                // Field path:Ljava/lang/String;
+      33: aastore
+      34: dup
+      35: iconst_1
+      36: lload         19
+      38: ldc2_w        #872                // long 1000000l
+      41: ldiv
+      42: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      45: aastore
+      46: dup
+      47: iconst_2
+      48: lload_3
+      49: lload_1
+      50: lsub
+      51: ldc2_w        #872                // long 1000000l
+      54: ldiv
+      55: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      58: aastore
+      59: dup
+      60: iconst_3
+      61: lload         5
+      63: lload_3
+      64: lsub
+      65: ldc2_w        #872                // long 1000000l
+      68: ldiv
+      69: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      72: aastore
+      73: dup
+      74: iconst_4
+      75: lload         7
+      77: lload         5
+      79: lsub
+      80: ldc2_w        #872                // long 1000000l
+      83: ldiv
+      84: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      87: aastore
+      88: dup
+      89: iconst_5
+      90: lload         9
+      92: lload         7
+      94: lsub
+      95: ldc2_w        #872                // long 1000000l
+      98: ldiv
+      99: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+     102: aastore
+     103: dup
+     104: bipush        6
+     106: lload         11
+     108: lload         9
+     110: lsub
+     111: ldc2_w        #872                // long 1000000l
+     114: ldiv
+     115: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+     118: aastore
+     119: dup
+     120: bipush        7
+     122: lload         13
+     124: lload         11
+     126: lsub
+     127: ldc2_w        #872                // long 1000000l
+     130: ldiv
+     131: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+     134: aastore
+     135: dup
+     136: bipush        8
+     138: lload         15
+     140: lload         13
+     142: lsub
+     143: ldc2_w        #872                // long 1000000l
+     146: ldiv
+     147: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+     150: aastore
+     151: dup
+     152: bipush        9
+     154: lload         17
+     156: lload         15
+     158: lsub
+     159: ldc2_w        #872                // long 1000000l
+     162: ldiv
+     163: invokestatic  #878                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+     166: aastore
+     167: invokeinterface #881,  3          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+     172: return
+
+  private double resolveRootFontSize();
+    Code:
+       0: ldc2_w        #883                // double 16.0d
+       3: dstore_1
+       4: aload_0
+       5: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       8: ifnonnull     13
+      11: dload_1
+      12: dreturn
+      13: aload_0
+      14: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+      17: invokevirtual #890                // Method com/sighs/apricityui/element/Html.getComputedStyle:()Lcom/sighs/apricityui/style/Style;
+      20: pop
+      21: aload_0
+      22: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+      25: ldc_w         #892                // String font-size
+      28: invokevirtual #895                // Method com/sighs/apricityui/element/Html.getInlineStylePropertyValue:(Ljava/lang/String;)Ljava/lang/String;
+      31: astore_3
+      32: aload_3
+      33: ifnull        53
+      36: aload_3
+      37: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+      40: ifne          53
+      43: aload_3
+      44: ldc_w         #897                // String unset
+      47: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      50: ifeq          86
+      53: aload_0
+      54: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+      57: getfield      #901                // Field com/sighs/apricityui/element/Html.cssCache:Ljava/util/HashMap;
+      60: ldc_w         #892                // String font-size
+      63: invokevirtual #907                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      66: checkcast     #51                 // class com/sighs/apricityui/parser/CSS$Declaration
+      69: astore        4
+      71: aload         4
+      73: ifnonnull     80
+      76: aconst_null
+      77: goto          85
+      80: aload         4
+      82: invokevirtual #910                // Method com/sighs/apricityui/parser/CSS$Declaration.value:()Ljava/lang/String;
+      85: astore_3
+      86: aload_3
+      87: ifnull        100
+      90: aload_3
+      91: ldc_w         #897                // String unset
+      94: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      97: ifeq          133
+     100: aload_0
+     101: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+     104: getfield      #901                // Field com/sighs/apricityui/element/Html.cssCache:Ljava/util/HashMap;
+     107: ldc_w         #912                // String fontSize
+     110: invokevirtual #907                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+     113: checkcast     #51                 // class com/sighs/apricityui/parser/CSS$Declaration
+     116: astore        4
+     118: aload         4
+     120: ifnonnull     127
+     123: aconst_null
+     124: goto          132
+     127: aload         4
+     129: invokevirtual #910                // Method com/sighs/apricityui/parser/CSS$Declaration.value:()Ljava/lang/String;
+     132: astore_3
+     133: aload_3
+     134: dload_1
+     135: dload_1
+     136: invokestatic  #916                // Method com/sighs/apricityui/layout/Size.tryResolveLength:(Ljava/lang/String;DD)Ljava/lang/Double;
+     139: astore        4
+     141: aload         4
+     143: ifnull        156
+     146: aload         4
+     148: invokevirtual #919                // Method java/lang/Double.doubleValue:()D
+     151: dconst_0
+     152: dcmpg
+     153: ifgt          160
+     156: dload_1
+     157: goto          165
+     160: aload         4
+     162: invokevirtual #919                // Method java/lang/Double.doubleValue:()D
+     165: dreturn
+
+  private void clearRenderCaches(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     5
+       4: return
+       5: new           #927                // class java/util/ArrayDeque
+       8: dup
+       9: invokespecial #928                // Method java/util/ArrayDeque."<init>":()V
+      12: astore_2
+      13: aload_2
+      14: aload_1
+      15: invokevirtual #931                // Method java/util/ArrayDeque.push:(Ljava/lang/Object;)V
+      18: aload_2
+      19: invokevirtual #934                // Method java/util/ArrayDeque.isEmpty:()Z
+      22: ifne          142
+      25: aload_2
+      26: invokevirtual #937                // Method java/util/ArrayDeque.pop:()Ljava/lang/Object;
+      29: checkcast     #741                // class com/sighs/apricityui/init/Element
+      32: astore_3
+      33: aload_3
+      34: ifnonnull     40
+      37: goto          18
+      40: aload_3
+      41: invokevirtual #941                // Method com/sighs/apricityui/init/Element.getRenderer:()Lcom/sighs/apricityui/dom/RenderElement;
+      44: astore        4
+      46: aload         4
+      48: getfield      #945                // Field com/sighs/apricityui/dom/RenderElement.text:Lcom/sighs/apricityui/dom/RenderElement$Cache;
+      51: invokevirtual #946                // Method com/sighs/apricityui/dom/RenderElement$Cache.clear:()V
+      54: aload         4
+      56: getfield      #949                // Field com/sighs/apricityui/dom/RenderElement.wrappedText:Lcom/sighs/apricityui/dom/RenderElement$Cache;
+      59: invokevirtual #946                // Method com/sighs/apricityui/dom/RenderElement$Cache.clear:()V
+      62: aload         4
+      64: getfield      #951                // Field com/sighs/apricityui/dom/RenderElement.size:Lcom/sighs/apricityui/dom/RenderElement$Cache;
+      67: invokevirtual #946                // Method com/sighs/apricityui/dom/RenderElement$Cache.clear:()V
+      70: aload         4
+      72: getfield      #954                // Field com/sighs/apricityui/dom/RenderElement.box:Lcom/sighs/apricityui/dom/RenderElement$Cache;
+      75: invokevirtual #946                // Method com/sighs/apricityui/dom/RenderElement$Cache.clear:()V
+      78: aload         4
+      80: getfield      #957                // Field com/sighs/apricityui/dom/RenderElement.position:Lcom/sighs/apricityui/dom/RenderElement$Cache;
+      83: invokevirtual #946                // Method com/sighs/apricityui/dom/RenderElement$Cache.clear:()V
+      86: aload_3
+      87: getfield      #960                // Field com/sighs/apricityui/init/Element.children:Ljava/util/ArrayList;
+      90: astore        5
+      92: aload         5
+      94: invokeinterface #841,  1          // InterfaceMethod java/util/List.size:()I
+      99: iconst_1
+     100: isub
+     101: istore        6
+     103: iload         6
+     105: iflt          139
+     108: aload         5
+     110: iload         6
+     112: invokeinterface #963,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     117: checkcast     #741                // class com/sighs/apricityui/init/Element
+     120: astore        7
+     122: aload         7
+     124: ifnull        133
+     127: aload_2
+     128: aload         7
+     130: invokevirtual #931                // Method java/util/ArrayDeque.push:(Ljava/lang/Object;)V
+     133: iinc          6, -1
+     136: goto          103
+     139: goto          18
+     142: return
+
+  private void beginRefreshLifecycle();
+    Code:
+       0: aload_0
+       1: dup
+       2: getfield      #213                // Field refreshGeneration:J
+       5: lconst_1
+       6: ladd
+       7: putfield      #213                // Field refreshGeneration:J
+      10: aload_0
+      11: invokevirtual #973                // Method endInitialCommitSlice:()V
+      14: aload_0
+      15: getstatic     #220                // Field com/sighs/apricityui/init/Document$LifecycleState.LOADING:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      18: putfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      21: aload_0
+      22: aload_0
+      23: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      26: getfield      #225                // Field com/sighs/apricityui/init/Document$LifecycleState.readyStateValue:Ljava/lang/String;
+      29: putfield      #227                // Field readyState:Ljava/lang/String;
+      32: aload_0
+      33: invokevirtual #976                // Method clearMutationObservers:()V
+      36: aload_0
+      37: invokevirtual #979                // Method bumpSelectionCache:()V
+      40: return
+
+  private void enterInteractive();
+    Code:
+       0: aload_0
+       1: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       4: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       7: if_acmpne     11
+      10: return
+      11: aload_0
+      12: getstatic     #985                // Field com/sighs/apricityui/init/Document$LifecycleState.INTERACTIVE:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      15: putfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      18: aload_0
+      19: aload_0
+      20: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      23: getfield      #225                // Field com/sighs/apricityui/init/Document$LifecycleState.readyStateValue:Ljava/lang/String;
+      26: putfield      #227                // Field readyState:Ljava/lang/String;
+      29: return
+
+  private void enterComplete();
+    Code:
+       0: aload_0
+       1: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       4: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       7: if_acmpne     11
+      10: return
+      11: aload_0
+      12: getstatic     #988                // Field com/sighs/apricityui/init/Document$LifecycleState.COMPLETE:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      15: putfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      18: aload_0
+      19: aload_0
+      20: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      23: getfield      #225                // Field com/sighs/apricityui/init/Document$LifecycleState.readyStateValue:Ljava/lang/String;
+      26: putfield      #227                // Field readyState:Ljava/lang/String;
+      29: return
+
+  public void disposeLifecycle();
+    Code:
+       0: aload_0
+       1: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       4: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       7: if_acmpne     11
+      10: return
+      11: aload_0
+      12: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      15: putfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+      18: new           #194                // class java/util/ArrayList
+      21: dup
+      22: aload_0
+      23: invokevirtual #992                // Method getElements:()Ljava/util/ArrayList;
+      26: invokespecial #995                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      29: invokevirtual #996                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+      32: astore_1
+      33: aload_1
+      34: invokeinterface #803,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      39: ifeq          63
+      42: aload_1
+      43: invokeinterface #807,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      48: checkcast     #741                // class com/sighs/apricityui/init/Element
+      51: astore_2
+      52: aload_2
+      53: invokevirtual #999                // Method com/sighs/apricityui/init/Element.onDisconnectedFromDocument:()V
+      56: goto          60
+      59: astore_3
+      60: goto          33
+      63: aload_0
+      64: invokevirtual #976                // Method clearMutationObservers:()V
+      67: aload_0
+      68: invokestatic  #1004               // Method com/sighs/apricityui/media/AudioEngine.releaseDocument:(Lcom/sighs/apricityui/init/Document;)V
+      71: aload_0
+      72: invokevirtual #979                // Method bumpSelectionCache:()V
+      75: aload_0
+      76: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+      79: invokevirtual #1007               // Method com/sighs/apricityui/behavior/FocusRing.clearFocus:()V
+      82: aload_0
+      83: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+      86: aconst_null
+      87: invokevirtual #1010               // Method com/sighs/apricityui/behavior/FocusRing.setPressedElement:(Lcom/sighs/apricityui/init/Element;)V
+      90: aload_0
+      91: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+      94: aconst_null
+      95: invokevirtual #1013               // Method com/sighs/apricityui/behavior/FocusRing.setPreviousCursorElement:(Lcom/sighs/apricityui/init/Element;)V
+      98: aload_0
+      99: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+     102: invokevirtual #1014               // Method com/sighs/apricityui/behavior/DocumentSelection.clear:()V
+     105: aload_0
+     106: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+     109: invokevirtual #1015               // Method com/sighs/apricityui/init/Document$TextDragState.clear:()V
+     112: aload_0
+     113: aconst_null
+     114: putfield      #229                // Field lastClickTarget:Lcom/sighs/apricityui/init/Element;
+     117: aload_0
+     118: iconst_m1
+     119: putfield      #231                // Field lastClickButton:I
+     122: aload_0
+     123: lconst_0
+     124: putfield      #233                // Field lastClickTimeNs:J
+     127: aload_0
+     128: iconst_0
+     129: putfield      #235                // Field clickCount:I
+     132: aload_0
+     133: dconst_0
+     134: putfield      #237                // Field pressX:D
+     137: aload_0
+     138: dconst_0
+     139: putfield      #239                // Field pressY:D
+     142: return
+    Exception table:
+       from    to  target type
+          52    56    59   Class java/lang/RuntimeException
+
+  private void fireLifecycleEvent(java.lang.String, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnull        25
+       7: aload_1
+       8: ifnull        25
+      11: aload_1
+      12: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+      15: ifne          25
+      18: aload_0
+      19: invokevirtual #1019               // Method isActive:()Z
+      22: ifne          26
+      25: return
+      26: new           #1021               // class com/sighs/apricityui/event/Event
+      29: dup
+      30: aload_0
+      31: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      34: aload_1
+      35: aconst_null
+      36: iconst_0
+      37: invokespecial #1024               // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+      40: astore_3
+      41: aload_3
+      42: iload_2
+      43: putfield      #1027               // Field com/sighs/apricityui/event/Event.bubbles:Z
+      46: aload_3
+      47: iconst_1
+      48: invokevirtual #1030               // Method com/sighs/apricityui/event/Event.setTrusted:(Z)V
+      51: aload_3
+      52: invokestatic  #1034               // Method com/sighs/apricityui/event/Event.triggerSingle:(Lcom/sighs/apricityui/event/Event;)Z
+      55: pop
+      56: return
+
+  private void rebuildElementIndexFromBody();
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_0
+       5: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       8: invokevirtual #1040               // Method com/sighs/apricityui/dom/ElementTree.rebuildFromRoot:(Lcom/sighs/apricityui/init/Element;)V
+      11: return
+
+  public java.util.ArrayList<com.sighs.apricityui.render.RenderNode> getPaintList();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1044               // Method com/sighs/apricityui/render/RenderQueue.getPaintList:()Ljava/util/ArrayList;
+       7: areturn
+
+  public void markHitTestDirtyAll();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1048               // Method com/sighs/apricityui/render/RenderQueue.markHitTestDirty:()V
+       7: return
+
+  public com.sighs.apricityui.init.Element hitTest(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          9
+       7: aconst_null
+       8: areturn
+       9: aload_0
+      10: invokestatic  #637                // Method withContext:(Lcom/sighs/apricityui/init/Document;)Lcom/sighs/apricityui/init/Document$ContextScope;
+      13: astore_2
+      14: aload_0
+      15: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      18: invokevirtual #1051               // Method com/sighs/apricityui/render/RenderQueue.hasPendingWork:()Z
+      21: ifeq          31
+      24: aload_0
+      25: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      28: invokevirtual #1054               // Method com/sighs/apricityui/render/RenderQueue.commit:()V
+      31: aload_0
+      32: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      35: aload_1
+      36: invokevirtual #1055               // Method com/sighs/apricityui/render/RenderQueue.hitTest:(Lcom/sighs/apricityui/layout/Position;)Lcom/sighs/apricityui/init/Element;
+      39: astore_3
+      40: aload_2
+      41: ifnull        48
+      44: aload_2
+      45: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      48: aload_3
+      49: areturn
+      50: astore_3
+      51: aload_2
+      52: ifnull        70
+      55: aload_2
+      56: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      59: goto          70
+      62: astore        4
+      64: aload_3
+      65: aload         4
+      67: invokevirtual #1059               // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      70: aload_3
+      71: athrow
+    Exception table:
+       from    to  target type
+          14    40    50   Class java/lang/Throwable
+          55    59    62   Class java/lang/Throwable
+
+  public void updateElement(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: invokevirtual #1063               // Method com/sighs/apricityui/dom/ElementTree.updateElement:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public java.util.Set<com.sighs.apricityui.init.Element> getDirtyElements();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1068               // Method com/sighs/apricityui/render/RenderQueue.getDirtyElements:()Ljava/util/Set;
+       7: areturn
+
+  public void requestStyleRecalc(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     5
+       4: return
+       5: aload_1
+       6: getfield      #1072               // Field com/sighs/apricityui/init/Element.document:Lcom/sighs/apricityui/init/Document;
+       9: aload_0
+      10: if_acmpeq     14
+      13: return
+      14: aload_0
+      15: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+      18: aload_1
+      19: invokevirtual #1075               // Method com/sighs/apricityui/style/StyleScope.requestRecalc:(Lcom/sighs/apricityui/init/Element;)V
+      22: return
+
+  public void requestPseudoStyleRecalc(com.sighs.apricityui.init.Element, java.lang.String);
+    Code:
+       0: aload_1
+       1: ifnonnull     5
+       4: return
+       5: aload_1
+       6: getfield      #1072               // Field com/sighs/apricityui/init/Element.document:Lcom/sighs/apricityui/init/Document;
+       9: aload_0
+      10: if_acmpeq     14
+      13: return
+      14: aload_0
+      15: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+      18: aload_1
+      19: aload_2
+      20: invokevirtual #1080               // Method com/sighs/apricityui/style/StyleScope.requestPseudoRecalc:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)V
+      23: return
+
+  public void flushPendingStyleUpdates();
+    Code:
+       0: aload_0
+       1: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+       4: invokevirtual #1085               // Method com/sighs/apricityui/style/StyleScope.flushPendingUpdates:()Z
+       7: pop
+       8: return
+
+  public void tickFrame();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          8
+       7: return
+       8: aload_0
+       9: invokestatic  #637                // Method withContext:(Lcom/sighs/apricityui/init/Document;)Lcom/sighs/apricityui/init/Document$ContextScope;
+      12: astore_1
+      13: invokestatic  #1091               // Method com/sighs/apricityui/style/StyleFrameCache.begin:()V
+      16: aload_0
+      17: invokevirtual #1094               // Method commitStyleRecalc:()V
+      20: aload_0
+      21: invokevirtual #1097               // Method tickElements:()V
+      24: aload_0
+      25: invokevirtual #1094               // Method commitStyleRecalc:()V
+      28: aload_0
+      29: invokevirtual #1100               // Method flushMutationObservers:()V
+      32: aload_0
+      33: invokevirtual #1103               // Method commitRenderState:()V
+      36: invokestatic  #1106               // Method com/sighs/apricityui/style/StyleFrameCache.end:()V
+      39: goto          48
+      42: astore_2
+      43: invokestatic  #1106               // Method com/sighs/apricityui/style/StyleFrameCache.end:()V
+      46: aload_2
+      47: athrow
+      48: aload_1
+      49: ifnull        79
+      52: aload_1
+      53: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      56: goto          79
+      59: astore_2
+      60: aload_1
+      61: ifnull        77
+      64: aload_1
+      65: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      68: goto          77
+      71: astore_3
+      72: aload_2
+      73: aload_3
+      74: invokevirtual #1059               // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      77: aload_2
+      78: athrow
+      79: return
+    Exception table:
+       from    to  target type
+          16    36    42   any
+          13    48    59   Class java/lang/Throwable
+          64    68    71   Class java/lang/Throwable
+
+  public void commitStyleRecalc();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          8
+       7: return
+       8: aload_0
+       9: invokevirtual #1109               // Method commitMutableInlineStyles:()V
+      12: aload_0
+      13: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+      16: invokevirtual #1085               // Method com/sighs/apricityui/style/StyleScope.flushPendingUpdates:()Z
+      19: pop
+      20: return
+
+  public boolean commitPendingStyleRecalcForRender();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          9
+       7: iconst_0
+       8: ireturn
+       9: aload_0
+      10: invokevirtual #1109               // Method commitMutableInlineStyles:()V
+      13: aload_0
+      14: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+      17: invokevirtual #1085               // Method com/sighs/apricityui/style/StyleScope.flushPendingUpdates:()Z
+      20: ireturn
+
+  void trackMutableInlineStyle(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnull        15
+       4: aload_0
+       5: getfield      #308                // Field mutableInlineStyleElements:Ljava/util/Set;
+       8: aload_1
+       9: invokeinterface #1114,  2         // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+      14: pop
+      15: return
+
+  private void commitMutableInlineStyles();
+    Code:
+       0: new           #194                // class java/util/ArrayList
+       3: dup
+       4: aload_0
+       5: getfield      #308                // Field mutableInlineStyleElements:Ljava/util/Set;
+       8: invokespecial #995                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      11: invokevirtual #996                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+      14: astore_1
+      15: aload_1
+      16: invokeinterface #803,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      21: ifeq          41
+      24: aload_1
+      25: invokeinterface #807,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      30: checkcast     #741                // class com/sighs/apricityui/init/Element
+      33: astore_2
+      34: aload_2
+      35: invokevirtual #1117               // Method com/sighs/apricityui/init/Element.commitPendingInlineStyleMutations:()V
+      38: goto          15
+      41: return
+
+  public boolean stepMotionRender();
+    Code:
+       0: aload_0
+       1: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       4: invokevirtual #1121               // Method com/sighs/apricityui/behavior/MotionTrack.stepRender:()Z
+       7: istore_1
+       8: aload_0
+       9: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+      12: invokevirtual #1124               // Method com/sighs/apricityui/behavior/MotionTrack.hasVisualChanges:()Z
+      15: ifeq          25
+      18: aload_0
+      19: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      22: invokevirtual #1127               // Method com/sighs/apricityui/render/RenderQueue.markVisualDirty:()V
+      25: iload_1
+      26: ireturn
+
+  public void commitMotionHitTest();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: aload_0
+       5: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       8: invokevirtual #1132               // Method com/sighs/apricityui/behavior/MotionTrack.drainHitTestRoots:()Ljava/util/Set;
+      11: invokevirtual #1136               // Method com/sighs/apricityui/render/RenderQueue.updateHitTestSubtrees:(Ljava/util/Set;)V
+      14: return
+
+  public java.util.Set<com.sighs.apricityui.init.Element> drainMotionLayoutRoots();
+    Code:
+       0: aload_0
+       1: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       4: invokevirtual #1140               // Method com/sighs/apricityui/behavior/MotionTrack.drainLayoutRoots:()Ljava/util/Set;
+       7: areturn
+
+  public java.util.Set<com.sighs.apricityui.init.Element> drainMotionGeometryRoots();
+    Code:
+       0: aload_0
+       1: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       4: invokevirtual #1144               // Method com/sighs/apricityui/behavior/MotionTrack.drainGeometryRoots:()Ljava/util/Set;
+       7: areturn
+
+  public java.util.Set<com.sighs.apricityui.init.Element> drainStyleTransformRoots();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1147               // Method com/sighs/apricityui/render/RenderQueue.drainStyleTransformRoots:()Ljava/util/Set;
+       7: areturn
+
+  public boolean stepScrollRender();
+    Code:
+       0: aload_0
+       1: getfield      #313                // Field scrollShifts:Ljava/util/ArrayList;
+       4: invokevirtual #1149               // Method java/util/ArrayList.clear:()V
+       7: aload_0
+       8: invokevirtual #1019               // Method isActive:()Z
+      11: ifne          16
+      14: iconst_0
+      15: ireturn
+      16: aload_0
+      17: getfield      #297                // Field activeScrollElements:Ljava/util/Set;
+      20: invokeinterface #1150,  1         // InterfaceMethod java/util/Set.isEmpty:()Z
+      25: ifeq          30
+      28: iconst_0
+      29: ireturn
+      30: iconst_0
+      31: istore_1
+      32: new           #194                // class java/util/ArrayList
+      35: dup
+      36: aload_0
+      37: getfield      #297                // Field activeScrollElements:Ljava/util/Set;
+      40: invokespecial #995                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      43: invokevirtual #996                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+      46: astore_2
+      47: aload_2
+      48: invokeinterface #803,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      53: ifeq          164
+      56: aload_2
+      57: invokeinterface #807,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      62: checkcast     #741                // class com/sighs/apricityui/init/Element
+      65: astore_3
+      66: aload_3
+      67: ifnull        77
+      70: aload_3
+      71: invokevirtual #1153               // Method com/sighs/apricityui/init/Element.isConnected:()Z
+      74: ifne          91
+      77: aload_0
+      78: getfield      #297                // Field activeScrollElements:Ljava/util/Set;
+      81: aload_3
+      82: invokeinterface #1156,  2         // InterfaceMethod java/util/Set.remove:(Ljava/lang/Object;)Z
+      87: pop
+      88: goto          47
+      91: aload_3
+      92: invokevirtual #1158               // Method com/sighs/apricityui/init/Element.stepScrollRender:()Z
+      95: istore        4
+      97: iload         4
+      99: ifeq          143
+     102: aload_3
+     103: invokevirtual #941                // Method com/sighs/apricityui/init/Element.getRenderer:()Lcom/sighs/apricityui/dom/RenderElement;
+     106: invokevirtual #1161               // Method com/sighs/apricityui/dom/RenderElement.invalidateScrollVersion:()V
+     109: aload_0
+     110: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+     113: aload_3
+     114: invokevirtual #1163               // Method com/sighs/apricityui/render/RenderQueue.markHitTestDirty:(Lcom/sighs/apricityui/init/Element;)V
+     117: aload_0
+     118: getfield      #313                // Field scrollShifts:Ljava/util/ArrayList;
+     121: new           #19                 // class com/sighs/apricityui/init/Document$ScrollShift
+     124: dup
+     125: aload_3
+     126: aload_3
+     127: invokevirtual #1166               // Method com/sighs/apricityui/init/Element.getScrollRenderStepDeltaLeft:()D
+     130: aload_3
+     131: invokevirtual #1169               // Method com/sighs/apricityui/init/Element.getScrollRenderStepDeltaTop:()D
+     134: invokespecial #1172               // Method com/sighs/apricityui/init/Document$ScrollShift."<init>":(Lcom/sighs/apricityui/init/Element;DD)V
+     137: invokevirtual #1173               // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+     140: pop
+     141: iconst_1
+     142: istore_1
+     143: aload_3
+     144: invokevirtual #1176               // Method com/sighs/apricityui/init/Element.needsScrollRenderStep:()Z
+     147: ifne          161
+     150: aload_0
+     151: getfield      #297                // Field activeScrollElements:Ljava/util/Set;
+     154: aload_3
+     155: invokeinterface #1156,  2         // InterfaceMethod java/util/Set.remove:(Ljava/lang/Object;)Z
+     160: pop
+     161: goto          47
+     164: iload_1
+     165: ifeq          175
+     168: aload_0
+     169: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+     172: invokevirtual #1127               // Method com/sighs/apricityui/render/RenderQueue.markVisualDirty:()V
+     175: iload_1
+     176: ireturn
+
+  public java.util.List<com.sighs.apricityui.init.Document$ScrollShift> getScrollShifts();
+    Code:
+       0: aload_0
+       1: getfield      #313                // Field scrollShifts:Ljava/util/ArrayList;
+       4: areturn
+
+  public void discardScrollShifts();
+    Code:
+       0: aload_0
+       1: getfield      #313                // Field scrollShifts:Ljava/util/ArrayList;
+       4: invokevirtual #1149               // Method java/util/ArrayList.clear:()V
+       7: return
+
+  void registerActiveScroll(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnull        11
+       4: aload_1
+       5: invokevirtual #1153               // Method com/sighs/apricityui/init/Element.isConnected:()Z
+       8: ifne          12
+      11: return
+      12: aload_0
+      13: getfield      #297                // Field activeScrollElements:Ljava/util/Set;
+      16: aload_1
+      17: invokeinterface #1114,  2         // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+      22: pop
+      23: return
+
+  public void tickElements();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          8
+       7: return
+       8: aload_0
+       9: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      12: invokevirtual #1183               // Method com/sighs/apricityui/render/RenderQueue.tickElements:()V
+      15: return
+
+  public void commitRenderState();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          8
+       7: return
+       8: aload_0
+       9: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      12: invokevirtual #1054               // Method com/sighs/apricityui/render/RenderQueue.commit:()V
+      15: return
+
+  public boolean commitRenderStateForMotion();
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifne          9
+       7: iconst_0
+       8: ireturn
+       9: aload_0
+      10: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+      13: iconst_0
+      14: invokevirtual #1186               // Method com/sighs/apricityui/render/RenderQueue.commit:(Z)Z
+      17: ireturn
+
+  public boolean hasPendingRenderState();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1051               // Method com/sighs/apricityui/render/RenderQueue.hasPendingWork:()Z
+       7: ireturn
+
+  public long getVisualVersion();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1190               // Method com/sighs/apricityui/render/RenderQueue.getVisualVersion:()J
+       7: lreturn
+
+  public boolean hasPendingVisualWork();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1193               // Method com/sighs/apricityui/render/RenderQueue.hasPendingVisualWork:()Z
+       7: ireturn
+
+  public int getGlobalDirtyMask();
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: invokevirtual #1196               // Method com/sighs/apricityui/render/RenderQueue.getGlobalDirtyMask:()I
+       7: ireturn
+
+  public void markDirty(int);
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: iload_1
+       5: invokevirtual #1197               // Method com/sighs/apricityui/render/RenderQueue.markDirty:(I)V
+       8: return
+
+  public void markDirty(com.sighs.apricityui.init.Element, int);
+    Code:
+       0: aload_0
+       1: getfield      #187                // Field render:Lcom/sighs/apricityui/render/RenderQueue;
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #1201               // Method com/sighs/apricityui/render/RenderQueue.markDirty:(Lcom/sighs/apricityui/init/Element;I)V
+       9: return
+
+  public void registerStylesheet(java.lang.String, java.lang.String, int);
+    Code:
+       0: aload_1
+       1: ifnull        11
+       4: aload_1
+       5: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+       8: ifeq          12
+      11: return
+      12: new           #438                // class com/sighs/apricityui/layout/Size
+      15: dup
+      16: aload_0
+      17: invokevirtual #1205               // Method getViewport:()Lcom/sighs/apricityui/viewport/ApricityViewport;
+      20: invokevirtual #441                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutWidth:()I
+      23: i2d
+      24: aload_0
+      25: invokevirtual #1205               // Method getViewport:()Lcom/sighs/apricityui/viewport/ApricityViewport;
+      28: invokevirtual #444                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutHeight:()I
+      31: i2d
+      32: invokespecial #445                // Method com/sighs/apricityui/layout/Size."<init>":(DD)V
+      35: astore        4
+      37: aload_1
+      38: aload_0
+      39: getfield      #192                // Field CSSCache:Ljava/util/Map;
+      42: aload_0
+      43: getfield      #197                // Field CSSDebugRules:Ljava/util/List;
+      46: aload_2
+      47: iload_3
+      48: aload         4
+      50: invokestatic  #1209               // Method com/sighs/apricityui/parser/CSS.readCSS:(Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ljava/lang/String;ILcom/sighs/apricityui/layout/Size;)I
+      53: pop
+      54: aload_0
+      55: invokevirtual #1212               // Method rebuildSelectorIndex:()V
+      58: aload_0
+      59: invokevirtual #619                // Method reapplyStylesFromCache:()V
+      62: return
+
+  public void registerUaStylesheet(java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: ifnull        11
+       4: aload_1
+       5: invokevirtual #358                // Method java/lang/String.isBlank:()Z
+       8: ifeq          12
+      11: return
+      12: new           #189                // class java/util/LinkedHashMap
+      15: dup
+      16: invokespecial #190                // Method java/util/LinkedHashMap."<init>":()V
+      19: astore_3
+      20: new           #438                // class com/sighs/apricityui/layout/Size
+      23: dup
+      24: aload_0
+      25: invokevirtual #1205               // Method getViewport:()Lcom/sighs/apricityui/viewport/ApricityViewport;
+      28: invokevirtual #441                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutWidth:()I
+      31: i2d
+      32: aload_0
+      33: invokevirtual #1205               // Method getViewport:()Lcom/sighs/apricityui/viewport/ApricityViewport;
+      36: invokevirtual #444                // Method com/sighs/apricityui/viewport/ApricityViewport.layoutHeight:()I
+      39: i2d
+      40: invokespecial #445                // Method com/sighs/apricityui/layout/Size."<init>":(DD)V
+      43: astore        4
+      45: aload_1
+      46: aload_3
+      47: aload_0
+      48: getfield      #197                // Field CSSDebugRules:Ljava/util/List;
+      51: aload_2
+      52: sipush        -1000
+      55: aload         4
+      57: invokestatic  #1209               // Method com/sighs/apricityui/parser/CSS.readCSS:(Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ljava/lang/String;ILcom/sighs/apricityui/layout/Size;)I
+      60: pop
+      61: new           #189                // class java/util/LinkedHashMap
+      64: dup
+      65: invokespecial #190                // Method java/util/LinkedHashMap."<init>":()V
+      68: astore        5
+      70: aload         5
+      72: aload_3
+      73: invokeinterface #1220,  2         // InterfaceMethod java/util/Map.putAll:(Ljava/util/Map;)V
+      78: aload         5
+      80: aload_0
+      81: getfield      #192                // Field CSSCache:Ljava/util/Map;
+      84: invokeinterface #1220,  2         // InterfaceMethod java/util/Map.putAll:(Ljava/util/Map;)V
+      89: aload_0
+      90: getfield      #192                // Field CSSCache:Ljava/util/Map;
+      93: invokeinterface #647,  1          // InterfaceMethod java/util/Map.clear:()V
+      98: aload_0
+      99: getfield      #192                // Field CSSCache:Ljava/util/Map;
+     102: aload         5
+     104: invokeinterface #1220,  2         // InterfaceMethod java/util/Map.putAll:(Ljava/util/Map;)V
+     109: aload_0
+     110: invokevirtual #1212               // Method rebuildSelectorIndex:()V
+     113: aload_0
+     114: invokevirtual #619                // Method reapplyStylesFromCache:()V
+     117: return
+
+  public void reapplyStylesFromCache();
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: invokevirtual #1225               // Method com/sighs/apricityui/element/Body.invalidateStyle:()V
+      15: aload_0
+      16: aload_0
+      17: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      20: iconst_5
+      21: invokevirtual #1226               // Method markDirty:(Lcom/sighs/apricityui/init/Element;I)V
+      24: return
+
+  public void invalidateFontMetrics();
+    Code:
+       0: aload_0
+       1: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+      12: invokevirtual #1228               // Method com/sighs/apricityui/element/Html.getRenderer:()Lcom/sighs/apricityui/dom/RenderElement;
+      15: invokevirtual #1231               // Method com/sighs/apricityui/dom/RenderElement.invalidateLayoutSubtree:()V
+      18: aload_0
+      19: aload_0
+      20: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+      23: iconst_5
+      24: invokevirtual #1226               // Method markDirty:(Lcom/sighs/apricityui/init/Element;I)V
+      27: return
+
+  public void invalidateSelectorIndex();
+    Code:
+       0: aload_0
+       1: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+       4: invokevirtual #1232               // Method com/sighs/apricityui/style/StyleScope.invalidateSelectorIndex:()V
+       7: return
+
+  public void rebuildSelectorIndex();
+    Code:
+       0: aload_0
+       1: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+       4: invokevirtual #1233               // Method com/sighs/apricityui/style/StyleScope.rebuildSelectorIndex:()V
+       7: return
+
+  public com.sighs.apricityui.parser.Selector$Index getSelectorIndex();
+    Code:
+       0: aload_0
+       1: getfield      #264                // Field style:Lcom/sighs/apricityui/style/StyleScope;
+       4: invokevirtual #1237               // Method com/sighs/apricityui/style/StyleScope.getSelectorIndex:()Lcom/sighs/apricityui/parser/Selector$Index;
+       7: areturn
+
+  public com.sighs.apricityui.dom.ElementTree getTree();
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: areturn
+
+  public boolean is(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: aload_1
+       5: invokevirtual #382                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       8: ireturn
+
+  public boolean is(java.util.UUID);
+    Code:
+       0: aload_0
+       1: getfield      #207                // Field uuid:Ljava/util/UUID;
+       4: aload_1
+       5: invokevirtual #1242               // Method java/util/UUID.equals:(Ljava/lang/Object;)Z
+       8: ireturn
+
+  public java.lang.String getPath();
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: areturn
+
+  public boolean isReloadPersistent();
+    Code:
+       0: aload_0
+       1: getfield      #209                // Field reloadPersistent:Z
+       4: ireturn
+
+  public void setReloadPersistent(boolean);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #209                // Field reloadPersistent:Z
+       5: return
+
+  public long getRefreshGeneration();
+    Code:
+       0: aload_0
+       1: getfield      #213                // Field refreshGeneration:J
+       4: lreturn
+
+  public boolean markFirstLayoutCommitForTiming();
+    Code:
+       0: aload_0
+       1: getfield      #213                // Field refreshGeneration:J
+       4: lstore_1
+       5: aload_0
+       6: getfield      #217                // Field timedLayoutGeneration:J
+       9: lload_1
+      10: lcmp
+      11: ifne          16
+      14: iconst_0
+      15: ireturn
+      16: aload_0
+      17: lload_1
+      18: putfield      #217                // Field timedLayoutGeneration:J
+      21: iconst_1
+      22: ireturn
+
+  public boolean needsInitialFullCommit();
+    Code:
+       0: aload_0
+       1: getfield      #213                // Field refreshGeneration:J
+       4: aload_0
+       5: getfield      #217                // Field timedLayoutGeneration:J
+       8: lcmp
+       9: ifeq          16
+      12: iconst_1
+      13: goto          17
+      16: iconst_0
+      17: ireturn
+
+  public boolean isInitialCommitSlicing();
+    Code:
+       0: aload_0
+       1: getfield      #1252               // Field initialCommitSlice:Lcom/sighs/apricityui/init/Document$InitialCommitSlice;
+       4: ifnull        11
+       7: iconst_1
+       8: goto          12
+      11: iconst_0
+      12: ireturn
+
+  public com.sighs.apricityui.init.Document$InitialCommitSlice getInitialCommitSlice();
+    Code:
+       0: aload_0
+       1: getfield      #1252               // Field initialCommitSlice:Lcom/sighs/apricityui/init/Document$InitialCommitSlice;
+       4: areturn
+
+  public com.sighs.apricityui.init.Document$InitialCommitSlice beginInitialCommitSlice();
+    Code:
+       0: new           #21                 // class com/sighs/apricityui/init/Document$InitialCommitSlice
+       3: dup
+       4: invokespecial #1256               // Method com/sighs/apricityui/init/Document$InitialCommitSlice."<init>":()V
+       7: astore_1
+       8: aload_1
+       9: aload_0
+      10: getfield      #213                // Field refreshGeneration:J
+      13: putfield      #1258               // Field com/sighs/apricityui/init/Document$InitialCommitSlice.generation:J
+      16: aload_0
+      17: aload_1
+      18: putfield      #1252               // Field initialCommitSlice:Lcom/sighs/apricityui/init/Document$InitialCommitSlice;
+      21: aload_1
+      22: areturn
+
+  public void endInitialCommitSlice();
+    Code:
+       0: aload_0
+       1: getfield      #1252               // Field initialCommitSlice:Lcom/sighs/apricityui/init/Document$InitialCommitSlice;
+       4: astore_1
+       5: aload_0
+       6: aconst_null
+       7: putfield      #1252               // Field initialCommitSlice:Lcom/sighs/apricityui/init/Document$InitialCommitSlice;
+      10: aload_1
+      11: ifnull        23
+      14: aload_1
+      15: getfield      #1262               // Field com/sighs/apricityui/init/Document$InitialCommitSlice.visited:Ljava/util/Set;
+      18: invokeinterface #653,  1          // InterfaceMethod java/util/Set.clear:()V
+      23: return
+
+  public boolean isDisposed();
+    Code:
+       0: aload_0
+       1: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       4: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public boolean isActive();
+    Code:
+       0: aload_0
+       1: getfield      #222                // Field lifecycleState:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       4: getstatic     #982                // Field com/sighs/apricityui/init/Document$LifecycleState.DISPOSED:Lcom/sighs/apricityui/init/Document$LifecycleState;
+       7: if_acmpeq     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public boolean isCurrentGeneration(long);
+    Code:
+       0: aload_0
+       1: invokevirtual #1019               // Method isActive:()Z
+       4: ifeq          20
+       7: aload_0
+       8: getfield      #213                // Field refreshGeneration:J
+      11: lload_1
+      12: lcmp
+      13: ifne          20
+      16: iconst_1
+      17: goto          21
+      20: iconst_0
+      21: ireturn
+
+  public com.sighs.apricityui.init.Element createHTML(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #1271               // Method com/sighs/apricityui/parser/HTML.createElement:(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;)Lcom/sighs/apricityui/init/Element;
+       5: areturn
+
+  public com.sighs.apricityui.init.Element createElement(java.lang.String);
+    Code:
+       0: new           #741                // class com/sighs/apricityui/init/Element
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #1275               // Method com/sighs/apricityui/init/Element."<init>":(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;)V
+       9: areturn
+
+  public com.sighs.apricityui.dom.TextNode createTextNode(java.lang.String);
+    Code:
+       0: new           #1280               // class com/sighs/apricityui/dom/TextNode
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #1281               // Method com/sighs/apricityui/dom/TextNode."<init>":(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;)V
+       9: areturn
+
+  public com.sighs.apricityui.dom.CommentNode createComment(java.lang.String);
+    Code:
+       0: new           #1285               // class com/sighs/apricityui/dom/CommentNode
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #1286               // Method com/sighs/apricityui/dom/CommentNode."<init>":(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;)V
+       9: areturn
+
+  public com.sighs.apricityui.dom.DocumentFragment createDocumentFragment();
+    Code:
+       0: new           #1290               // class com/sighs/apricityui/dom/DocumentFragment
+       3: dup
+       4: aload_0
+       5: invokespecial #1291               // Method com/sighs/apricityui/dom/DocumentFragment."<init>":(Lcom/sighs/apricityui/init/Document;)V
+       8: areturn
+
+  public void createRelation(com.sighs.apricityui.init.Node, com.sighs.apricityui.init.Node, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: invokevirtual #1295               // Method com/sighs/apricityui/dom/ElementTree.createRelation:(Lcom/sighs/apricityui/init/Node;Lcom/sighs/apricityui/init/Node;Z)V
+      10: return
+
+  public com.sighs.apricityui.init.Node createRelationAndReturn(com.sighs.apricityui.init.Node, com.sighs.apricityui.init.Node, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: invokevirtual #1295               // Method com/sighs/apricityui/dom/ElementTree.createRelation:(Lcom/sighs/apricityui/init/Node;Lcom/sighs/apricityui/init/Node;Z)V
+      10: aload_1
+      11: areturn
+
+  public java.util.List<com.sighs.apricityui.init.Element> querySelectorAll(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       4: aload_1
+       5: invokestatic  #1305               // Method com/sighs/apricityui/parser/Selector.querySelectorAll:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)Ljava/util/List;
+       8: areturn
+
+  public com.sighs.apricityui.init.Element querySelector(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       4: aload_1
+       5: invokestatic  #1310               // Method com/sighs/apricityui/parser/Selector.querySelector:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)Lcom/sighs/apricityui/init/Element;
+       8: areturn
+
+  public void recordID(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: invokevirtual #1314               // Method com/sighs/apricityui/dom/ElementTree.recordId:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public void removeID(java.lang.String, com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: aload_2
+       6: invokevirtual #1319               // Method com/sighs/apricityui/dom/ElementTree.removeId:(Ljava/lang/String;Lcom/sighs/apricityui/init/Element;)V
+       9: return
+
+  public com.sighs.apricityui.init.Element getElementById(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: invokevirtual #1323               // Method com/sighs/apricityui/dom/ElementTree.getElementById:(Ljava/lang/String;)Lcom/sighs/apricityui/init/Element;
+       8: areturn
+
+  public com.sighs.apricityui.init.Element getDocumentElement();
+    Code:
+       0: aload_0
+       1: getfield      #694                // Field documentElement:Lcom/sighs/apricityui/element/Html;
+       4: areturn
+
+  public com.sighs.apricityui.init.Element getHead();
+    Code:
+       0: aload_0
+       1: getfield      #699                // Field head:Lcom/sighs/apricityui/element/Head;
+       4: areturn
+
+  public java.lang.String getURL();
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getDocumentURI();
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getBaseURI();
+    Code:
+       0: aload_0
+       1: getfield      #315                // Field path:Ljava/lang/String;
+       4: areturn
+
+  public com.sighs.apricityui.util.BrowserLocation getLocation();
+    Code:
+       0: new           #1333               // class com/sighs/apricityui/util/BrowserLocation
+       3: dup
+       4: aload_0
+       5: getfield      #315                // Field path:Ljava/lang/String;
+       8: invokespecial #1334               // Method com/sighs/apricityui/util/BrowserLocation."<init>":(Ljava/lang/String;)V
+      11: areturn
+
+  public java.lang.String getReadyState();
+    Code:
+       0: aload_0
+       1: getfield      #227                // Field readyState:Ljava/lang/String;
+       4: areturn
+
+  public boolean hasFocus();
+    Code:
+       0: aload_0
+       1: invokevirtual #1339               // Method getFocusedElement:()Lcom/sighs/apricityui/init/Element;
+       4: ifnull        11
+       7: iconst_1
+       8: goto          12
+      11: iconst_0
+      12: ireturn
+
+  public void blur();
+    Code:
+       0: aload_0
+       1: invokevirtual #1341               // Method clearFocus:()V
+       4: return
+
+  public com.sighs.apricityui.init.Node appendChild(com.sighs.apricityui.init.Node);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     9
+       7: aconst_null
+       8: areturn
+       9: aload_0
+      10: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      13: aload_1
+      14: invokevirtual #1345               // Method com/sighs/apricityui/element/Body.appendChild:(Lcom/sighs/apricityui/init/Node;)Lcom/sighs/apricityui/init/Node;
+      17: areturn
+
+  public void scrollTo(double, double);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: dload_1
+      13: dload_3
+      14: invokevirtual #1348               // Method com/sighs/apricityui/element/Body.scrollTo:(DD)V
+      17: return
+
+  public void scrollBy(double, double);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: dload_1
+      13: dload_3
+      14: invokevirtual #1351               // Method com/sighs/apricityui/element/Body.scrollBy:(DD)V
+      17: return
+
+  public com.sighs.apricityui.init.Node prepend(com.sighs.apricityui.init.Node);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnull        11
+       7: aload_1
+       8: ifnonnull     13
+      11: aconst_null
+      12: areturn
+      13: aload_0
+      14: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      17: aload_1
+      18: aload_0
+      19: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      22: invokevirtual #1356               // Method com/sighs/apricityui/element/Body.getFirstChild:()Lcom/sighs/apricityui/init/Node;
+      25: invokevirtual #1360               // Method com/sighs/apricityui/element/Body.insertBefore:(Lcom/sighs/apricityui/init/Node;Lcom/sighs/apricityui/init/Node;)Lcom/sighs/apricityui/init/Node;
+      28: pop
+      29: aload_1
+      30: areturn
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<com.sighs.apricityui.event.Event>);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: aload_1
+      13: aload_2
+      14: invokevirtual #1365               // Method com/sighs/apricityui/element/Body.addEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;)V
+      17: return
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<com.sighs.apricityui.event.Event>, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: aload_1
+      13: aload_2
+      14: iload_3
+      15: invokevirtual #1372               // Method com/sighs/apricityui/element/Body.addEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+      18: return
+
+  public void addEventListener(java.lang.String, java.util.function.Consumer<com.sighs.apricityui.event.Event>, boolean, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: aload_1
+      13: aload_2
+      14: iload_3
+      15: iload         4
+      17: invokevirtual #1377               // Method com/sighs/apricityui/element/Body.addEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;ZZ)V
+      20: return
+
+  public void removeEventListener(java.lang.String, java.util.function.Consumer<com.sighs.apricityui.event.Event>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: iconst_0
+       4: invokevirtual #1381               // Method removeEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+       7: return
+
+  public void removeEventListener(java.lang.String, java.util.function.Consumer<com.sighs.apricityui.event.Event>, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: aload_0
+       9: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      12: aload_1
+      13: aload_2
+      14: iload_3
+      15: invokevirtual #1382               // Method com/sighs/apricityui/element/Body.removeEventListener:(Ljava/lang/String;Ljava/util/function/Consumer;Z)V
+      18: return
+
+  public boolean dispatchEvent(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #1021               // class com/sighs/apricityui/event/Event
+       4: ifeq          15
+       7: aload_1
+       8: checkcast     #1021               // class com/sighs/apricityui/event/Event
+      11: astore_2
+      12: goto          17
+      15: iconst_0
+      16: ireturn
+      17: aload_0
+      18: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      21: ifnonnull     26
+      24: iconst_0
+      25: ireturn
+      26: aload_2
+      27: getfield      #1387               // Field com/sighs/apricityui/event/Event.target:Ljava/lang/Object;
+      30: ifnonnull     41
+      33: aload_2
+      34: aload_0
+      35: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      38: putfield      #1387               // Field com/sighs/apricityui/event/Event.target:Ljava/lang/Object;
+      41: aload_2
+      42: getfield      #1390               // Field com/sighs/apricityui/event/Event.currentTarget:Ljava/lang/Object;
+      45: ifnonnull     56
+      48: aload_2
+      49: aload_0
+      50: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      53: putfield      #1390               // Field com/sighs/apricityui/event/Event.currentTarget:Ljava/lang/Object;
+      56: aload_2
+      57: invokestatic  #1393               // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+      60: pop
+      61: aload_2
+      62: getfield      #1396               // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+      65: ifne          72
+      68: iconst_1
+      69: goto          73
+      72: iconst_0
+      73: ireturn
+
+  public java.util.List<com.sighs.apricityui.init.Element> getElementsByClassName(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     11
+       7: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      10: areturn
+      11: aload_1
+      12: ifnonnull     21
+      15: ldc_w         #1403               // String
+      18: goto          25
+      21: aload_1
+      22: invokevirtual #362                // Method java/lang/String.trim:()Ljava/lang/String;
+      25: astore_2
+      26: aload_2
+      27: invokevirtual #1404               // Method java/lang/String.isEmpty:()Z
+      30: ifeq          37
+      33: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      36: areturn
+      37: ldc_w         #1406               // String .
+      40: aload_2
+      41: ldc_w         #1408               // String \\s+
+      44: invokevirtual #1412               // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      47: invokestatic  #1416               // Method java/lang/String.join:(Ljava/lang/CharSequence;[Ljava/lang/CharSequence;)Ljava/lang/String;
+      50: invokedynamic #1419,  0           // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      55: astore_3
+      56: aload_0
+      57: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      60: aload_3
+      61: invokestatic  #1305               // Method com/sighs/apricityui/parser/Selector.querySelectorAll:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)Ljava/util/List;
+      64: areturn
+
+  public java.util.List<com.sighs.apricityui.init.Element> getElementsByTagName(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     11
+       7: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      10: areturn
+      11: aload_1
+      12: ifnonnull     21
+      15: ldc_w         #1403               // String
+      18: goto          25
+      21: aload_1
+      22: invokevirtual #362                // Method java/lang/String.trim:()Ljava/lang/String;
+      25: astore_2
+      26: aload_2
+      27: invokevirtual #1404               // Method java/lang/String.isEmpty:()Z
+      30: ifeq          37
+      33: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      36: areturn
+      37: aload_0
+      38: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      41: aload_2
+      42: invokestatic  #1305               // Method com/sighs/apricityui/parser/Selector.querySelectorAll:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)Ljava/util/List;
+      45: areturn
+
+  public java.util.List<com.sighs.apricityui.init.Element> getElementsByName(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     11
+       7: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      10: areturn
+      11: aload_1
+      12: ifnonnull     21
+      15: ldc_w         #1403               // String
+      18: goto          25
+      21: aload_1
+      22: invokevirtual #362                // Method java/lang/String.trim:()Ljava/lang/String;
+      25: astore_2
+      26: aload_2
+      27: invokevirtual #1404               // Method java/lang/String.isEmpty:()Z
+      30: ifeq          37
+      33: invokestatic  #1401               // InterfaceMethod java/util/List.of:()Ljava/util/List;
+      36: areturn
+      37: aload_0
+      38: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      41: aload_2
+      42: invokedynamic #1425,  0           // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      47: invokestatic  #1305               // Method com/sighs/apricityui/parser/Selector.querySelectorAll:(Lcom/sighs/apricityui/init/Element;Ljava/lang/String;)Ljava/util/List;
+      50: areturn
+
+  public static void refreshAll();
+    Code:
+       0: invokestatic  #1429               // Method com/sighs/apricityui/dom/DocumentRegistry.refreshAll:()V
+       3: return
+
+  public static com.sighs.apricityui.init.Document create(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #1432               // Method com/sighs/apricityui/dom/DocumentRegistry.create:(Ljava/lang/String;)Lcom/sighs/apricityui/init/Document;
+       4: areturn
+
+  public static com.sighs.apricityui.init.Document createInWorld(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #1435               // Method com/sighs/apricityui/dom/DocumentRegistry.createInWorld:(Ljava/lang/String;)Lcom/sighs/apricityui/init/Document;
+       4: areturn
+
+  public static java.util.ArrayList<com.sighs.apricityui.init.Document> get(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #1439               // Method com/sighs/apricityui/dom/DocumentRegistry.get:(Ljava/lang/String;)Ljava/util/ArrayList;
+       4: areturn
+
+  public static com.sighs.apricityui.init.Document getByUUID(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #1442               // Method com/sighs/apricityui/dom/DocumentRegistry.getByUUID:(Ljava/lang/String;)Lcom/sighs/apricityui/init/Document;
+       4: areturn
+
+  public static java.util.List<com.sighs.apricityui.init.Document> getAll();
+    Code:
+       0: invokestatic  #1446               // Method com/sighs/apricityui/dom/DocumentRegistry.getAll:()Ljava/util/List;
+       3: areturn
+
+  public static com.sighs.apricityui.init.Document getContextDocument();
+    Code:
+       0: invokestatic  #1451               // Method com/sighs/apricityui/dom/DocumentRegistry.getContext:()Lcom/sighs/apricityui/init/Document;
+       3: areturn
+
+  public static void runWithContext(com.sighs.apricityui.init.Document, java.lang.Runnable);
+    Code:
+       0: aload_1
+       1: ifnonnull     5
+       4: return
+       5: aload_0
+       6: invokestatic  #637                // Method withContext:(Lcom/sighs/apricityui/init/Document;)Lcom/sighs/apricityui/init/Document$ContextScope;
+       9: astore_2
+      10: aload_1
+      11: invokeinterface #1458,  1         // InterfaceMethod java/lang/Runnable.run:()V
+      16: aload_2
+      17: ifnull        49
+      20: aload_2
+      21: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      24: goto          49
+      27: astore_3
+      28: aload_2
+      29: ifnull        47
+      32: aload_2
+      33: invokevirtual #677                // Method com/sighs/apricityui/init/Document$ContextScope.close:()V
+      36: goto          47
+      39: astore        4
+      41: aload_3
+      42: aload         4
+      44: invokevirtual #1059               // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      47: aload_3
+      48: athrow
+      49: return
+    Exception table:
+       from    to  target type
+          10    16    27   Class java/lang/Throwable
+          32    36    39   Class java/lang/Throwable
+
+  public static com.sighs.apricityui.init.Document$ContextScope withContext(com.sighs.apricityui.init.Document);
+    Code:
+       0: invokestatic  #1451               // Method com/sighs/apricityui/dom/DocumentRegistry.getContext:()Lcom/sighs/apricityui/init/Document;
+       3: astore_1
+       4: aload_0
+       5: invokestatic  #1463               // Method com/sighs/apricityui/dom/DocumentRegistry.setContext:(Lcom/sighs/apricityui/init/Document;)V
+       8: new           #17                 // class com/sighs/apricityui/init/Document$ContextScope
+      11: dup
+      12: aload_1
+      13: invokespecial #1464               // Method com/sighs/apricityui/init/Document$ContextScope."<init>":(Lcom/sighs/apricityui/init/Document;)V
+      16: areturn
+
+  public java.util.ArrayList<com.sighs.apricityui.init.Element> getElements();
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: invokevirtual #737                // Method com/sighs/apricityui/dom/ElementTree.getElements:()Ljava/util/ArrayList;
+       7: areturn
+
+  public java.util.ArrayList<com.sighs.apricityui.init.Node> getNodes();
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: invokevirtual #1469               // Method com/sighs/apricityui/dom/ElementTree.getNodes:()Ljava/util/ArrayList;
+       7: areturn
+
+  public static void remove(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #1471               // Method com/sighs/apricityui/dom/DocumentRegistry.remove:(Ljava/lang/String;)V
+       4: return
+
+  public static void remove(java.util.UUID);
+    Code:
+       0: aload_0
+       1: invokestatic  #1474               // Method com/sighs/apricityui/dom/DocumentRegistry.remove:(Ljava/util/UUID;)V
+       4: return
+
+  public void remove();
+    Code:
+       0: aload_0
+       1: getfield      #207                // Field uuid:Ljava/util/UUID;
+       4: invokestatic  #1474               // Method com/sighs/apricityui/dom/DocumentRegistry.remove:(Ljava/util/UUID;)V
+       7: return
+
+  public void removeNode(com.sighs.apricityui.init.Node);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field tree:Lcom/sighs/apricityui/dom/ElementTree;
+       4: aload_1
+       5: invokevirtual #1478               // Method com/sighs/apricityui/dom/ElementTree.removeNode:(Lcom/sighs/apricityui/init/Node;)V
+       8: aload_1
+       9: instanceof    #741                // class com/sighs/apricityui/init/Element
+      12: ifeq          28
+      15: aload_1
+      16: checkcast     #741                // class com/sighs/apricityui/init/Element
+      19: astore_2
+      20: aload_0
+      21: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+      24: aload_2
+      25: invokevirtual #1481               // Method com/sighs/apricityui/behavior/MotionTrack.removeElement:(Lcom/sighs/apricityui/init/Element;)V
+      28: return
+
+  public void removeElement(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #1483               // Method removeNode:(Lcom/sighs/apricityui/init/Node;)V
+       5: return
+
+  public com.sighs.apricityui.init.Document$MutationObserver createMutationObserver(java.util.function.Consumer<java.lang.Object>);
+    Code:
+       0: aload_0
+       1: getfield      #259                // Field mutationManager:Lcom/sighs/apricityui/dom/MutationObserverManager;
+       4: aload_1
+       5: invokevirtual #1488               // Method com/sighs/apricityui/dom/MutationObserverManager.create:(Ljava/util/function/Consumer;)Lcom/sighs/apricityui/init/Document$MutationObserver;
+       8: areturn
+
+  public com.sighs.apricityui.canvas.CanvasPath2D createPath2D();
+    Code:
+       0: new           #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+       3: dup
+       4: invokespecial #1495               // Method com/sighs/apricityui/canvas/CanvasPath2D."<init>":()V
+       7: areturn
+
+  public com.sighs.apricityui.canvas.CanvasPath2D createPath2D(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+       4: ifeq          21
+       7: aload_1
+       8: checkcast     #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+      11: astore_2
+      12: new           #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+      15: dup
+      16: aload_2
+      17: invokespecial #1499               // Method com/sighs/apricityui/canvas/CanvasPath2D."<init>":(Lcom/sighs/apricityui/canvas/CanvasPath2D;)V
+      20: areturn
+      21: aload_1
+      22: instanceof    #355                // class java/lang/String
+      25: ifeq          42
+      28: aload_1
+      29: checkcast     #355                // class java/lang/String
+      32: astore_2
+      33: new           #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+      36: dup
+      37: aload_2
+      38: invokespecial #1500               // Method com/sighs/apricityui/canvas/CanvasPath2D."<init>":(Ljava/lang/String;)V
+      41: areturn
+      42: new           #1494               // class com/sighs/apricityui/canvas/CanvasPath2D
+      45: dup
+      46: invokespecial #1495               // Method com/sighs/apricityui/canvas/CanvasPath2D."<init>":()V
+      49: areturn
+
+  public com.sighs.apricityui.canvas.DOMMatrix createDOMMatrix();
+    Code:
+       0: new           #1506               // class com/sighs/apricityui/canvas/DOMMatrix
+       3: dup
+       4: invokespecial #1507               // Method com/sighs/apricityui/canvas/DOMMatrix."<init>":()V
+       7: areturn
+
+  public com.sighs.apricityui.canvas.DOMMatrix createDOMMatrix(java.lang.Object);
+    Code:
+       0: new           #1506               // class com/sighs/apricityui/canvas/DOMMatrix
+       3: dup
+       4: aload_1
+       5: invokespecial #1510               // Method com/sighs/apricityui/canvas/DOMMatrix."<init>":(Ljava/lang/Object;)V
+       8: areturn
+
+  public void queueMutation(com.sighs.apricityui.init.Document$MutationRecord);
+    Code:
+       0: aload_0
+       1: getfield      #259                // Field mutationManager:Lcom/sighs/apricityui/dom/MutationObserverManager;
+       4: aload_1
+       5: invokevirtual #1515               // Method com/sighs/apricityui/dom/MutationObserverManager.queue:(Lcom/sighs/apricityui/init/Document$MutationRecord;)V
+       8: return
+
+  public void flushMutationObservers();
+    Code:
+       0: aload_0
+       1: getfield      #259                // Field mutationManager:Lcom/sighs/apricityui/dom/MutationObserverManager;
+       4: invokevirtual #1520               // Method com/sighs/apricityui/dom/MutationObserverManager.flush:()V
+       7: return
+
+  public void setTransitionActive(com.sighs.apricityui.init.Element, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #1524               // Method com/sighs/apricityui/behavior/MotionTrack.setTransitionActive:(Lcom/sighs/apricityui/init/Element;Z)V
+       9: return
+
+  public void setHasAnimationSpec(com.sighs.apricityui.init.Element, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #269                // Field motion:Lcom/sighs/apricityui/behavior/MotionTrack;
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #1528               // Method com/sighs/apricityui/behavior/MotionTrack.setHasAnimationSpec:(Lcom/sighs/apricityui/init/Element;Z)V
+       9: return
+
+  public com.sighs.apricityui.init.Element getPreviousCursorElement();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1532               // Method com/sighs/apricityui/behavior/FocusRing.getPreviousCursorElement:()Lcom/sighs/apricityui/init/Element;
+       7: areturn
+
+  public void setPreviousCursorElement(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: aload_1
+       5: invokevirtual #1013               // Method com/sighs/apricityui/behavior/FocusRing.setPreviousCursorElement:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public com.sighs.apricityui.init.Element getPressedElement();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1535               // Method com/sighs/apricityui/behavior/FocusRing.getPressedElement:()Lcom/sighs/apricityui/init/Element;
+       7: areturn
+
+  public void setPressedElement(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: aload_1
+       5: invokevirtual #1010               // Method com/sighs/apricityui/behavior/FocusRing.setPressedElement:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public int advanceClickSequence(com.sighs.apricityui.init.Element, int, double, double, long, long);
+    Code:
+       0: aload_1
+       1: ifnull        16
+       4: aload_1
+       5: aload_0
+       6: getfield      #229                // Field lastClickTarget:Lcom/sighs/apricityui/init/Element;
+       9: if_acmpne     16
+      12: iconst_1
+      13: goto          17
+      16: iconst_0
+      17: istore        11
+      19: aload_0
+      20: getfield      #231                // Field lastClickButton:I
+      23: iload_2
+      24: if_icmpne     31
+      27: iconst_1
+      28: goto          32
+      31: iconst_0
+      32: istore        12
+      34: aload_0
+      35: getfield      #233                // Field lastClickTimeNs:J
+      38: lconst_0
+      39: lcmp
+      40: ifeq          60
+      43: lload         7
+      45: aload_0
+      46: getfield      #233                // Field lastClickTimeNs:J
+      49: lsub
+      50: lload         9
+      52: lcmp
+      53: ifgt          60
+      56: iconst_1
+      57: goto          61
+      60: iconst_0
+      61: istore        13
+      63: aload_0
+      64: getfield      #233                // Field lastClickTimeNs:J
+      67: lconst_0
+      68: lcmp
+      69: ifeq          109
+      72: dload_3
+      73: aload_0
+      74: getfield      #237                // Field pressX:D
+      77: dsub
+      78: invokestatic  #1541               // Method java/lang/Math.abs:(D)D
+      81: ldc2_w        #92                 // double 4.0d
+      84: dcmpg
+      85: ifgt          109
+      88: dload         5
+      90: aload_0
+      91: getfield      #239                // Field pressY:D
+      94: dsub
+      95: invokestatic  #1541               // Method java/lang/Math.abs:(D)D
+      98: ldc2_w        #92                 // double 4.0d
+     101: dcmpg
+     102: ifgt          109
+     105: iconst_1
+     106: goto          110
+     109: iconst_0
+     110: istore        14
+     112: iload         11
+     114: ifeq          132
+     117: iload         12
+     119: ifeq          132
+     122: iload         13
+     124: ifeq          132
+     127: iload         14
+     129: ifne          137
+     132: aload_0
+     133: iconst_0
+     134: putfield      #235                // Field clickCount:I
+     137: aload_0
+     138: dup
+     139: getfield      #235                // Field clickCount:I
+     142: iconst_1
+     143: iadd
+     144: putfield      #235                // Field clickCount:I
+     147: aload_0
+     148: aload_1
+     149: putfield      #229                // Field lastClickTarget:Lcom/sighs/apricityui/init/Element;
+     152: aload_0
+     153: iload_2
+     154: putfield      #231                // Field lastClickButton:I
+     157: aload_0
+     158: lload         7
+     160: putfield      #233                // Field lastClickTimeNs:J
+     163: aload_0
+     164: dload_3
+     165: putfield      #237                // Field pressX:D
+     168: aload_0
+     169: dload         5
+     171: putfield      #239                // Field pressY:D
+     174: aload_0
+     175: getfield      #235                // Field clickCount:I
+     178: ireturn
+
+  public int getClickCount();
+    Code:
+       0: aload_0
+       1: getfield      #235                // Field clickCount:I
+       4: ireturn
+
+  public boolean registerClickAndCheckDoubleClick(com.sighs.apricityui.init.Element, int, long, long);
+    Code:
+       0: aload_1
+       1: ifnull        20
+       4: aload_1
+       5: aload_0
+       6: getfield      #229                // Field lastClickTarget:Lcom/sighs/apricityui/init/Element;
+       9: if_acmpne     20
+      12: iload_2
+      13: aload_0
+      14: getfield      #231                // Field lastClickButton:I
+      17: if_icmpeq     22
+      20: iconst_0
+      21: ireturn
+      22: aload_0
+      23: getfield      #235                // Field clickCount:I
+      26: iconst_2
+      27: if_icmplt     34
+      30: iconst_1
+      31: goto          35
+      34: iconst_0
+      35: ireturn
+
+  public com.sighs.apricityui.init.Element getActiveElement();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1553               // Method com/sighs/apricityui/behavior/FocusRing.getFocusedElement:()Lcom/sighs/apricityui/init/Element;
+       7: astore_1
+       8: aload_1
+       9: ifnull        14
+      12: aload_1
+      13: areturn
+      14: aload_0
+      15: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      18: areturn
+
+  public com.sighs.apricityui.init.Element getFocusedElement();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1553               // Method com/sighs/apricityui/behavior/FocusRing.getFocusedElement:()Lcom/sighs/apricityui/init/Element;
+       7: areturn
+
+  public void setFocusedElement(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: aload_1
+       5: invokevirtual #1557               // Method com/sighs/apricityui/behavior/FocusRing.setFocusedElement:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public boolean hasAnyTextSelection();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1560               // Method com/sighs/apricityui/behavior/FocusRing.hasAnyTextSelection:()Z
+       7: ireturn
+
+  public void clearAllTextSelections();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1563               // Method com/sighs/apricityui/behavior/FocusRing.clearAllTextSelections:()V
+       7: return
+
+  public void clearAllTextSelectionsExcept(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: aload_1
+       5: invokevirtual #1566               // Method com/sighs/apricityui/behavior/FocusRing.clearAllTextSelectionsExcept:(Lcom/sighs/apricityui/init/Element;)V
+       8: return
+
+  public com.sighs.apricityui.behavior.DocumentSelection getDocumentSelection();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: areturn
+
+  public com.sighs.apricityui.behavior.richtext.RichTextSelection getRichTextSelection();
+    Code:
+       0: aload_0
+       1: getfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+       4: areturn
+
+  public com.sighs.apricityui.behavior.richtext.RangeBridge createRange();
+    Code:
+       0: new           #1575               // class com/sighs/apricityui/behavior/richtext/RangeBridge
+       3: dup
+       4: invokespecial #1576               // Method com/sighs/apricityui/behavior/richtext/RangeBridge."<init>":()V
+       7: areturn
+
+  public com.sighs.apricityui.behavior.richtext.TreeWalkerBridge createTreeWalker(com.sighs.apricityui.init.Element, int);
+    Code:
+       0: new           #1580               // class com/sighs/apricityui/behavior/richtext/TreeWalkerBridge
+       3: dup
+       4: aload_1
+       5: iload_2
+       6: invokespecial #1582               // Method com/sighs/apricityui/behavior/richtext/TreeWalkerBridge."<init>":(Lcom/sighs/apricityui/init/Element;I)V
+       9: areturn
+
+  public int[] resolveUnitSelectionRange(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     6
+       4: aconst_null
+       5: areturn
+       6: aload_0
+       7: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+      10: invokevirtual #1586               // Method com/sighs/apricityui/behavior/DocumentSelection.isActive:()Z
+      13: ifeq          25
+      16: aload_0
+      17: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+      20: aload_1
+      21: invokevirtual #1589               // Method com/sighs/apricityui/behavior/DocumentSelection.localRangeForUnit:(Lcom/sighs/apricityui/init/Element;)[I
+      24: areturn
+      25: aload_0
+      26: getfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+      29: invokevirtual #1590               // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.isActive:()Z
+      32: ifeq          44
+      35: aload_0
+      36: getfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+      39: aload_1
+      40: invokevirtual #1591               // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.localRangeForUnit:(Lcom/sighs/apricityui/init/Element;)[I
+      43: areturn
+      44: aconst_null
+      45: areturn
+
+  public boolean hasAnyActiveSelection();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: invokevirtual #1586               // Method com/sighs/apricityui/behavior/DocumentSelection.isActive:()Z
+       7: ifne          20
+      10: aload_0
+      11: getfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+      14: invokevirtual #1590               // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.isActive:()Z
+      17: ifeq          24
+      20: iconst_1
+      21: goto          25
+      24: iconst_0
+      25: ireturn
+
+  public void clearRichTextSelection();
+    Code:
+       0: aload_0
+       1: getfield      #284                // Field richTextSelection:Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+       4: invokevirtual #1595               // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.clear:()V
+       7: return
+
+  public void dispatchSelectionChange();
+    Code:
+       0: aload_0
+       1: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+       4: ifnonnull     8
+       7: return
+       8: new           #1021               // class com/sighs/apricityui/event/Event
+      11: dup
+      12: aload_0
+      13: getfield      #679                // Field body:Lcom/sighs/apricityui/element/Body;
+      16: ldc_w         #1598               // String selectionchange
+      19: iconst_1
+      20: invokespecial #1601               // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+      23: astore_1
+      24: aload_1
+      25: invokestatic  #1605               // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+      28: aload_1
+      29: invokestatic  #1393               // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+      32: pop
+      33: return
+
+  public void bumpSelectionCache();
+    Code:
+       0: aload_0
+       1: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+       4: invokevirtual #1606               // Method java/util/IdentityHashMap.clear:()V
+       7: aload_0
+       8: aconst_null
+       9: putfield      #291                // Field selectionUnitsCache:Ljava/util/List;
+      12: return
+
+  public java.lang.String getCachedFlattened(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     8
+       4: ldc_w         #1403               // String
+       7: areturn
+       8: aload_0
+       9: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      12: aload_1
+      13: invokevirtual #1609               // Method java/util/IdentityHashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      16: checkcast     #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      19: astore_2
+      20: aload_2
+      21: ifnull        36
+      24: aload_2
+      25: getfield      #1612               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.flattened:Ljava/lang/String;
+      28: ifnull        36
+      31: aload_2
+      32: getfield      #1612               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.flattened:Ljava/lang/String;
+      35: areturn
+      36: aload_1
+      37: invokestatic  #1615               // Method com/sighs/apricityui/behavior/SelectionUnits.computeFlattenedSelectableText:(Lcom/sighs/apricityui/init/Element;)Ljava/lang/String;
+      40: astore_3
+      41: aload_2
+      42: ifnonnull     63
+      45: new           #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      48: dup
+      49: invokespecial #1616               // Method com/sighs/apricityui/init/Document$SelectionCacheEntry."<init>":()V
+      52: astore_2
+      53: aload_0
+      54: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      57: aload_1
+      58: aload_2
+      59: invokevirtual #1620               // Method java/util/IdentityHashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      62: pop
+      63: aload_2
+      64: aload_3
+      65: putfield      #1612               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.flattened:Ljava/lang/String;
+      68: aload_3
+      69: areturn
+
+  public com.sighs.apricityui.behavior.SelectionUnits$RawText getCachedRaw(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     6
+       4: aconst_null
+       5: areturn
+       6: aload_0
+       7: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      10: aload_1
+      11: invokevirtual #1609               // Method java/util/IdentityHashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      14: checkcast     #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      17: astore_2
+      18: aload_2
+      19: ifnull        34
+      22: aload_2
+      23: getfield      #1627               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.raw:Lcom/sighs/apricityui/behavior/SelectionUnits$RawText;
+      26: ifnull        34
+      29: aload_2
+      30: getfield      #1627               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.raw:Lcom/sighs/apricityui/behavior/SelectionUnits$RawText;
+      33: areturn
+      34: aload_1
+      35: invokestatic  #1630               // Method com/sighs/apricityui/behavior/SelectionUnits.computeRawTextOf:(Lcom/sighs/apricityui/init/Element;)Lcom/sighs/apricityui/behavior/SelectionUnits$RawText;
+      38: astore_3
+      39: aload_2
+      40: ifnonnull     61
+      43: new           #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      46: dup
+      47: invokespecial #1616               // Method com/sighs/apricityui/init/Document$SelectionCacheEntry."<init>":()V
+      50: astore_2
+      51: aload_0
+      52: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      55: aload_1
+      56: aload_2
+      57: invokevirtual #1620               // Method java/util/IdentityHashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      60: pop
+      61: aload_2
+      62: aload_3
+      63: putfield      #1627               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.raw:Lcom/sighs/apricityui/behavior/SelectionUnits$RawText;
+      66: aload_3
+      67: areturn
+
+  public boolean getCachedPaintsRuns(com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_1
+       1: ifnonnull     6
+       4: iconst_0
+       5: ireturn
+       6: aload_0
+       7: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      10: aload_1
+      11: invokevirtual #1609               // Method java/util/IdentityHashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      14: checkcast     #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      17: astore_2
+      18: aload_2
+      19: ifnull        37
+      22: aload_2
+      23: getfield      #1636               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.paintsRuns:Ljava/lang/Boolean;
+      26: ifnull        37
+      29: aload_2
+      30: getfield      #1636               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.paintsRuns:Ljava/lang/Boolean;
+      33: invokevirtual #1641               // Method java/lang/Boolean.booleanValue:()Z
+      36: ireturn
+      37: aload_1
+      38: invokestatic  #1644               // Method com/sighs/apricityui/behavior/SelectionUnits.computePaintsTextViaRuns:(Lcom/sighs/apricityui/init/Element;)Z
+      41: istore_3
+      42: aload_2
+      43: ifnonnull     64
+      46: new           #13                 // class com/sighs/apricityui/init/Document$SelectionCacheEntry
+      49: dup
+      50: invokespecial #1616               // Method com/sighs/apricityui/init/Document$SelectionCacheEntry."<init>":()V
+      53: astore_2
+      54: aload_0
+      55: getfield      #289                // Field selectionCache:Ljava/util/IdentityHashMap;
+      58: aload_1
+      59: aload_2
+      60: invokevirtual #1620               // Method java/util/IdentityHashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      63: pop
+      64: aload_2
+      65: iload_3
+      66: invokestatic  #1647               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      69: putfield      #1636               // Field com/sighs/apricityui/init/Document$SelectionCacheEntry.paintsRuns:Ljava/lang/Boolean;
+      72: iload_3
+      73: ireturn
+
+  public java.util.List<com.sighs.apricityui.init.Element> getCachedUnits();
+    Code:
+       0: aload_0
+       1: getfield      #291                // Field selectionUnitsCache:Ljava/util/List;
+       4: ifnonnull     15
+       7: aload_0
+       8: aload_0
+       9: invokestatic  #1653               // Method com/sighs/apricityui/behavior/SelectionUnits.computeUnits:(Lcom/sighs/apricityui/init/Document;)Ljava/util/List;
+      12: putfield      #291                // Field selectionUnitsCache:Ljava/util/List;
+      15: aload_0
+      16: getfield      #291                // Field selectionUnitsCache:Ljava/util/List;
+      19: areturn
+
+  public boolean hasDocumentSelection();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: invokevirtual #1586               // Method com/sighs/apricityui/behavior/DocumentSelection.isActive:()Z
+       7: ireturn
+
+  public void clearDocumentSelection();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: invokevirtual #1014               // Method com/sighs/apricityui/behavior/DocumentSelection.clear:()V
+       7: return
+
+  public boolean selectAllDocumentText();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: aload_0
+       5: invokevirtual #1660               // Method com/sighs/apricityui/behavior/DocumentSelection.selectAll:(Lcom/sighs/apricityui/init/Document;)Z
+       8: ireturn
+
+  public java.lang.String getDocumentSelectedText();
+    Code:
+       0: aload_0
+       1: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+       4: aload_0
+       5: invokevirtual #1665               // Method com/sighs/apricityui/behavior/DocumentSelection.getSelectedText:(Lcom/sighs/apricityui/init/Document;)Ljava/lang/String;
+       8: areturn
+
+  public boolean isTextDragPending();
+    Code:
+       0: aload_0
+       1: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+       4: getfield      #1668               // Field com/sighs/apricityui/init/Document$TextDragState.text:Ljava/lang/String;
+       7: ifnull        14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public boolean isTextDragging();
+    Code:
+       0: aload_0
+       1: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+       4: getfield      #1672               // Field com/sighs/apricityui/init/Document$TextDragState.dragged:Z
+       7: ireturn
+
+  public java.lang.String getDraggedText();
+    Code:
+       0: aload_0
+       1: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+       4: getfield      #1668               // Field com/sighs/apricityui/init/Document$TextDragState.text:Ljava/lang/String;
+       7: areturn
+
+  public void beginTextDrag(java.lang.String, double, double);
+    Code:
+       0: aload_1
+       1: ifnull        11
+       4: aload_1
+       5: invokevirtual #1404               // Method java/lang/String.isEmpty:()Z
+       8: ifeq          19
+      11: aload_0
+      12: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      15: invokevirtual #1015               // Method com/sighs/apricityui/init/Document$TextDragState.clear:()V
+      18: return
+      19: aload_0
+      20: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      23: aload_1
+      24: putfield      #1668               // Field com/sighs/apricityui/init/Document$TextDragState.text:Ljava/lang/String;
+      27: aload_0
+      28: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      31: dload_2
+      32: putfield      #1678               // Field com/sighs/apricityui/init/Document$TextDragState.startX:D
+      35: aload_0
+      36: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      39: dload         4
+      41: putfield      #1681               // Field com/sighs/apricityui/init/Document$TextDragState.startY:D
+      44: aload_0
+      45: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      48: iconst_0
+      49: putfield      #1672               // Field com/sighs/apricityui/init/Document$TextDragState.dragged:Z
+      52: return
+
+  public void updateTextDrag(double, double);
+    Code:
+       0: aload_0
+       1: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+       4: getfield      #1668               // Field com/sighs/apricityui/init/Document$TextDragState.text:Ljava/lang/String;
+       7: ifnull        20
+      10: aload_0
+      11: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      14: getfield      #1672               // Field com/sighs/apricityui/init/Document$TextDragState.dragged:Z
+      17: ifeq          21
+      20: return
+      21: dload_1
+      22: aload_0
+      23: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      26: getfield      #1678               // Field com/sighs/apricityui/init/Document$TextDragState.startX:D
+      29: dsub
+      30: invokestatic  #1541               // Method java/lang/Math.abs:(D)D
+      33: ldc2_w        #92                 // double 4.0d
+      36: dcmpl
+      37: ifgt          59
+      40: dload_3
+      41: aload_0
+      42: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      45: getfield      #1681               // Field com/sighs/apricityui/init/Document$TextDragState.startY:D
+      48: dsub
+      49: invokestatic  #1541               // Method java/lang/Math.abs:(D)D
+      52: ldc2_w        #92                 // double 4.0d
+      55: dcmpl
+      56: ifle          75
+      59: aload_0
+      60: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+      63: iconst_1
+      64: putfield      #1672               // Field com/sighs/apricityui/init/Document$TextDragState.dragged:Z
+      67: aload_0
+      68: getfield      #279                // Field documentSelection:Lcom/sighs/apricityui/behavior/DocumentSelection;
+      71: iconst_0
+      72: invokevirtual #1685               // Method com/sighs/apricityui/behavior/DocumentSelection.setSelecting:(Z)V
+      75: return
+
+  public void endTextDrag();
+    Code:
+       0: aload_0
+       1: getfield      #311                // Field textDrag:Lcom/sighs/apricityui/init/Document$TextDragState;
+       4: invokevirtual #1015               // Method com/sighs/apricityui/init/Document$TextDragState.clear:()V
+       7: return
+
+  public void clearFocus();
+    Code:
+       0: aload_0
+       1: getfield      #274                // Field focus:Lcom/sighs/apricityui/behavior/FocusRing;
+       4: invokevirtual #1007               // Method com/sighs/apricityui/behavior/FocusRing.clearFocus:()V
+       7: return
+
+  private void clearMutationObservers();
+    Code:
+       0: aload_0
+       1: getfield      #259                // Field mutationManager:Lcom/sighs/apricityui/dom/MutationObserverManager;
+       4: invokevirtual #1689               // Method com/sighs/apricityui/dom/MutationObserverManager.clearAll:()V
+       7: return
+}

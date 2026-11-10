@@ -1,0 +1,147 @@
+Compiled from "ComponentDecorator.java"
+public class snownee.pintooltips.util.ComponentDecorator {
+  public snownee.pintooltips.util.ComponentDecorator();
+    Code:
+       0: aload_0
+       1: invokespecial #23                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void mobEffect(net.minecraft.network.chat.MutableComponent, net.minecraft.world.effect.MobEffectInstance);
+    Code:
+       0: aload_1
+       1: invokevirtual #33                 // Method net/minecraft/world/effect/MobEffectInstance.m_19544_:()Lnet/minecraft/world/effect/MobEffect;
+       4: invokestatic  #39                 // Method snownee/pintooltips/util/DefaultDescriptions.forStatusEffectFormatted:(Lnet/minecraft/world/effect/MobEffect;)Lnet/minecraft/network/chat/Component;
+       7: astore_2
+       8: aload_2
+       9: ifnonnull     13
+      12: return
+      13: aload_2
+      14: aload_1
+      15: invokestatic  #47                 // Method snownee/pintooltips/PinTooltipsCompats.appendModName:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/world/effect/MobEffectInstance;)Lnet/minecraft/network/chat/Component;
+      18: astore_2
+      19: new           #9                  // class net/minecraft/network/chat/HoverEvent
+      22: dup
+      23: getstatic     #51                 // Field net/minecraft/network/chat/HoverEvent$Action.f_130831_:Lnet/minecraft/network/chat/HoverEvent$Action;
+      26: aload_2
+      27: invokespecial #54                 // Method net/minecraft/network/chat/HoverEvent."<init>":(Lnet/minecraft/network/chat/HoverEvent$Action;Ljava/lang/Object;)V
+      30: astore_3
+      31: aload_0
+      32: aload_3
+      33: invokedynamic #74,  0             // InvokeDynamic #0:apply:(Lnet/minecraft/network/chat/HoverEvent;)Ljava/util/function/UnaryOperator;
+      38: invokevirtual #80                 // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+      41: pop
+      42: aload_1
+      43: invokestatic  #84                 // Method snownee/pintooltips/PinTooltipsCompats.canClickEffect:(Lnet/minecraft/world/effect/MobEffectInstance;)Z
+      46: ifeq          74
+      49: aload_1
+      50: new           #86                 // class net/minecraft/nbt/CompoundTag
+      53: dup
+      54: invokespecial #87                 // Method net/minecraft/nbt/CompoundTag."<init>":()V
+      57: invokevirtual #91                 // Method net/minecraft/world/effect/MobEffectInstance.m_19555_:(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;
+      60: astore        4
+      62: aload_0
+      63: aload         4
+      65: invokedynamic #99,  0             // InvokeDynamic #1:apply:(Lnet/minecraft/nbt/CompoundTag;)Ljava/util/function/UnaryOperator;
+      70: invokevirtual #80                 // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+      73: pop
+      74: return
+
+  public static void enchantment(net.minecraft.network.chat.MutableComponent, net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment>, int);
+    Code:
+       0: aload_1
+       1: invokestatic  #116                // Method snownee/pintooltips/util/DefaultDescriptions.forEnchantmentFormatted:(Lnet/minecraft/core/Holder;)Lnet/minecraft/network/chat/Component;
+       4: astore_3
+       5: aload_3
+       6: ifnonnull     10
+       9: return
+      10: aload_3
+      11: aload_1
+      12: invokestatic  #119                // Method snownee/pintooltips/PinTooltipsCompats.appendModName:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/core/Holder;)Lnet/minecraft/network/chat/Component;
+      15: astore_3
+      16: new           #9                  // class net/minecraft/network/chat/HoverEvent
+      19: dup
+      20: getstatic     #51                 // Field net/minecraft/network/chat/HoverEvent$Action.f_130831_:Lnet/minecraft/network/chat/HoverEvent$Action;
+      23: aload_3
+      24: invokespecial #54                 // Method net/minecraft/network/chat/HoverEvent."<init>":(Lnet/minecraft/network/chat/HoverEvent$Action;Ljava/lang/Object;)V
+      27: astore        4
+      29: aload_0
+      30: aload         4
+      32: invokedynamic #124,  0            // InvokeDynamic #2:apply:(Lnet/minecraft/network/chat/HoverEvent;)Ljava/util/function/UnaryOperator;
+      37: invokevirtual #80                 // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+      40: pop
+      41: aload_1
+      42: invokestatic  #128                // Method snownee/pintooltips/PinTooltipsCompats.canClickEnchantment:(Lnet/minecraft/core/Holder;)Z
+      45: ifeq          60
+      48: aload_0
+      49: aload_1
+      50: iload_2
+      51: invokedynamic #136,  0            // InvokeDynamic #3:apply:(Lnet/minecraft/core/Holder;I)Ljava/util/function/UnaryOperator;
+      56: invokevirtual #80                 // Method net/minecraft/network/chat/MutableComponent.m_130938_:(Ljava/util/function/UnaryOperator;)Lnet/minecraft/network/chat/MutableComponent;
+      59: pop
+      60: return
+
+  private static net.minecraft.network.chat.Style lambda$enchantment$3(net.minecraft.core.Holder, int, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_2
+       1: new           #14                 // class net/minecraft/network/chat/ClickEvent
+       4: dup
+       5: getstatic     #144                // Field net/minecraft/network/chat/ClickEvent$Action.RUN_COMMAND:Lnet/minecraft/network/chat/ClickEvent$Action;
+       8: ldc           #146                // String @pin_tooltips click_enchantment %s %d
+      10: iconst_2
+      11: anewarray     #4                  // class java/lang/Object
+      14: dup
+      15: iconst_0
+      16: aload_0
+      17: invokeinterface #152,  1          // InterfaceMethod net/minecraft/core/Holder.m_203543_:()Ljava/util/Optional;
+      22: invokevirtual #158                // Method java/util/Optional.orElseThrow:()Ljava/lang/Object;
+      25: checkcast     #160                // class net/minecraft/resources/ResourceKey
+      28: invokevirtual #164                // Method net/minecraft/resources/ResourceKey.m_135782_:()Lnet/minecraft/resources/ResourceLocation;
+      31: aastore
+      32: dup
+      33: iconst_1
+      34: iload_1
+      35: invokestatic  #170                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      38: aastore
+      39: invokevirtual #176                // Method java/lang/String.formatted:([Ljava/lang/Object;)Ljava/lang/String;
+      42: invokespecial #179                // Method net/minecraft/network/chat/ClickEvent."<init>":(Lnet/minecraft/network/chat/ClickEvent$Action;Ljava/lang/String;)V
+      45: invokevirtual #185                // Method net/minecraft/network/chat/Style.m_131142_:(Lnet/minecraft/network/chat/ClickEvent;)Lnet/minecraft/network/chat/Style;
+      48: areturn
+
+  private static net.minecraft.network.chat.Style lambda$enchantment$2(net.minecraft.network.chat.HoverEvent, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_1
+       1: iconst_1
+       2: invokestatic  #192                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       5: invokevirtual #196                // Method net/minecraft/network/chat/Style.m_131162_:(Ljava/lang/Boolean;)Lnet/minecraft/network/chat/Style;
+       8: aload_0
+       9: invokevirtual #200                // Method net/minecraft/network/chat/Style.m_131144_:(Lnet/minecraft/network/chat/HoverEvent;)Lnet/minecraft/network/chat/Style;
+      12: areturn
+
+  private static net.minecraft.network.chat.Style lambda$mobEffect$1(net.minecraft.nbt.CompoundTag, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_1
+       1: new           #14                 // class net/minecraft/network/chat/ClickEvent
+       4: dup
+       5: getstatic     #144                // Field net/minecraft/network/chat/ClickEvent$Action.RUN_COMMAND:Lnet/minecraft/network/chat/ClickEvent$Action;
+       8: ldc           #202                // String @pin_tooltips click_effect %s
+      10: iconst_1
+      11: anewarray     #4                  // class java/lang/Object
+      14: dup
+      15: iconst_0
+      16: aload_0
+      17: aastore
+      18: invokevirtual #176                // Method java/lang/String.formatted:([Ljava/lang/Object;)Ljava/lang/String;
+      21: invokespecial #179                // Method net/minecraft/network/chat/ClickEvent."<init>":(Lnet/minecraft/network/chat/ClickEvent$Action;Ljava/lang/String;)V
+      24: invokevirtual #185                // Method net/minecraft/network/chat/Style.m_131142_:(Lnet/minecraft/network/chat/ClickEvent;)Lnet/minecraft/network/chat/Style;
+      27: areturn
+
+  private static net.minecraft.network.chat.Style lambda$mobEffect$0(net.minecraft.network.chat.HoverEvent, net.minecraft.network.chat.Style);
+    Code:
+       0: aload_1
+       1: iconst_1
+       2: invokestatic  #192                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       5: invokevirtual #196                // Method net/minecraft/network/chat/Style.m_131162_:(Ljava/lang/Boolean;)Lnet/minecraft/network/chat/Style;
+       8: aload_0
+       9: invokevirtual #200                // Method net/minecraft/network/chat/Style.m_131144_:(Lnet/minecraft/network/chat/HoverEvent;)Lnet/minecraft/network/chat/Style;
+      12: areturn
+}

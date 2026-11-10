@@ -1,0 +1,4 @@
+Compiled from "ClientTextTooltipAccess.java"
+public interface snownee.pintooltips.mixin.interact.ClientTextTooltipAccess {
+  public abstract net.minecraft.util.FormattedCharSequence getText();
+}

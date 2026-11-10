@@ -1,0 +1,1611 @@
+Compiled from "Operation.java"
+public class com.sighs.apricityui.render.Operation {
+  public static com.sighs.apricityui.layout.Position cachedMousePosition;
+
+  private static int mouseButtons;
+
+  private static final long KEY_DEDUP_WINDOW_NS;
+
+  private static long lastKeyEventTimeNs;
+
+  private static int lastKeyCode;
+
+  private static int lastScanCode;
+
+  private static int lastAction;
+
+  private static int lastModifiers;
+
+  private static boolean lastDevToolsInspectConsumed;
+
+  private static java.lang.String internalClipboardHtml;
+
+  public com.sighs.apricityui.render.Operation();
+    Code:
+       0: aload_0
+       1: invokespecial #36                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static boolean onMouseDown();
+    Code:
+       0: iconst_m1
+       1: invokestatic  #43                 // Method onMouseDown:(I)Z
+       4: ireturn
+
+  public static boolean onMouseDown(int);
+    Code:
+       0: iconst_0
+       1: putstatic     #45                 // Field lastDevToolsInspectConsumed:Z
+       4: getstatic     #47                 // Field mouseButtons:I
+       7: iload_0
+       8: invokestatic  #51                 // Method buttonMask:(I)I
+      11: ior
+      12: putstatic     #47                 // Field mouseButtons:I
+      15: invokestatic  #55                 // Method getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+      18: astore_1
+      19: aload_1
+      20: iload_0
+      21: invokestatic  #61                 // Method com/sighs/apricityui/dev/DevTools.handleInspectMouseDown:(Lcom/sighs/apricityui/layout/Position;I)Z
+      24: ifeq          33
+      27: iconst_1
+      28: putstatic     #45                 // Field lastDevToolsInspectConsumed:Z
+      31: iconst_1
+      32: ireturn
+      33: new           #65                 // class com/sighs/apricityui/event/MouseEvent
+      36: dup
+      37: ldc           #67                 // String mousedown
+      39: aload_1
+      40: iload_0
+      41: invokespecial #70                 // Method com/sighs/apricityui/event/MouseEvent."<init>":(Ljava/lang/String;Lcom/sighs/apricityui/layout/Position;I)V
+      44: astore_2
+      45: aload_2
+      46: iconst_1
+      47: invokevirtual #74                 // Method com/sighs/apricityui/event/MouseEvent.setTrusted:(Z)V
+      50: aload_2
+      51: invokestatic  #78                 // Method com/sighs/apricityui/event/MouseEvent.tiggerEvent:(Lcom/sighs/apricityui/event/MouseEvent;)Z
+      54: pop
+      55: aload_2
+      56: invokevirtual #81                 // Method com/sighs/apricityui/event/MouseEvent.isNativeConsumed:()Z
+      59: ireturn
+
+  public static boolean onMouseUp();
+    Code:
+       0: iconst_m1
+       1: invokestatic  #88                 // Method onMouseUp:(I)Z
+       4: ireturn
+
+  public static boolean onMouseUp(int);
+    Code:
+       0: iconst_0
+       1: putstatic     #45                 // Field lastDevToolsInspectConsumed:Z
+       4: getstatic     #47                 // Field mouseButtons:I
+       7: iload_0
+       8: invokestatic  #51                 // Method buttonMask:(I)I
+      11: iconst_m1
+      12: ixor
+      13: iand
+      14: putstatic     #47                 // Field mouseButtons:I
+      17: iload_0
+      18: invokestatic  #91                 // Method com/sighs/apricityui/dev/DevTools.handleInspectMouseUp:(I)Z
+      21: ifeq          30
+      24: iconst_1
+      25: putstatic     #45                 // Field lastDevToolsInspectConsumed:Z
+      28: iconst_1
+      29: ireturn
+      30: new           #65                 // class com/sighs/apricityui/event/MouseEvent
+      33: dup
+      34: ldc           #93                 // String mouseup
+      36: invokestatic  #55                 // Method getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+      39: iload_0
+      40: invokespecial #70                 // Method com/sighs/apricityui/event/MouseEvent."<init>":(Ljava/lang/String;Lcom/sighs/apricityui/layout/Position;I)V
+      43: astore_1
+      44: aload_1
+      45: iconst_1
+      46: invokevirtual #74                 // Method com/sighs/apricityui/event/MouseEvent.setTrusted:(Z)V
+      49: aload_1
+      50: invokestatic  #78                 // Method com/sighs/apricityui/event/MouseEvent.tiggerEvent:(Lcom/sighs/apricityui/event/MouseEvent;)Z
+      53: pop
+      54: aload_1
+      55: invokevirtual #81                 // Method com/sighs/apricityui/event/MouseEvent.isNativeConsumed:()Z
+      58: ireturn
+
+  public static boolean wasDevToolsInspectConsumed();
+    Code:
+       0: getstatic     #45                 // Field lastDevToolsInspectConsumed:Z
+       3: ireturn
+
+  public static void onMouseMoveFrame(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: invokestatic  #99                 // Method onMouseMove:(Lcom/sighs/apricityui/layout/Position;)V
+       4: new           #101                // class java/util/ArrayList
+       7: dup
+       8: getstatic     #107                // Field com/sighs/apricityui/world/WorldWindow.windows:Ljava/util/List;
+      11: invokespecial #110                // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      14: invokevirtual #114                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+      17: astore_1
+      18: aload_1
+      19: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      24: ifeq          48
+      27: aload_1
+      28: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      33: checkcast     #103                // class com/sighs/apricityui/world/WorldWindow
+      36: astore_2
+      37: aload_2
+      38: ifnull        45
+      41: aload_2
+      42: invokevirtual #126                // Method com/sighs/apricityui/world/WorldWindow.dispatchMouseMove:()V
+      45: goto          18
+      48: return
+
+  public static void onMouseMove(com.sighs.apricityui.layout.Position);
+    Code:
+       0: aload_0
+       1: ifnonnull     8
+       4: invokestatic  #55                 // Method getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+       7: astore_0
+       8: aload_0
+       9: ifnonnull     13
+      12: return
+      13: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      16: ifnull        103
+      19: aload_0
+      20: getfield      #135                // Field com/sighs/apricityui/layout/Position.x:D
+      23: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      26: getfield      #135                // Field com/sighs/apricityui/layout/Position.x:D
+      29: invokestatic  #141                // Method java/lang/Double.compare:(DD)I
+      32: ifne          52
+      35: aload_0
+      36: getfield      #144                // Field com/sighs/apricityui/layout/Position.y:D
+      39: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      42: getfield      #144                // Field com/sighs/apricityui/layout/Position.y:D
+      45: invokestatic  #141                // Method java/lang/Double.compare:(DD)I
+      48: ifne          52
+      51: return
+      52: new           #65                 // class com/sighs/apricityui/event/MouseEvent
+      55: dup
+      56: ldc           #146                // String mousemove
+      58: aload_0
+      59: invokespecial #149                // Method com/sighs/apricityui/event/MouseEvent."<init>":(Ljava/lang/String;Lcom/sighs/apricityui/layout/Position;)V
+      62: astore_1
+      63: aload_1
+      64: aload_0
+      65: getfield      #135                // Field com/sighs/apricityui/layout/Position.x:D
+      68: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      71: getfield      #135                // Field com/sighs/apricityui/layout/Position.x:D
+      74: dsub
+      75: putfield      #152                // Field com/sighs/apricityui/event/MouseEvent.movementX:D
+      78: aload_1
+      79: aload_0
+      80: getfield      #144                // Field com/sighs/apricityui/layout/Position.y:D
+      83: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      86: getfield      #144                // Field com/sighs/apricityui/layout/Position.y:D
+      89: dsub
+      90: putfield      #155                // Field com/sighs/apricityui/event/MouseEvent.movementY:D
+      93: aload_1
+      94: iconst_1
+      95: invokevirtual #74                 // Method com/sighs/apricityui/event/MouseEvent.setTrusted:(Z)V
+      98: aload_1
+      99: invokestatic  #78                 // Method com/sighs/apricityui/event/MouseEvent.tiggerEvent:(Lcom/sighs/apricityui/event/MouseEvent;)Z
+     102: pop
+     103: aload_0
+     104: putstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+     107: return
+
+  public static boolean scroll(double);
+    Code:
+       0: new           #65                 // class com/sighs/apricityui/event/MouseEvent
+       3: dup
+       4: ldc           #160                // String wheel
+       6: invokestatic  #55                 // Method getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+       9: invokespecial #149                // Method com/sighs/apricityui/event/MouseEvent."<init>":(Ljava/lang/String;Lcom/sighs/apricityui/layout/Position;)V
+      12: astore_2
+      13: aload_2
+      14: dload_0
+      15: dneg
+      16: ldc2_w        #161                // double 50.0d
+      19: dmul
+      20: putfield      #165                // Field com/sighs/apricityui/event/MouseEvent.deltaY:D
+      23: aload_2
+      24: aload_2
+      25: getfield      #165                // Field com/sighs/apricityui/event/MouseEvent.deltaY:D
+      28: putfield      #168                // Field com/sighs/apricityui/event/MouseEvent.scrollDelta:D
+      31: aload_2
+      32: iconst_1
+      33: putfield      #171                // Field com/sighs/apricityui/event/MouseEvent.cancelable:Z
+      36: aload_2
+      37: iconst_1
+      38: invokevirtual #74                 // Method com/sighs/apricityui/event/MouseEvent.setTrusted:(Z)V
+      41: aload_2
+      42: invokestatic  #78                 // Method com/sighs/apricityui/event/MouseEvent.tiggerEvent:(Lcom/sighs/apricityui/event/MouseEvent;)Z
+      45: pop
+      46: aload_2
+      47: invokevirtual #81                 // Method com/sighs/apricityui/event/MouseEvent.isNativeConsumed:()Z
+      50: ireturn
+
+  public static int getMouseButtons();
+    Code:
+       0: getstatic     #47                 // Field mouseButtons:I
+       3: ireturn
+
+  public static boolean shouldBlockScreenMouseEvents();
+    Code:
+       0: invokestatic  #181                // Method com/sighs/apricityui/spi/AuiServices.config:()Lcom/sighs/apricityui/spi/AuiConfigService;
+       3: invokeinterface #186,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiConfigService.blockMouseEventsWhenCursorHidden:()Z
+       8: ifeq          26
+      11: invokestatic  #190                // Method com/sighs/apricityui/spi/AuiServices.client:()Lcom/sighs/apricityui/spi/AuiClientService;
+      14: invokeinterface #195,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiClientService.isMouseGrabbed:()Z
+      19: ifeq          26
+      22: iconst_1
+      23: goto          27
+      26: iconst_0
+      27: ireturn
+
+  private static int buttonMask(int);
+    Code:
+       0: iload_0
+       1: tableswitch   { // 0 to 4
+                     0: 36
+                     1: 40
+                     2: 44
+                     3: 48
+                     4: 53
+               default: 58
+          }
+      36: iconst_1
+      37: goto          59
+      40: iconst_2
+      41: goto          59
+      44: iconst_4
+      45: goto          59
+      48: bipush        8
+      50: goto          59
+      53: bipush        16
+      55: goto          59
+      58: iconst_0
+      59: ireturn
+
+  public static boolean onCharTyped(char);
+    Code:
+       0: iload_0
+       1: invokestatic  #199                // Method onCharTyped:(I)Z
+       4: ireturn
+
+  public static boolean onCharTyped(int);
+    Code:
+       0: iload_0
+       1: invokestatic  #206                // Method java/lang/Character.isValidCodePoint:(I)Z
+       4: ifne          9
+       7: iconst_0
+       8: ireturn
+       9: new           #208                // class java/lang/String
+      12: dup
+      13: iload_0
+      14: invokestatic  #212                // Method java/lang/Character.toChars:(I)[C
+      17: invokespecial #215                // Method java/lang/String."<init>":([C)V
+      20: astore_1
+      21: iconst_0
+      22: istore_2
+      23: invokestatic  #221                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+      26: invokeinterface #224,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      31: astore_3
+      32: aload_3
+      33: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      38: ifeq          176
+      41: aload_3
+      42: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      47: checkcast     #217                // class com/sighs/apricityui/init/Document
+      50: astore        4
+      52: aload         4
+      54: invokevirtual #228                // Method com/sighs/apricityui/init/Document.getFocusedElement:()Lcom/sighs/apricityui/init/Element;
+      57: astore        5
+      59: aload         5
+      61: instanceof    #230                // class com/sighs/apricityui/element/AbstractText
+      64: ifeq          98
+      67: aload         5
+      69: checkcast     #230                // class com/sighs/apricityui/element/AbstractText
+      72: astore        6
+      74: aload         6
+      76: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+      79: ifeq          98
+      82: aload         6
+      84: aload_1
+      85: invokedynamic #250,  0            // InvokeDynamic #0:run:(Lcom/sighs/apricityui/element/AbstractText;Ljava/lang/String;)Ljava/lang/Runnable;
+      90: invokestatic  #256                // Method com/sighs/apricityui/event/Event.runTrustedAction:(Ljava/lang/Runnable;)V
+      93: iconst_1
+      94: istore_2
+      95: goto          173
+      98: aload         5
+     100: instanceof    #260                // class com/sighs/apricityui/element/RichText
+     103: ifeq          137
+     106: aload         5
+     108: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     111: astore        7
+     113: aload         7
+     115: invokevirtual #261                // Method com/sighs/apricityui/element/RichText.canEditText:()Z
+     118: ifeq          137
+     121: aload         7
+     123: aload_1
+     124: invokedynamic #269,  0            // InvokeDynamic #1:run:(Lcom/sighs/apricityui/element/RichText;Ljava/lang/String;)Ljava/lang/Runnable;
+     129: invokestatic  #256                // Method com/sighs/apricityui/event/Event.runTrustedAction:(Ljava/lang/Runnable;)V
+     132: iconst_1
+     133: istore_2
+     134: goto          173
+     137: aload         5
+     139: instanceof    #271                // class com/sighs/apricityui/element/Iframe
+     142: ifeq          173
+     145: aload         5
+     147: checkcast     #271                // class com/sighs/apricityui/element/Iframe
+     150: astore        8
+     152: aload         8
+     154: invokevirtual #272                // Method com/sighs/apricityui/element/Iframe.canEditText:()Z
+     157: ifeq          173
+     160: aload         8
+     162: aload_1
+     163: invokedynamic #280,  0            // InvokeDynamic #2:run:(Lcom/sighs/apricityui/element/Iframe;Ljava/lang/String;)Ljava/lang/Runnable;
+     168: invokestatic  #256                // Method com/sighs/apricityui/event/Event.runTrustedAction:(Ljava/lang/Runnable;)V
+     171: iconst_1
+     172: istore_2
+     173: goto          32
+     176: iload_2
+     177: ireturn
+
+  public static boolean onKeyPressed(int, int, int, boolean, com.sighs.apricityui.event.KeyEvent$Source);
+    Code:
+       0: invokestatic  #299                // Method resolveSelectionTargetDocument:()Lcom/sighs/apricityui/init/Document;
+       3: astore        5
+       5: iconst_0
+       6: istore        6
+       8: invokestatic  #221                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+      11: invokeinterface #224,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      16: astore        7
+      18: aload         7
+      20: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      25: ifeq          81
+      28: aload         7
+      30: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      35: checkcast     #217                // class com/sighs/apricityui/init/Document
+      38: astore        8
+      40: iconst_1
+      41: newarray       boolean
+      43: dup
+      44: iconst_0
+      45: iconst_0
+      46: bastore
+      47: astore        9
+      49: aload         8
+      51: iload_0
+      52: iload_1
+      53: iload_2
+      54: iload_3
+      55: aload         4
+      57: aload         9
+      59: aload         5
+      61: invokedynamic #307,  0            // InvokeDynamic #3:run:(Lcom/sighs/apricityui/init/Document;IIIZLcom/sighs/apricityui/event/KeyEvent$Source;[ZLcom/sighs/apricityui/init/Document;)Ljava/lang/Runnable;
+      66: invokestatic  #256                // Method com/sighs/apricityui/event/Event.runTrustedAction:(Ljava/lang/Runnable;)V
+      69: iload         6
+      71: aload         9
+      73: iconst_0
+      74: baload
+      75: ior
+      76: istore        6
+      78: goto          18
+      81: iload_3
+      82: ifne          94
+      85: iload_0
+      86: invokestatic  #310                // Method handleFrameworkShortcut:(I)Z
+      89: ifeq          94
+      92: iconst_1
+      93: ireturn
+      94: iload         6
+      96: ireturn
+
+  public static com.sighs.apricityui.init.Document resolveSelectionTargetDocument();
+    Code:
+       0: invokestatic  #221                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+       3: invokestatic  #326                // Method com/sighs/apricityui/render/DocumentLayerOrder.frontToBack:(Ljava/util/Collection;)Ljava/util/List;
+       6: astore_0
+       7: aload_0
+       8: invokeinterface #224,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      13: astore_1
+      14: aload_1
+      15: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      20: ifeq          49
+      23: aload_1
+      24: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      29: checkcast     #217                // class com/sighs/apricityui/init/Document
+      32: astore_2
+      33: aload_2
+      34: ifnull        46
+      37: aload_2
+      38: invokevirtual #329                // Method com/sighs/apricityui/init/Document.hasDocumentSelection:()Z
+      41: ifeq          46
+      44: aload_2
+      45: areturn
+      46: goto          14
+      49: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      52: ifnull        100
+      55: aload_0
+      56: invokeinterface #224,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      61: astore_1
+      62: aload_1
+      63: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      68: ifeq          100
+      71: aload_1
+      72: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      77: checkcast     #217                // class com/sighs/apricityui/init/Document
+      80: astore_2
+      81: aload_2
+      82: ifnull        97
+      85: aload_2
+      86: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      89: invokevirtual #333                // Method com/sighs/apricityui/init/Document.interceptsMouseEventsAt:(Lcom/sighs/apricityui/layout/Position;)Z
+      92: ifeq          97
+      95: aload_2
+      96: areturn
+      97: goto          62
+     100: invokestatic  #336                // Method com/sighs/apricityui/init/Document.getContextDocument:()Lcom/sighs/apricityui/init/Document;
+     103: areturn
+
+  public static boolean shouldConsumeTextEntryKey(com.sighs.apricityui.init.Element, int);
+    Code:
+       0: aload_0
+       1: instanceof    #260                // class com/sighs/apricityui/element/RichText
+       4: ifeq          24
+       7: aload_0
+       8: checkcast     #260                // class com/sighs/apricityui/element/RichText
+      11: astore_2
+      12: aload_2
+      13: invokevirtual #261                // Method com/sighs/apricityui/element/RichText.canEditText:()Z
+      16: ifeq          24
+      19: iload_1
+      20: invokestatic  #343                // Method isTextEntryKey:(I)Z
+      23: ireturn
+      24: aload_0
+      25: instanceof    #271                // class com/sighs/apricityui/element/Iframe
+      28: ifeq          48
+      31: aload_0
+      32: checkcast     #271                // class com/sighs/apricityui/element/Iframe
+      35: astore_2
+      36: aload_2
+      37: invokevirtual #272                // Method com/sighs/apricityui/element/Iframe.canEditText:()Z
+      40: ifeq          48
+      43: iload_1
+      44: invokestatic  #343                // Method isTextEntryKey:(I)Z
+      47: ireturn
+      48: aload_0
+      49: instanceof    #230                // class com/sighs/apricityui/element/AbstractText
+      52: ifeq          67
+      55: aload_0
+      56: checkcast     #230                // class com/sighs/apricityui/element/AbstractText
+      59: astore_2
+      60: aload_2
+      61: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+      64: ifne          69
+      67: iconst_0
+      68: ireturn
+      69: iload_1
+      70: invokestatic  #343                // Method isTextEntryKey:(I)Z
+      73: ireturn
+
+  private static boolean isTextEntryKey(int);
+    Code:
+       0: iload_0
+       1: bipush        65
+       3: if_icmplt     12
+       6: iload_0
+       7: bipush        90
+       9: if_icmple     124
+      12: iload_0
+      13: bipush        48
+      15: if_icmplt     24
+      18: iload_0
+      19: bipush        57
+      21: if_icmple     124
+      24: iload_0
+      25: sipush        320
+      28: if_icmplt     38
+      31: iload_0
+      32: sipush        336
+      35: if_icmple     124
+      38: iload_0
+      39: bipush        32
+      41: if_icmpeq     124
+      44: iload_0
+      45: bipush        39
+      47: if_icmpeq     124
+      50: iload_0
+      51: bipush        44
+      53: if_icmpeq     124
+      56: iload_0
+      57: bipush        45
+      59: if_icmpeq     124
+      62: iload_0
+      63: bipush        46
+      65: if_icmpeq     124
+      68: iload_0
+      69: bipush        47
+      71: if_icmpeq     124
+      74: iload_0
+      75: bipush        59
+      77: if_icmpeq     124
+      80: iload_0
+      81: bipush        61
+      83: if_icmpeq     124
+      86: iload_0
+      87: bipush        91
+      89: if_icmpeq     124
+      92: iload_0
+      93: bipush        92
+      95: if_icmpeq     124
+      98: iload_0
+      99: bipush        93
+     101: if_icmpeq     124
+     104: iload_0
+     105: bipush        96
+     107: if_icmpeq     124
+     110: iload_0
+     111: sipush        161
+     114: if_icmpeq     124
+     117: iload_0
+     118: sipush        162
+     121: if_icmpne     128
+     124: iconst_1
+     125: goto          129
+     128: iconst_0
+     129: ireturn
+
+  private static boolean handleFrameworkShortcut(int);
+    Code:
+       0: iload_0
+       1: invokestatic  #347                // Method com/sighs/apricityui/spi/AuiServices.keys:()Lcom/sighs/apricityui/spi/AuiKeyService;
+       4: invokeinterface #352,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiKeyService.devToolsKey:()I
+       9: if_icmpne     17
+      12: invokestatic  #355                // Method com/sighs/apricityui/dev/DevTools.toggle:()V
+      15: iconst_1
+      16: ireturn
+      17: iload_0
+      18: invokestatic  #347                // Method com/sighs/apricityui/spi/AuiServices.keys:()Lcom/sighs/apricityui/spi/AuiKeyService;
+      21: invokeinterface #358,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiKeyService.resourceManagerKey:()I
+      26: if_icmpne     34
+      29: invokestatic  #361                // Method com/sighs/apricityui/dev/ResourceManager.toggle:()V
+      32: iconst_1
+      33: ireturn
+      34: iload_0
+      35: invokestatic  #347                // Method com/sighs/apricityui/spi/AuiServices.keys:()Lcom/sighs/apricityui/spi/AuiKeyService;
+      38: invokeinterface #364,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiKeyService.reloadKey:()I
+      43: if_icmpne     51
+      46: invokestatic  #369                // Method com/sighs/apricityui/loader/ClientLoader.reload:()V
+      49: iconst_1
+      50: ireturn
+      51: iconst_0
+      52: ireturn
+
+  public static void onKeyReleased(int);
+    Code:
+       0: iload_0
+       1: iconst_0
+       2: iconst_0
+       3: getstatic     #374                // Field com/sighs/apricityui/event/KeyEvent$Source.INPUT_EVENT:Lcom/sighs/apricityui/event/KeyEvent$Source;
+       6: invokestatic  #377                // Method onKeyReleased:(IIILcom/sighs/apricityui/event/KeyEvent$Source;)V
+       9: return
+
+  public static void onKeyReleased(int, int, int, com.sighs.apricityui.event.KeyEvent$Source);
+    Code:
+       0: invokestatic  #221                // Method com/sighs/apricityui/init/Document.getAll:()Ljava/util/List;
+       3: invokeinterface #224,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       8: astore        4
+      10: aload         4
+      12: invokeinterface #119,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      17: ifeq          49
+      20: aload         4
+      22: invokeinterface #123,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      27: checkcast     #217                // class com/sighs/apricityui/init/Document
+      30: astore        5
+      32: aload         5
+      34: ldc_w         #379                // String keyup
+      37: iload_0
+      38: iload_1
+      39: iload_2
+      40: iconst_0
+      41: aload_3
+      42: invokestatic  #383                // Method com/sighs/apricityui/event/KeyEvent.triggerEvent:(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;IIIZLcom/sighs/apricityui/event/KeyEvent$Source;)Lcom/sighs/apricityui/event/KeyEvent;
+      45: pop
+      46: goto          10
+      49: return
+
+  private static java.lang.String resolveSelectedText(com.sighs.apricityui.init.Document, com.sighs.apricityui.init.Element);
+    Code:
+       0: aload_0
+       1: ifnull        22
+       4: aload_0
+       5: invokevirtual #389                // Method com/sighs/apricityui/init/Document.getDocumentSelectedText:()Ljava/lang/String;
+       8: astore_2
+       9: aload_2
+      10: ifnull        22
+      13: aload_2
+      14: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+      17: ifne          22
+      20: aload_2
+      21: areturn
+      22: aload_1
+      23: instanceof    #230                // class com/sighs/apricityui/element/AbstractText
+      26: ifeq          52
+      29: aload_1
+      30: checkcast     #230                // class com/sighs/apricityui/element/AbstractText
+      33: astore_2
+      34: aload_2
+      35: invokevirtual #395                // Method com/sighs/apricityui/element/AbstractText.getSelectedText:()Ljava/lang/String;
+      38: astore_3
+      39: aload_3
+      40: ifnull        52
+      43: aload_3
+      44: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+      47: ifne          52
+      50: aload_3
+      51: areturn
+      52: ldc_w         #397                // String
+      55: areturn
+
+  public static com.sighs.apricityui.layout.Position getMousePosition();
+    Code:
+       0: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+       3: areturn
+
+  public static com.sighs.apricityui.layout.Position getMousePositionDirectly();
+    Code:
+       0: invokestatic  #190                // Method com/sighs/apricityui/spi/AuiServices.client:()Lcom/sighs/apricityui/spi/AuiClientService;
+       3: invokeinterface #401,  1          // InterfaceMethod com/sighs/apricityui/spi/AuiClientService.getMousePositionDirectly:()Lcom/sighs/apricityui/layout/Position;
+       8: astore_0
+       9: aload_0
+      10: ifnull        25
+      13: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      16: ifnonnull     23
+      19: aload_0
+      20: putstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      23: aload_0
+      24: areturn
+      25: getstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+      28: areturn
+
+  private static boolean isCtrlDown();
+    Code:
+       0: ldc_w         #405                // String key.keyboard.left.control
+       3: invokestatic  #409                // Method isKeyPressed:(Ljava/lang/String;)Z
+       6: ifne          18
+       9: ldc_w         #411                // String key.keyboard.right.control
+      12: invokestatic  #409                // Method isKeyPressed:(Ljava/lang/String;)Z
+      15: ifeq          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  private static boolean isShiftDown();
+    Code:
+       0: ldc_w         #414                // String key.keyboard.left.shift
+       3: invokestatic  #409                // Method isKeyPressed:(Ljava/lang/String;)Z
+       6: ifne          18
+       9: ldc_w         #416                // String key.keyboard.right.shift
+      12: invokestatic  #409                // Method isKeyPressed:(Ljava/lang/String;)Z
+      15: ifeq          22
+      18: iconst_1
+      19: goto          23
+      22: iconst_0
+      23: ireturn
+
+  public static java.lang.String getClipboardText();
+    Code:
+       0: invokestatic  #421                // Method com/sighs/apricityui/render/Base.getClipboardText:()Ljava/lang/String;
+       3: areturn
+
+  public static void setClipboardText(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokestatic  #425                // Method com/sighs/apricityui/render/Base.setClipboardText:(Ljava/lang/String;)V
+       4: return
+
+  public static java.lang.String getInternalClipboardHtml();
+    Code:
+       0: getstatic     #429                // Field internalClipboardHtml:Ljava/lang/String;
+       3: areturn
+
+  public static void setInternalClipboardHtml(java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+       8: ifeq          15
+      11: aconst_null
+      12: goto          16
+      15: aload_0
+      16: putstatic     #429                // Field internalClipboardHtml:Ljava/lang/String;
+      19: return
+
+  public static boolean isKeyPressed(java.lang.String);
+    Code:
+       0: invokestatic  #190                // Method com/sighs/apricityui/spi/AuiServices.client:()Lcom/sighs/apricityui/spi/AuiClientService;
+       3: aload_0
+       4: invokeinterface #432,  2          // InterfaceMethod com/sighs/apricityui/spi/AuiClientService.isKeyPressed:(Ljava/lang/String;)Z
+       9: ireturn
+
+  public static boolean handleKeyInput(int, int, int, int, boolean, com.sighs.apricityui.event.KeyEvent$Source);
+    Code:
+       0: iload_0
+       1: iload_1
+       2: iload_2
+       3: iload_3
+       4: invokestatic  #438                // Method isDuplicateKeyEvent:(IIII)Z
+       7: ifeq          12
+      10: iconst_0
+      11: ireturn
+      12: iload_2
+      13: ifne          26
+      16: iload_0
+      17: iload_1
+      18: iload_3
+      19: aload         5
+      21: invokestatic  #377                // Method onKeyReleased:(IIILcom/sighs/apricityui/event/KeyEvent$Source;)V
+      24: iconst_0
+      25: ireturn
+      26: iload_0
+      27: iload_1
+      28: iload_3
+      29: iload         4
+      31: aload         5
+      33: invokestatic  #440                // Method onKeyPressed:(IIIZLcom/sighs/apricityui/event/KeyEvent$Source;)Z
+      36: ireturn
+
+  private static boolean isDuplicateKeyEvent(int, int, int, int);
+    Code:
+       0: invokestatic  #447                // Method java/lang/System.nanoTime:()J
+       3: lstore        4
+       5: iload_0
+       6: getstatic     #449                // Field lastKeyCode:I
+       9: if_icmpne     48
+      12: iload_1
+      13: getstatic     #451                // Field lastScanCode:I
+      16: if_icmpne     48
+      19: iload_2
+      20: getstatic     #453                // Field lastAction:I
+      23: if_icmpne     48
+      26: iload_3
+      27: getstatic     #455                // Field lastModifiers:I
+      30: if_icmpne     48
+      33: lload         4
+      35: getstatic     #457                // Field lastKeyEventTimeNs:J
+      38: lsub
+      39: ldc2_w        #22                 // long 5000000l
+      42: lcmp
+      43: ifgt          48
+      46: iconst_1
+      47: ireturn
+      48: lload         4
+      50: putstatic     #457                // Field lastKeyEventTimeNs:J
+      53: iload_0
+      54: putstatic     #449                // Field lastKeyCode:I
+      57: iload_1
+      58: putstatic     #451                // Field lastScanCode:I
+      61: iload_2
+      62: putstatic     #453                // Field lastAction:I
+      65: iload_3
+      66: putstatic     #455                // Field lastModifiers:I
+      69: iconst_0
+      70: ireturn
+
+  private static void lambda$onKeyPressed$3(com.sighs.apricityui.init.Document, int, int, int, boolean, com.sighs.apricityui.event.KeyEvent$Source, boolean[], com.sighs.apricityui.init.Document);
+    Code:
+       0: aload_0
+       1: ldc_w         #460                // String keydown
+       4: iload_1
+       5: iload_2
+       6: iload_3
+       7: iload         4
+       9: aload         5
+      11: invokestatic  #383                // Method com/sighs/apricityui/event/KeyEvent.triggerEvent:(Lcom/sighs/apricityui/init/Document;Ljava/lang/String;IIIZLcom/sighs/apricityui/event/KeyEvent$Source;)Lcom/sighs/apricityui/event/KeyEvent;
+      14: astore        8
+      16: aload         8
+      18: ifnull        35
+      21: aload         8
+      23: getfield      #463                // Field com/sighs/apricityui/event/KeyEvent.defaultPrevented:Z
+      26: ifeq          35
+      29: aload         6
+      31: iconst_0
+      32: iconst_1
+      33: bastore
+      34: return
+      35: aload_0
+      36: invokevirtual #228                // Method com/sighs/apricityui/init/Document.getFocusedElement:()Lcom/sighs/apricityui/init/Element;
+      39: astore        9
+      41: aload_0
+      42: aload         9
+      44: invokestatic  #465                // Method resolveSelectedText:(Lcom/sighs/apricityui/init/Document;Lcom/sighs/apricityui/init/Element;)Ljava/lang/String;
+      47: astore        10
+      49: invokestatic  #467                // Method isCtrlDown:()Z
+      52: istore        11
+      54: aload         9
+      56: instanceof    #469                // class com/sighs/apricityui/element/Input
+      59: ifeq          84
+      62: aload         9
+      64: checkcast     #469                // class com/sighs/apricityui/element/Input
+      67: astore        12
+      69: aload         12
+      71: iload_1
+      72: invokevirtual #472                // Method com/sighs/apricityui/element/Input.handleRangeKey:(I)Z
+      75: ifeq          84
+      78: aload         6
+      80: iconst_0
+      81: iconst_1
+      82: bastore
+      83: return
+      84: aload         9
+      86: instanceof    #260                // class com/sighs/apricityui/element/RichText
+      89: ifeq          749
+      92: aload_0
+      93: invokevirtual #476                // Method com/sighs/apricityui/init/Document.getRichTextSelection:()Lcom/sighs/apricityui/behavior/richtext/RichTextSelection;
+      96: astore        12
+      98: aload         12
+     100: ifnull        111
+     103: aload         12
+     105: invokevirtual #481                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.hasAnchor:()Z
+     108: ifne          119
+     111: aload         12
+     113: aload         9
+     115: iconst_0
+     116: invokevirtual #485                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.setCollapsed:(Lcom/sighs/apricityui/init/Element;I)V
+     119: invokestatic  #487                // Method isShiftDown:()Z
+     122: istore        13
+     124: iconst_1
+     125: istore        14
+     127: iload_1
+     128: sipush        263
+     131: if_icmpne     144
+     134: aload         12
+     136: iload         13
+     138: invokevirtual #490                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveLeft:(Z)V
+     141: goto          738
+     144: iload_1
+     145: sipush        262
+     148: if_icmpne     161
+     151: aload         12
+     153: iload         13
+     155: invokevirtual #493                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveRight:(Z)V
+     158: goto          738
+     161: iload_1
+     162: sipush        265
+     165: if_icmpne     178
+     168: aload         12
+     170: iload         13
+     172: invokevirtual #496                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveUp:(Z)V
+     175: goto          738
+     178: iload_1
+     179: sipush        264
+     182: if_icmpne     195
+     185: aload         12
+     187: iload         13
+     189: invokevirtual #499                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveDown:(Z)V
+     192: goto          738
+     195: iload_1
+     196: sipush        268
+     199: if_icmpne     212
+     202: aload         12
+     204: iload         13
+     206: invokevirtual #502                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveToHome:(Z)V
+     209: goto          738
+     212: iload_1
+     213: sipush        269
+     216: if_icmpne     229
+     219: aload         12
+     221: iload         13
+     223: invokevirtual #505                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.moveToEnd:(Z)V
+     226: goto          738
+     229: iload_1
+     230: bipush        65
+     232: if_icmpne     250
+     235: iload         11
+     237: ifeq          250
+     240: aload         12
+     242: aload         9
+     244: invokevirtual #509                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.selectAll:(Lcom/sighs/apricityui/init/Element;)V
+     247: goto          738
+     250: iload_1
+     251: sipush        256
+     254: if_icmpne     264
+     257: aload_0
+     258: invokevirtual #512                // Method com/sighs/apricityui/init/Document.clearFocus:()V
+     261: goto          738
+     264: iload_1
+     265: sipush        259
+     268: if_icmpne     283
+     271: aload         9
+     273: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     276: invokestatic  #518                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.deleteBackward:(Lcom/sighs/apricityui/element/RichText;)Z
+     279: pop
+     280: goto          738
+     283: iload_1
+     284: sipush        261
+     287: if_icmpne     302
+     290: aload         9
+     292: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     295: invokestatic  #521                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.deleteForward:(Lcom/sighs/apricityui/element/RichText;)Z
+     298: pop
+     299: goto          738
+     302: iload_1
+     303: sipush        257
+     306: if_icmpne     321
+     309: aload         9
+     311: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     314: invokestatic  #524                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.insertParagraph:(Lcom/sighs/apricityui/element/RichText;)Z
+     317: pop
+     318: goto          738
+     321: iload         11
+     323: ifeq          350
+     326: iload_1
+     327: bipush        90
+     329: if_icmpne     350
+     332: invokestatic  #487                // Method isShiftDown:()Z
+     335: ifne          350
+     338: aload         9
+     340: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     343: invokestatic  #527                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.undo:(Lcom/sighs/apricityui/element/RichText;)Z
+     346: pop
+     347: goto          738
+     350: iload         11
+     352: ifeq          385
+     355: iload_1
+     356: bipush        89
+     358: if_icmpeq     373
+     361: iload_1
+     362: bipush        90
+     364: if_icmpne     385
+     367: invokestatic  #487                // Method isShiftDown:()Z
+     370: ifeq          385
+     373: aload         9
+     375: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     378: invokestatic  #530                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.redo:(Lcom/sighs/apricityui/element/RichText;)Z
+     381: pop
+     382: goto          738
+     385: iload         11
+     387: ifeq          487
+     390: iload_1
+     391: bipush        86
+     393: if_icmpne     487
+     396: new           #252                // class com/sighs/apricityui/event/Event
+     399: dup
+     400: aload         9
+     402: ldc_w         #532                // String paste
+     405: iconst_1
+     406: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+     409: astore        15
+     411: aload         15
+     413: iconst_1
+     414: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+     417: aload         15
+     419: new           #538                // class com/sighs/apricityui/render/ClipboardDataBridge
+     422: dup
+     423: invokespecial #539                // Method com/sighs/apricityui/render/ClipboardDataBridge."<init>":()V
+     426: putfield      #543                // Field com/sighs/apricityui/event/Event.clipboardData:Lcom/sighs/apricityui/render/ClipboardDataBridge;
+     429: aload         15
+     431: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+     434: aload         15
+     436: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+     439: pop
+     440: aload         15
+     442: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+     445: ifne          484
+     448: invokestatic  #553                // Method getInternalClipboardHtml:()Ljava/lang/String;
+     451: astore        16
+     453: aload         16
+     455: ifnull        472
+     458: aload         9
+     460: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     463: aload         16
+     465: invokestatic  #557                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.pasteHtml:(Lcom/sighs/apricityui/element/RichText;Ljava/lang/String;)Z
+     468: pop
+     469: goto          484
+     472: aload         9
+     474: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     477: invokestatic  #558                // Method getClipboardText:()Ljava/lang/String;
+     480: invokestatic  #561                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.pasteText:(Lcom/sighs/apricityui/element/RichText;Ljava/lang/String;)Z
+     483: pop
+     484: goto          738
+     487: iload         11
+     489: ifeq          599
+     492: iload_1
+     493: bipush        67
+     495: if_icmpne     599
+     498: aload         12
+     500: invokevirtual #564                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.collapsed:()Z
+     503: ifne          599
+     506: new           #252                // class com/sighs/apricityui/event/Event
+     509: dup
+     510: aload         9
+     512: ldc_w         #566                // String copy
+     515: iconst_1
+     516: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+     519: astore        15
+     521: aload         15
+     523: iconst_1
+     524: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+     527: aload         15
+     529: new           #538                // class com/sighs/apricityui/render/ClipboardDataBridge
+     532: dup
+     533: invokespecial #539                // Method com/sighs/apricityui/render/ClipboardDataBridge."<init>":()V
+     536: putfield      #543                // Field com/sighs/apricityui/event/Event.clipboardData:Lcom/sighs/apricityui/render/ClipboardDataBridge;
+     539: aload         15
+     541: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+     544: aload         15
+     546: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+     549: pop
+     550: aload         15
+     552: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+     555: ifeq          564
+     558: iconst_0
+     559: istore        14
+     561: goto          596
+     564: aload         12
+     566: invokevirtual #567                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.getSelectedText:()Ljava/lang/String;
+     569: invokestatic  #568                // Method setClipboardText:(Ljava/lang/String;)V
+     572: aload         12
+     574: invokevirtual #572                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.toRange:()Lcom/sighs/apricityui/behavior/richtext/RichTextRange;
+     577: astore        16
+     579: aload         16
+     581: ifnonnull     588
+     584: aconst_null
+     585: goto          593
+     588: aload         16
+     590: invokevirtual #577                // Method com/sighs/apricityui/behavior/richtext/RichTextRange.toHtml:()Ljava/lang/String;
+     593: invokestatic  #579                // Method setInternalClipboardHtml:(Ljava/lang/String;)V
+     596: goto          738
+     599: iload         11
+     601: ifeq          720
+     604: iload_1
+     605: bipush        88
+     607: if_icmpne     720
+     610: aload         12
+     612: invokevirtual #564                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.collapsed:()Z
+     615: ifne          720
+     618: new           #252                // class com/sighs/apricityui/event/Event
+     621: dup
+     622: aload         9
+     624: ldc_w         #581                // String cut
+     627: iconst_1
+     628: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+     631: astore        15
+     633: aload         15
+     635: iconst_1
+     636: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+     639: aload         15
+     641: new           #538                // class com/sighs/apricityui/render/ClipboardDataBridge
+     644: dup
+     645: invokespecial #539                // Method com/sighs/apricityui/render/ClipboardDataBridge."<init>":()V
+     648: putfield      #543                // Field com/sighs/apricityui/event/Event.clipboardData:Lcom/sighs/apricityui/render/ClipboardDataBridge;
+     651: aload         15
+     653: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+     656: aload         15
+     658: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+     661: pop
+     662: aload         15
+     664: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+     667: ifeq          676
+     670: iconst_0
+     671: istore        14
+     673: goto          717
+     676: aload         12
+     678: invokevirtual #567                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.getSelectedText:()Ljava/lang/String;
+     681: invokestatic  #568                // Method setClipboardText:(Ljava/lang/String;)V
+     684: aload         12
+     686: invokevirtual #572                // Method com/sighs/apricityui/behavior/richtext/RichTextSelection.toRange:()Lcom/sighs/apricityui/behavior/richtext/RichTextRange;
+     689: astore        16
+     691: aload         16
+     693: ifnonnull     700
+     696: aconst_null
+     697: goto          705
+     700: aload         16
+     702: invokevirtual #577                // Method com/sighs/apricityui/behavior/richtext/RichTextRange.toHtml:()Ljava/lang/String;
+     705: invokestatic  #579                // Method setInternalClipboardHtml:(Ljava/lang/String;)V
+     708: aload         9
+     710: checkcast     #260                // class com/sighs/apricityui/element/RichText
+     713: invokestatic  #584                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.deleteSelection:(Lcom/sighs/apricityui/element/RichText;)Z
+     716: pop
+     717: goto          738
+     720: aload         9
+     722: iload_1
+     723: invokestatic  #586                // Method shouldConsumeTextEntryKey:(Lcom/sighs/apricityui/init/Element;I)Z
+     726: ifeq          735
+     729: iconst_1
+     730: istore        14
+     732: goto          738
+     735: iconst_0
+     736: istore        14
+     738: iload         14
+     740: ifeq          749
+     743: aload         6
+     745: iconst_0
+     746: iconst_1
+     747: bastore
+     748: return
+     749: aload         9
+     751: ifnull        849
+     754: ldc_w         #588                // String BUTTON
+     757: aload         9
+     759: getfield      #591                // Field com/sighs/apricityui/init/Element.tagName:Ljava/lang/String;
+     762: invokevirtual #594                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+     765: ifne          825
+     768: aload         9
+     770: instanceof    #469                // class com/sighs/apricityui/element/Input
+     773: ifeq          849
+     776: aload         9
+     778: checkcast     #469                // class com/sighs/apricityui/element/Input
+     781: astore        12
+     783: ldc_w         #596                // String submit
+     786: aload         12
+     788: invokevirtual #599                // Method com/sighs/apricityui/element/Input.getType:()Ljava/lang/String;
+     791: invokevirtual #594                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+     794: ifne          825
+     797: ldc_w         #601                // String reset
+     800: aload         12
+     802: invokevirtual #599                // Method com/sighs/apricityui/element/Input.getType:()Ljava/lang/String;
+     805: invokevirtual #594                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+     808: ifne          825
+     811: ldc_w         #602                // String button
+     814: aload         12
+     816: invokevirtual #599                // Method com/sighs/apricityui/element/Input.getType:()Ljava/lang/String;
+     819: invokevirtual #594                // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+     822: ifeq          849
+     825: iload_1
+     826: sipush        257
+     829: if_icmpeq     838
+     832: iload_1
+     833: bipush        32
+     835: if_icmpne     849
+     838: aload         9
+     840: invokevirtual #605                // Method com/sighs/apricityui/init/Element.click:()V
+     843: aload         6
+     845: iconst_0
+     846: iconst_1
+     847: bastore
+     848: return
+     849: aload         9
+     851: instanceof    #607                // class com/sighs/apricityui/element/Select
+     854: ifeq          880
+     857: aload         9
+     859: checkcast     #607                // class com/sighs/apricityui/element/Select
+     862: astore        12
+     864: aload         12
+     866: aload         8
+     868: invokevirtual #611                // Method com/sighs/apricityui/element/Select.handleKeyDownDefault:(Lcom/sighs/apricityui/event/KeyEvent;)Z
+     871: ifeq          880
+     874: aload         6
+     876: iconst_0
+     877: iconst_1
+     878: bastore
+     879: return
+     880: aload         9
+     882: instanceof    #230                // class com/sighs/apricityui/element/AbstractText
+     885: ifeq          1601
+     888: aload         9
+     890: checkcast     #230                // class com/sighs/apricityui/element/AbstractText
+     893: astore        12
+     895: iload         11
+     897: ifeq          1195
+     900: iload_1
+     901: bipush        65
+     903: if_icmpne     925
+     906: aload         12
+     908: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+     911: ifeq          925
+     914: aload         12
+     916: invokevirtual #616                // Method com/sighs/apricityui/element/AbstractText.selectAll:()V
+     919: aload         6
+     921: iconst_0
+     922: iconst_1
+     923: bastore
+     924: return
+     925: iload_1
+     926: bipush        67
+     928: if_icmpne     998
+     931: aload         12
+     933: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+     936: ifeq          998
+     939: aload         10
+     941: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+     944: ifne          998
+     947: new           #252                // class com/sighs/apricityui/event/Event
+     950: dup
+     951: aload         9
+     953: ldc_w         #566                // String copy
+     956: iconst_1
+     957: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+     960: astore        13
+     962: aload         13
+     964: iconst_1
+     965: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+     968: aload         13
+     970: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+     973: aload         13
+     975: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+     978: pop
+     979: aload         13
+     981: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+     984: ifne          998
+     987: aload         10
+     989: invokestatic  #568                // Method setClipboardText:(Ljava/lang/String;)V
+     992: aload         6
+     994: iconst_0
+     995: iconst_1
+     996: bastore
+     997: return
+     998: iload_1
+     999: bipush        88
+    1001: if_icmpne     1087
+    1004: aload         12
+    1006: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+    1009: ifeq          1087
+    1012: aload         12
+    1014: invokevirtual #619                // Method com/sighs/apricityui/element/AbstractText.hasSelection:()Z
+    1017: ifeq          1087
+    1020: new           #252                // class com/sighs/apricityui/event/Event
+    1023: dup
+    1024: aload         9
+    1026: ldc_w         #581                // String cut
+    1029: iconst_1
+    1030: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+    1033: astore        13
+    1035: aload         13
+    1037: iconst_1
+    1038: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+    1041: aload         13
+    1043: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+    1046: aload         13
+    1048: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+    1051: pop
+    1052: aload         13
+    1054: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+    1057: ifne          1087
+    1060: aload         10
+    1062: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+    1065: ifne          1073
+    1068: aload         10
+    1070: invokestatic  #568                // Method setClipboardText:(Ljava/lang/String;)V
+    1073: aload         12
+    1075: ldc_w         #397                // String
+    1078: invokevirtual #622                // Method com/sighs/apricityui/element/AbstractText.replaceSelection:(Ljava/lang/String;)V
+    1081: aload         6
+    1083: iconst_0
+    1084: iconst_1
+    1085: bastore
+    1086: return
+    1087: iload_1
+    1088: bipush        86
+    1090: if_icmpne     1167
+    1093: aload         12
+    1095: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+    1098: ifeq          1167
+    1101: new           #252                // class com/sighs/apricityui/event/Event
+    1104: dup
+    1105: aload         9
+    1107: ldc_w         #532                // String paste
+    1110: iconst_1
+    1111: invokespecial #535                // Method com/sighs/apricityui/event/Event."<init>":(Ljava/lang/Object;Ljava/lang/String;Z)V
+    1114: astore        13
+    1116: aload         13
+    1118: iconst_1
+    1119: putfield      #536                // Field com/sighs/apricityui/event/Event.cancelable:Z
+    1122: aload         13
+    1124: new           #538                // class com/sighs/apricityui/render/ClipboardDataBridge
+    1127: dup
+    1128: invokespecial #539                // Method com/sighs/apricityui/render/ClipboardDataBridge."<init>":()V
+    1131: putfield      #543                // Field com/sighs/apricityui/event/Event.clipboardData:Lcom/sighs/apricityui/render/ClipboardDataBridge;
+    1134: aload         13
+    1136: invokestatic  #547                // Method com/sighs/apricityui/event/Event.markTrustedFromCurrentDispatch:(Lcom/sighs/apricityui/event/Event;)V
+    1139: aload         13
+    1141: invokestatic  #550                // Method com/sighs/apricityui/event/Event.tiggerEvent:(Lcom/sighs/apricityui/event/Event;)Z
+    1144: pop
+    1145: aload         13
+    1147: getfield      #551                // Field com/sighs/apricityui/event/Event.defaultPrevented:Z
+    1150: ifne          1167
+    1153: aload         12
+    1155: invokestatic  #558                // Method getClipboardText:()Ljava/lang/String;
+    1158: invokevirtual #625                // Method com/sighs/apricityui/element/AbstractText.insertText:(Ljava/lang/String;)V
+    1161: aload         6
+    1163: iconst_0
+    1164: iconst_1
+    1165: bastore
+    1166: return
+    1167: iload_1
+    1168: bipush        90
+    1170: if_icmpne     1195
+    1173: aload         12
+    1175: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+    1178: ifeq          1195
+    1181: aload         12
+    1183: invokevirtual #627                // Method com/sighs/apricityui/element/AbstractText.undo:()Z
+    1186: ifeq          1195
+    1189: aload         6
+    1191: iconst_0
+    1192: iconst_1
+    1193: bastore
+    1194: return
+    1195: aload         9
+    1197: instanceof    #469                // class com/sighs/apricityui/element/Input
+    1200: ifeq          1230
+    1203: aload         9
+    1205: checkcast     #469                // class com/sighs/apricityui/element/Input
+    1208: astore        13
+    1210: iload_1
+    1211: bipush        32
+    1213: if_icmpne     1230
+    1216: aload         13
+    1218: invokevirtual #630                // Method com/sighs/apricityui/element/Input.handleSpaceKey:()Z
+    1221: ifeq          1230
+    1224: aload         6
+    1226: iconst_0
+    1227: iconst_1
+    1228: bastore
+    1229: return
+    1230: aload         12
+    1232: invokevirtual #233                // Method com/sighs/apricityui/element/AbstractText.canEditText:()Z
+    1235: ifne          1239
+    1238: return
+    1239: iload_1
+    1240: sipush        259
+    1243: if_icmpne     1260
+    1246: aload         12
+    1248: invokevirtual #632                // Method com/sighs/apricityui/element/AbstractText.deleteBackward:()Z
+    1251: pop
+    1252: aload         6
+    1254: iconst_0
+    1255: iconst_1
+    1256: bastore
+    1257: goto          1683
+    1260: iload_1
+    1261: sipush        261
+    1264: if_icmpne     1281
+    1267: aload         12
+    1269: invokevirtual #634                // Method com/sighs/apricityui/element/AbstractText.deleteForward:()Z
+    1272: pop
+    1273: aload         6
+    1275: iconst_0
+    1276: iconst_1
+    1277: bastore
+    1278: goto          1683
+    1281: iload_1
+    1282: sipush        263
+    1285: if_icmpne     1321
+    1288: aload         12
+    1290: iconst_m1
+    1291: invokestatic  #487                // Method isShiftDown:()Z
+    1294: ifeq          1309
+    1297: aload         12
+    1299: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1302: ifeq          1309
+    1305: iconst_1
+    1306: goto          1310
+    1309: iconst_0
+    1310: invokevirtual #639                // Method com/sighs/apricityui/element/AbstractText.moveCursor:(IZ)V
+    1313: aload         6
+    1315: iconst_0
+    1316: iconst_1
+    1317: bastore
+    1318: goto          1683
+    1321: iload_1
+    1322: sipush        262
+    1325: if_icmpne     1361
+    1328: aload         12
+    1330: iconst_1
+    1331: invokestatic  #487                // Method isShiftDown:()Z
+    1334: ifeq          1349
+    1337: aload         12
+    1339: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1342: ifeq          1349
+    1345: iconst_1
+    1346: goto          1350
+    1349: iconst_0
+    1350: invokevirtual #639                // Method com/sighs/apricityui/element/AbstractText.moveCursor:(IZ)V
+    1353: aload         6
+    1355: iconst_0
+    1356: iconst_1
+    1357: bastore
+    1358: goto          1683
+    1361: iload_1
+    1362: sipush        268
+    1365: if_icmpne     1400
+    1368: aload         12
+    1370: invokestatic  #487                // Method isShiftDown:()Z
+    1373: ifeq          1388
+    1376: aload         12
+    1378: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1381: ifeq          1388
+    1384: iconst_1
+    1385: goto          1389
+    1388: iconst_0
+    1389: invokevirtual #642                // Method com/sighs/apricityui/element/AbstractText.moveCursorToHome:(Z)V
+    1392: aload         6
+    1394: iconst_0
+    1395: iconst_1
+    1396: bastore
+    1397: goto          1683
+    1400: iload_1
+    1401: sipush        269
+    1404: if_icmpne     1439
+    1407: aload         12
+    1409: invokestatic  #487                // Method isShiftDown:()Z
+    1412: ifeq          1427
+    1415: aload         12
+    1417: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1420: ifeq          1427
+    1423: iconst_1
+    1424: goto          1428
+    1427: iconst_0
+    1428: invokevirtual #645                // Method com/sighs/apricityui/element/AbstractText.moveCursorToEnd:(Z)V
+    1431: aload         6
+    1433: iconst_0
+    1434: iconst_1
+    1435: bastore
+    1436: goto          1683
+    1439: iload_1
+    1440: sipush        265
+    1443: if_icmpne     1479
+    1446: aload         12
+    1448: iconst_m1
+    1449: invokestatic  #487                // Method isShiftDown:()Z
+    1452: ifeq          1467
+    1455: aload         12
+    1457: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1460: ifeq          1467
+    1463: iconst_1
+    1464: goto          1468
+    1467: iconst_0
+    1468: invokevirtual #648                // Method com/sighs/apricityui/element/AbstractText.moveCursorByLine:(IZ)V
+    1471: aload         6
+    1473: iconst_0
+    1474: iconst_1
+    1475: bastore
+    1476: goto          1683
+    1479: iload_1
+    1480: sipush        264
+    1483: if_icmpne     1519
+    1486: aload         12
+    1488: iconst_1
+    1489: invokestatic  #487                // Method isShiftDown:()Z
+    1492: ifeq          1507
+    1495: aload         12
+    1497: invokevirtual #614                // Method com/sighs/apricityui/element/AbstractText.canSelectText:()Z
+    1500: ifeq          1507
+    1503: iconst_1
+    1504: goto          1508
+    1507: iconst_0
+    1508: invokevirtual #648                // Method com/sighs/apricityui/element/AbstractText.moveCursorByLine:(IZ)V
+    1511: aload         6
+    1513: iconst_0
+    1514: iconst_1
+    1515: bastore
+    1516: goto          1683
+    1519: iload_1
+    1520: sipush        257
+    1523: if_icmpne     1565
+    1526: aload         12
+    1528: invokevirtual #651                // Method com/sighs/apricityui/element/AbstractText.isMultiline:()Z
+    1531: ifeq          1545
+    1534: aload         12
+    1536: ldc_w         #653                // String \n
+    1539: invokevirtual #625                // Method com/sighs/apricityui/element/AbstractText.insertText:(Ljava/lang/String;)V
+    1542: goto          1557
+    1545: aload         9
+    1547: invokevirtual #656                // Method com/sighs/apricityui/init/Element.submitEnclosingForm:()Z
+    1550: ifne          1557
+    1553: aload_0
+    1554: invokevirtual #512                // Method com/sighs/apricityui/init/Document.clearFocus:()V
+    1557: aload         6
+    1559: iconst_0
+    1560: iconst_1
+    1561: bastore
+    1562: goto          1683
+    1565: iload_1
+    1566: sipush        256
+    1569: if_icmpne     1584
+    1572: aload_0
+    1573: invokevirtual #512                // Method com/sighs/apricityui/init/Document.clearFocus:()V
+    1576: aload         6
+    1578: iconst_0
+    1579: iconst_1
+    1580: bastore
+    1581: goto          1683
+    1584: aload         9
+    1586: iload_1
+    1587: invokestatic  #586                // Method shouldConsumeTextEntryKey:(Lcom/sighs/apricityui/init/Element;I)Z
+    1590: ifeq          1683
+    1593: aload         6
+    1595: iconst_0
+    1596: iconst_1
+    1597: bastore
+    1598: goto          1683
+    1601: iload         11
+    1603: ifeq          1656
+    1606: iload_1
+    1607: bipush        65
+    1609: if_icmpne     1631
+    1612: aload_0
+    1613: aload         7
+    1615: if_acmpne     1631
+    1618: aload_0
+    1619: invokevirtual #659                // Method com/sighs/apricityui/init/Document.selectAllDocumentText:()Z
+    1622: ifeq          1631
+    1625: aload         6
+    1627: iconst_0
+    1628: iconst_1
+    1629: bastore
+    1630: return
+    1631: iload_1
+    1632: bipush        67
+    1634: if_icmpne     1656
+    1637: aload         10
+    1639: invokevirtual #392                // Method java/lang/String.isEmpty:()Z
+    1642: ifne          1656
+    1645: aload         10
+    1647: invokestatic  #568                // Method setClipboardText:(Ljava/lang/String;)V
+    1650: aload         6
+    1652: iconst_0
+    1653: iconst_1
+    1654: bastore
+    1655: return
+    1656: iload_1
+    1657: sipush        256
+    1660: if_icmpne     1683
+    1663: aload_0
+    1664: invokevirtual #329                // Method com/sighs/apricityui/init/Document.hasDocumentSelection:()Z
+    1667: ifeq          1683
+    1670: aload_0
+    1671: invokevirtual #662                // Method com/sighs/apricityui/init/Document.clearDocumentSelection:()V
+    1674: aload_0
+    1675: invokevirtual #512                // Method com/sighs/apricityui/init/Document.clearFocus:()V
+    1678: aload         6
+    1680: iconst_0
+    1681: iconst_1
+    1682: bastore
+    1683: return
+
+  private static void lambda$onCharTyped$2(com.sighs.apricityui.element.Iframe, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #681                // Method com/sighs/apricityui/element/Iframe.insertText:(Ljava/lang/String;)V
+       5: return
+
+  private static void lambda$onCharTyped$1(com.sighs.apricityui.element.RichText, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #683                // Method com/sighs/apricityui/behavior/richtext/RichTextEditing.insertText:(Lcom/sighs/apricityui/element/RichText;Ljava/lang/String;)Z
+       5: pop
+       6: return
+
+  private static void lambda$onCharTyped$0(com.sighs.apricityui.element.AbstractText, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #625                // Method com/sighs/apricityui/element/AbstractText.insertText:(Ljava/lang/String;)V
+       5: return
+
+  static {};
+    Code:
+       0: aconst_null
+       1: putstatic     #131                // Field cachedMousePosition:Lcom/sighs/apricityui/layout/Position;
+       4: iconst_0
+       5: putstatic     #47                 // Field mouseButtons:I
+       8: lconst_0
+       9: putstatic     #457                // Field lastKeyEventTimeNs:J
+      12: iconst_m1
+      13: putstatic     #449                // Field lastKeyCode:I
+      16: iconst_m1
+      17: putstatic     #451                // Field lastScanCode:I
+      20: iconst_m1
+      21: putstatic     #453                // Field lastAction:I
+      24: iconst_m1
+      25: putstatic     #455                // Field lastModifiers:I
+      28: aconst_null
+      29: putstatic     #429                // Field internalClipboardHtml:Ljava/lang/String;
+      32: return
+}
